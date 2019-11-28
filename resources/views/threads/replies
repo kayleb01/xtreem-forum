@@ -1,0 +1,179 @@
+@foreach($comment as $comments)
+                            <div class="panel-body panel-body-{{$comments->id}}" id="comment-{{$comments->id}}">
+                                <div class="thread-user">
+                                  <table>
+                                  <tr>
+                                    <td>
+                                      <img src="/storage/public/storage/img/{{$comments->user->avatar? $comments->user->avatar : 'default.png'}}" class="image-circle responsive"><span><a href="/user/{{$comments->user->username}}" class="username">{{$comments->user->username}}</a> </span> <div class="timestamp" style="width: 400px"> Posted {{$comments->created_at->diffForHumans()}}
+                                        @if(Auth::check())
+                                      @if(Auth::user()->role == 1 )
+                                      &nbsp;
+                                      <span class="dropdown">
+                                        <span class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                          <span class="caret"></span>
+                                        </span>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                          <li><a href="#" data-toggle="modal" data-target="#deleteReply{{ $comments->id}}">Delete</a></li>
+                                          <li><a href="/moderation/{{$comments->user->id}}/ban">Ban User</a></li>
+                                        </ul>
+                                      </span>@endif
+                                      @endif
+                                      </div>
+                                      
+                                    </td>
+                                  </tr>
+                                  </table>
+                                
+                                </div> 
+                                    <div class="thread-content thread-content-{{$comments->id}}" style="padding: 8px;">
+                                      {!!$comments->body!!}     
+                                      @if($comments->attachment)
+                                        @foreach($comments->attachment as $attachment)
+                                        <img class="attachment" src="/storage/public/storage/img/{{$attachment->name}}"/>
+                                        @endforeach
+                                      @endif                            
+                                    </div>
+                                      <div class="lks">
+                                        <a href="#" onclick="event.preventDefault(); actOnLikes('{{$comments->id}}', '/comment/like/{{$comments->id}}')" data-id="{{$comments->id}}" class="ikes">
+
+                                          <i class="fa fa-thumbs-o-up" title="Like" ></i> <span id="ike_text{{$comments->id}}">{{str_plural($comments->Isliked()?'Unlike':'Like', $comments->likess->count())}}</span>
+                                        </a>
+                                            <span class="Like-{{$comments->id}}">
+                                              @if($comments->likess->count() > 0)
+                                                  {{$comments->likess()->count()}}
+
+                                                @endif
+                                            </span>
+                                        &nbsp;&nbsp;
+                                        <a href="#" class="quote" data-id="{{$comments->id}}">
+                                            <i class="fa fa-quote-right" title="Qoute"></i> Qoute 
+                                        </a>&nbsp;&nbsp;
+                                        <a href="#">
+                                            <i class=" fa fa-share-square" title="reply"></i> Reply</a>&nbsp;&nbsp;@if(!Auth::guest() && Auth::user()->id == $comments->user->id)
+                                        <a href="/commentEdit/" class="unhide" id="{{$comments->id}}">
+                                            <i class=" fa fa-edit" title="Modify"></i> Modify
+                                        </a>
+                                        <a href="#" id="ave{{$comments->id}}" class="ave" style="display:none" data-id="{{$comments->id}}">
+                                           <i class="fa fa-check"></i>Update
+                                        </a>&nbsp;&nbsp;
+                                        <a href="#" id="cancel{{$comments->id}}" class="cancel" style="display:none" data-id="{{$comments->id}}"> 
+                                            <i class="fa fa-power-off" style="color: red;"></i> Cancel
+                                        </a>
+                                        <span id="cfa{{$comments->id}}"></span>
+                                        @endif
+                                      </div>
+                            </div>
+                            @include('threads._partials._delete_modal', [
+                                  'id' => "deleteReply{$comments->id}",
+                                  'comment_id' => $comments->id,
+                                  'title' => 'Delete Reply',
+                                  'body' => '<p>Are you sure you want to delete this reply? This cannot be undone.</p>',])
+                           @endforeach
+
+                           @extends('layouts.app')
+
+@section('content')
+<div class="container">
+<div class="">
+    <div class="row">
+        <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
+            <!-- <div class="card"> -->
+                <div class="">
+                    @if (session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                    <ol class="breadcrumb">
+                       <li><a href="/">Home</a></li>
+                       <li><a href="/forum/{{$thread->forum->slug}}">{{$thread->forum->name}}</a></li>
+                       <li>{{($thread->title)}} &sdot; <em>{{$thread->visits}} {{str_plural('views', $thread->visits)}}</em></li>
+                    </ol>
+                    @if(!$thread->locked)
+                        @if(Auth::check())
+                            <span class="btn btn-primary" style="margin: 7px; " ><a  href="#reply" style=" color: #fff;">Reply</a></span>
+                        @endif
+                    @endif
+                        <br>@if(!empty($comment->links()))
+                        {{$comment->links()}}
+                        @endif
+                </div> 
+                    @include('Admin.layouts.errorMessages')
+                        <!-- The comment section -->
+                      @if(($comment) !== NULL)
+                        <div class="">
+                          <span >
+                            @if(!$thread->IsSubscribedTo)
+                            <a href="/xf/{{$thread->forum->id}}/{{$thread->id}}" class="btn btn-block" style="margin-top: -30px;">(Subscribe)</a>
+                            @else
+                             <a href="/xf/{{$thread->forum->id}}/{{$thread->id}}" onclick="event.preventDefault();
+                                                     document.getElementById('unsubscribe-form').submit();"class="btn btn-block" style="margin-top: -30px;">(Unsubscribe)</a>
+                                                     <form id="unsubscribe-form" action="/xf/{{$thread->forum->id}}/{{$thread->id}}" method="POST" style="display: none;">
+                                                      {{ csrf_field() }}
+                                                      {{ method_field('DELETE') }}
+                                                      </form>
+                            @endif
+                          </span>
+                          @include('threads.thread')
+                         
+                           
+                                                     
+                    @endif
+                    {{$comment->links()}}
+
+                            @if(Auth::check())
+                              @if(!$thread->locked)
+                              <br><br>
+                                <div class="panel-heading">Reply</div>
+                                <div class="reply" id="reply">
+                                   <form action="{{url('xf/reply', $thread->id)}}" id="upload" method="POST" enctype="multipart/form-data"  >
+                                  {{csrf_field()}}
+                                      <input type="hidden" name="_method" value="PUT">
+                                      <input type="hidden" name="forum_id" value="{{$thread->forum->id}}">
+                                      <input type="hidden" name="thread_id" value="{{$thread->id}}">
+                                      <textarea class="form-control textarea" id="editor" name="body" cols="8" rows="4" ></textarea><br/><span>Image Upload -  Only Two files allowed, not more than 4mb</span>
+                                      <input type="file" name="file[]" id="file" class="form-control" multiple>
+                                      <br>
+                                      <input type="submit" class=" f btn btn-primary" name="submit" value="Reply">
+                                  </form>
+                                </div>
+                              @else
+                                 <span>
+                                  <img class="img-locked" src="/storage/storage/img/locked.gif" width="20" height="15" /></span>
+                              @endif
+                              <br>
+                            @endif
+
+                           <script type="text/javascript">
+                                   $(function() {
+                                var // Define maximum number of files.
+                                    max_file_number = 2,
+                                    $form = $('form'), 
+                                    $file_upload = $('#file', $form),
+                                    $button = $('.f', $form); 
+
+                                $file_upload.on('change', function () {
+                                  var number_of_images = $(this)[0].files.length;
+                                  if (number_of_images > max_file_number) {
+                                    alert(`You can upload maximum ${max_file_number} files.`);
+                                    $(this).val('');
+                                    $button.prop('disabled', 'disabled');
+                                  } else {
+                                    $button.prop('disabled', false);
+                                  }
+                                });
+                              });
+                            </script>
+
+              <!-- </div> -->
+          </div>
+        <!-- widget -->
+        @include('threads._partials.widget')
+        </div> <!-- End Row  -->      
+    </div>  
+   
+        
+</div> 
+</div>
+<script type="text/javascript" src="{{asset('js/summernote-lite.min.js')}}"></script>
+@endsection
