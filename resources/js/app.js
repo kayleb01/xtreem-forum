@@ -20,6 +20,7 @@ const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 //Vue.component('replies', require('./components/Replies.vue'));
+Vue.component("flash", require("./components/Flash.vue"));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -34,7 +35,8 @@ const app = new Vue({
     	return {
     		active:false,
             tabs: ['Featured', 'Trending'],
-            selectedTab: 'Featured'
+            selectedTab: 'Featured',
+             searching: false
     	};
     },
 
@@ -42,5 +44,13 @@ const app = new Vue({
     	toggle () {
     		this.active = !this.active;
     	},
+        search() {
+            this.searching = true;
+
+            this.$nextTick(() => {
+                this.$refs.search.focus();
+            });
+        },
     },
 });
+

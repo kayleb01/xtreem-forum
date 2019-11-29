@@ -3582,9 +3582,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     classes: function classes() {
       var defaults = ['fixed', 'p-4', 'border', 'text-white'];
-      if (this.level === 'success') defaults.push('bg-green', 'border-green-dark');
-      if (this.level === 'warning') defaults.push('bg-yellow', 'border-yellow-dark');
-      if (this.level === 'danger') defaults.push('bg-red', 'border-red-dark');
+      if (this.level === 'success') defaults.push('bg-success', 'border-green-dark');
+      if (this.level === 'warning') defaults.push('bg-warning', 'border-yellow-dark');
+      if (this.level === 'danger') defaults.push('bg-danger', 'border-red-dark');
       return defaults;
     }
   },
@@ -4112,6 +4112,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Highlight_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Highlight.vue */ "./resources/js/components/Highlight.vue");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -84387,7 +84395,7 @@ var render = function() {
           staticClass:
             "timeline relative w-full max-w-full border-l-4 border-grey-light"
         },
-        _vm._l(_vm.items, function(activity, index) {
+        _vm._l(_vm.items, function(activity) {
           return _c("div", { key: activity.id }, [
             _c(
               "div",
@@ -85199,7 +85207,7 @@ var render = function() {
   return _c(
     "a",
     {
-      staticClass: "inline-block text-center",
+      staticClass: "inline-block text-center px-3",
       attrs: { href: "#" },
       on: {
         click: function($event) {
@@ -85212,7 +85220,7 @@ var render = function() {
       _c(
         "svg",
         {
-          staticClass: "fill-current mb-1",
+          staticClass: "fill-current",
           class: _vm.active ? "text-green" : "text-grey-light",
           attrs: {
             xmlns: "http://www.w3.org/2000/svg",
@@ -85742,7 +85750,7 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("div", { staticClass: "flex-1 ml-1" }, [
-          _c("div", { staticClass: "flex items-center mb-6 mt-2" }, [
+          _c("div", { staticClass: "flex items-center mb-6 mt-n-5" }, [
             _c("div", { staticClass: "flex flex-1" }, [
               _c("span", { staticClass: " text-black" }, [
                 _c("a", {
@@ -85754,32 +85762,11 @@ var render = function() {
                 _c("span", { staticClass: "text-muted" }, [
                   _vm._v(_vm._s(_vm.ago))
                 ])
-              ]),
-              _vm._v(" "),
-              _vm.signedIn && _vm.reply.user.id == _vm.user.id
-                ? _c(
-                    "a",
-                    {
-                      staticClass: "text-blue text-xs link ml-2 pl-2 border-l",
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.editing = true
-                        }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        Edit\n                    "
-                      )
-                    ]
-                  )
-                : _vm._e()
+              ])
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "mb-4" }, [
+          _c("div", { staticClass: "mb-2" }, [
             _vm.editing
               ? _c("div", [
                   _c(
@@ -85810,37 +85797,41 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _c("div", { staticClass: "flex justify-between" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn bg-red",
-                            on: { click: _vm.destroy }
-                          },
-                          [_vm._v("Delete")]
-                        ),
-                        _vm._v(" "),
-                        _c("div", [
+                      _c(
+                        "div",
+                        { staticClass: "flex justify-content-between" },
+                        [
                           _c(
                             "button",
                             {
-                              staticClass: "btn mr-2",
-                              attrs: { type: "button" },
-                              on: { click: _vm.cancel }
+                              staticClass: "btn btn-danger",
+                              on: { click: _vm.destroy }
                             },
-                            [_vm._v("Cancel")]
+                            [_vm._v("Delete")]
                           ),
                           _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn bg-blue",
-                              attrs: { type: "submit" }
-                            },
-                            [_vm._v("Update")]
-                          )
-                        ])
-                      ])
+                          _c("div", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn mr-2",
+                                attrs: { type: "button" },
+                                on: { click: _vm.cancel }
+                              },
+                              [_vm._v("Cancel")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-primary",
+                                attrs: { type: "submit" }
+                              },
+                              [_vm._v("Update")]
+                            )
+                          ])
+                        ]
+                      )
                     ]
                   )
                 ])
@@ -85853,11 +85844,46 @@ var render = function() {
                       ? _c(
                           "div",
                           {
-                            staticClass: "text-xs pl-1",
-                            staticStyle: { "padding-top": "8px" }
+                            staticClass: "text-xs pl-2",
+                            staticStyle: { "padding-top": "3px" }
                           },
-                          [_c("favorite", { attrs: { reply: _vm.reply } })],
-                          1
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "row justify-content-center" },
+                              [
+                                _c("favorite", { attrs: { reply: _vm.reply } }),
+                                _vm._v(" "),
+                                _vm.signedIn && _vm.reply.user.id == _vm.user.id
+                                  ? _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "text-black text-xs link ml-4 pl-2 border-l",
+                                        attrs: { href: "#" },
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.editing = true
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-edit",
+                                          attrs: { title: "Edit" }
+                                        })
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm._m(0),
+                                _vm._v(" "),
+                                _vm._m(1)
+                              ],
+                              1
+                            )
+                          ]
                         )
                       : _vm._e()
                   ],
@@ -85869,7 +85895,26 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "ml-4 pl-3 link", attrs: { href: "#" } }, [
+      _c("i", { staticClass: "fa fa-quote-right" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "ml-4 pl-3 bg-color-black", attrs: { href: "#" } },
+      [_c("i", { staticClass: "fa fa-share-square" })]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -99460,6 +99505,7 @@ files.keys().map(function (key) {
   return Vue.component(key.split('/').pop().split('.')[0], files(key)["default"]);
 }); //Vue.component('replies', require('./components/Replies.vue'));
 
+Vue.component("flash", __webpack_require__(/*! ./components/Flash.vue */ "./resources/js/components/Flash.vue"));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -99472,12 +99518,21 @@ var app = new Vue({
     return {
       active: false,
       tabs: ['Featured', 'Trending'],
-      selectedTab: 'Featured'
+      selectedTab: 'Featured',
+      searching: false
     };
   },
   methods: {
     toggle: function toggle() {
       this.active = !this.active;
+    },
+    search: function search() {
+      var _this = this;
+
+      this.searching = true;
+      this.$nextTick(function () {
+        _this.$refs.search.focus();
+      });
     }
   }
 });

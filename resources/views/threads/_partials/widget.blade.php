@@ -2,10 +2,10 @@
         @if(Auth::check()) 
           <div class="panel-heading p-2 font-weight-bold">User Profile
             </div>
-              <div class="panel-body">
+              <div class="panel-body  align-item-center">
                 <center class="align-items-center">
-                    <img src="/storage/storage/img/{{Auth::user()->avatar}}" class="image-circle"><br><br>
-                      <ul class="list-group widget2">
+                    
+                      <ul class="list-group widget2"><img src="/storage/storage/img/{{Auth::user()->avatar}}" class="image-circle">
                         <li class="list-group-item"><a class="" href="{{url('/user/'.Auth::user()->username.'/edit')}}">Edit Profile</a></li>
                         <li class="list-group-item"><a href="/user/{{Auth::user()->username}}" class="">View Profile</a></li>
                         <li class="list-group-item"><a href="{{url('/user/threads/'.Auth::user()->username.'')}}">Threads</a></li>
