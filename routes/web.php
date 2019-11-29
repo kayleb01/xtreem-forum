@@ -29,7 +29,7 @@ Route::get('xf/lock/{id}', 'LockedThreadsController@store')->name('xf/lock/{id}'
 Route::get('xf/unlock/{id}', 'LockedThreadsController@destroy')->name('xf/unlock/{id}');
 Route::delete('xf/thread/{id}', 'threadsController@destroy');
 Route::get('xf/{thread}/subscriptions', 'ThreadSubscriptionsController@store');
-Route::delete('xf/{thread}/subscription', 'ThreadSubscriptionsController@destroy');
+Route::delete('xf/{thread}/subscriptions ', 'ThreadSubscriptionsController@destroy');
 Route::delete('/xf/destroy/{id}/comment', 'RepliesController@destroy')->name('/xf/destroy/{id}/comment');
 
 //Replies

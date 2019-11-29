@@ -26,10 +26,9 @@ class ThreadSubscriptionsController extends Controller
      * @param int    $channelId
      * @param Thread $thread
      */
-    public function destroy($forum, thread $thread)
+    public function destroy(thread $thread)
     {
         $thread->unsub();
-        return Redirect()->back()->with('success', 'Thread Unsubscribed');
 
     }
 }
