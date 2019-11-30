@@ -29,7 +29,7 @@
     </script>
 </head>
 <body class="xf-theme layout-top-nav">
-<div id="app">
+<div id="app" class="flex flex-col min-h-full">
     <div class="wrapper">
          <nav class="navbar sticky-top navbar-expand-sm x-c">
             <a class="navbar-brand text-light" href="/">XtreemForum</a>
@@ -69,8 +69,15 @@
 
 
         @yield('content')
-    </div>
 
+         
+
+        
+    </div>
+        <flash message="{{ session('flash') }}"></flash>
+        <div v-cloak>
+            @include('modals.all')
+        </div>
    </div> <!-- end of ID-APP -->
 
    

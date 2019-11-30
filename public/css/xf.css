@@ -16,6 +16,10 @@ c3d2892a83
 1ae528e6eb
 
 */
+[v-cloak] {
+  display: none;
+}
+
 .user-font a{
  font-family: Arial, Helvetica, sans-serif;
 }
@@ -477,7 +481,7 @@ blockquote.bb-quote-body {
 }
 
 .thread-content{font-size: 14px;}
-img.img { padding:0; margin:3;}
+img.img { padding:0; margin:3;max-width: 100%;}
 /* @media screen and (max-width: 9999px){ img.img, div.thread-content { max-width:  976px }}
 @media screen and (max-width: 1024px){ img.img, div.thread-content { max-width:  976px }
 @media screen and (max-width:  768px){ img.img, div.thread-content { max-width:  736px }}
