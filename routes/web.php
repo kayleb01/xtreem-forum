@@ -32,9 +32,10 @@ Route::get('xf/{thread}/subscriptions', 'ThreadSubscriptionsController@store');
 Route::delete('xf/{thread}/subscriptions ', 'ThreadSubscriptionsController@destroy');
 Route::delete('/xf/destroy/{id}/comment', 'RepliesController@destroy')->name('/xf/destroy/{id}/comment');
 
-//Replies
-Route::get('{slug}/replies', 'ThreadsController@replies')->name('{slug}/replies');
-Route::post('xf/reply/{id}', ['as' => 'xf/reply/{id}', 'uses' => 'RepliesController@store']);
+//Replies\
+Route::post('{thread}/comment/store', 'ThreadsController@see')->name('newComment');
+Route::get('{slug}/replies', 'ThreadsController@replies')->name('replies');
+
 Route::get('/commentEdit/{id}', ['as' => '/commentEdit/{id}', 'uses' => 'RepliesController@AjaxEdit']);
 Route::get('/comment/like/{id}', ['as' => '/comment/like/{id}', 'uses' => 'likesController@togglelikes']);
 

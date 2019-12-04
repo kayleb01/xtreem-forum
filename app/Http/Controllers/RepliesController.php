@@ -26,14 +26,9 @@ class RepliesController extends Controller
         $this->middleware('auth')->except('replies');
     }
 
-    /**
-     * Fetch all relevant replies.
-     *
-     *
-     */
-    public function replies(thread $thread)
-    {    
-        return $thread;
+    public function ready()
+    {
+        return "We made It";
     }
 
 /**
@@ -54,6 +49,11 @@ class RepliesController extends Controller
         return true;
     }
 
+
+        public function see()
+        {
+            return dd("see me");
+        }
     /**
      * Persist a new reply.
      *
@@ -91,23 +91,23 @@ class RepliesController extends Controller
             'status'    => 1,
             'body'    => $url,
             'created_at' => carbon::now()
-        ]);
-                            if($request->hasFile('file')){
-                        $images = $request->file('file');
-                                    foreach ($images as $key => $image) {
-                            $fulname        = $image->getClientOriginalName();
-                            $filenam        = pathinfo($fulname, PATHINFO_FILENAME);
-                            $ext            = $image->getClientOriginalExtension();
-                            $filename       = rand().time().'.'.$ext;
-                            $Img            = $image->storeAs("public/storage/img", $filename);
-                            $upload         = attachment::create([
-                                                                    'user_id'   => Auth::user()->id,
-                                                                    'comment_id'=> $comment->id,
-                                                                    'thread_id' => $thread->id,
-                                                                    'filename'  => $fulname,
-                                                                    'name'      => $filename
-                                                                    ]);
-                                                               
+]);
+                if($request->hasFile('file')){
+            $images = $request->file('file');
+                        foreach ($images as $key => $image) {
+                $fulname        = $image->getClientOriginalName();
+                $filenam        = pathinfo($fulname, PATHINFO_FILENAME);
+                $ext            = $image->getClientOriginalExtension();
+                $filename       = rand().time().'.'.$ext;
+                $Img            = $image->storeAs("public/storage/img", $filename);
+                $upload         = attachment::create([
+                                'user_id'   => Auth::user()->id,
+                                'comment_id'=> $comment->id,
+                                'thread_id' => $thread->id,
+                                'filename'  => $fulname,
+                                'name'      => $filename
+                                ]);
+                                                    
                         }//end of foreach   
                     }
          

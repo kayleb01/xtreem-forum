@@ -28,7 +28,7 @@ class ThreadsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show', 'forums']);
+        $this->middleware('auth')->except(['index', 'show', 'forums', 'replies']);
     }
 
     /**
@@ -58,11 +58,14 @@ class ThreadsController extends Controller
         return view('home', compact('getFeatured', 'trending', 'newThread', 'title','Categories'));
 
     }
-
+    public function see()
+    {
+        return "I see you!";
+    }
 
     public function replies($slug){
         $thread = thread::where('slug', '=', $slug)->first();
-        return comment::where('thread_id', $thread->id)->paginate(20);
+        return comment::where('thread_id', $thread->id)->paginate(2);
     }
 
     /**

@@ -21,23 +21,21 @@
                       </ul>
                 </center>      
               </div> 
-            @endif  
-            <div class="panel">
+            @endif 
               <div class="panel-heading p-2 font-weight-bold">New Threads</div>
                 @if($newThread ?? '' )
                      @foreach($newThread ?? '' as $nw_thread)
-                    <div class="panel">
+                    <div class="panel body">
                       <div class="widget">
                        <a href="{{$nw_thread->path}}">
                          {{$nw_thread->title}} &sdot;
                        </a>
                        <span class="tm bord">{{$nw_thread->time->diffForHumans()}}</span>
-                    </div>
-                    </div>
-                   @endforeach
-                   @else
-                   <i class="fa fa-spin fa-spinner" style="align-content: center;"></i><br><br>
+                    </div> 
+                    @endforeach
+                    @else
+                    <i class="fa fa-spin fa-spinner" style="align-content: center;"></i><br><br>
                   @endif
-              </div>
+                  </div>
         </div> 
         
