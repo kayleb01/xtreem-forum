@@ -1,5 +1,5 @@
 <template>
-    <div class="py-6 ml-10">
+    <div class="py-6 ml-10 new-reply">
         <div v-if="! signedIn">
             <p class="text-center text-sm text-grey-dark">
                 Please <a href="/login" @click.prevent="$modal.show('login')" class="text-blue link">sign in</a> to participate in this
@@ -17,7 +17,7 @@
             </div>
 
             <button type="submit"
-                    class="btn btn-xtrm "
+                    class="btn btn-secondary btn-block "
                     @click="addReply">Post</button>
         </div>
     </div>
@@ -28,7 +28,7 @@ import "jquery.caret";
 import "at.js";
 
 export default {
-    props : ["reply"],
+   
     data() {
         return {
             body: ""
@@ -60,7 +60,7 @@ export default {
     methods: {
         addReply() {
             axios
-                .post("xf/reply", { body: this.body })
+                .post(location.pathname + "/create", { body: this.body })
                 .catch(error => {
                     flash(error.response.data, "danger");
                 })
@@ -79,5 +79,6 @@ export default {
 <style scoped>
 .new-reply {
     background-color: #fff;
+    padding:5px;
 }
 </style>

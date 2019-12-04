@@ -33,7 +33,7 @@ Route::delete('xf/{thread}/subscriptions ', 'ThreadSubscriptionsController@destr
 Route::delete('/xf/destroy/{id}/comment', 'RepliesController@destroy')->name('/xf/destroy/{id}/comment');
 
 //Replies\
-Route::post('{thread}/comment/store', 'ThreadsController@see')->name('newComment');
+Route::post('{slug}/create', 'RepliesController@create')->name('reply.create');
 Route::get('{slug}/replies', 'ThreadsController@replies')->name('replies');
 
 Route::get('/commentEdit/{id}', ['as' => '/commentEdit/{id}', 'uses' => 'RepliesController@AjaxEdit']);
@@ -46,7 +46,7 @@ Route::get('/user/notifications/markasread', 'UserNotificationsController@markas
 Route::get('/user/notification/{id}', 'UserNotificationsController@destroy');
 
 //Forum routes
-Route::get('/forum/{slug}', ['as' => 'forum/slug', 'uses' => 'ThreadsController@forums']);
+Route::get('/forum/{slug}', ['as' => 'forum/{slug}', 'uses' => 'ThreadsController@forums']);
 Route::get('/xf/forums', 'forumsController@forum');
 #...............Administration...................
 //Users

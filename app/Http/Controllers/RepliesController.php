@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePostRequest;
+use App\Http\Request\createPostRequest;
 use App\comment;
 use App\thread;
 use Auth;
@@ -25,10 +25,38 @@ class RepliesController extends Controller
     {
         $this->middleware('auth')->except('replies');
     }
+     /**
+     * Persist a new reply.
+     *
+     * 
+     * @param  CreatePostRequest $form
+     * @return \Illuminate\Database\Eloquent\Model
+     */
 
-    public function ready()
-    {
-        return "We made It";
+    public function create($slug, Request $request)
+    {    
+        $url = $request->body;
+        $thread = thread::where('slug', '=', $slug)->first();
+             $comment = comment::create([
+            'user_id' => Auth::user()->id,
+            'thread_id' => $thread->id,
+            'forum_id'  => $thread->forum->id,
+            'status'    => 1,
+            'body'    => $url,
+            'created_at' => carbon::now()
+            ]);
+            
+           
+           $rep = $thread->replies_count;
+            $thread->where('id', $thread->id)->update([
+                'last_reply_at' => carbon::now(),
+                'reply_user'    => Auth::user()->id,
+                'replies_count' => ++$rep
+                
+            ]);
+            //Notify that a reply has been added...
+             //send user notification 
+             $thread->notifyReplies($comment);
     }
 
 /**
@@ -50,10 +78,6 @@ class RepliesController extends Controller
     }
 
 
-        public function see()
-        {
-            return dd("see me");
-        }
     /**
      * Persist a new reply.
      *

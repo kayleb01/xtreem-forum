@@ -18,7 +18,7 @@ class replyPolicy
      */
     public function update(User $user, comment $comment)
     {
-        return $reply->user_id = $user->id;
+        return $comment->user_id = $user->id;
     }
 
     /**

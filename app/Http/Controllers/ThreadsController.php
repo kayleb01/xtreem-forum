@@ -65,7 +65,7 @@ class ThreadsController extends Controller
 
     public function replies($slug){
         $thread = thread::where('slug', '=', $slug)->first();
-        return comment::where('thread_id', $thread->id)->paginate(2);
+        return comment::where('thread_id', $thread->id)->paginate(20);
     }
 
     /**

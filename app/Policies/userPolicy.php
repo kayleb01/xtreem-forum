@@ -19,7 +19,7 @@ class userPolicy
         //
     }
 
-    public function update(User $is_signedIn, User $user){
-        return $is_signedIn->id === $user->id;
+    public function update(User $signedInUser, User $user){
+        return $signedInUser->id === $user->id;
     }
 }
