@@ -3,25 +3,27 @@
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
-class replyEvent
+class ThreadWasPublished
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public $thread;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($thread)
     {
-        //
+        $this->thread = $thread;
     }
 
     /**
@@ -29,8 +31,8 @@ class replyEvent
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
+    public function subject()
     {
-        return new PrivateChannel('xtreem-notify');
+        return $this->thread;
     }
 }

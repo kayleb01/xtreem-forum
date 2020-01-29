@@ -1,31 +1,32 @@
 <template>
-    <div :id="'reply-'+id" class="panel panel-body">
-        
+    <div :id="'comment-'+id" class="panel panel-body">
+        <span class=" float-right mr-2"> <i class=" fa fa-caret-down"></i></span>
         <div class="flex" style="padding:5px;">
             <div class="thread-user" style="margin-left:-63px; margin-top:-8px">
-                <img :src="'/storage/storage/img/' + reply.user.avatar"
+                <table>
+                    <tr>
+                    <td>
+                    <img :src="'/storage/storage/img/' + reply.user.avatar"
                      :alt="reply.user.username"
                      width="36"
                      height="36"
                      class="image-circle responsive">
-            </div>
-
-            <div class="flex-1 ml-1">
-                <div class="flex items-center mb-6 mt-n-5">
-                    <div class="flex flex-1">
                         <span class=" text-black">
                             <a class="font-weight-bold text-black "  :href="'/user/' + reply.user.username" v-text="reply.user.username"></a> &sdot;<span class="text-muted">{{ago}}</span>
-                        </span>
-                    </div>
+                        </span><br/>
+                        <div class="timestamp small" style="width: 400px">
+                        replying to @{{reply.thread.user.username}}
+                     </div>
+                    </td>
+                    </tr>
+                </table>
+            </div>
 
-                    
-                </div>
-
-                <div class="mb-2">
+                <div class="mb-2 small">
                     <div v-if="editing">
                         <form @submit.prevent="update">
                             <div class="mb-4">
-                                <wysiwyg v-model="body"></wysiwyg>
+                                <wysiwyg v-model="body" name="body"></wysiwyg>
                             </div>
 
                             <div class="flex justify-content-center">
@@ -51,7 +52,7 @@
                                             >
                                                 <i class="fa fa-edit" title="Edit"></i>
                                         </a>
-                                        <a href="#" class="ml-4 pl-3 link">
+                                        <a href="#" @click.prevent="quote()" class="ml-4 pl-3 link">
                                              <i class="fa fa-quote-right"></i>
                                         </a>
                                         <a href="#" class="ml-4 pl-3 bg-color-black"> 
@@ -64,18 +65,18 @@
                 </div>
             </div>
         </div>
-    </div>
+        
+  
 </template>
 
 <script>
 import Favorite from "./Favorite.vue";
-import Highlight from "./Highlight.vue";
 import moment from "moment";
 
 export default {
     props: ["reply"],
 
-    components: { Favorite, Highlight },
+    components: { Favorite },
 
     data() {
         return {
@@ -100,12 +101,14 @@ export default {
                     body: this.body
                 })
                 .catch(error => {
-                    flash(error.response.data, "danger");
+                    this.flashMessage.error({error:"An Internal Error occured, please try again later"});
                 });
 
             this.editing = false;
 
-            flash("Updated!");
+            this.flashMessage.success({
+                message: 'Updated!'
+                });
         },
 
         cancel() {
@@ -119,6 +122,18 @@ export default {
 
             this.$emit("deleted", this.id);
         },
+
+        quote(){
+            const body = this.reply.body;
+            const quot = `
+                    <div class="bbcode_quote">
+                    <div class="bbcode_quote_head">@`+this.reply.user.username + `</div>
+                    <div class="bbcode_quote_body"> ` + body + `</div>
+                    </div>
+                            `;
+                            console.log(quot);
+
+        }
     }
 };
 </script>

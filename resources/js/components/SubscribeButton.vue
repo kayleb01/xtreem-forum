@@ -2,6 +2,7 @@
     <div style="text-align:center;">
         
     <a href="#" style="max-width:auto;"  :class="isActive ? 'font-weight-bold': ''" @click.prevent="subscribe" v-text="isActive ? '(Subscribed)' : '(Subscribe)'"></a>
+   
     </div>
 </template>
 
@@ -24,7 +25,9 @@ export default {
             );
             this.isActive = !this.isActive;
             if (this.isActive) {
-                flash("Okay, we'll notify you when this thread is updated!");
+                this.flashMessage.success({
+                   message: "Okay, we'll notify you when this thread is updated!"
+                    });
             }
         }
     }

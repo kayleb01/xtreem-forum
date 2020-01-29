@@ -8,17 +8,12 @@ class like extends Model
 {
     use RecordsActivity;
     
-const Table = 'likes';
+
   
 protected $guarded = [];
-// protected static function bootLikable()
-//     {
-//         static::deleting(function ($model) {
-//             $model->likes->each->delete();
-//         });
-//     }
 
-public function likable()
+
+public function liked()
 {
 	return $this->morphTo();
 }

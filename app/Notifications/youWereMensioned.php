@@ -33,7 +33,7 @@ class youWereMensioned extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -45,7 +45,7 @@ class youWereMensioned extends Notification
     public function toArray($notifiable)
     {
        return [
-            'message' => $this->comment->user->name . ' mentioned you in ' . substr($this->comment->thread->title, 0,50),
+            'message' => $this->comment->user->username . ' mentioned you in ' . substr($this->comment->thread->title, 0,50),
             'link' => $this->comment->path()
         ];
     }

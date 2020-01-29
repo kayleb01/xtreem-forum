@@ -28,10 +28,10 @@ class threadUpdated extends Notification
      *
      * @return void
      */
-    public function __construct($thread, $reply)
+    public function __construct($thread, $comment)
     {
         $this->thread = $thread;
-        $this->reply = $reply;
+        $this->comment = $comment;
     }
 
     /**
@@ -55,8 +55,8 @@ class threadUpdated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->reply->owner->name . ' replied to ' . $this->thread->title,
-            'link' => $this->reply->path()
+            'message' => $this->comment->user->username . ' replied to ' . substr($this->thread->title, 0,40),
+            'link' => $this->comment->path()
         ];
     }
 }

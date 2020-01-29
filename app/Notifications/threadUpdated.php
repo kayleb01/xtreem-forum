@@ -42,7 +42,7 @@ class threadUpdated extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     
@@ -59,4 +59,14 @@ class threadUpdated extends Notification
             'link' => $this->comment->path()
         ];
     }
+    public function toMail($notifiable)
+{
+    $url = url($this->comment->path());
+
+    return (new MailMessage)
+                ->greeting('Hello!  '. $this->comment->user->username .'')
+                ->line($this->comment->user->username . ' replied to ' . $this->thread->title)
+                ->action('View reply', $url)
+                ->line('XtreemForum.com Team');
+}
 }

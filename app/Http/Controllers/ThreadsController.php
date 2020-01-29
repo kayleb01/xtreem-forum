@@ -17,6 +17,7 @@ use Linkify;
 use App\attachment;
 use Illuminate\Http\Request;
 use App\Events\ThreadReceivedNewReply;
+use Illuminate\Support\Str;
 
 
 
@@ -58,14 +59,13 @@ class ThreadsController extends Controller
         return view('home', compact('getFeatured', 'trending', 'newThread', 'title','Categories'));
 
     }
-    public function see()
-    {
-        return "I see you!";
-    }
+   
 
     public function replies($slug){
         $thread = thread::where('slug', '=', $slug)->first();
-        return comment::where('thread_id', $thread->id)->paginate(20);
+
+        return comment::where('thread_id', $thread->id)
+                        ->paginate(10);
     }
 
     /**
@@ -94,9 +94,9 @@ class ThreadsController extends Controller
             Redirect()->back()->with('error', 'Your have not verified your account, you cannot post, please verify account email');
         }
         $request->validate([
-            'title'         => 'required|spamfree|max:150',
+            'title'         => 'required|max:150',
             'body'          => 'required|max:8000',
-            'image'=>'image|mimes:jpeg,jpg,gif,png|size:4096'
+            'image'         => 'image|mimes:jpeg,jpg,gif,png|size:4096'
         ]);
 
         // if($validator->fails()){
@@ -109,7 +109,7 @@ class ThreadsController extends Controller
         }
       
         // Lets try to always have a unique slug
-        $slug = str_slug(request('title'), '-');
+        $slug = Str::slug(request('title'), '-');
         $same_slug = thread::where('slug', '=', $slug)->first();
         $incremnt = 1;
         $incremnted_slug = $slug;
@@ -159,7 +159,7 @@ class ThreadsController extends Controller
         
         if( $thread ){
             $NewThread->push($thread);
-            return redirect($thread->path())->with('success', 'Your thread has been published!');
+            return redirect($thread->path());
         }else{
             return redirect()->back()->with('error', 'An error was encountered');
         }
@@ -199,6 +199,15 @@ class ThreadsController extends Controller
         
     }
 
+    // Fetch all the data of the thread
+    // @param thread $thread
+    public function edit(thread $id) {
+      //For readability
+      $thread = $id;
+        return view('threads.edit')->with(['thread'=>$thread, 'title' => 'Edit thread']);
+
+    }
+
     /**
     *Display all the forums content
     *
@@ -208,7 +217,11 @@ class ThreadsController extends Controller
     public function forums($slug, NewThread $NewThread){
         if(empty($slug)){
             Redirect()->back();
-        }else{
+        
+        }
+        else
+        {
+
             $forum = Forum::where('slug', '=', $slug)->paginate(20);
             $forum_ID = $forum[0]->id;
              $newThread = $NewThread->get();
@@ -222,6 +235,7 @@ class ThreadsController extends Controller
 
                             return view("threads.no_forum", compact('threads', 'title', 'newThread'));
                         }else{
+                            
                             $title = $threads[0]->forum->name;
                             return view('threads.forum', compact('threads', 'title', 'newThread'));
                         }                   
@@ -234,9 +248,9 @@ class ThreadsController extends Controller
      * @param string $channel
      * @param Thread $thread
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        dd($request);
+       
         $this->authorize('update', $thread);
 
         $thread->update(request()->validate([
@@ -322,4 +336,5 @@ class ThreadsController extends Controller
 
         return $threads->paginate(25);
     }
+
 }

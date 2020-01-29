@@ -17,6 +17,10 @@ c3d2892a83
 
 */
 
+.container{
+  padding: 1px !important;
+  
+}
 .thread-use{
   background-color:#fff;
   padding: 5px;
@@ -68,18 +72,23 @@ background-color: #034;
 color: #fff;
 font-weight: bold;
 }
-.notification-box{
+#notification-box{
   padding: 5px;
+  width: 440px !important;
   min-width: 100px;
+  max-width: 450px;
 }
-/*.dropdown-menu{
+#notification-box a:hover{
+background-color: #666;
+}
+.dropdown-menu{
   right:0px;
   left: unset;
   width: auto;
   padding-bottom: 0px;
   padding:0px;
 }
-.dropdown-menu:before{
+/*.dropdown-menu:before{
   position: absolute;
   top: -20px;
   right: 12px;
@@ -108,7 +117,7 @@ font-weight: bold;
     left: -16px;
     width: 290px;
    }
-   .notification-box{
+   #notification-box{
     padding: 2px;
     min-width: 150px;
     }
@@ -125,7 +134,7 @@ font-weight: bold;
 .note-group-select-from-files{
   display: none;
 }
-img.attachment{width: 100%;}
+img.attachment{max-width: 100%;}
 img.img-locked{width: 100px; height: 100px; margin-left: 300px}
 img{width: 100%;}
 img.icon{
@@ -226,7 +235,7 @@ text-decoration: underline;
 }
 
 .v{
-color:#660;
+
 font-size: 14px;
 }
 
@@ -282,7 +291,7 @@ div.tab button{
  div.tab button:hover{
   background-color:#E7F1F1;
  }
- div.tab button.active{
+ button.active{
    border-bottom:solid;
    border-bottom-color:#034;
    background-color:#FAFAFA;
@@ -491,19 +500,7 @@ blockquote.bb-quote-body {
 
 .thread-content{font-size: 14px;}
 img.img { padding:0; margin:3;max-width: 100%;}
-/* @media screen and (max-width: 9999px){ img.img, div.thread-content { max-width:  976px }}
-@media screen and (max-width: 1024px){ img.img, div.thread-content { max-width:  976px }
-@media screen and (max-width:  768px){ img.img, div.thread-content { max-width:  736px }}
-@media screen and (max-width:  640px){ img.img, div.thread-content { max-width:  608px }}
-@media screen and (max-width:  512px){ img.img, div.thread-content { max-width:  480px }}
-@media screen and (max-width:  480px){ img.img, div.thread-content { max-width:  448px }}
-@media screen and (max-width:  411px){ img.img, div.thread-content { max-width:  379px }}
-@media screen and (max-width:  414px){ img.img, div.thread-content { max-width:  382px }}
-@media screen and (max-width:  375px){ img.img, div.thread-content { max-width:  342px }}
-@media screen and (max-width:  360px){ img.img, div.thread-content { max-width:  328px }}
-@media screen and (max-width:  340px){ img.img, div.thread-content { max-width:  320px }}
-@media screen and (max-width:  320px){ img.img, div.thread-content { max-width:  320px }}
-@media screen and (max-width:  240px){ img.img, div.thread-content { max-width:  208px }} */
+
 .xf-theme .main-header .navbar .sidebar-toggle {
   color: #ffffff;
 }

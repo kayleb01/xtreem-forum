@@ -1,26 +1,19 @@
  @extends('layouts.app')
+
 @section('content')
-<div class="container">
-    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-        {{($threads[0]->category->name)}}
-    </div>
+
+<div class="container"><div class="jumbotron bg-dark mt-2" style="height: 108px !important;">
+                
+                {{$threads[0]->forum->name}}<br>
+                {{$threads[0]->forum->description}}
+                <a href="#" class="btn btn-primary float-right rounded-full">Follow</a>
+            </div>
     <div class="row">
         <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
-            <div class="card">
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    <ol class="breadcrumb">
-                       <li><a href="/">Home</a></li>
-                       <li><a href="#">{{($threads[0]->category->name)}}</a></li>
-                       <li><a href="#">{{$threads[0]->forum->name}}</a></li>
-                    </ol>
-                    <span class="btn btn-primary" style="margin: 7px; " ><a  style=" color: #fff;" href="/forum/{{$threads[0]->forum->id}}/create">Create New Topic</a></span>
+            <a   class="btn btn-secondary rounded-full mb-2 text-light" style=" color: #fff;" href="/forum/{{$threads[0]->forum->id}}/create">
+                <span style="margin: 7px;">Create New Topic</span></a>
                                             <br>
-                </div> 
+                 
                     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding: 0">
                         @foreach($threads as $thread)
                     	<div class="panel-body bk" style="padding:6px; border: none;"><img class="image-circle" src="/storage/storage/img/{{$thread->user->image_url}}">
@@ -36,9 +29,9 @@
                     		</div>
                     	@endforeach
                     	</div>
-        			</div>
+        			{!!$threads->links()!!}
         	   </div>
-               {!!$threads->links()!!}	
+               	<!-- SideWidget -->
                 @include('threads._partials.widget')		
              </div>					
             			

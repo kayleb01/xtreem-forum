@@ -41,13 +41,11 @@ class UserNotificationsController extends Controller
      * @param \App\User $user
      * @param int       $notificationId
      */
-    public function destroy(Request $request, $id)
-    {   
-        $mark = auth()->user()->notifications()->findOrFail($request->id)->markAsRead();
-            if($mark){
-                return response()->json(['message'=>'Notification marked as read']);
-            }else{
-                return response()->json(['message'=>'Error marking notification']);
-            }
+    public function destroy(Request $request, $user, $id){
+        $mark = auth()->user()->notifications()->findOrFail($id);
+        $mark->markAsRead();
+            
+            return json_encode( $mark->data );
+            
     }
 }

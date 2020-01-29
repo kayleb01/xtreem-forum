@@ -11,8 +11,9 @@
                 This thread has been locked. No more replies are allowed.
             </p>
 
-            <new-reply :reply="dataSet" @created="add" v-else></new-reply>
+            <new-reply  @created="add" v-else></new-reply>
         </div>
+        <FlashMessage ></FlashMessage>
     </div>
 </template>
 

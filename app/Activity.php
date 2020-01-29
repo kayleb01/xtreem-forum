@@ -2,8 +2,7 @@
 
 namespace App;
 
-use App\like;
-use App\comment;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
@@ -20,7 +19,7 @@ class Activity extends Model
      *
      * @var array
      */
- protected $appends = ['likedModel'];
+// protected $appends = ['likedModel'];
 
     /**
      * Fetch the associated subject for the activity.
@@ -40,8 +39,8 @@ class Activity extends Model
         $likedModel = null;
 
         if ($this->subject_type === like::class) {
-            $subject = $this->subject()->get();
-           // return dd($subject);
+            $subject = $this->subject()->firstOrFail();
+      
             if ($subject->likable_type == comment::class) {
                 $likedModel = comment::find($subject->likable_id);
             }

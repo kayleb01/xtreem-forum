@@ -25,17 +25,22 @@ class RepliesController extends Controller
     {
         $this->middleware('auth')->except('replies');
     }
-     /**
+    /**
      * Persist a new reply.
      *
-     * 
+     * @param  integer           $channelId
+     * @param  Thread            $thread
      * @param  CreatePostRequest $form
      * @return \Illuminate\Database\Eloquent\Model
      */
 
-    public function create($slug, Request $request)
+    public function store($slug, Request $request)
     {    
         $url = $request->body;
+      
+        $request->validate([
+            'body' => 'required'
+        ]);
         $thread = thread::where('slug', '=', $slug)->first();
         if ($thread->locked) {
             return response('Thread is locked', 422);
@@ -47,27 +52,24 @@ class RepliesController extends Controller
             if ($this->time_btw_threads()) {
                 return Redirect()->back()->with('error', 'Please wait for a minute before you post again')->withInput();
             }
-        }
-             $comment = comment::create([
-            'user_id' => Auth::user()->id,
-            'thread_id' => $thread->id,
-            'forum_id'  => $thread->forum->id,
-            'status'    => 1,
-            'body'    => $url,
-            'created_at' => carbon::now()
-            ]);
-            
-           
+        }   
+        return $thread->AddComment([
+            'user_id'       => Auth::user()->id,
+            'thread_id'     => $thread->id,
+            'forum_id'      => $thread->forum->id,
+            'status'        => 1,
+            'body'          => $url,
+            'created_at'    => carbon::now()
+            ])->load('user');
+             
            $rep = $thread->replies_count;
-            $thread->where('id', $thread->id)->update([
+            $thread->update([
                 'last_reply_at' => carbon::now(),
                 'reply_user'    => Auth::user()->id,
                 'replies_count' => ++$rep
-                
             ]);
-            //Notify that a reply has been added...
-             //send user notification 
-             $thread->notifyReplies($comment);
+            
+            
     }
 
 /**
@@ -88,79 +90,6 @@ class RepliesController extends Controller
         return true;
     }
 
-
-    /**
-     * Persist a new reply.
-     *
-     * @param  integer           $channelId
-     * @param  Thread            $thread
-     * @param  CreatePostRequest $form
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function store(Request $request, thread $id)
-    {
-        //$this->authorize('create', $id);
-        $request->validate([
-            'body'          => 'required',
-            'image'=>'image|mimes:jpeg,jpg,gif,png|size:4096'
-        ]);
-        //change the id to comments for ease of readability
-       $thread = $id;
-        if ($thread->locked) {
-            return response('Thread is locked', 422);
-        }
-        if (Auth::user()->is_banned) {
-           return response('You are currently serving a ban, you cannot post a Comment', 422);
-        }
-         if (config('xf.security.limit_time_between_post')) {
-            if ($this->time_btw_threads()) {
-                return Redirect()->back()->with('error', 'Please wait for a minute before you post again')->withInput();
-            }
-        }
-        //look for urls and display it as http
-         $url = Linkify::process($request->body);
-         $comment = comment::create([
-            'user_id' => Auth::user()->id,
-            'thread_id' => $request->thread_id,
-            'forum_id'  => $request->forum_id,
-            'status'    => 1,
-            'body'    => $url,
-            'created_at' => carbon::now()
-]);
-                if($request->hasFile('file')){
-            $images = $request->file('file');
-                        foreach ($images as $key => $image) {
-                $fulname        = $image->getClientOriginalName();
-                $filenam        = pathinfo($fulname, PATHINFO_FILENAME);
-                $ext            = $image->getClientOriginalExtension();
-                $filename       = rand().time().'.'.$ext;
-                $Img            = $image->storeAs("public/storage/img", $filename);
-                $upload         = attachment::create([
-                                'user_id'   => Auth::user()->id,
-                                'comment_id'=> $comment->id,
-                                'thread_id' => $thread->id,
-                                'filename'  => $fulname,
-                                'name'      => $filename
-                                ]);
-                                                    
-                        }//end of foreach   
-                    }
-         
-        $thread = new thread;
-        $replies = $thread->where('id', $request->thread_id)->get();
-       $rep = $replies[0]->replies_count;
-        $thread->where('id', $request->thread_id)->update([
-            'last_reply_at' => carbon::now(),
-            'reply_user'    => Auth::user()->id,
-            'replies_count' => ++$rep
-            
-        ]);
-        //Notify that a reply has been added...
-         //send user notification 
-         $thread->notifyReplies($comment);
-
-        return Redirect()->back();
-    }
 
     /**
      * Update an existing reply.

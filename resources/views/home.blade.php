@@ -18,7 +18,7 @@
                     @foreach($cater->forums as $forum)
                     {{$loop->first?'':''}}
                   <span class="focuz">
-                    <a href="/forum/{{$forum->slug}}" title="{{$forum->description}}" class="btn btn-outline-secondary mb-1 btn-xtrm" style="">{!! $forum->name!!}</a> 
+                    <a href="/forum/{{$forum->slug}}" title="{{$forum->description}}" class="btn btn-outline-secondary rounded-full mb-1 btn-xtrm" style="">{!! $forum->name!!}</a> 
                   </span>
                      @endforeach
               </td>
@@ -40,27 +40,35 @@
       <div v-show="selectedTab == 'Featured'" class="shadow-sm">
           @if(isset($getFeatured))
                 @foreach($getFeatured as $key => $featured)
-            @if(!Auth::check())  
-               @if($key++ % 9 == 1)
-                 <div class='heading pt-0' style='text-align: center;'> <a href='/register'>Register</a> and <a href='/login'>Login</a> to join our community</div>
-               @endif
+                  @if(!Auth::check())  
+                    @if($key++ % 9 == 1)
+                      <div class='heading pt-0' style='text-align: center;'> <a href='/register'>Register</a> and <a href='/login'>Login</a> to join our community</div>
+                    @endif
             @endif
+
             <div class="forum_title">
                 <img class="image-circle" src="/storage/storage/img/{{$featured->user->avatar ? $featured->user->avatar : 'default.jpg'}}">
-                <div class="featured">
+                <div class="featured"> 
+                  @if ($featured->pinned)
+                      <small class="font-weight-bold">Pinned:</small>  
+                    @endif
                     <a href="/{{$featured->slug}}">{{$featured->title}} </a><br>
-                    <span class="c"><i class="fa fa-comment"></i>&nbsp;{{$featured->replies_count}} {{Str::plural('comment', $featured->replies_count)}}</span>&nbsp;&nbsp;<span class="v">&nbsp;{{$featured->visits}} {{Str::plural('view', $featured->visits)}}</span>&nbsp;&nbsp;<span class="tm">published {{$featured->created_at->diffForHumans()}}</span>
+                    <span class="c"><i class="fa fa-comment"></i>&nbsp;{{$featured->replies_count}} {{Str::plural('comment', $featured->replies_count)}}</span>&nbsp;&nbsp;<span class=" v mr-2 flex items-center text-grey-darker text-2xs font-semibold mr-4">
+                    @include ('svgs.icons.eye')
+                    {{ $featured->visits }} visits
+                </span><span class="tm">published {{$featured->created_at->diffForHumans()}}</span>
                 </div>
           </div>
             @endforeach
               {!!$getFeatured->links()!!}
             @endif
     </div>
-    <div v-show="selectedTab == 'Trending'">
+    <div v-show="selectedTab === 'Trending'">
      @if(!empty($trending))
          @foreach($trending as $trend)
         <div class="forum_trend">
           <div class="featured">
+
            <a href="{{$trend->path}}">
              {{$trend->title}}
            </a>
@@ -71,31 +79,8 @@
       @endif
     </div>
    </div>
-   <div class="col-lg-3 col-md-3 ">
-     @if(Auth::check()) 
-          <div class="panel-heading p-2 font-weight-bold">User Profile
-            </div>
-              <div class="panel-body">
-                <center class="col-offset-04">
-                    <img src="/storage/storage/img/{{Auth::user()->avatar}}" class="image-circle" style="margin-left:100px; padding:0px;"><br><br>
-                      <ul class="list-group widget2">
-                        <li class="list-group-item"><a class="" href="{{url('/user/'.Auth::user()->username.'/edit')}}">Edit Profile</a></li>
-                        <li class="list-group-item"><a href="/user/{{Auth::user()->username}}" class="">View Profile</a></li>
-                        <li class="list-group-item"><a href="{{url('/user/threads/'.Auth::user()->username.'')}}">Threads</a></li>
-                        <li class="list-group-item"><a href="#">Comments</a></li>
-                        <li class="list-group-item"><a href="{{ route('logout') }}"
-                                                onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();" class="">Logout
-                          </a>
-                          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                                {{ csrf_field() }}
-                          </form>
-                        </li>
-                      </ul>
-                </center>      
-              </div> 
-            @endif  
-   </div>
+   <!-- SideWidget -->
+    @include('threads._partials.widget')
   </div>
  </div>
  

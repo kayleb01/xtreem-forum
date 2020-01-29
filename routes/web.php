@@ -16,10 +16,12 @@ Auth::routes();
 */
 
 //Thread search
- Route::get('/xf/search', ['as' => '/xf/search', 'uses' => 'SearchController@show']);
-
+Route::get('/xf/search', ['as' => '/xf/search', 'uses' => 'SearchController@show']);
+Route::get('/thread/{id}/edit', 'ThreadsController@edit');
+Route::post('/thread/{id}/edit', 'ThreadsCntroller@update'); 
 Route::get('/', 'ThreadsController@index')->name('/'); 
 Route::get('/home', 'ThreadsController@index')->name('home');
+
 Route::get('/{thread}', ['as' => '/{thread}', 'uses' => 'ThreadsController@show']);
 Route::get('xf/modify/{id}', ['as' => 'xf/modify/{id}', 'uses' => 'RepliesController@edir']);
 Route::get('forum/{id}/create', ['as' => 'forum/{id}/create', 'uses' => 'ThreadsController@create']);
@@ -33,7 +35,7 @@ Route::delete('xf/{thread}/subscriptions ', 'ThreadSubscriptionsController@destr
 Route::delete('/xf/destroy/{id}/comment', 'RepliesController@destroy')->name('/xf/destroy/{id}/comment');
 
 //Replies\
-Route::post('{slug}/create', 'RepliesController@create')->name('reply.create');
+Route::post('{slug}/create', 'RepliesController@store')->name('reply.create');
 Route::get('{slug}/replies', 'ThreadsController@replies')->name('replies');
 
 Route::patch('/commentEdit/{id}', ['as' => '/commentEdit/{id}', 'uses' => 'RepliesController@update']);
@@ -43,7 +45,7 @@ Route::get('/comment/like/{id}', ['as' => '/comment/like/{id}', 'uses' => 'likes
 //notifications
 Route::get('/user/{user}/notifications', 'UserNotificationsController@index');
 Route::get('/user/notifications/markasread', 'UserNotificationsController@markasread')->name('/user/notifications/markasread');
-Route::get('/user/notification/{id}', 'UserNotificationsController@destroy');
+Route::delete('/user/{user}/notifications/{id}', 'UserNotificationsController@destroy');
 
 //Forum routes
 Route::get('/forum/{slug}', ['as' => 'forum/{slug}', 'uses' => 'ThreadsController@forums']);

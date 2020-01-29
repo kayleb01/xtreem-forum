@@ -1,3 +1,37 @@
+<template>
+<div >
+ Please <a href="/login" @click.prevent="$modal.show('login')" class="text-blue link">sign in</a> to participate in this
+                discussion.
+    <modal name="login" height="auto" :adaptive="true">
+        <div class="float-right"><button class="btn btn-flat" @click="$modal.hide('login')">X</button></div>
+        <div class="container px-10 py-8">
+         <h2 class="lead align-text-center">Login</h2>
+            <form class="px-10 py-8" @submit.prevent="login" @keydown="feedback = ''">
+                <div class=" form-group mb-6">
+                    <label for="username" class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 ">Username</label>
+                    <input type="text" class="w-full p-2 leading-normal form-control" id="username" name="username" autocomplete="username" placeholder="joe"  autofocus required v-model="form.username">
+                </div>
+
+                <div class="form-group mb-6">
+                    <label for="password" class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 ">Password</label>
+                    <input type="password" class="w-full p-2 leading-normal form-control" id="password" name="password" autocomplete="current-password" required v-model="form.password">
+                </div>
+
+                <div class="flex justify-end items-center form-group">
+                    <button type="submit" class="btn btn-secondary btn-block" :class="loading ? 'loader' : ''" :disabled="loading">Log In</button>
+                    <br>  DON'T HAVE ACCOUNT?
+                    <a href="#" class="btn btn-outline-secondary text-grey-dark link" @click="register">REGISTER</a>
+                </div>
+
+                <div class="mt-6  p-2" v-if="feedback">
+                    <span class="text-xs text-danger" v-text="feedback"></span>
+                </div>
+            </form>
+        </div>
+    </modal>
+</div>
+</template>
+
 <script>
 export default {
     data() {
@@ -9,6 +43,12 @@ export default {
     },
 
     methods: {
+        show () {
+            this.$modal.show('login');
+        },
+        hide () {
+            this.$modal.hide('login');
+        },
         login() {
             this.loading = true;
 
@@ -19,7 +59,7 @@ export default {
                         'Accept':'application/json'
                     }
                 })
-                .then(({data: {redirect}}) => {
+                .then(({data: { redirect }}) => {
                     location.assign(redirect);
                 })
                 .catch(error => {

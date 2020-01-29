@@ -10,15 +10,27 @@ use App\Events\ThreadRecievedNewReply;
 use App\subscription;
 use App\like;
 use Purify;
+use Illuminate\Support\Str;
 
 class thread extends Model
 {
 	use RecordsActivity;
     use likableTrait;
+    
 //**Don't apply mass assignment protection    
 protected $guarded = [];
 protected $with = ['user', 'category', 'creator'];
 
+ /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'locked' => 'boolean',
+        'pinned' => 'boolean'
+    ];
+    
  protected static function boot()
     {
         parent::boot();
@@ -30,6 +42,9 @@ protected $with = ['user', 'category', 'creator'];
 
         static::created(function ($thread) {
             $thread->update(['slug' => $thread->title]);
+
+            event(new ThreadWasPublished($thread));
+
         });
     }
 
@@ -42,6 +57,24 @@ protected $with = ['user', 'category', 'creator'];
     {
         return "/{$this->slug}";
     }
+
+    /**
+     * Add a comment to the thread.
+     *
+     * @param  array $comment
+     * @return Model
+     */
+    public function AddComment($comment)
+    {
+        $comment = $this->comment()->create($comment);
+        event(new ThreadRecievedNewReply($comment));
+
+        return $comment;
+    }
+
+
+
+
 //Files uploaded in comments
     //
 public function attachment()
@@ -133,7 +166,7 @@ public function getRouteNameKey()
 
 public function setSlugAttribute($value){
 
-	if (static::whereSlug($slug = str_slug($value))->exists()) {
+	if (static::whereSlug($slug = Str::slug($value))->exists()) {
             $slug = "{$slug}-{$this->id}";
         }
 

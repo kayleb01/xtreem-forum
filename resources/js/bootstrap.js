@@ -4,6 +4,7 @@
 import VModal from 'vue-js-modal';
 import moment from 'moment';
 
+
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -24,6 +25,7 @@ try {
  window.Vue = require('vue');
     Vue.use(InstantSearch);
     Vue.use(VModal);
+   
     let authorizations = require('./authorizations');
     
     Vue.prototype.authorize = function(...params) {

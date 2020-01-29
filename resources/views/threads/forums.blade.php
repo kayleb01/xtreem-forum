@@ -5,15 +5,12 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="card">
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    <ol class="breadcrumb">
-                       <li><a href="/">Home</a></li>
-                       <li>Forums</li>
+                <div>
+                     <ol class="breadcrumb shadow-sm" style="margin-bottom:6px !important">
+                       <li class="breadcrumb-item"><a href="/">Home</a></li>
+                       <li class="breadcrumb-item"><a href="#">{{$forum->name}}</a></li>
+                       
+                    </ol>
                     </ol>
                 </div> 
                     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding: 0">

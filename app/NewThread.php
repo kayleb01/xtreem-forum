@@ -30,7 +30,7 @@ class NewThread{
         $newThread[$thread->id] = (object) [
             'score'     => $this->score($thread),
             'title'     => $thread->title,
-            'path'      => '/xf/'.$thread->slug,
+            'path'      => '/'.$thread->slug,
             'creator'   => $thread->user->username,
             'forum'     => $thread->forum->name,
             'time'      => $thread->created_at,

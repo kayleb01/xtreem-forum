@@ -11,10 +11,10 @@
                         </div>
                     @endif
                     
-                    <ol class="breadcrumb">
-                       <li><a href="/">Home</a></li>
-                       <li><a href="#">{{$forum->category->name}}</a></li>
-                       <li><a href="#">{{$forum->name}}</a></li>
+                    <ol class="breadcrumb shadow-sm" style="margin-bottom:6px !important">
+                       <li class="breadcrumb-item"><a href="/">Home</a></li>
+                       <li class="breadcrumb-item"><a href="/forum/{{$forum->slug}}">{{$forum->name}}</a></li>
+                       
                     </ol>
                    
                 </div> 

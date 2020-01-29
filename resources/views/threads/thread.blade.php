@@ -2,28 +2,28 @@
                                       <subscribe-button :threads='@json($thread->id)' :active="{{ json_encode($thread->isSubscribedTo) }}" v-if="signedIn"></subscribe-button>
                           @if(Auth::check())
                                       <div class="panel-heading rounded-top p-1">{{($thread->title)}}
-                            @if(Auth::user()->role == 1 || Auth::user()->role == 2)&nbsp;&sdot; <span class="dropdown">
-                                        <span class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                          <span class="fa fa-toggle-on"></span>
-                                        </span>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                          <li>
-                                            @if($thread->locked == 0)
-                                              <a href="{{url('/xf/lock',$thread->id)}}">Lock thread</a>
-                                            @else
-                                              <a href="{{url('/xf/unlock',$thread->id)}}">Unlock thread</a>
-                                            @endif
-                                           </li>
-                                           <li><a href="{{url('/xf/lock',$thread->id)}}">Move thread</a></li>
-                                          <li><a href="/xf/thread/{{$thread->id}}" onclick="event.preventDefault();
-                                                     document.getElementById('delete-form').submit();">Delete thread</a></li>
-                                             <form id="delete-form" action="{{ url('/xf/thread', $thread->id) }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
-                                            </form>
-                                          <li><a href="{{url('/xf/featured', $thread->id)}}">Make FP</a></li>
-                                        </ul>
-                                    </span>
+                            @if(Auth::user()->role == 1 || Auth::user()->role == 2) 
+                                        <div class="dropdown">
+                                          <a href="#" class="dropdown-toggle text-light" id="dropdownMenuButton" data-toggle="dropdown" role="menu" aria-expanded="false" aria-haspopup="true"> <i class="fa fa-toggle-on"></i> </a>
+                                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                              @if($thread->locked == 0)
+                                                <a href="{{url('/xf/lock',$thread->id)}}" class="dropdown-item">Lock thread</a>
+                                              @else
+                                                <a href="{{url('/xf/unlock',$thread->id)}}" class="dropdown-item">Unlock thread</a>
+                                              @endif
+                                              <a href="{{url('/xf/lock',$thread->id)}}" class="dropdown-item">Move thread</a>
+                                              <a href="/xf/thread/{{$thread->id}}" class="dropdown-item" onclick="event.preventDefault();
+                                                      document.getElementById('delete-form').submit();
+                                                      ">
+                                                      Delete thread
+                                            </a>
+                                              <form id="delete-form" action="{{ url('/xf/thread', $thread->id) }}" method="POST" style="display: none;">
+                                              {{ csrf_field() }}
+                                              {{ method_field('DELETE') }}
+                                              </form>
+                                            <a href="{{url('/xf/featured', $thread->id)}}" class="dropdown-item">Make FP</a>
+                                          </div>
+                                      </div>
                               @endif
                             @endif
                             </div>
@@ -35,10 +35,10 @@
                                         @if(Auth::check())
                                       @if(Auth::user()->role == 1 )
                                       &nbsp;
-                                        <span class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                           <span class="caret"></span>
                                         </span>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                                           <li><a href="#" data-toggle="modal" data-target="#deleteReply{{ $thread->id}}">Delete</a></li>
                                           <li><a href="/moderation/{{$thread->user->id}}/ban">Ban User</a></li>
                                         </ul>
@@ -56,7 +56,7 @@
                               {!!$thread->body!!}
                               @if($thread->attachment)
                                         @foreach($thread->attachment as $attachment)
-                                        <img class="attachment" src="/storage/public/storage/img/{{$attachment->name}}"/>
+                                        <img class="attachment" src="{{url('/storage/public/storage/img/')}}{{$attachment->name}}"/>
                                         @endforeach
                                       @endif     
                               <div class="lks">
@@ -76,7 +76,7 @@
                                         </a>&nbsp;&nbsp;
                                         <a href="#">
                                             <i class=" fa fa-share-square" title="reply"></i> Reply</a>&nbsp;&nbsp;@if(!Auth::guest() && Auth::user()->id == $thread->user->id)
-                                        <a href="/commentEdit/" class="unhide" id="{{$thread->id}}">
+                                        <a href="/thread/{{$thread->id}}/edit" id="{{$thread->id}}">
                                             <i class=" fa fa-edit" title="Modify"></i> Modify
                                         </a>
                                         <a href="#" id="ave{{$thread->id}}" class="ave" style="display:none" data-id="{{$thread->id}}">

@@ -30,7 +30,7 @@ class Trending{
         $trending[$thread->id] = (object) [
             'score'     => $this->score($thread) + $increment,
             'title'     => $thread->title,
-            'path'      => '/xf/'.$thread->slug,
+            'path'      => '/'.$thread->slug,
             'creator'   => $thread->user->username,
             'forum'     => $thread->forum->name,
         ];

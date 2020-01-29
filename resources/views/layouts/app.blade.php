@@ -1,6 +1,6 @@
  <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
-    <meta charset="utf-8">
+ <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <head>
@@ -13,13 +13,11 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="icon" href="{{('flav.png')}}">
 <link href="{{url('css/font-awesome.min.css')}}" rel="stylesheet">
-<link href="{{('js/summernote-lite.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{url('css/xf.css')}}">
-
-<!-- <script type="text/javascript" src="{{url('js/Xforum.js')}}"></script>  -->
  <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
+ <script src="{{url('js/jquery-2.2.3.js')}}" type="text/javascript"></script>
+ <script src="{{url('js/bootstrap.min.js')}}" type="text/javascript"></script>
     <!-- Scripts -->
-    <script src="{{url('js/jquery-2.2.3.js')}}" type="text/javascript"></script>
     <script>
         window.App = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -27,6 +25,7 @@
             'signedIn' => Auth::check()
         ]) !!};
     </script>
+    @yield('head')
 </head>
 <body class="xf-theme layout-top-nav">
 <div id="app" class="flex flex-col min-h-full">
@@ -74,10 +73,6 @@
 
         
     </div>
-        <flash message="{{ session('flash') }}"></flash>
-        <div v-cloak>
-            @include('modals.all')
-        </div>
    </div> <!-- end of ID-APP -->
 
    
@@ -91,5 +86,7 @@
 <!-- Scripts -->
     
  <script type="text/javascript" src="{{url('js/app.js')}}"></script> 
+ 
+ @yield('scripts')
 </body>
 </html>

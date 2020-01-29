@@ -2,18 +2,19 @@
     <div class="py-6 ml-10 new-reply" >
         <div v-if="! signedIn">
             <p class="text-center text-sm text-grey-dark">
-                Please <a href="/login" @click.prevent="$modal.show('login')" class="text-blue link">sign in</a> to participate in this
-                discussion.
+               <login/>
+               <register/>
             </p>
         </div>
         
         <div v-else-if="! confirmed">
             To participate in this thread, please check your email and confirm your account.
         </div>
-        
         <div v-else id="reply">
             <div class="mb-3">
-                <wysiwyg name="body" v-model="body" placeholder="Have something to say?" id="body"></wysiwyg>
+                <wysiwyg name="body" v-model="body" placeholder="Have something to say?" id="body" required>
+                 
+                </wysiwyg>
             </div>
 
             <button type="submit"
@@ -62,12 +63,16 @@ export default {
             axios
                 .post(location.pathname + "/create", { body: this.body })
                 .catch(error => {
-                    flash(error.response.data, "danger");
+                    this.flashMessage.error({
+                        message:"An internal error occured, please try again later" 
+                        });
                 })
                 .then(({ data }) => {
                     this.body = "";
 
-                    flash("Your reply has been posted.");
+                    this.flashMessage.success({
+                        message: "Your reply has been posted."
+                        });
 
                     this.$emit("created", data);
                 });

@@ -41,9 +41,12 @@ class comment extends Model
      */
     protected static function boot()
     {
-         
         parent::boot();
 
+        static::created(function ($comment) {
+            $comment->thread->increment('replies_count');
+
+        });
         static::deleted(function ($comment) {
             $comment->thread->decrement('replies_count');
         });
@@ -66,7 +69,7 @@ class comment extends Model
         return $this->belongsTo('App\User', 'user_id');
     }
 
-
+    
     public function like(){
         return $this->hasMany(like::class, 'likable_id');
     }

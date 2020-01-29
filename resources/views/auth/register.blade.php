@@ -37,7 +37,7 @@
                                        
                                         <div class="">
                                             <select id="sex" class="form-control{{ $errors->has('sex') ? ' is-invalid' : '' }}" name="sex" value="{{ old('sex') }}" requiredh  placeholder="Sex" style="border-radius: 15px;">
-                                                <option value="">Select...</option>
+                                                <option value="">Sex...</option>
                                                 <option value="Female">Female</option>
                                                 <option value="Male">Male</option>
                                             </select>
