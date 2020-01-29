@@ -8,9 +8,15 @@ class like extends Model
 {
     use RecordsActivity;
     
-protected $table = 'likes';
+const Table = 'likes';
   
 protected $guarded = [];
+// protected static function bootLikable()
+//     {
+//         static::deleting(function ($model) {
+//             $model->likes->each->delete();
+//         });
+//     }
 
 public function likable()
 {
@@ -30,18 +36,16 @@ public function thread(){
 	return $this->belongsTo(thread::class);
 }
 
- public function getlLikedModelAttribute()
+
+ /**
+     * Get the number of favorites for the comment.
+     *
+     * @return int
+     */
+    public function getlikesCountAttribute()
     {
-        $favoritedModel = null;
-
-        if ($this->subject_type === like::class) {
-            $subject = $this->subject()->firstOrFail();
-
-            if ($subject->favorited_type == Reply::class) {
-                $favoritedModel = comment::find($subject->favorited_id);
-            }
-        }
-
-        return $favoritedModel;
+        return $this->likes->count();
     }
+
+
 }

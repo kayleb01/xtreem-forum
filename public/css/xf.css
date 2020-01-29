@@ -16,6 +16,15 @@ c3d2892a83
 1ae528e6eb
 
 */
+
+.thread-use{
+  background-color:#fff;
+  padding: 5px;
+}
+a{
+  color: #034 !important;
+} 
+
 [v-cloak] {
   display: none;
 }

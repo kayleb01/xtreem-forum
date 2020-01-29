@@ -37,6 +37,17 @@ class RepliesController extends Controller
     {    
         $url = $request->body;
         $thread = thread::where('slug', '=', $slug)->first();
+        if ($thread->locked) {
+            return response('Thread is locked', 422);
+        }
+        if (Auth::user()->is_banned) {
+           return response('You are currently serving a ban, you cannot post a Comment', 422);
+        }
+         if (config('xf.security.limit_time_between_post')) {
+            if ($this->time_btw_threads()) {
+                return Redirect()->back()->with('error', 'Please wait for a minute before you post again')->withInput();
+            }
+        }
              $comment = comment::create([
             'user_id' => Auth::user()->id,
             'thread_id' => $thread->id,
@@ -156,11 +167,12 @@ class RepliesController extends Controller
      *
      * @param Reply $reply
      */
-    public function update(comment $comment)
+    public function update(comment $id)
     {
-        $this->authorize('update', $comment);
-
-        $reply->update(request()->validate(['body' => 'required']));
+       $comment = $id;
+        ///$this->authorize('update', $comment);
+         $comment->update(request()->validate(['body' => 'required']));
+        
     }
 
     /**

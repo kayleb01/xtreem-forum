@@ -1,5 +1,5 @@
 <template>
-    <div class="py-6 ml-10 new-reply">
+    <div class="py-6 ml-10 new-reply" >
         <div v-if="! signedIn">
             <p class="text-center text-sm text-grey-dark">
                 Please <a href="/login" @click.prevent="$modal.show('login')" class="text-blue link">sign in</a> to participate in this
@@ -11,7 +11,7 @@
             To participate in this thread, please check your email and confirm your account.
         </div>
         
-        <div v-else>
+        <div v-else id="reply">
             <div class="mb-3">
                 <wysiwyg name="body" v-model="body" placeholder="Have something to say?" id="body"></wysiwyg>
             </div>

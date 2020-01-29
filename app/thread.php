@@ -17,7 +17,7 @@ class thread extends Model
     use likableTrait;
 //**Don't apply mass assignment protection    
 protected $guarded = [];
-protected $with = ['user', 'category'];
+protected $with = ['user', 'category', 'creator'];
 
  protected static function boot()
     {
@@ -40,7 +40,7 @@ protected $with = ['user', 'category'];
      */
     public function path()
     {
-        return "/xf/{$this->slug}";
+        return "/{$this->slug}";
     }
 //Files uploaded in comments
     //

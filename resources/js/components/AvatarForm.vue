@@ -5,7 +5,7 @@
 
             <h1>
                 {{ user.username }}
-                <small v-text="reputation"></small>
+                
             </h1>
         </div>
 
@@ -35,9 +35,6 @@
                 return this.authorize(user => user.id === this.user.id);
             },
 
-            reputation() {
-                return this.user.reputation + 'XP';
-            }
         },
 
         methods: {

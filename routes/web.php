@@ -36,7 +36,7 @@ Route::delete('/xf/destroy/{id}/comment', 'RepliesController@destroy')->name('/x
 Route::post('{slug}/create', 'RepliesController@create')->name('reply.create');
 Route::get('{slug}/replies', 'ThreadsController@replies')->name('replies');
 
-Route::get('/commentEdit/{id}', ['as' => '/commentEdit/{id}', 'uses' => 'RepliesController@AjaxEdit']);
+Route::patch('/commentEdit/{id}', ['as' => '/commentEdit/{id}', 'uses' => 'RepliesController@update']);
 Route::get('/comment/like/{id}', ['as' => '/comment/like/{id}', 'uses' => 'likesController@togglelikes']);
 
 
@@ -101,8 +101,8 @@ Route::put('admin/categories/update/{id}', 'CategoriesController@update')->name(
  Route::put('user/update', ['as'=>'user/update', 'uses'=>'ProfileController@update']);
  Route::put('user/pix', ['as'=>'user/pix', 'uses'=>'ProfileController@img']);
  Route::get('user/threads/{user}', 'ProfileController@user_threads');
- Route::get('profiles/{user}/activity', 'ProfileController@index')->name('activity');
- Route::get('profiles/{user}', 'ProfileController@show1')->name('profile');
+ Route::get('profiles/{user}/activity', 'ProfilesController@index')->name('activity');
+ Route::get('profiles/{user}', 'ProfilesController@show')->name('profile');
 
  #..........Pages
  Route::get('admin/pages', 'pagesController@index')->name('admin/pages');

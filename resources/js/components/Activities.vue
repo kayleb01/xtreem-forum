@@ -1,17 +1,15 @@
 <template>
-    <div>
+    <div class="container panel-body">
         <div ref="timeline" class="mt-2">&nbsp;</div>
-
         <div class="timeline relative w-full max-w-full border-l-4 border-grey-light">
             <div v-for="activity in items" :key="activity.id">
                 <div class="entry">
-                    <activity-favorite :activity="activity" v-if="activity.type === 'created_favorite'"/>
-                    <activity-reply :activity="activity" v-if="activity.type === 'created_reply'"/>
+                   <activity-favorite :activity="activity" v-if="activity.type === 'created_Like'"/>
+                    <activity-reply :activity="activity" v-if="activity.type === 'created_comment'"/>
                     <activity-thread :activity="activity" v-if="activity.type === 'created_thread'"/>
                 </div>
             </div>
         </div>
-
         <paginator class="list-reset py-2 mb-4" :data-set="dataSet" @changed="fetch"/>
     </div>
 </template>

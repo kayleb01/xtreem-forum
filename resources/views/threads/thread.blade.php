@@ -27,7 +27,8 @@
                               @endif
                             @endif
                             </div>
-                             <table class="table table" style="margin-bottom: 0;border-radius: 0;">
+                            <div class="thread-use">
+                             <table  style="margin-bottom: 0;border-radius: 0;">
                                   <tr>
                                     <td>
                                       <img src="/storage/storage/img/{{$thread->user->avatar? $thread->user->avatar : 'default.jpg'}}" class="image-circle responsive"><span><a href="/user/{{$thread->user->username}}" class="username">{{$thread->user->username}}</a> </span> &nbsp;&sdot;&nbsp; <span>{{$thread->created_at->toFormattedDateString()}}</span> <div class="timestamp" style="width: 400px">
@@ -47,7 +48,10 @@
                                       
                                     </td>
                                   </tr>
-                                  </table><hr style="margin: 0;">
+                                  </table>
+                            </div>      
+                                  <hr style="margin: 0;">
+
                             <div class="thread-body">
                               {!!$thread->body!!}
                               @if($thread->attachment)

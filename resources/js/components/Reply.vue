@@ -1,5 +1,6 @@
 <template>
     <div :id="'reply-'+id" class="panel panel-body">
+        
         <div class="flex" style="padding:5px;">
             <div class="thread-user" style="margin-left:-63px; margin-top:-8px">
                 <img :src="'/storage/storage/img/' + reply.user.avatar"
@@ -27,13 +28,13 @@
                                 <wysiwyg v-model="body"></wysiwyg>
                             </div>
 
-                            <div class="flex justify-content-between">
-                                <button class="btn btn-danger" @click="destroy">Delete</button>
+                            <div class="flex justify-content-center">
+                                <button class="btn btn-danger-xs btn-sm" @click="destroy"><i class="fa fa-trash"></i> Delete</button>
 
-                                <div>
-                                    <button class="btn mr-2" @click="cancel" type="button">Cancel</button>
-                                    <button type="submit" class="btn btn-primary">Update</button>
-                                </div>
+                                
+                                    <button class="btn mr-2" @click="cancel" type="button"><i class="fa fa-power-off" style="color: red;"></i> Cancel</button>
+                                   <button type="submit" class="btn btn-outline-flat"><i class="fa fa-check"></i>Update</button> 
+                                
                             </div>
                         </form>
                     </div>
@@ -114,7 +115,7 @@ export default {
         },
 
         destroy() {
-            axios.delete("/replies/" + this.id);
+            axios.delete("/xf/destroy/" + this.id + "/comment" );
 
             this.$emit("deleted", this.id);
         },

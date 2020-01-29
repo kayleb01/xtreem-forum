@@ -21,7 +21,7 @@ class ProfileController extends Controller
      *
      * @#param User $user
      */
-    public function index(User $user)
+    public function index($user)
     {
         return [
             'activities' => Activity::feed($user)
