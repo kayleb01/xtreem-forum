@@ -6,11 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class report extends Model
 {
+  protected $guarded = [];
   public function user(){
-  	$this->belongsTo(User::class);
+  return	$this->belongsTo(User::class);
   }
 
   public function comment(){
-  	$this->belongsTo(comment::class);
+  	return $this->belongsTo(comment::class);
+  }
+
+  public function thread(){
+    return $this->belongsTo(thread::class);
   }
 }

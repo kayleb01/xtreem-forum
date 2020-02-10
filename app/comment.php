@@ -27,7 +27,7 @@ class comment extends Model
      *
      * @var array
      */
-    protected $with = ['user', 'thread'];
+    protected $with = ['user', 'thread', 'reply_children'];
 
     /**
      * The accessors to append to the model's array form.
@@ -83,11 +83,23 @@ class comment extends Model
     {
         return $this->belongsTo('App\thread', 'thread_id');
     }
-    //Files uploaded in comments
-    //
+    
+    /**
+     * 
+     * A reply has many attachments i.e pictures of whatever
+     *  @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * */
     public function attachment()
     {
         return $this->hasMany(attachment::class);
+    }
+    /**
+     * A reply has many children since we can't qoute in peace
+     *  @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function reply_children()
+    {
+      return $this->hasMany(ReplyChild::class);
     }
 
     /**

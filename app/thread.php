@@ -11,6 +11,7 @@ use App\subscription;
 use App\like;
 use Purify;
 use Illuminate\Support\Str;
+use App\Events\ThreadWasPublished;
 
 class thread extends Model
 {

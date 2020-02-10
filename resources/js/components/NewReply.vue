@@ -1,24 +1,23 @@
 <template>
-    <div class="py-6 ml-10 new-reply" >
+    <div class="new-reply" >
         <div v-if="! signedIn">
             <p class="text-center text-sm text-grey-dark">
                <login/>
                <register/>
             </p>
         </div>
-        
         <div v-else-if="! confirmed">
             To participate in this thread, please check your email and confirm your account.
         </div>
         <div v-else id="reply">
             <div class="mb-3">
-                <wysiwyg name="body" v-model="body" placeholder="Have something to say?" id="body" required>
+                <wysiwyg name="body" v-model="body" class="at" id="body" required>
                  
                 </wysiwyg>
             </div>
 
             <button type="submit"
-                    class="btn btn-secondary btn-block "
+                    class="btn btn-secondary btn-block rounded-pill"
                     @click="addReply">Post</button>
         </div>
     </div>
@@ -43,7 +42,7 @@ export default {
     },
 
     mounted() {
-        $("#body").atwho({
+         $("#body").atwho({
             at: "@",
             delay: 750,
             callbacks: {

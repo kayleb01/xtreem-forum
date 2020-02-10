@@ -11,14 +11,17 @@
 |
 */
 Auth::routes();
-/**
-** The routes for the front end
-*/
 
+Route::post('replyChild/{id}', 'ReplyChildController@store');
+Route::get('replychild/{id}', 'ReplyChildController@index');
+/**
+** The routes for comment report
+*/
+Route::post('{slug}/sendReport', 'ReportController@create');
 //Thread search
 Route::get('/xf/search', ['as' => '/xf/search', 'uses' => 'SearchController@show']);
 Route::get('/thread/{id}/edit', 'ThreadsController@edit');
-Route::post('/thread/{id}/edit', 'ThreadsCntroller@update'); 
+Route::post('/thread/{thread}/edit', 'ThreadsController@update'); 
 Route::get('/', 'ThreadsController@index')->name('/'); 
 Route::get('/home', 'ThreadsController@index')->name('home');
 

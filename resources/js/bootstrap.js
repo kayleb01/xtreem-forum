@@ -39,7 +39,8 @@ try {
     };
 
 Vue.prototype.signedIn = window.App.signedIn;
-Vue.prototype.user = window.App.user
+Vue.prototype.user = window.App.user;
+Vue.prototype.humanTime = timestamp => moment(timestamp).fromNow();
 window.axios = require('axios');
 
 /**
@@ -58,7 +59,7 @@ if (token) {
     );
 }
 
-Vue.prototype.humanTime = timestamp => moment(timestamp).fromNow();
+
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

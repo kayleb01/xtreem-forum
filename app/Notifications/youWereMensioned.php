@@ -13,7 +13,7 @@ class youWereMensioned extends Notification
     /**
      * @var \App\Reply or \App\Thread
      */
-    protected $subject;
+    protected $comment;
 
     /**
      * Create a new notification instance.

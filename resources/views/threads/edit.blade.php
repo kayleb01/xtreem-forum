@@ -12,13 +12,13 @@
                     </ol>  
                 </div>        
                         <div class="panel panel-body " style="padding: 5px">
-                            <form action="{{route('xf/store')}}" method="POST" class="form-horizontal" enctype="multipart/form-data">
+                            <form action="{{url('/thread/'.$thread->id.'/edit')}}" method="POST" class="form-horizontal" enctype="multipart/form-data">
                                <div class="col-sm-10">
                                     <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                                             <ul>
                                                 <li><h4 style="color: red">Rules</h4></li>
                                                 <li>Please do not spam</li>
-                                                <li>Fake information will be taken down</li>
+                                                <li>Fake information will be removed</li>
                                                 <li>Don't insult any member or Admin nor Mod</li>
                                                 <li></li>
                                             </ul><br>
@@ -42,6 +42,12 @@
                                                 <div class="col-sm-10">
                                                     <wysiwyg value="{{$thread->body}}" class="body" name="body">{{$thread->body}}
                                                     </wysiwyg><br>
+
+                                                @if($thread->attachment)
+                                                  @foreach( $thread->attachment as $attached)
+                                                    {{$attached->filename}}<br>
+                                                  @endforeach
+                                                @endif
                                                     <span>Image Upload -  Only Four files allowed, not more than 4mb</span>
                                                  <input type="file" name="file[]" id="file" class="form-control" multiple>
                                                   <br>

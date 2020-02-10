@@ -6,19 +6,33 @@ use App\User;
 use App\Event\ThreadRecievedNewReply;
 use App\Notifications\youWereMensioned;
 
-/**
- * 
- */
+ /**
+     * Handle the event.
+     *
+     * @param  mixed $event
+     * @return void
+     **/
 class NotifyMensions
 {
 	
 public function handle($event)
 	{
-		 User::whereIn('username', $event->comment->mentionedUsers())
-            ->get()
-            ->each(function ($user) use ($event) {
-                $user->notify(new youWereMensioned($event->comment));
-            });
+		tap($event->subject(), function ($subject) {
+            User::whereIn('username', $this->mentionedUsers($subject))
+                ->get()->each->notify(new youWereMensioned($subject));
+        });
 	}
+
+  /**
+     * Fetch all mentioned users within the reply's body.
+     *
+     * @return array
+     */
+    public function mentionedUsers($body)
+    {
+        preg_match_all('/@([\w\-]+)/', $body, $matches);
+
+        return $matches[1];
+    }
 
 }

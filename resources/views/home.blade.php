@@ -4,7 +4,7 @@
 
 <div class="card pt-1 ">
   <div class="container mt-1" v-on:click="toggle">
-    <span class="activea"><h4>FORUMS <a href="#" ><i class="fa fa-caret-down" style="color: #000"></i></a></h4></span>
+    <span class="activea"><h4 class="ml-2">FORUMS <a href="#" ><i class="fa fa-caret-down" style="color: #000"></i></a></h4></span>
   </div>
 </div>
 <div class="container">
@@ -18,7 +18,7 @@
                     @foreach($cater->forums as $forum)
                     {{$loop->first?'':''}}
                   <span class="focuz">
-                    <a href="/forum/{{$forum->slug}}" title="{{$forum->description}}" class="btn btn-outline-secondary rounded-full mb-1 btn-xtrm" style="">{!! $forum->name!!}</a> 
+                    <a href="/forum/{{$forum->slug}}" title="{{$forum->description}}" class="btn btn-outline-secondary rounded-pill mb-1 btn-xtrm" style="">{!! $forum->name!!}</a> 
                   </span>
                      @endforeach
               </td>
@@ -35,7 +35,6 @@
       <div class="tab nav-tabs mb-1">
       <button v-for="(tab, index) in tabs" :key="index" :class="{ active: selectedTab === tab}" id="tablinks"
     @click="selectedTab = tab"> @{{ tab }}</button>
-        
       </div>
       <div v-show="selectedTab == 'Featured'" class="shadow-sm">
           @if(isset($getFeatured))
@@ -45,7 +44,6 @@
                       <div class='heading pt-0' style='text-align: center;'> <a href='/register'>Register</a> and <a href='/login'>Login</a> to join our community</div>
                     @endif
             @endif
-
             <div class="forum_title">
                 <img class="image-circle" src="/storage/storage/img/{{$featured->user->avatar ? $featured->user->avatar : 'default.jpg'}}">
                 <div class="featured"> 
@@ -68,7 +66,6 @@
          @foreach($trending as $trend)
         <div class="forum_trend">
           <div class="featured">
-
            <a href="{{$trend->path}}">
              {{$trend->title}}
            </a>

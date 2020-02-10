@@ -1,7 +1,10 @@
 
                                       <subscribe-button :threads='@json($thread->id)' :active="{{ json_encode($thread->isSubscribedTo) }}" v-if="signedIn"></subscribe-button>
+                          
+                                      <div class="panel-heading rounded-top p-1">
+                                       {{($thread->title)}} 
+                                        
                           @if(Auth::check())
-                                      <div class="panel-heading rounded-top p-1">{{($thread->title)}}
                             @if(Auth::user()->role == 1 || Auth::user()->role == 2) 
                                         <div class="dropdown">
                                           <a href="#" class="dropdown-toggle text-light" id="dropdownMenuButton" data-toggle="dropdown" role="menu" aria-expanded="false" aria-haspopup="true"> <i class="fa fa-toggle-on"></i> </a>
@@ -26,11 +29,12 @@
                                       </div>
                               @endif
                             @endif
+                           
                             </div>
                             <div class="thread-use">
                              <table  style="margin-bottom: 0;border-radius: 0;">
                                   <tr>
-                                    <td>
+                                    <td style="max-width:350px;">
                                       <img src="/storage/storage/img/{{$thread->user->avatar? $thread->user->avatar : 'default.jpg'}}" class="image-circle responsive"><span><a href="/user/{{$thread->user->username}}" class="username">{{$thread->user->username}}</a> </span> &nbsp;&sdot;&nbsp; <span>{{$thread->created_at->toFormattedDateString()}}</span> <div class="timestamp" style="width: 400px">
                                         @if(Auth::check())
                                       @if(Auth::user()->role == 1 )
@@ -56,7 +60,7 @@
                               {!!$thread->body!!}
                               @if($thread->attachment)
                                         @foreach($thread->attachment as $attachment)
-                                        <img class="attachment" src="{{url('/storage/public/storage/img/')}}{{$attachment->name}}"/>
+                                        <img class="attachment" src="{{url('/storage/storage/img')}}/{{$attachment->name}}"/>
                                         @endforeach
                                       @endif     
                               <div class="lks">

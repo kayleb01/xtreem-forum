@@ -126,7 +126,7 @@ class ThreadsController extends Controller
         $user_id = Auth::user()->id;
         $thread = thread::create([
             'user_id'       => $user_id,
-            'cat_id' => request('category_id'),
+            'cat_id'        => request('category_id'),
             'forum_id'      => request('forum_id'),
             'slug'          => $slug,  
             'title'         => request('title'),
@@ -146,7 +146,7 @@ class ThreadsController extends Controller
                 $filenam        = pathinfo($fulname, PATHINFO_FILENAME);
                 $ext            = $image->getClientOriginalExtension();
                 $filename       = rand().time().'.'.$ext;
-                $Img            = $image->storeAs("/public/storage/img", $filename);
+                $Img            = $image->storeAs("/public/storage/img/", $filename);
                 $upload         = attachment::create([
                                                         'user_id'   => Auth::user()->id,
                                                         'thread_id' => $thread->id,
@@ -248,17 +248,17 @@ class ThreadsController extends Controller
      * @param string $channel
      * @param Thread $thread
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, thread $thread)
     {
        
-        $this->authorize('update', $thread);
+        //$this->authorize('update', $thread);
 
         $thread->update(request()->validate([
-            'title' => 'required|spamfree',
+            'title' => 'required',
             'body' => 'required'
         ]));
 
-        return $thread;
+        return redirect('/'.$thread->slug);
     }
 
 

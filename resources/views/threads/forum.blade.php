@@ -16,7 +16,7 @@
                  
                     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding: 0">
                         @foreach($threads as $thread)
-                    	<div class="panel-body bk" style="padding:6px; border: none;"><img class="image-circle" src="/storage/storage/img/{{$thread->user->image_url}}">
+                    	<div class="panel-body bk" style="padding:6px; border: none;"><img class="image-circle" src="/storage/storage/img/{{$thread->user->avatar}}">
                     			<span class="title">
                                     <!-- The thread section -->
                     				&nbsp;&nbsp;<a href="/{{$thread->slug}}">{{$thread->title}}</a>

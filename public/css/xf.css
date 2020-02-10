@@ -16,7 +16,9 @@ c3d2892a83
 1ae528e6eb
 
 */
-
+.replyChild-body{
+  margin-left: 30px;
+}
 .container{
   padding: 1px !important;
   
@@ -185,6 +187,7 @@ text-decoration: underline;
 }
 .timestamp{
   color:#036;
+  max-width: 300px;
 }
 .bk{
   margin-bottom: 5px;
@@ -213,6 +216,13 @@ text-decoration: underline;
 .image-circle{
   width: 45px;
   height:45px;
+  border-radius: 13px;
+  float:left; 
+  margin-right:7px;
+}
+.image-child{
+  width: 30px;
+  height:30px;
   border-radius: 13px;
   float:left; 
   margin-right:7px;

@@ -3,8 +3,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
-            <div class="card">
-                <div class="card-body">
+            <div class="">
+                <div class="">
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
@@ -18,8 +18,6 @@
                     </ol>
                    
                 </div> 
-                    <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12 panel panel-default"  style="padding: 5px">
-                       
                         <div class="panel panel-body " style="padding: 5px">
                             <form action="{{route('xf/store')}}" method="POST" class="form-horizontal" enctype="multipart/form-data">
                                <div class="col-sm-10">
@@ -27,13 +25,13 @@
                                             <ul>
                                                 <li><h4 style="color: red">Rules</h4></li>
                                                 <li>Please do not spam</li>
-                                                <li>Fake information will be taken down</li>
+                                                <li>Fake information will be removed</li>
                                                 <li>Don't insult any member or Admin nor Mod</li>
                                                 <li></li>
                                             </ul><br>
                                             <label class="col-sm-2 control-label" for="email">Title</label>
                                             <div class="col-sm-10">
-                                                <input  name="title" placeholder="Enter a Title" maxlength="150" class="form-control " type="text">
+                                                <input  name="title" placeholder="Enter a Title" maxlength="150" class=" rounded-pill form-control " type="text" required>
                                             </div>
                                              @if ($errors->has('title'))
                                                 <span class="help-block">
@@ -49,8 +47,8 @@
                                              @endif  
                                             <label class="col-sm-2 control-label" for="body">Body</label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="body textarea" name="body" maxlength="2000" rows="8" cols="90">
-                                                    </textarea><br>
+                                                    <wysiwyg class="body" name="body" maxlength="2000">
+                                                    </wysiwyg><br>
                                                     <span>Image Upload -  Only Four files allowed, not more than 4mb</span>
                                                  <input type="file" name="file[]" id="file" class="form-control" multiple>
                                                   <br>
@@ -61,22 +59,17 @@
                                                 {{csrf_field()}}
                                         </div>
                                         <div class="col-sm-10 col-sm-offset-2">
-                                            <button type="submit" class="f btn btn-primary">
+                                            <button type="submit" class=" mb-3 btn btn-secondary btn-block rounded-pill">
                                             Create
                                             </button><br>
-                                  
-
                                      </div> 
                                  </div>
-                                
                             </form>
                         </div>
-                        
-                    </div>
               </div>
             </div>          
-        </div>   
-         @include('threads._partials.widget')
+             @include('threads._partials.widget')
+        </div>  
     </div>              
 </div>        
 

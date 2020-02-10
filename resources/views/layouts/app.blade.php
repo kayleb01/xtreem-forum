@@ -14,9 +14,11 @@
 <link rel="icon" href="{{('flav.png')}}">
 <link href="{{url('css/font-awesome.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{url('css/xf.css')}}">
+<script src="{{url('js/Popper.js')}}" type="text/javascript"></script>
  <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
  <script src="{{url('js/jquery-2.2.3.js')}}" type="text/javascript"></script>
  <script src="{{url('js/bootstrap.min.js')}}" type="text/javascript"></script>
+
     <!-- Scripts -->
     <script>
         window.App = {!! json_encode([
@@ -28,6 +30,11 @@
     @yield('head')
 </head>
 <body class="xf-theme layout-top-nav">
+<noscript>
+      <div style="font-size: 18px;  line-height: 24px; margin: 10%; width: 80%;">
+        <p>We've detected that JavaScript is disabled in your browser, 80% of the content of this Site is powered by javascript. Please go to your browser's Settings and enable Javascript to enjoy the full functionality of this site.<br> Or Will you like to proceed without Enabling JavaScript? </p>
+      </div>
+  </noscript>
 <div id="app" class="flex flex-col min-h-full">
     <div class="wrapper">
          <nav class="navbar sticky-top navbar-expand-sm x-c">
@@ -81,12 +88,7 @@
         &copy; <?php echo date('Y')?> XtreemForum.com
     </div>
   </footer>
-
-
-<!-- Scripts -->
-    
  <script type="text/javascript" src="{{url('js/app.js')}}"></script> 
- 
  @yield('scripts')
 </body>
 </html>
