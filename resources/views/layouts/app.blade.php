@@ -8,14 +8,18 @@
 <title>{{$title ?? ''}}</title>
 <meta name="description" content="">
 <meta property="og:url" content="{{url('/home')}}">
+<meta name="descripion" content="Entertainment, Nigerian forum, sports, gist, celebrity news, politics, general forum">
 <meta name="author" content="Caleb Bala for Xtreem Technologies">
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="icon" href="{{('flav.png')}}">
 <link href="{{url('css/font-awesome.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{url('css/xf.css')}}">
+<link rel="stylesheet" href="{{url('css/app.css')}}">
+<link rel="stylesheet" href="{{url('css/core.css')}}">
+
 <script src="{{url('js/Popper.js')}}" type="text/javascript"></script>
- <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
+
  <script src="{{url('js/jquery-2.2.3.js')}}" type="text/javascript"></script>
  <script src="{{url('js/bootstrap.min.js')}}" type="text/javascript"></script>
 
@@ -29,13 +33,13 @@
     </script>
     @yield('head')
 </head>
-<body class="xf-theme layout-top-nav">
+<body class="xf-theme layout-top-nav" style="margin:0px !important;">
 <noscript>
       <div style="font-size: 18px;  line-height: 24px; margin: 10%; width: 80%;">
-        <p>We've detected that JavaScript is disabled in your browser, 80% of the content of this Site is powered by javascript. Please go to your browser's Settings and enable Javascript to enjoy the full functionality of this site.<br> Or Will you like to proceed without Enabling JavaScript? </p>
+        <p>We've detected that JavaScript is disabled in your browser, 80% of the content of this Site is powered by javascript. Please go to your browser's Settings and enable Javascript to enjoy the full functionality of this site. </p>
       </div>
   </noscript>
-<div id="app" class="flex flex-col min-h-full">
+<div id="app">
     <div class="wrapper">
          <nav class="navbar sticky-top navbar-expand-sm x-c">
             <a class="navbar-brand text-light" href="/">XtreemForum</a>
@@ -78,17 +82,13 @@
 
          
 
-        
+    <div class="page-footer p-3">
+        <div class="inner" style="text-align: center;">
+            &copy; <?php echo date('Y')?> XtreemForum.com
+        </div>
+    </div>
     </div>
    </div> <!-- end of ID-APP -->
-
-   
-<footer class=" page-footer  p-3">
-    <div class="inner" style="text-align: center;">
-        &copy; <?php echo date('Y')?> XtreemForum.com
-    </div>
-  </footer>
  <script type="text/javascript" src="{{url('js/app.js')}}"></script> 
- @yield('scripts')
 </body>
 </html>

@@ -3,14 +3,15 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-import FlashMessage from '@smartweb/vue-flash-message';
-import vmodal from 'vue-js-modal';
 require('./bootstrap');
+import FlashMessage from '@smartweb/vue-flash-message';
 
 
-window.Vue = require('vue');
+
+
+
 Vue.use(FlashMessage);
-Vue.use(vmodal);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -36,14 +37,18 @@ const app = new Vue({
 
     data ()	{
     	return {
+            profile:false,
     		active:false,
             tabs: ['Featured', 'Trending'],
+            tab:[ 'Threads', 'Comments'],
+            select: 'Threads',
             selectedTab: 'Featured',
              searching: false
     	};
     },
 
     methods: {
+
     	toggle () {
     		this.active = !this.active;
     	},
@@ -55,5 +60,7 @@ const app = new Vue({
             });
         },
     },
+
+    
 });
 

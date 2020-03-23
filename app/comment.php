@@ -27,14 +27,14 @@ class comment extends Model
      *
      * @var array
      */
-    protected $with = ['user', 'thread', 'reply_children'];
+    protected $with = ['user', 'thread', 'reply_children', 'attachment', 'like'];
 
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $appends = ['likesCount', 'isLiked',   'path'];
+    protected $appends = [ 'replyChild_count', 'isLiked', 'path'];
 
     /**
      * Boot the reply instance.
@@ -81,8 +81,10 @@ class comment extends Model
      */
     public function thread()
     {
-        return $this->belongsTo('App\thread', 'thread_id');
+        return $this->belongsTo(thread::class);
     }
+    
+
     
     /**
      * 
@@ -100,6 +102,11 @@ class comment extends Model
     public function reply_children()
     {
       return $this->hasMany(ReplyChild::class);
+    }
+
+    public function replyChild_count()
+    {
+        return $this->reply_children->count();
     }
 
     /**
@@ -140,6 +147,11 @@ class comment extends Model
     public function getPathAttribute()
     {
        return $this->path();
+    }
+
+    public function getReplyChildCountAttribute()
+    {
+      return $this->replyChild_count();
     }
 
     /**
@@ -183,9 +195,9 @@ class comment extends Model
 *
 *
 **/
-public function setUsernameAtrribute($username){
-        return ucwords($username);
-    }
+// public function setUsernameAtrribute($username){
+//         return ucwords($username);
+//     }
 
 
 }

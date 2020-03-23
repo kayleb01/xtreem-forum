@@ -9,7 +9,7 @@
             </h1>
         </div>
 
-        <form v-if="canUpdate" method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
             <image-upload name="avatar" class="mr-1" @loaded="onLoad"></image-upload>
         </form>
 
@@ -26,14 +26,12 @@
 
         data() {
             return {
-                avatar: this.user.avatar_path
+                avatar: this.user.avatar
             };
         },
 
         computed: {
-            canUpdate() {
-                return this.authorize(user => user.id === this.user.id);
-            },
+          
 
         },
 

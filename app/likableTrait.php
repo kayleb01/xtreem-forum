@@ -1,11 +1,23 @@
 <?php
 
-
 namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
 use Auth;
 use App\like;
 
 trait likableTrait{
+    /**
+     * Boot the trait.
+     */
+    protected static function bootFavoritable()
+    {
+        static::deleting(function ($model) {
+            $model->likess->each->delete();
+        });
+    }
+
 
  public function likeIt()	
  {
@@ -14,10 +26,12 @@ trait likableTrait{
  	$this->likess()->save($like);
  	return $like;
  }
-  public function unlikeIt($commentID)	
+
+public function unlikeIt($commentID)	
  {
  	$like = like::where('user_id', auth()->id())->where('likable_id', $commentID)->delete();
  }
+
 public function likess()
 {
 	return $this->morphMany(like::class, 'likable');
@@ -32,6 +46,7 @@ public function Commentliked($id)
 {
 	return $this->likess()->where('likable_id', $id)->get();
 }
+
 
 /**
      * Get the number of likes for the comment.
@@ -53,7 +68,6 @@ public function Commentliked($id)
     {
         return $this->isLiked();
     }
-
 
 }
 

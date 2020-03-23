@@ -3,9 +3,8 @@
                           
                                       <div class="panel-heading rounded-top p-1">
                                        {{($thread->title)}} 
-                                        
-                          @if(Auth::check())
-                            @if(Auth::user()->role == 1 || Auth::user()->role == 2) 
+                                        @if(Auth::check())
+                                          @if(Auth::user()->role == 1 || Auth::user()->role == 2) 
                                         <div class="dropdown">
                                           <a href="#" class="dropdown-toggle text-light" id="dropdownMenuButton" data-toggle="dropdown" role="menu" aria-expanded="false" aria-haspopup="true"> <i class="fa fa-toggle-on"></i> </a>
                                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -43,8 +42,7 @@
                                           <span class="caret"></span>
                                         </span>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                          <li><a href="#" data-toggle="modal" data-target="#deleteReply{{ $thread->id}}">Delete</a></li>
-                                          <li><a href="/moderation/{{$thread->user->id}}/ban">Ban User</a></li>
+                                          <li class="p-2"><a href="/moderation/{{$thread->user->id}}/ban">Ban User</a></li>
                                         </ul>
                                         @endif
                                       @endif

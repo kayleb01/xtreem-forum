@@ -1,23 +1,22 @@
 <template>
     <activity-layout>
-        <span slot="activity">
+        <span slot="activity">  
             added a&nbsp;<a class="mr-1 text-blue" :href="activity.subject.path"><strong>thread</strong></a>
             {{ humanTime(activity.subject.created_at) }} in:
         </span>
 
         <div slot="heading" class="text-xl font-semibold my-4">
-            <a class="text-blue font-bold mb-4" :href="activity.subject.path">"{{ activity.subject.title }}"</a>
+            <a class="text-blue font-bold mb-2" :href="activity.subject.path">"{{ activity.subject.title }}"</a>
 
-            <p class="text-2xs text-grey-darkest font-medium mb-4">
+            <p class="text-xs text-grey-darkest font-medium mb-1">
                 Posted By:
-                <a :href="activity.subject.creator.username" class="text-blue">
+                <a :href="'/user/' + activity.subject.creator.username" class="text-blue">
                     {{ activity.subject.creator.username }}
                 </a>
             </p>
         </div>
-
         <div slot="body">
-            <div class="text-grey-darkest leading-loose mb-4 max-h-24 overflow-hidden">
+            <div class="text-grey-darkest leading-loose mb-1 max-h-24 overflow-hidden">
                 <div class="ml-6 my-4 pl-4 border-l-2 border-grey-dark">
                     <highlight :content="activity.subject.body"/>
                 </div>
@@ -28,7 +27,7 @@
             </div>
         </div>
 
-        <div slot="badges" class="flex items-center mx-6 mb-6 text-sm">
+        <div slot="badges" class="flex items-center mx-3 mb-3 text-sm">
             <!-- Replies Count Badge -->
             <div v-if="activity.subject.replies_count > 0" class="text-grey-darker text-2xs font-semibold flex items-center mr-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="14" viewBox="0 0 19 14" class="mr-1">
@@ -45,7 +44,10 @@
 </template>
 
 <script>
+import highlight from "./Highlight.vue";
+
 export default {
+    components:{highlight},
     props: {
         activity: {
             required: true

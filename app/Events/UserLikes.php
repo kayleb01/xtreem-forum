@@ -4,13 +4,15 @@ namespace App\Events;
 
 use App\like;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+
 
 class UserLikes
 {
-    use SerializesModels;
-
+   use Dispatchable, SerializesModels, InteractsWithSockets;
     /**
-     * The thread that was published.
+     * A comment that was liked.
      *
      * @var \App\comment
      */
@@ -19,12 +21,12 @@ class UserLikes
     /**
      * Create a new event instance.
      *
-     * @param \App\Thread $comment
+     * @param \App\like $likes
      * @return void
      */
-    public function __construct(like $id)
+    public function __construct($like)
     {
-        $this->like = $id;
+        $this->like = $like;
     }
 
     /**

@@ -9,7 +9,7 @@
 </div>
 <div class="container">
   <div class="row"> 
-     <div v-show="active" style="display: none;"> 
+     <div v-show="active" style="display: none;" class="p-2"> 
         <table class="table vertical-align mb-1" cellspacing="5" style="color: #ccc;">
           @foreach($Categories ?? '' as $cater)
             <tr>
@@ -18,7 +18,7 @@
                     @foreach($cater->forums as $forum)
                     {{$loop->first?'':''}}
                   <span class="focuz">
-                    <a href="/forum/{{$forum->slug}}" title="{{$forum->description}}" class="btn btn-outline-secondary rounded-pill mb-1 btn-xtrm" style="">{!! $forum->name!!}</a> 
+                    <a href="/forum/{{$forum->slug}}" title="{{$forum->description}}" class="btn rounded-pill mb-1 btn-xtrm" style="border: 1px solid; ">{!! $forum->name!!}</a> 
                   </span>
                      @endforeach
               </td>
@@ -41,17 +41,23 @@
                 @foreach($getFeatured as $key => $featured)
                   @if(!Auth::check())  
                     @if($key++ % 9 == 1)
-                      <div class='heading pt-0' style='text-align: center;'> <a href='/register'>Register</a> and <a href='/login'>Login</a> to join our community</div>
+                      <div class='heading pt-0' style='text-align: center;'> 
+                          <a href="/register" target="_blank">
+                            <img src="storage/storage/img/advert.jpg" alt=""><br>
+                          </a>
+                     
+                      <a href='/register' class="text-blue">Register</a> and <a href='/login' class="text-blue">Login</a> to join our community</div>
                     @endif
             @endif
             <div class="forum_title">
+             
                 <img class="image-circle" src="/storage/storage/img/{{$featured->user->avatar ? $featured->user->avatar : 'default.jpg'}}">
                 <div class="featured"> 
                   @if ($featured->pinned)
                       <small class="font-weight-bold">Pinned:</small>  
                     @endif
                     <a href="/{{$featured->slug}}">{{$featured->title}} </a><br>
-                    <span class="c"><i class="fa fa-comment"></i>&nbsp;{{$featured->replies_count}} {{Str::plural('comment', $featured->replies_count)}}</span>&nbsp;&nbsp;<span class=" v mr-2 flex items-center text-grey-darker text-2xs font-semibold mr-4">
+                    <span class="c"><i class="fa fa-comment"></i>&nbsp;{{$featured->replies_count}} {{Str::plural('comment', $featured->replies_count)}}</span>&nbsp;<span class=" v mr-2 items-center text-grey-dark mr-2">&nbsp;
                     @include ('svgs.icons.eye')
                     {{ $featured->visits }} visits
                 </span><span class="tm">published {{$featured->created_at->diffForHumans()}}</span>

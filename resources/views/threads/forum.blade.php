@@ -2,12 +2,12 @@
 
 @section('content')
 
-<div class="container"><div class="jumbotron bg-dark mt-2" style="height: 108px !important;">
-                
+<div class="container">
+    <div class="jumbotron bg-img mt-2 text-light" style="height: 108px !important;">
                 {{$threads[0]->forum->name}}<br>
                 {{$threads[0]->forum->description}}
-                <a href="#" class="btn btn-primary float-right rounded-full">Follow</a>
-            </div>
+                <a href="#" class="btn btn-secondary float-right rounded">Follow</a>
+   </div>
     <div class="row">
         <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
             <a   class="btn btn-secondary rounded-full mb-2 text-light" style=" color: #fff;" href="/forum/{{$threads[0]->forum->id}}/create">

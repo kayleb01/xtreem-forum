@@ -1,20 +1,20 @@
 <template>
     <div :id="'comment-'+id" class="panel panel-body">
-        <div class="dropdown float-right mr-2" v-if="signedIn">
+        <div class="dropdown float-right" v-if="signedIn">
             <button class=" btn btn-flat dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton">
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                
                 <a href="#" class="btn btn-danger-xs btn-sm dropdown-item" @click="destroy" style="color:red !important;"  v-if="signedIn && reply.user.id == user.id || signedIn && user.role == 1"><i class="fa fa-trash"></i> Delete</a>
-                <a  class="dropdown-item" :href="'/moderation/'+ reply.user.id + '/ban'">Ban User</a>
+                <a  class="dropdown-item" :href="'/moderation/'+ reply.user.id + '/ban'" v-if="user.role === 1 || user.role === 2">Ban User</a>
             </div>
         </div>
-        <div class="flex" style="padding:5px;">
+        <div class="" style="padding:5px;">
             <div class="thread-user" style="margin-left:-63px; margin-top:-8px">
                 <table>
                     <tr>
                     <td>
-                    <img :src="'/storage/storage/img/' + reply.user.avatar"
+                    <img :src="'/storage/storage/img/'+reply.user.avatar"
                      :alt="reply.user.username"
                      width="36"
                      height="36"
@@ -29,7 +29,7 @@
                     </tr>
                 </table>
             </div>
-                <div class="mb-2 small">
+                <div class="mb-2">
                     <div v-if="editing">
                         <form @submit.prevent="update">
                             <div class="mb-4">
@@ -42,55 +42,70 @@
                         </form>
                     </div>
                     <div v-else>
-                        <highlight :content="body"></highlight>
+                        <highlight :content="body" class="panel-body"></highlight>
                             <div v-if="signedIn" class="text-xs pl-2" style="padding-top:3px">
-                                <div class="row justify-content-center">
-                                    <favorite :reply="reply"></favorite>
-                                        <a v-if="signedIn && reply.user.id == user.id || signedIn && user.role == 1"
+                                <div class="d-flex justify-content-center">
+                                    <favorite :comment="reply"></favorite>
+                                        <a v-if="reply.user.id == user.id || user.role == 1"
                                             href="#"
                                             @click.prevent="editing = true"
-                                            class="text-black text-xs link ml-4 pl-2 border-l"
+                                            class="text-black text-xs link  pl-2"
                                             >
                                                 <i class="fa fa-edit" title="Edit"></i>
                                         </a>
-                                        <a  @click="replyShow" class="ml-4 pl-3 bg-color-black" title="Reply" v-show="reply.reply_children != 5"> 
+                                        <a  @click="replyShow" class="ml-4 pl-3 bg-color-black" title="Reply" v-show="reply.replyChild_count < 5"> 
                                             <i class="fa fa-share-square"></i>
                                         </a>
-                                        <ReportModal :thread="reply.thread.id" :comment="reply.id"/>
-                                         
+                                        <ReportModal :thread="reply.thread.id" :comment="reply.id"/><br><br>
+                                         <div v-if="reply.attachment">
+                                            <span v-for="attachment in reply.attachment" :key="attachment.id">
+                                            <img :src="'/storage/public/storage/img/'+ attachment.name" class="attachment">    
+                                            </span>   
+                                         </div>
                                 </div>
                             </div>
-                            <div class="bg-gray p-2" v-if="reply.reply_children !=''">             
-                               <div class="panel-body">
-                                   <span><button type="button" @mouseover.once="getReply" class="text-sm btn btn-flat btn-block"  @click="childShow"><small>See more replies</small></button></span>
-                                   
-                                                <div v-for="replyChildren in items" :key="replyChildren.id" v-show="child" style="padding-bottom:5px;">
-                                                    <table  > 
-                                                        <tr>
-                                                            <td >
-                                                            <img :src="'/storage/storage/img/' + replyChildren.user.avatar"
-                                                            :alt="replyChildren.user.username"
-                                                            width="36"
-                                                            height="36"
-                                                            class="image-child responsive">
-                                                                <span class=" text-black">
-                                                                    <a class="font-weight-bold text-black "  :href="'/user/' + replyChildren.user.username" v-text="replyChildren.user.username"></a> &sdot;<span class="text-muted">{{replyChildren.created_at}}</span>
-                                                                </span><br/>
-                                                            <div class="replyChild-body ">
-                                                                {{replyChildren.body}}
-                                                            </div>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
+                            <div class="bg-gray p-1" v-if="reply.reply_children !=''">  
+                                <div class="panel-body">
+                                    <span>
+                                        <button type="button" @mouseover.once="getReply" class="text-sm btn btn-flat btn-block"  @click="childShow">
+                                            <small>See more replies</small>
+                                        </button>
+                                    </span>      
+                                    <div v-for="(replyChildren, indexes) in items" :key="replyChildren.id" v-show="child" style="padding-bottom:2px;" class="mb-1 chld">
+                                       <div @destroyed="destroy(indexes)" >  
+                                            <span v-if="signedIn && replyChildren.user.id === user.id ">
+                                                <a href="#" @click.prevent="childDestroy(replyChildren.id)">
+                                                    <i class="fa fa-trash float-right mr-2" style="color:red;"> </i>
+                                                </a>
+                                            </span> 
+                                                <table> 
+                                                    <tr>
+                                                        <td>
+                                                        <img :src="'/storage/storage/img/' + replyChildren.user.avatar"
+                                                        :alt="replyChildren.user.username"
+                                                        width="36"
+                                                        height="36"
+                                                        class="image-child responsive">
+                                                            <span class=" text-black">
+                                                                <a class="font-weight-bold text-black "  :href="'/user/' + replyChildren.user.username" v-text="replyChildren.user.username"></a> &sdot;<span class="text-muted">{{humanTime(replyChildren.created_at)}}</span>
+                                                            </span><br/>
+                                                        <div class="replyChild-body">
+                                                            {{replyChildren.body}}
+                                                            
+                                                        </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>    
                                             
-                               </div>
-                               
+                                        </div>
+                                     </div>
+                                </div>
                              </div> 
+                             <ReplyChild  :reply="reply.id" @created="add" v-show="replyClick"/>
                     </div>
                 </div>
             </div>
-            <ReplyChild v-show="replyClick" :reply="this.reply.id" @created="add"/>
+            
         </div>
 </template>
 
@@ -111,8 +126,7 @@ export default {
             id: this.reply.id,
             body: this.reply.body,
             replyClick:false,
-            child: false,
-            dataSet:""
+            child: false
             
         };
     },
@@ -147,7 +161,12 @@ export default {
                 message: 'Updated!'
                 });
         },
-
+        childDestroy(id){
+            axios
+                .delete("/replychildren/" + id);
+                this.$emit("destroyed", id); 
+                this.getReply();
+        },
         cancel() {
             this.editing = false;
 

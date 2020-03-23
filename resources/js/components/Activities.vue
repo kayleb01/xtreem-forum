@@ -1,19 +1,21 @@
 <template>
-    <div class="container panel-body">
+    <div>
         <div ref="timeline" class="mt-2">&nbsp;</div>
-        <div class="timeline relative w-full max-w-full border-l-4 border-grey-light">
+        <div class=" relative w-full max-w-full border-l-4 bg-light pr-2">
             <div v-for="activity in items" :key="activity.id">
                 <div class="entry">
-                   <activity-favorite :activity="activity" v-if="activity.type === 'created_Like'"/>
+                   
+                    <!-- <activity-favorite :activity="activity" v-if="activity.type === 'created_like'"/> -->
                     <activity-reply :activity="activity" v-if="activity.type === 'created_comment'"/>
                     <activity-thread :activity="activity" v-if="activity.type === 'created_thread'"/>
+
+                   
                 </div>
             </div>
         </div>
         <paginator class="list-reset py-2 mb-4" :data-set="dataSet" @changed="fetch"/>
     </div>
 </template>
-
 <script>
 export default {
     name: 'Activities',

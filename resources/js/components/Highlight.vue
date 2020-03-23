@@ -6,8 +6,7 @@
 
 <script>
     import Highlighter from 'highlight.js';
-    import 'highlight.js/styles/foundation.css';
-
+    
     export default {
         props: ['content'],
 

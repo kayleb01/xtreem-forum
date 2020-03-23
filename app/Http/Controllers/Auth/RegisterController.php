@@ -7,13 +7,16 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Trending;
-use App\NewThread;
-use Image;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Mail\PleaseConfirmYourEmail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\NewThread;
+use App\Trending;
 use App\Categories;
 use App\Feed;
+use Image;
+
 
 class RegisterController extends Controller
 {
@@ -56,7 +59,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:255', 'min:3','unique:users'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'sex'      => ['required'],
@@ -79,6 +82,7 @@ class RegisterController extends Controller
         if(!$data){
             return redirect('/');
         }
+        //dd($data['username']);
         //The forums for the Feed
        $feedData =  $data['categories'];
         //upload the avatar using Intervention
@@ -91,18 +95,19 @@ class RegisterController extends Controller
         });
         $avatar->save($path.time().$originalImage->getClientOriginalName());
         //then save the data
-        $userCreate =  User::forceCreate([
-            'username'  => $data['username'],
+         $userCreate =   User::Create([
             'email'     => $data['email'],
             'location'  => $data['location'],
             'dob'       => $data['birthyear'].'-'.$data['birthmonth'].'-'.$data['birthday'],
             'sex'       => $data['sex'],
             'avatar'    => time().$originalImage->getClientOriginalName(),
             'role'      => 3,     
-            'password'  => bcrypt($data['password']),
-            'confirmation_token' => str_limit(md5($data['email'].str_random()), 25, ''),
+            'password'  => Hash::make($data['password']),
+            'confirmation_token' => Str::limit(Hash::make($data['email'].Str::random()), 25, ''),
+            'username'  => $data['username']
 
         ]);
+
         if ($userCreate) {
             foreach ($feedData as $key => $value) {
                $feed = Feed::create([

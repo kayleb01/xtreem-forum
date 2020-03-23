@@ -15893,14 +15893,6 @@ a.link:hover {
   text-decoration: underline;
 }
 
-input {
-  border-color: #dae1e7;
-}
-
-pre {
-  white-space: pre-wrap;
-}
-
 [v-cloak] {
   display: none;
 }
@@ -15908,10 +15900,6 @@ pre {
 .ais-highlight > em {
   font-weight: bold;
   color: #22292f;
-}
-
-[v-cloak] {
-  display: none;
 }
 
 @media (min-width: 576px) {

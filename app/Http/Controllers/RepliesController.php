@@ -111,7 +111,7 @@ class RepliesController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(comment $id)
-    {
+    {   //for readability
         $comment =  $id;
         //$this->authorize('update', $comment);
         $comment->delete();

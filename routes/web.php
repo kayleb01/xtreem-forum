@@ -14,6 +14,7 @@ Auth::routes();
 
 Route::post('replyChild/{id}', 'ReplyChildController@store');
 Route::get('replychild/{id}', 'ReplyChildController@index');
+Route::delete('replychildren/{id}', 'ReplyChildController@destroy');
 /**
 ** The routes for comment report
 */
@@ -121,5 +122,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('api/users', 'Api\UsersController@index')->name('api.users');
 Route::get('api/channels', 'Api\ChannelsController@index');
 
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

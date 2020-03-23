@@ -13,7 +13,7 @@
                 @endif
                </li>
             </ol>
-            <div class="">
+            <div>
                 @include ('threads.thread')
                 <replies @added="repliesCount++" @removed="repliesCount--"></replies>
             </div>

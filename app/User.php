@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 //use Cog\laravel\Ban\Traits\Bannable;
 //use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class User extends Authenticatable 
 {
@@ -22,22 +21,17 @@ class User extends Authenticatable
     const MODERATOR = 2;
     const USER = 3;
 
-    public function shouldApplyBannedAtScope()
+    
+protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'];
 
-    {
+//protected $dateFormat = 'U';
 
-        return true;
-
-    }
-protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at'];
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'username', 'email', 'password', 'sex', 'location', 'dob'
-    ];
+    protected $fillable = ['email', 'password', 'sex', 'location', 'dob', 'role', 'avatar', 'username', 'confirmation_token'];
 
     /**
      * The attributes that should be cast to native types.
@@ -48,21 +42,30 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at'];
         'confirmed' => 'boolean'
     ];
 
+public function username()
+    {
+        return $this->username;
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'email'
+        'password', 'remember_token'
     ];
     
-    #Relationships
-   
-
+    /**
+     *  The attributes that should be used for eager loading 
+     */
+    
+//protected   $with = ['comment', 'thread'];
+    
+#Relationships
     public function comment()
     {
-        $this->hasMany(comment::class);
+        return $this->hasMany(comment::class, 'user_id');
     }
 
      public function attachment()
@@ -132,7 +135,7 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at'];
         return sprintf("users.%s.visits.%s", $this->id, $thread->id);
     }
 
-    public function setUsernameAttribute($username){
-        return ucwords($username);
-    }
+    // public function setUsernameAttribute($username){
+    //     return ucwords($username);
+    // }
 }

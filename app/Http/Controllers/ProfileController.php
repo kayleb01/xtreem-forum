@@ -11,10 +11,11 @@ use App\NewThread;
 use App\Trending;
 use Image;
 use Activity;
+use App\comment;
 
 class ProfileController extends Controller
 {
-	protected $fillable =['email', 'location', 'dob', 'sex', 'image_url', 'website'];
+	protected $fillable =['username', 'email', 'location', 'dob', 'sex', 'avatar', 'website'];
 
    /**
      * Fetch the user's activity feed.
@@ -50,18 +51,20 @@ class ProfileController extends Controller
    	//$role = User::find(1)->role;
    	$data = user::where('username', $user)->get();
     foreach ($data as $user_data) {
-      $threads    = thread::where('user_id', $user_data->id)->paginate(20);
+      $threads   = thread::where('user_id', $user_data->id)->orderBy('created_at', 'DESC')->paginate(30);
+      $comments  = comment::where('user_id', $user_data->id)->orderBy('created_at', 'DESC')->paginate(30);
       $newThread = $new_Thread->get();
       $trending  = $trending->get();
       $title     = 'XtreemForum - '.$user_data->username.'\'s Profile';
-     return view('frontend.profile', compact('user_data', 'newThread', 'title', 'trending', 'threads'));
+     return view('frontend.profile', compact('user_data', 'newThread', 'title', 'trending', 'threads', 'comments'));
     }
    
    }
 
    public function edit($user){
       $user = User::where('username', $user)->first();
-   	return view('frontend.editProfile', compact('user'));
+      $title = "Update User Profile";
+   	return view('frontend.editProfile', compact('user', 'title'));
    }
 
    public function img(Request $request){

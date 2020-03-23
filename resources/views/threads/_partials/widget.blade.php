@@ -5,7 +5,7 @@
               <div class="panel-body  align-item-center">
                 <center class="align-items-center">
                     
-                      <ul class="list-group widget2 justify"><img src="/storage/storage/img/{{Auth::user()->avatar}}" class="image-circle">
+                      <ul class="list-group widget2 justify"><img src="/storage/storage/img/{{Auth::user()->avatar? Auth::user()->avatar : 'default.jpg'}}" class="image-circle">
                         <li class="list-group-item"><a class="" href="{{url('/user/'.Auth::user()->username.'/edit')}}">Edit Profile</a></li>
                         <li class="list-group-item"><a href="/user/{{Auth::user()->username}}" class="">View Profile</a></li>
                         <li class="list-group-item"><a href="{{url('/user/threads/'.Auth::user()->username.'')}}">Threads</a></li>

@@ -1,6 +1,7 @@
 <template>
-<div>
-    <div class="p-2 " >
+<div>     
+    
+    <div class="p-2">
         <form @submit.prevent="sendChild" method="post">
         <div class="input-group">
             <textarea name="replyChild" v-model="ChildReply" maxlength="250" class="form-control form-control-sm bg-gray rounded-left"  placeholder="Quick Reply" rows="1"></textarea>
@@ -15,38 +16,58 @@
 
 <script>
  import activation from '../mixins/activation';
+ import collection from "../mixins/collection";
 export default {
-     mixins: [ activation ],
-     props:["reply"],
+    mixins: [ activation ],
+    mixins: [collection],
+    props:["reply"],
 
 
     data(){
         return{
-            ChildReply:""
+            replyClick:false,
+            ChildReply:"",
+          
         };
     },
-    computed:{
-           endpoint(){
-               return ``;
-               
-           }
-       },
+   
     methods:{
+       childShow(){
+            this.child = !this.child;
+        },
+       
+
        sendChild(){
-           axios
+           if(this.ChildReply ==""){
+            this.flashMessage.error({message:"Oops! Reply field is empty!"})
+           }else{
+               axios
             .post("/replyChild/"+this.reply, { replyChild:this.ChildReply})
             .catch(error => this.flashMessage.error({error: "Reply not sent, an error occured!" }))
             .then(({data}) => {
                 this.ChildReply = "";
                 
                  this.flashMessage.success({
-                        message: "Your reply sent!"
+                        message: "Reply sent!"
                         });
 
                     this.$emit("created", data);
 
             })
+           }
+           
        },
+       
+        childDestroy(){
+            axios
+                .delete("/replychildren/" + this.replyChildren.id)
+                .catch(error =>
+                    this.flashMessage.error({message:error})
+                );
+                this.$emit("deleted", this.reply.id);
+                
+              
+        }
        
     }
 }

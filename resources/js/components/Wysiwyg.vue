@@ -1,12 +1,13 @@
 <template>
     <div>
-        <input id="trix" type="hidden" :name="name" :value="value">
+        <input id="trix" type="hidden" :name="name" :value="value" required>
 
         <trix-editor
                 ref="trix"
                 input="trix"
                 @trix-change="change"
-                :placeholder="placeholder">
+                :placeholder="placeholder"
+                required>
         </trix-editor>
     </div>
 </template>

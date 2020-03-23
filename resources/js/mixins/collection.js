@@ -16,6 +16,11 @@ export default {
             this.items.splice(index, 1);
 
             this.$emit('removed');
+        },
+        destroy(indexes) {
+            this.items.splice(indexes, 1);
+
+            this.$emit('destroyed');
         }
     }
 }

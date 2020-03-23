@@ -1,9 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mb-8">
-        <avatar-form :user="{{ $profileUser }}"></avatar-form>
-    </div>
-
-    <activities :user="{{ $profileUser }}"></activities>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+			 <activities :user="{{ $profileUser }}"></activities>
+		</div>
+			@include('threads._partials.widget')
+	</div>
+	
+</div>
+   
 @endsection

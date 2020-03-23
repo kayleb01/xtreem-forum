@@ -1,23 +1,52 @@
 /*
  * Skin: Navy blue
  ***** Caleb Bala customized for xtreemforum ****
- * ---------
+ * 
  */
-/*.row{padding: -20px;margin:0;}
-b09ca1968e
-ef239d1b42
-8c806341eb
-c23017d08e
-4e6757ff6f
-67e6eb017e
-974e5d31bd
-c3d2892a83
-775699e8e5
-1ae528e6eb
 
-*/
+ .btn-primary{
+  background-color:#F90 !important;
+  border-color: cadetblue;
+}
+.bg-img
+{
+    background-image: url("/storage/storage/img/bg.gif");
+}
+
+.header{
+    margin-left:20%;
+    
+}
+
+.user-details{
+    margin-top: 175px;
+    padding: 5px;
+}
+
+.user-image{
+  position: absolute;
+  width: 180px;
+  height:185px;
+  border-radius: 20px;
+  border: 4px solid #fff;
+  display: block;
+}
+.u-p{
+  background-color: none !important;
+}
+
+.user-profile{
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  background-color: #ccc;
+}
+.chld:hover{
+background-color:#edeff1;
+}
 .replyChild-body{
-  margin-left: 30px;
+  margin-left: 35px;
+  display: block;
 }
 .container{
   padding: 1px !important;
@@ -41,9 +70,7 @@ a{
 li{
   list-style: none; 
 }
-/*.wrapper{
-  background-image: url("/storage/storage/img/bg.png");
-}*/
+
 .x-c{
   background-color: #034;
   color:#fff;
@@ -51,23 +78,23 @@ li{
 .x-l a{
   color: #fff;
 }
-/*.wrapper{
-  background-image: url("/storage/storage/img/bg.png");
-}*/
 .bord{
   border-bottom: 1px #ccc;
 }
-.btn-xtrm{
-  border-radius: 20px;
-  border-color: #034;
-  border-color: 1px solid;
+btn-xtrm{
+  border-color: #034 !important;
+  border: 2px solid !important;
   margin:1px;
+  color:#333 ;
 }
- a:hover{
-   color: #fff;
+a.btn-xtrm{
+  color:#000000;
+}
+ a.btn-xtrm:hover{
+   color: #fff !important;
 }
 .btn-xtrm:hover{
-background-color: #034;
+background-color: #034 !important;
 
 }
 .focuz .btn-xtrm:hover{
@@ -90,13 +117,6 @@ background-color: #666;
   padding-bottom: 0px;
   padding:0px;
 }
-/*.dropdown-menu:before{
-  position: absolute;
-  top: -20px;
-  right: 12px;
-  border: 10px solid #fff;
-  border-color: transparent transparent #3A3A40 transparent;
-}*/
 .head{
   padding:5px 15px;
   border-radius: 3px 3px 0px 0px;
@@ -143,7 +163,6 @@ img.icon{
   width: auto;
 }
 html { -webkit-text-size-adjust: 100%; line-height:1.5}
-div.conntainer{max-width:1024px; margin: 0px auto; margin-top: 0px; width:100%; font-size: 10pt; font-family:Verdana, Geneva, sans-serif;}
 ul.pagination{
   margin-top: 5px;
 } 
@@ -301,7 +320,7 @@ div.tab button{
  div.tab button:hover{
   background-color:#E7F1F1;
  }
- button.active{
+ button [active]{
    border-bottom:solid;
    border-bottom-color:#034;
    background-color:#FAFAFA;
@@ -543,6 +562,17 @@ img.img { padding:0; margin:3;max-width: 100%;}
   .point-replies{
     margin-left: 0px !important;
   }
+  .user-image{
+    width: 150px;
+    height:150px;
+    border-radius: 10px;
+    border: 4px solid rgb(202, 140, 140);
+  
+  }
+  .user-details{
+    margin-top: 150px;
+    padding: 5px;
+  }
 }
 .xf-theme .main-header .logo {
   background-color: #034;
@@ -657,15 +687,17 @@ img.img { padding:0; margin:3;max-width: 100%;}
     border-left: 1px solid #d2d6de;
   }
   
+  
 }
 @media(max-width:400px){
   .panel .panel-body{
-  font-size: 0.5em;
+  font-size:75%;
 }
 .image-circle{
   width:35px;height: 35px;
   }
- 
+  
+  
 }
 .panel-heading{
 
@@ -697,7 +729,7 @@ font-weight: bold;background-color: #034; color: #fff;
   background-color:#ffffff;
   padding:0;
   margin-bottom: 0.5em;
-  font-size: 1.0em;
+  
 }
 
 .navbar-around .navbar-form {
@@ -706,4 +738,3 @@ font-weight: bold;background-color: #034; color: #fff;
     padding:0;
     margin-left:0;
 }
-

@@ -2,11 +2,11 @@
     <activity-layout>
         <span slot="activity">
             favorited a <a class="text-blue" :href="activity.likedModel.path"><strong>reply </strong></a>
-            {{ humanTime(activity.likedModel.created_at) }} in:
+            {{ (activity.likedModel.created_at) }} in:
         </span>
 
         <div slot="heading" class="text-xl font-semibold my-4">
-            <a class="text-blue font-bold mb-4" :href="activity.favoritedModel.path">"{{ activity.likedModel.thread.title }}"</a>
+            <a class="text-blue font-bold mb-4" :href="activity.likedModel.path">"{{ activity.likedModel.thread.title }}"</a>
 
             <p class="text-2xs text-grey-darkest font-medium mb-4">
                 Posted By: <a :href="activity.likedModel.thread.creator.username" class="text-blue">{{

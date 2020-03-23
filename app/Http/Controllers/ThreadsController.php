@@ -90,7 +90,7 @@ class ThreadsController extends Controller
      */
    public function store(Request $request, NewThread $NewThread)
     {
-        if(Auth::user()->confirmed !=1){
+        if(Auth::user()->confirmed != 1){
             Redirect()->back()->with('error', 'Your have not verified your account, you cannot post, please verify account email');
         }
         $request->validate([
@@ -179,8 +179,6 @@ class ThreadsController extends Controller
         
         //get all comments for this thread
        $threads  = thread::where('slug', '=', $slug)->get();
-       $threads->toArray();
-       $threads->toJson();
         // if (auth()->check()) {
         //    auth()->user()->read($threads);
         //      } 
@@ -189,8 +187,6 @@ class ThreadsController extends Controller
        //   dd(json_encode($thread));
         $newThread = $NewThread->get();
         $thread->increment('visits');
-        $thread->toArray();
-        $thread->toJson();
         $trending->push($thread);
         $comment = comment::where('thread_id', '=', $thread->id)->paginate(20);
         $title = $thread->title;
@@ -222,8 +218,9 @@ class ThreadsController extends Controller
         else
         {
 
-            $forum = Forum::where('slug', '=', $slug)->paginate(20);
-            $forum_ID = $forum[0]->id;
+            $forum = Forum::where('slug', '=', $slug)->first();
+            
+            $forum_ID = $forum->id;
              $newThread = $NewThread->get();
             //Get all the posts from the forum
             $threads = Thread::with('category')->where('forum_id', $forum_ID)
@@ -272,7 +269,7 @@ class ThreadsController extends Controller
      */
     public function destroy(thread $id)
     {
-       if(Auth::user()->role == 1 ||Auth::user()->role == 2 )
+       if(Auth::user()->role == 1 || Auth::user()->role == 2 )
         {//$this->authorize('update', $thread);
         $thread = $id;
         $thread->delete();

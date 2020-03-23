@@ -28,14 +28,6 @@ a {
     }
 }
 
-input {
-    @apply .border-grey-light;
-}
-
-pre {
-    @apply .whitespace-pre-wrap;
-}
-
 [v-cloak] {
     display: none;
 }
@@ -43,9 +35,4 @@ pre {
 .ais-highlight > em {
     font-weight: bold;
     @apply .text-black;
-}
-
-
-[v-cloak] {
-    display: none;
 }

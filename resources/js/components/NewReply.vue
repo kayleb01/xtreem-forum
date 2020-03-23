@@ -59,7 +59,10 @@ export default {
 
     methods: {
         addReply() {
-            axios
+            if(this.body == ""){
+                this.flashMessage.error({message:"Your reply cannot be empty"});
+            }else{
+                axios
                 .post(location.pathname + "/create", { body: this.body })
                 .catch(error => {
                     this.flashMessage.error({
@@ -75,6 +78,8 @@ export default {
 
                     this.$emit("created", data);
                 });
+            }
+            
         }
     }
 };

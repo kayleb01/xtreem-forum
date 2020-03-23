@@ -3,77 +3,65 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-6 col-sm">
-            <div class=""><br>
-                <div style="text-align: center; margin-top: 20px;"><h3> {{ __('Register') }}</h3></div>
-                    <div >
-                        <div class="" >
-                                <form method="POST" action="{{ route('register') }}" aria-label="{{ __('Register') }}" style="padding: 20px;" enctype="multipart/form-data">
-                                        @csrf
-                                    <div class="form-group ">
-                                        <div class="">
-                                            <input id="username" type="text" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" placeholder="Username" required autofocus placeholder="Username" style="border-radius: 15px;">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Register') }}</div> 
 
-                                            @if ($errors->has('username'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('username') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group ">
-                                        <div class="">
-                                            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="something@eMail.com" required placeholder="E-mail" style="border-radius: 15px;">
-                                            <span><i class="fa fa-exclamation-circle alert-warning"></i> Will require Email verification</span>
+                <div class="card-body">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                        @csrf
 
-                                            @if ($errors->has('email'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('email') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group ">
+                        <div class="form-group ">
+                            <label for="username" class=" col-form-label text-md-right">{{ __('Username') }}</label>
+                            <div class="">
+                                <input id="username" type="text" class="form-control rounded-pill @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus placeholder="Username">
+
+                                @error('username')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="email" class=" col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                            <div class="">
+                                <input id="email" type="email" class="form-control rounded-pill @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                         <div class="form-group ">
                                        
                                         <div class="">
-                                            <select id="sex" class="form-control{{ $errors->has('sex') ? ' is-invalid' : '' }}" name="sex" value="{{ old('sex') }}" requiredh  placeholder="Sex" style="border-radius: 15px;">
+                                            <select id="sex" class="form-control @error('sex') is-invalid @enderror " name="sex" value="{{ old('sex') }}" required placeholder="Sex" style="border-radius: 15px;">
                                                 <option value="">Sex...</option>
                                                 <option value="Female">Female</option>
                                                 <option value="Male">Male</option>
                                             </select>
-                                            @if ($errors->has('sex'))
+                                            @error('sex'))
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('sex') }}</strong>
+                                                    <strong>{{ $message }}</strong>
                                                 </span>
-                                            @endif
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="form-group ">
                                        
                                         <div class="">
-                                            <input id="location" type="text" class="form-control{{ $errors->has('location') ? ' is-invalid' : '' }}" name="location" value="{{ old('location') }}" placeholder="Your Location" required placeholder="Location" style="border-radius: 15px;">
+                                            <input id="location" type="text" class="form-control @error('location')  is-invalid @enderror" name="location" value="{{ old('location') }}" placeholder="Your Location" required placeholder="Location" style="border-radius: 15px;">
 
-                                            @if ($errors->has('location'))
+                                            @error('location')
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('location') }}</strong>
+                                                    <strong>{{ $message }}</strong>
                                                 </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group ">
-                                        <div class="">
-                                            <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Password|min:8 characters" name="password" style="border-radius: 15px;" required>
-
-                                            @if ($errors->has('password'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('password') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="">
-                                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Retype password" style="border-radius: 15px;" required>
+                                            @enderror
                                         </div>
                                     </div>
                                      <div class="form-group ">
@@ -253,7 +241,28 @@
                                         </select>
                                         </div>
                                     </div>
-                                    <div class="form-group row col-lg-12 col-md-9">
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+                        <div class="form-group row col-lg-12 col-md-9">
                                         <label for="categories" class="col-md-4 col-form-label text-md-right">{{ __('Categories of interest -  please pick categories for your feed') }}</label>
                                         <div class="col-md-6">
                                            <select id="selected" name="categories[]" class="form-control selected" multiple="multiple" style="border-radius: 15px;">
@@ -265,34 +274,33 @@
                                             @endforeach
                                             </select>
                                         </div>
-                                            @if ($errors->has('categories'))
+                                            @error('categories')
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('categories') }}</strong>
+                                                    <strong>{{ $message }}</strong>
                                                 </span>
-                                            @endif
+                                            @enderror
                                     </div>
                                         <div class="form-group ">
                                         <label for="avatar" class="col-md-4 col-form-label text-md-right">{{ __('Upload Avatar') }}</label>
 
                                         <div class="">
-                                            <input type="file" class="form-control" name="avatar" style="border-radius: 15px;">
+                                            <input type="file" class="form-control @error('avatar') is-invalid @enderror" name="avatar" style="border-radius: 15px;">
                                         </div>
-                                        @if ($errors->has('avatar'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('avatar') }}</strong>
-                                                </span>
-                                            @endif
+                                        @error('avatar')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    <div class="form-group  mb-6">
-                                        <div class="">
-                                            <button type="submit" class="btn btn-secondary btn-xtrm btn-block">
-                                                {{ __('Register') }}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>      
+                        <div class="form-group row mb-0">
+                            <div class="col-md-12 offset-md-0">
+                                <button type="submit" class="btn btn-secondary btn-block rounded-pill">
+                                    {{ __('Register') }}
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

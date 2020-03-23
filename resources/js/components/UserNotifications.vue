@@ -3,7 +3,7 @@
         <li class="nav-item dropdown">
             <a href="#" class=" nav-link text-light dropdown-toggle" data-toggle="dropdown" id="dropdownNotification" aria-expanded="false" aria-haspopup="true">
                 <i class="fa fa-bell fa-x4 "></i>
-                <span class="badge badge-success" v-if="notifications.length > 0">
+                <span class="badge badge-danger" v-if="notifications.length > 0">
                   {{notifications.length}}
                 </span>
             </a>
@@ -21,7 +21,7 @@
                                 <span v-text="notification.data.message"></span>
                             </a>
                         </small>
-                    <span v-if="! notifications.length" class="small">You have zero notifications.</span>
+                    <span v-if="! notifications.length" class="small">You have no notification at the moment.</span>
                 </div>
             </div>
         </li>

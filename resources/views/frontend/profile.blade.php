@@ -1,50 +1,81 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <div class="row">
-        <ol class="breadcrumb">
-            <li><a href="/">Home</a></li>
-            <li>{{($user_data->username)}} &sdot;</li>
-        </ol>
-      <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12"><br>
-       
-        <div class="panel user-data-widget"> <br>
-          <img src="/storage/storage/img/{{$user_data->avatar?$user_data->avatar:'default.png'}}" class="profile-image" style="margin-left:80px; padding:0px;"><br><br><br><br><br>
-          <ul class="list-group widget2">
-            <li style="color: #000" class="list-group-item">Username: {{ucwords($user_data->username)}}</li>
-            <li style="color: #000" class="list-group-item">Joined:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$user_data->created_at->diffForHumans()}}</li>
-            <li class="list-group-item"><a href="#"> {{ucwords($user_data->username)}}'s Threads</a></li>
-            <li class="list-group-item"><a href="#"> {{ucwords($user_data->username)}}'s Comments</a></li>
-            <li class="list-group-item"><a href="/profiles/{{$user_data->username}}/activity"> {{ucwords($user_data->username)}}'s Profile</a></li>
-          </ul>
+  <div class="row ">
+        <div class="col-md-12 col-xs-12 col-lg-12 bg-img">
+
+        <div class=" mt-2">
+            <img src="/storage/storage/img/{{$user_data->avatar}}" class="user-image img-fluid" /> 
         </div>
-      </div>
-        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-            {!!$threads->links()!!}
-            @if($threads->count() > 0)
-                @foreach($threads as $thread)
-                      <div class="panel-body" style="padding:6px; border: none;">
-                          <span class="title">
-                                    <!-- The thread section -->
-                            &nbsp;&nbsp;<a href="/xf/{{$thread->slug}}"  style="padding-left: 0px !important">{{$thread->title}}</a>
-                          </span>
-                            <span class="details">
-                                        <!-- Print out the User details -->
-                                     <span class="tm"><i class="fa fa-comment"></i>&nbsp;{{$thread->replies_count}} {{Str::plural('comment', $thread->replies_count)}}</span>&nbsp;&nbsp;<span class="v">&nbsp;{{$thread->visits}} {{Str::plural('view', $thread->visits)}}</span>&nbsp;&nbsp;<span class="tm">published on {{$thread->created_at->diffForHumans()}}</span>                      
-                            </span>
+            <div class="user-details">
+              <div class="mt-3 text-light">
+                <span class="float-right mt-2 headeru" >
+                  @if(Auth::check() && $user_data->username === Auth::user()->username)
+                    <button class="btn btn-primary rounded-pill">Edit Profile</button> 
+                  @else
+                    <button class="btn btn-primary  rounded">Follow</button> 
+                  @endif
+                </span>
+                    <h1 class="heading">{{$user_data->username}}</h1>
+                    @if($user_data->role === 1)
+                      <h6>Admin</h6>
+                    @elseif($user_data->role === 2)
+                      <h6>Moderator</h6>
+                    @else
+                    <h6>Member</h6>
+                    @endif
+                  <div class=" d-flex">
+                    <span>
+                        <i class="fa fa-clock-o"></i> Joined  {{$user_data->created_at->diffForHumans()}} &nbsp;
+                        @if($user_data->dob)
+                          <i class="fa fa-calendar-o"></i> {{ date($user_data->dob->format('d m') )}} &nbsp;
+                        @endif
+                        <i class="fa fa-map-marker"> </i> {{$user_data->location}}</span>&nbsp;
+
+                  </div>
+                        @if($user_data->bio)
+                        <div style="width: 70%;">
+                        <span>{{$user_data->bio}}</span>
+                          
                         </div>
-                 @endforeach
-                 {!!$threads->links()!!}
-                      </div>
-             
-        @else
-        
-          <span class="lead">No Activity Recorded yet</span>
+                        @endif
+                  
+                  
+            </div>
+          </div>
+   
+          
+           </div>
+            
+            <div class="tab nav-tabs">
+            <button v-for="(tabs, index) in tab" :key="index" :class="{active: select === tabs}" id="tablinks"
+    @click="select = tabs"> @{{ tabs }}</button>
+              <!-- <button id="tablinks"> Comments  </button>
+              <button id="tablinks">Threads <span class="badge badge-dark">{{$user_data->thread->count()}}</span></button> -->
+            </div>  
+            
         </div>
-        @endif
-        <!-- widget -->
-        @include('threads._partials.widget')
-        </div> <!-- End Row  --> 
-</div> 
+        <div class="panel" v-show="select == 'Threads'">
+          @if($threads)
+            @foreach($threads as $thread)
+              <span class="card card-body mb-1 font-weight-bold"><a href="/{{$thread->slug}}">{{$thread->title}}</a>
+               <span class="text-muted small"> Published {{$thread->created_at->diffForHumans()}} &nbsp;&nbsp;&nbsp;{{$thread->replies_count}} replies</span>
+              </span>
+            @endforeach
+             <span>{{$threads->links()}}</span>
+          @else
+            <h4>No Activity yet!</h4>
+          @endif
+        </div>
+        <div class="panel" v-show="select === 'Comments'">
+              <span class="card card-body mb-1">
+             
+            <h4>No Activity yet!</h4>
+        </div>
+    </div>   
+    
 </div>
+        
+         
+  
 @endsection

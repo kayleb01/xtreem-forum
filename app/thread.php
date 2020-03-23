@@ -21,6 +21,7 @@ class thread extends Model
 //**Don't apply mass assignment protection    
 protected $guarded = [];
 protected $with = ['user', 'category', 'creator'];
+protected $appends = ['path'];
 
  /**
      * The attributes that should be cast to native types.
@@ -160,6 +161,11 @@ public function getRouteNameKey()
 	return 'slug';
 }
 
+public function getPathAttribute()
+{
+   return $this->path();
+}
+
 // public function getBodyAttribute($body)
 // {
 // 	return \Purify::clean(nl2br($body));
@@ -173,14 +179,14 @@ public function setSlugAttribute($value){
 
         $this->attributes['slug'] = $slug;
 }
-public function getTitleAttribute($title)
-{
-	return ucwords($title);
-}
+// public function getTitleAttribute($title)
+// {
+// 	return ucwords($title);
+// }
 
-public function toSearchableArray()
-    {
-        return $this->toArray() + ['path' => $this->path()];
-    }
+// public function toSearchableArray()
+//     {
+//         return $this->toArray() + ['path' => $this->path()];
+//     }
 
 }

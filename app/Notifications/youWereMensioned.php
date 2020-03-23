@@ -5,6 +5,8 @@ namespace App\Notifications;
 use App\comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class youWereMensioned extends Notification
 {
@@ -49,5 +51,16 @@ class youWereMensioned extends Notification
             'link' => $this->comment->path()
         ];
     }
+
+    public function toMail($notifiable){
+
+    $url = url($this->comment->path());
+
+    return (new MailMessage)
+                ->greeting('Hello!  '. $this->comment->user->username .'')
+                ->line($this->comment->user->username . ' mentioned you in ' . $this->comment->thread->title)
+                ->action('View reply', $url)
+                ->line('XtreemForum Team');
+}
 
 }
