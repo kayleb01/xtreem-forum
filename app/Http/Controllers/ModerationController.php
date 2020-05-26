@@ -68,10 +68,10 @@ if(!empty($input['id'])){
    
 
    }
-
+   #Get all users that have been banned
+   #and then pass them to the page to be rendered
    public function banned(){
-   	#Get all users that have been banned
-    #and then pass them to the page to be rendered
+   	
    	$user = User::onlyBanned()->paginate(15);
       
    	return view('Admin.Banned', ['user' => $user]);

@@ -4,27 +4,41 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Role;
+use App\User;
+use App\Moderator;
+use App\Forum;
 
 class RolesController extends Controller
 {
 
 public function role(){
-  return view('Admin.role');
+$users = User::get();
+$forums	= Forum::get();
+  return view('Admin.role', compact('users', 'forums'));
 }
 
-public function create(Request $request){
-//create the user role
 
-  	$request->all();
-	$role = Role::create([
-    'role'  => $request['role'],
-    'permissions' => $request['permission']
-  ]);
-if($role){
-  	return Redirect('admin/roles')->with('success', 'user role created');
-  }else{
-  	return Back()->with('error', 'An error was encountered');
-  }
+//create the user role
+public function storeRole(Request $request){
+	// return $request;
+	  $request->validate([
+		  'user' =>'required',
+		  'role' => 'required'
+	  ]);
+	  $check = Moderator::where('user_id', $request->user)->first();
+	  if($check){
+		return Redirect('admin/roles')->with('error', 'user role exists');
+	  }
+	$role = Moderator::create([
+    'user_id'  => $request->user,
+	'forum_id' => $request->forum,
+	'role_id'	=> $request->role
+  		 ]);
+	if($role){
+		return Redirect('admin/roles')->with('success', 'user role created');
+	}else{
+		return Back()->with('error', 'An error was encountered');
+	}
 }
 
 public function roles(){

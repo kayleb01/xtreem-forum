@@ -2,7 +2,7 @@
         <!-- Main Header -->
  @include('admin.adminNav')      
 
-<div style="min-height: 822px;" class="content-wrapper">
+<div style="min-height: 700px;" class="content-wrapper">
   <section class="content-header">
     <h1>Admin Panel</h1>
   </section>
@@ -72,7 +72,8 @@
      </div>
         <div class="col-md-8">
             <div class="row">
- <div class="col-md-6"><div class="box box-primary">
+ <div class="col-md-8">
+     <div class="box box-primary">
     <div class="box-header with-border">
         <h3 class="box-title">Recent Updates</h3>
     </div>
@@ -80,33 +81,13 @@
         <p>
            Recent forum stats includes the latest post and thread.
         </p>
-        <ul class="list-group list-group-unbordered">
-                            <li class="list-group-item">
-                    <span class="text-muted">
-                        Most Recent Thread
-                    </span>
-                    <br>
-                    <a href="http://prochaterr-demo.procoderr.tech/forums/thread/66/test-thread" class="bold">
-                        test thread 
-                    </a>
-                </li>
-                            <li class="list-group-item">
-                    <span class="text-muted">
-                        Most Recent Post
-                    </span>
-                    <br>
-                    <a href="http://prochaterr-demo.procoderr.tech/forums/thread/60/fuck-me?post=223#post-223" class="bold">
-                        
-                    </a>
-                </li>
-                    </ul>
     </div>
-</div></div>
-                            </div>
-        </div>
-    </div>
-                            </section>
-
-        </div>
+</div>
+</div>
+ </div>
+</div>
+</div>
+</section>
+</div>
         
 @include('admin.footer')

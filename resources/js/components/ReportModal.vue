@@ -8,7 +8,7 @@
                     <form class="px-10 py-8" @submit.prevent="sendReport" @keydown="feedback = ''">
                         <div class=" form-group mb-6">
                             <label for="textarea" class="block uppercase font-bold" >Report</label>
-                            <textarea name="report" class="form-control" v-model="report" required maxlength="150"></textarea>
+                            <textarea name="report" class="form-control bg-gray" v-model="report" required maxlength="150"></textarea>
                         </div>
                         <div class="flex justify-end items-center form-group">
                             <button type="submit"  class="btn btn-secondary btn-block" style="border-radius: 15px;" :class="loading ? 'loader' : ''" :disabled="loading">Report</button>

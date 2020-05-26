@@ -52,13 +52,7 @@ const app = new Vue({
     	toggle () {
     		this.active = !this.active;
     	},
-        search() {
-            this.searching = true;
-
-            this.$nextTick(() => {
-                this.$refs.search.focus();
-            });
-        },
+       
     },
 
     

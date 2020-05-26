@@ -60,7 +60,7 @@ Moderation</h1>
 	                    	<span class="info-box-icon bg-blue"><i class="fa fa-users"></i></span>
 		                    <div class="info-box-content">
 		                        <span class="info-box-text"><b>Banned users</b></span>
-		                        <span class="info-box-number"><span class="badge alert-success"><a href="{{url('moderation/banned')}}" style="color: white">{{$ban}}</span>
+		                        <span class="info-box-number"><span class="badge alert-success"><a href="{{url('moderation/banned')}}" style="color: white"></span>
 		                        </span>
 		                    </div>
 	                	</div>

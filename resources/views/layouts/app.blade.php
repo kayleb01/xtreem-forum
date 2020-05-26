@@ -20,8 +20,7 @@
 
 <script src="{{url('js/Popper.js')}}" type="text/javascript"></script>
 
- <script src="{{url('js/jquery-2.2.3.js')}}" type="text/javascript"></script>
- <script src="{{url('js/bootstrap.min.js')}}" type="text/javascript"></script>
+
 
     <!-- Scripts -->
     <script>
@@ -33,7 +32,7 @@
     </script>
     @yield('head')
 </head>
-<body class="xf-theme layout-top-nav" style="margin:0px !important;">
+<body class="xf-theme layout-top-nav">
 <noscript>
       <div style="font-size: 18px;  line-height: 24px; margin: 10%; width: 80%;">
         <p>We've detected that JavaScript is disabled in your browser, 80% of the content of this Site is powered by javascript. Please go to your browser's Settings and enable Javascript to enjoy the full functionality of this site. </p>
@@ -42,7 +41,7 @@
 <div id="app">
     <div class="wrapper">
          <nav class="navbar sticky-top navbar-expand-sm x-c">
-            <a class="navbar-brand text-light" href="/">XtreemForum</a>
+            <a class="navbar-brand" href="/"><img  class="navbar-brand" src="/storage/storage/img/logo.png" width="150" height="40" class="logo"></a>
                 <button class="navbar-toggler" type="button text-light" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon" ><i class="fa fa-bars text-light"></i></span>
                 </button>
@@ -70,7 +69,7 @@
                                 <button class="btn btn-secondary" type="submit" id="button-addon1" style="background-color:inherit;">
                                     <i class="fa fa-search"></i>
                                 </button>
-                            </div>  
+                            </div>   
                     </div>
                 </form>
                 
@@ -90,5 +89,7 @@
     </div>
    </div> <!-- end of ID-APP -->
  <script type="text/javascript" src="{{url('js/app.js')}}"></script> 
+ <script src="{{url('js/jquery-2.2.3.js')}}" type="text/javascript"></script>
+ <script src="{{url('js/bootstrap.min.js')}}" type="text/javascript"></script>
 </body>
 </html>

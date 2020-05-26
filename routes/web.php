@@ -56,52 +56,54 @@ Route::get('/forum/{slug}', ['as' => 'forum/{slug}', 'uses' => 'ThreadsControlle
 Route::get('/xf/forums', 'forumsController@forum');
 #...............Administration...................
 //Users
-Route::get('admin/dashboard', 'adminController@dashboard')->name('admin');
-Route::get('admin/users', 'adminController@users')->name('admin/users');
-Route::get('search', 'adminController@search')->name('search');
-Route::get('admin/{user}/edit', ['as'=> '{user}/edit', 'uses' => 'adminController@edit']);
-Route::get('admin/users/deleted', ['as'=>'users/deleted', 'uses'=>'adminController@deleted']);
-Route::get('admin/users/{id}/restore', 'adminController@restore')->name('admin/users/{id}/restore');
-Route::put('admin/update', ['as'=> 'admin/update', 'uses' => 'adminController@update']);
-Route::get('admin/ban_search', 'adminController@search_ban')->name('admin/ban_search');
-Route::delete('admin.destroy/{id}', ['as' => 'admin.destroy', 'uses' => 'adminController@destroy']);
+Route::get('admin/dashboard', 'adminController@dashboard')->name('admin')->middleware('auth');
+Route::get('admin/users', 'adminController@users')->name('admin/users')->middleware('auth');
+Route::get('search', 'adminController@search')->name('search')->middleware('auth');
+Route::get('admin/{user}/edit', ['as'=> '{user}/edit', 'uses' => 'adminController@edit'])->middleware('auth');
+Route::get('admin/users/deleted', ['as'=>'users/deleted', 'uses'=>'adminController@deleted'])->middleware('auth');
+Route::get('admin/users/{id}/restore', 'adminController@restore')->name('admin/users/{id}/restore')->middleware('auth');
+Route::put('admin/update', ['as'=> 'admin/update', 'uses' => 'adminController@update'])->middleware('auth');
+Route::get('admin/ban_search', 'adminController@search_ban')->name('admin/ban_search')->middleware('auth');
+Route::delete('admin.destroy/{id}', ['as' => 'admin.destroy', 'uses' => 'adminController@destroy'])->middleware('auth');
 Route::get('admin/new', function(){return view('Admin.new_user');});
-Route::put('admin/store', ['as' => 'admin/store', 'uses' => 'adminController@store']);
+Route::put('admin/store', ['as' => 'admin/store', 'uses' => 'adminController@store'])->middleware('auth');
 //roles
-Route::get('admin/role', ['as' => 'admin/role', 'uses' => 'RolesController@role']);
-Route::post('admin/create', ['as'=>'admin/create', 'uses'=>'RolesController@create']);
-Route::get('admin/roles', ['as' => 'admin/roles', 'uses' => 'RolesController@roles']);
-Route::get('admin/role/{id}/edit', ['as'=>'admin/role/edit', 'uses'=>'RolesController@edit']);
-Route::put('admin/role/store/{id}', ['as'=>'admin/role/store', 'uses'=>'RolesController@store']);
+Route::get('admin/role', ['as' => 'admin/role', 'uses' => 'RolesController@role'])->middleware('auth');
+Route::post('admin/role', 'RolesController@storeRole')->name('admin/role');
+Route::get('admin/roles', ['as' => 'admin/roles', 'uses' => 'RolesController@roles'])->middleware('auth');
+Route::get('admin/role/{id}/edit', ['as'=>'admin/role/edit', 'uses'=>'RolesController@edit'])->middleware('auth');
+Route::put('admin/role/store/{id}', ['as'=>'admin/role/store', 'uses'=>'RolesController@store'])->middleware('auth');
 //Admin Forums
-Route::get('admin/forums', ['as' => 'admin/forums', 'uses' => 'adminController@view']);
-Route::put('admin/store/forum', 'adminController@store_forum')->name('admin/store/forum');
-Route::get('admin/forum/new', ['as' => 'admin/forum/new', 'uses' => 'adminController@new_forum']);
-Route::get('admin/forum/{forum}/edit', 'adminController@edit_forum')->name('admin/forum/{forum}/edit');
-Route::put('admin/forum/{forum}/update', ['as' => 'admin/forum/update', 'uses' => 'adminController@update_forum'] );
-Route::get('admin/forum/removed',['as' => 'admin/forum/removed', 'uses' => 'adminController@removed_threads']);
+Route::get('admin/forums', ['as' => 'admin/forums', 'uses' => 'adminController@view'])->middleware('auth');
+Route::put('admin/store/forum', 'adminController@store_forum')->name('admin/store/forum')->middleware('auth');
+Route::get('admin/forum/new', ['as' => 'admin/forum/new', 'uses' => 'adminController@new_forum'])->middleware('auth');
+Route::get('admin/forum/{forum}/edit', 'adminController@edit_forum')->name('admin/forum/{forum}/edit')->middleware('auth');
+Route::put('admin/forum/{forum}/update', ['as' => 'admin/forum/update', 'uses' => 'adminController@update_forum'] )->middleware('auth');
+Route::get('admin/forum/removed',['as' => 'admin/forum/removed', 'uses' => 'adminController@removed_threads'])->middleware('auth');
 //Categories
-Route::get('admin/categories', 'CategoriesController@index')->name('admin/categories');
-Route::get('admin/categories/create', 'CategoriesController@show')->name('admin/categories/create');
-Route::put('admin/categories/store', 'CategoriesController@store')->name('admin/categories/store');
-Route::get('admin/categories/{id}/edit', 'CategoriesController@edit')->name('admin/categories/{id}/edit');
-Route::put('admin/categories/update/{id}', 'CategoriesController@update')->name('admin/categories/update');
+Route::get('admin/categories', 'CategoriesController@index')->name('admin/categories')->middleware('auth');
+Route::get('admin/categories/create', 'CategoriesController@show')->name('admin/categories/create')->middleware('auth');
+Route::put('admin/categories/store', 'CategoriesController@store')->name('admin/categories/store')->middleware('auth');
+Route::get('admin/categories/{id}/edit', 'CategoriesController@edit')->name('admin/categories/{id}/edit')->middleware('auth');
+Route::put('admin/categories/update/{id}', 'CategoriesController@update')->name('admin/categories/update')->middleware('auth');
 
 #................ Moderation.....................
 
- Route::get('moderation/{user}/ban', 'ModerationController@ban')->name('moderation/{user}/ban');
- Route::get('moderation/revoke/{id}', 'ModerationController@revoke')->name('moderation/revoke/{id}');
- Route::post('/moderation', ['as'=>'/moderation', 'uses' => 'ModerationController@store']);
- Route::get('moderation/banned', 'ModerationController@banned')->name('moderation/banned');
- Route::get('moderation/users', 'ModerationController@users')->name('moderation/users');
- Route::get('moderation/search', 'ModerationController@search')->name('moderation/search');
- Route::get('/moderation', 'ModerationController@index')->name('/moderation');
- Route::get('moderation/reported', 'ModerationController@report')->name('moderation/reported');
- Route::get('moderation/user/{user}/edit', ['as'=>'/user/{user}/edit', 'uses' => 'ModerationController@user_edit']);
+ Route::get('moderation/{user}/ban', 'ModerationController@ban')->name('moderation/{user}/ban')->middleware('auth');
+ Route::get('moderation/revoke/{id}', 'ModerationController@revoke')->name('moderation/revoke/{id}')->middleware('auth');
+ Route::post('/moderation', ['as'=>'/moderation', 'uses' => 'ModerationController@store'])->middleware('auth');
+ Route::get('moderation/banned', 'ModerationController@banned')->name('moderation/banned')->middleware('auth');
+ Route::get('moderation/users', 'ModerationController@users')->name('moderation/users')->middleware('auth');
+ Route::get('moderation/search', 'ModerationController@search')->name('moderation/search')->middleware('auth');
+ Route::get('/moderation', 'ModerationController@index')->name('/moderation')->middleware('auth');
+ Route::get('moderation/reported', 'ModerationController@report')->name('moderation/reported')->middleware('auth');
+ Route::get('moderation/user/{user}/edit', ['as'=>'/user/{user}/edit', 'uses' => 'ModerationController@user_edit'])->middleware('auth');
  Route::patch('moderation/update', ['as' => 'moderation/update', 'uses' => 'ModerationController@update']);
- Route::delete('moderation/destroy', ['as' => 'moderation/destroy', 'uses' => 'ModerationController@destroy']);
+ Route::delete('moderation/destroy', ['as' => 'moderation/destroy', 'uses' => 'ModerationController@destroy'])->middleware('auth');
 
  #-----------Profile-------------------------
+ Route::post('/user/follow/{id}', 'ProfileController@follow');
+ Route::get('/user/follow/{id}', 'ProfileController@unfollow');
  Route::get('user/{username}',['as' =>'profile', 'uses'=>'ProfileController@show'] );
  Route::get('/user/{user}/edit', ['as'=>'user/{user}/edit', 'uses'=>'ProfileController@edit']);
  Route::put('user/update', ['as'=>'user/update', 'uses'=>'ProfileController@update']);

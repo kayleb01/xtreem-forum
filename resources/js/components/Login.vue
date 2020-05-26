@@ -1,7 +1,9 @@
 <template>
 <div>
- Please <a href="/login" @click.prevent="$modal.show('login')" class="text-blue link">sign in</a> to participate in this
+    <span class="text-md  font-semibold">
+Please <a href="/login" @click.prevent="$modal.show('login')" class="text-blue link">sign in</a> to participate in this
                 discussion.
+    </span>
     <modal name="login" height="auto" :adaptive="true">
         <div class="float-right"><button class="btn btn-flat" @click="$modal.hide('login')">X</button></div>
         <div class="container px-10 py-8 p-3">
@@ -18,7 +20,7 @@
                 </div>
 
                 <div class="flex justify-end items-center form-group">
-                    <button type="submit" class="btn btn-secondary btn-block" style="border-radius: 15px;" :class="loading ? 'loader' : ''" :disabled="loading">Log In</button>
+                    <button type="submit" class="btn btn-secondary btn-block rounded-pill" :class="loading ? 'loader' : ''" :disabled="loading">Log In</button>
                     <br>  DON'T HAVE ACCOUNT?
                     <a href="#" class="btn btn-outline-secondary text-grey-dark link" @click="register">REGISTER</a>
                 </div>

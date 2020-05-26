@@ -77,16 +77,7 @@
 						    	<!-- <input type="hidden" name="_user" value="{{$users->id}}"> -->
 							{{csrf_field()}}</form>
 						</li>
-						@if($users->isBanned())
-						<li role="presentation">
-						    <a role="menuitem" tabindex="-1" href="{{url('moderation/revoke', $users->id)}}" style="color:red">UnBan</a>
-						</li>
-						@else
-						<li role="presentation">
-						    <a role="menuitem" tabindex="-1" href="/moderation/{{$users->id}}/ban">Ban User</a>
-						</li>
-						@endif
-
+					
 						</ul>
 						</div>
 						</td>

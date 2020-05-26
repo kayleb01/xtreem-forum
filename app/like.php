@@ -9,11 +9,20 @@ class like extends Model
     use RecordsActivity;
     
 
-  
+/**
+     * Don't auto-apply mass assignment protection.
+     *
+     * @var array
+     */
 protected $guarded = [];
 
 
-public function liked()
+    /**
+     * Fetch the model that was favorited.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+public function likable()
 {
 	return $this->morphTo();
 }
@@ -37,10 +46,10 @@ public function thread(){
      *
      * @return int
      */
-    public function getlikesCountAttribute()
-    {
-        return $this->likes->count();
-    }
+    // public function getlikesCountAttribute()
+    // {
+    //     return $this->likes->count();
+   // }
 
 
 }

@@ -11,7 +11,7 @@ trait likableTrait{
     /**
      * Boot the trait.
      */
-    protected static function bootFavoritable()
+    protected static function bootLikableTrait()
     {
         static::deleting(function ($model) {
             $model->likess->each->delete();
@@ -39,10 +39,10 @@ public function likess()
  
 public function Isliked()
 {
-	return (bool)$this->likess()->where('user_id', auth()->id())->first();
+	return (bool)$this->likess()->where('user_id', auth()->id())->count();
 }
 
-public function Commentliked($id)
+public function CommentLiked($id)
 {
 	return $this->likess()->where('likable_id', $id)->get();
 }

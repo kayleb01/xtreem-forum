@@ -3,17 +3,20 @@
 <div class="container">
   <div class="row ">
         <div class="col-md-12 col-xs-12 col-lg-12 bg-img">
-
+        
         <div class=" mt-2">
             <img src="/storage/storage/img/{{$user_data->avatar}}" class="user-image img-fluid" /> 
         </div>
             <div class="user-details">
               <div class="mt-3 text-light">
                 <span class="float-right mt-2 headeru" >
+               
                   @if(Auth::check() && $user_data->username === Auth::user()->username)
-                    <button class="btn btn-primary rounded-pill">Edit Profile</button> 
-                  @else
-                    <button class="btn btn-primary  rounded">Follow</button> 
+                    <a href="/user/{{$user_data->username}}/edit"><button class="btn btn-primary rounded-pill">Edit Profile</button> </a>
+                  @elseif(Auth::check() && $user_data->username !== Auth::user()->username)
+                   <follow :userfollow='@json($user_data->id)' :active="{{json_encode($user_data->isFollowed)}}"></follow> 
+                   @else
+
                   @endif
                 </span>
                     <h1 class="heading">{{$user_data->username}}</h1>
@@ -61,6 +64,7 @@
               <span class="card card-body mb-1 font-weight-bold"><a href="/{{$thread->slug}}">{{$thread->title}}</a>
                <span class="text-muted small"> Published {{$thread->created_at->diffForHumans()}} &nbsp;&nbsp;&nbsp;{{$thread->replies_count}} replies</span>
               </span>
+            
             @endforeach
              <span>{{$threads->links()}}</span>
           @else

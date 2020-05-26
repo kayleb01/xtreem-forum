@@ -35,18 +35,18 @@ class adminController extends Controller
 	#.......FOR THE DASHBOARD .....#
 	$users = user::all()->count();
 	$posts = count(thread::all());
-	$ban  = count(ban::all());
+
 	return view('Admin.layouts.index')->with(
 		array('users' => $users,
 			  'posts' => $posts,
-			  'ban' => $ban
+			 
 			));
 
   }
 
   public function Users(){
   	#****Get all users and paginate
-	$user  = User::withBanned()->paginate(4);
+	$user  = User::paginate(4);
   	return view('Admin.users')->with('user', $user);
   }
 

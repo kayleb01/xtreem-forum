@@ -12,62 +12,66 @@
 			
 			</script>
   </section>
-<section class="content">
-  <div class="alert-field" id="alert-field"></div> 
-     <div class="row margin-bottom-20">
-     <form method="GET" action="{{route('search')}}">
-     		{{csrf_field()}}
-			<div class="col-md-5 col-md-offset-7 col-lg-4 col-lg-offset-8 col-sm-8">
-					<div class="input-group">
-						<input type="text" id="search" name="search" placeholder="Search with Username, email or User ID" class="form-control">
-							<span class="input-group-btn">
-								<button type="submit" class="btn btn-default btn-flat">
-								<i class="fa fa-search"></i>
-								Search User
-								</button>
-							</span>
-							<ul id="results">
-								
-							</ul>
-					</div>
-				</form>
-			</div>
-     
-    </div>          
-    <div class="box box-flat">
-        <div class="box-header">
-            <h3 class="box-title">User Roles</h3>
-        </div>
-        
-        <div class="box-body padding">
-			<form method="POST" class="form-horizontal" action="{{url('admin/create')}}">
-						{{csrf_field()}}
-						<input name="_method" value="POST" type="hidden">
-						<div class="form-group">
-						<label class="col-sm-2 control-label" for="username">role</label>
-						<div class="col-sm-10">
-						<input name="role" id="role" placeholder="Enter role name" class="form-control" type="text" required>
-						</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label" for="permission">Permissions</label>
-						<div class="col-sm-10">
-							<select class="form-control" name="permission">
-								<option value="">--select--</option>
-								<option value="create, delete, edit, read">
-									create, delete, modify and read
-								</o	ption>
-								<option value="create, modify"> create, read and modify</option>
-							</select>
-						</div>
-						</div>
-						<div class="clearfix"></div>
-						<div class="col-sm-10 col-sm-offset-2" style="padding: 10px;">
-						<button type="submit" class="btn btn-primary">Create</button>
-						</div>
-					</form>
-				</div>
- 			</div>
+		<section class="content">
+		<div class="panel panel-body " style="padding: 5px">
+                            <form action="{{route('admin/role')}}" method="POST" class="form-horizontal">
+                               <div class="col-sm-10">
+                                    <div class="form-group{{ $errors->has('forum') ? ' has-error' : '' }}">
+                                            
+                                            <label class="col-sm-2 control-label" for="forum">User</label>
+                                            <div class="">
+                                               <select name="user" class="form-control rounded-pill">
+											   @foreach($users as $user)
+											   	<option value="{{$user->id}}" class="form-control rounded-pill">{{$user->username}}</option>
+												@endforeach
+											   </select>
+                                            </div>
+                                             @if ($errors->has('user'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('user') }}</strong>
+                                                </span>
+                                             @endif
+                                        </div>
+                                        
+                                            <label class="col-sm-2 control-label" for="role">Role</label>
+                                                <div class="">
+                                                    <select name="role" class="form-control rounded-pill">
+														<option value="1"> Super Admin</option>
+														<option value="2"> Moderator </option>
+													</select>
+                                                  <br>
+                                                </div>
+                                        <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
+                                             @if ($errors->has('role'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('role') }}</strong>
+                                                </span>
+                                             @endif 
+                                                {{csrf_field()}}
+                                        </div>
+										<label class="col-sm-2 control-label" for="forum">Forum</label>
+                                            <div class=" mb-2">
+                                               <select name="forum" class="form-control rounded-pill ">
+                                               <option value="">--Select--</option>
+											   @foreach($forums as $forum)
+											   	<option value="{{$forum->id}}">{{$forum->name}}</option>
+												@endforeach
+											   </select>
+                                            </div>
+                                             @if ($errors->has('forum'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('forum') }}</strong>
+                                                </span>
+                                             @endif
+                                        </div>
+                                        <div class="col-sm-10 col-sm-offset-2">
+                                            <button type="submit" class=" mb-3 btn btn-secondary btn-block rounded-pill">
+                                            Create
+                                            </button><br>
+                                     </div> 
+                                 </div>
+                            </form>
+                        </div>
 		</section>
 	</div>
 </div>

@@ -98,16 +98,11 @@ class ThreadsController extends Controller
             'body'          => 'required|max:8000',
             'image'         => 'image|mimes:jpeg,jpg,gif,png|size:4096'
         ]);
-
-        // if($validator->fails()){
-        //     return Redirect()->back()->withErrors($validator)->withInput();
-        // }
         if (config('xf.security.limit_time_between_post')) {
             if ($this->time_btw_threads()) {
                 return Redirect()->back()->with('error', 'Please wait for a minute before you post again')->withInput();
             }
         }
-      
         // Lets try to always have a unique slug
         $slug = Str::slug(request('title'), '-');
         $same_slug = thread::where('slug', '=', $slug)->first();
@@ -130,14 +125,13 @@ class ThreadsController extends Controller
             'forum_id'      => request('forum_id'),
             'slug'          => $slug,  
             'title'         => request('title'),
-             'body'         => request('body'),
-             'reply_user'   => $user_id,
+            'body'         => request('body'),
+            'reply_user'   => $user_id,
         ]);
         
         if (request()->wantsJson()) {
             return response($thread, 201);
         }
-      
          if($request->hasFile('file')){
                             //Image upload
                          $images = $request->file('file');
@@ -146,7 +140,7 @@ class ThreadsController extends Controller
                 $filenam        = pathinfo($fulname, PATHINFO_FILENAME);
                 $ext            = $image->getClientOriginalExtension();
                 $filename       = rand().time().'.'.$ext;
-                $Img            = $image->storeAs("/public/storage/img/", $filename);
+                $Img            = $image->storeAs("/storage/storage/img/", $filename);
                 $upload         = attachment::create([
                                                         'user_id'   => Auth::user()->id,
                                                         'thread_id' => $thread->id,
@@ -213,13 +207,10 @@ class ThreadsController extends Controller
     public function forums($slug, NewThread $NewThread){
         if(empty($slug)){
             Redirect()->back();
-        
         }
         else
         {
-
             $forum = Forum::where('slug', '=', $slug)->first();
-            
             $forum_ID = $forum->id;
              $newThread = $NewThread->get();
             //Get all the posts from the forum

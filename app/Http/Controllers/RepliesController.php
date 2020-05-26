@@ -59,12 +59,12 @@ class RepliesController extends Controller
             'forum_id'      => $thread->forum->id,
             'status'        => 1,
             'body'          => $url,
-            'created_at'    => carbon::now()
+            'created_at'    => now()
             ])->load('user');
              
            $rep = $thread->replies_count;
             $thread->update([
-                'last_reply_at' => carbon::now(),
+                'last_reply_at' => now(),
                 'reply_user'    => Auth::user()->id,
                 'replies_count' => ++$rep
             ]);
@@ -140,15 +140,7 @@ class RepliesController extends Controller
         return "";
     }
 
-    // public function image_save(Request $request)
-    // {
-    //     $image = $request->file;
-    //     $path =
-    //     if()
-    //    foreach ($file as $files) {
-    //        dd($files);
-    //    }
-    // }
+   
     /**
     *Check spam by create a time limit between posts by a user;
     *

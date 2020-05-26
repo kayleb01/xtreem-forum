@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Auth;
+use App\Follow;
+
 
 class User extends Authenticatable 
 {
@@ -16,10 +19,6 @@ class User extends Authenticatable
     // use Bannable;
     use softDeletes;
     use Notifiable;
-
-    const ADMIN = 1;
-    const MODERATOR = 2;
-    const USER = 3;
 
     
 protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'];
@@ -33,6 +32,7 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
      */
     protected $fillable = ['email', 'password', 'sex', 'location', 'dob', 'role', 'avatar', 'username', 'confirmation_token'];
 
+    protected $appends = ['isFollowed'];
     /**
      * The attributes that should be cast to native types.
      *
@@ -41,10 +41,14 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
     protected $casts = [
         'confirmed' => 'boolean'
     ];
-
-public function username()
+ /**
+     * Get the route key name for Laravel.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
     {
-        return $this->username;
+        return 'username';
     }
 
     /**
@@ -76,9 +80,13 @@ public function username()
     public function role(){
         return $this->BelongsTo(Role::class);
     }
-    
+     
+    public function follow()
+    {
+        return $this->hasMany(Follow::class);
+    }
      public function thread(){
-        return $this->hasMany(thread::class);
+        return $this->hasMany(thread::class)->latest();
     }
      /**
      * Fetch the last published reply for the user.
@@ -124,6 +132,10 @@ public function username()
         );
     }
 
+    public function getIsFollowedAttribute()
+    {
+        return Follow::where('user_id', $this->id)->exists();
+    }
 /**
      * Get the cache key for when a user reads a thread.
      *
@@ -135,7 +147,5 @@ public function username()
         return sprintf("users.%s.visits.%s", $this->id, $thread->id);
     }
 
-    // public function setUsernameAttribute($username){
-    //     return ucwords($username);
-    // }
+    
 }

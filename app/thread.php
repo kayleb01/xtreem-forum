@@ -179,10 +179,10 @@ public function setSlugAttribute($value){
 
         $this->attributes['slug'] = $slug;
 }
-// public function getTitleAttribute($title)
-// {
-// 	return ucwords($title);
-// }
+public function getTitleAttribute($title)
+{
+	return ucwords($title);
+}
 
 // public function toSearchableArray()
 //     {

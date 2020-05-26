@@ -5,7 +5,7 @@
             <div v-for="activity in items" :key="activity.id">
                 <div class="entry">
                    
-                    <!-- <activity-favorite :activity="activity" v-if="activity.type === 'created_like'"/> -->
+                    <activity-favorite :activity="activity" v-if="activity.type === 'created_like'"/>
                     <activity-reply :activity="activity" v-if="activity.type === 'created_comment'"/>
                     <activity-thread :activity="activity" v-if="activity.type === 'created_thread'"/>
 

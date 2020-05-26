@@ -2,9 +2,8 @@
 
 namespace App;
 
-
 use Illuminate\Database\Eloquent\Model;
-use App\subscription;
+
 
 
 class Activity extends Model
@@ -21,7 +20,7 @@ class Activity extends Model
      *
      * @var array
      */
-    //protected $appends = ['likedModel'];
+  protected $appends = ['likableModel'];
 
     /**
      * Fetch the associated subject for the activity.
@@ -36,21 +35,21 @@ class Activity extends Model
     /**
      * Fetch the model record for the subject of the favorite.
      */
-    public function getLikedModelAttribute()
+    public function getLikableModelAttribute()
     {
-        $likedModel = null;
-        //dd($subject->likable_type);
-        if ($this->subject_type == like::class) {
-            $subjecter = $this->subject->firstOrFail();
-        
-            if ($subjecter->likable_type == comment::class) {
-                $likedModel = comment::find($subjecter->likable_id);
+        $likableModel = null;
+     //dd($this->subject()->get());
+        if ($this->subject_type === like::class) {
+            $subject = $this->subject()->get();
+            foreach ($subject as $subjects ) {
+                if ($subjects->likable_type == comment::class) {
+                    $likableModel = comment::find($subjects->likable_id);
+                }
             }
-           
             
         }
 
-        return $likedModel;
+        return $likableModel;
     }
 
     /*
@@ -61,7 +60,6 @@ class Activity extends Model
      */
     public static function feed($user)
     {
-
         return static::where('user_id', $user->id)
             ->latest()
             ->with('subject')

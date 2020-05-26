@@ -18,7 +18,7 @@
 
             <button type="submit"
                     class="btn btn-secondary btn-block rounded-pill"
-                    @click="addReply">Post</button>
+                    @click="addReply" :class="loading ? 'loader' : ''" :disabled="loading">Post</button>
         </div>
     </div>
 </template>
@@ -31,7 +31,8 @@ export default {
    
     data() {
         return {
-            body: ""
+            body: "",
+            loading:false
         }
     },
 
@@ -62,6 +63,7 @@ export default {
             if(this.body == ""){
                 this.flashMessage.error({message:"Your reply cannot be empty"});
             }else{
+                this.loading = true;
                 axios
                 .post(location.pathname + "/create", { body: this.body })
                 .catch(error => {
@@ -75,6 +77,7 @@ export default {
                     this.flashMessage.success({
                         message: "Your reply has been posted."
                         });
+                        this.loading = false;
 
                     this.$emit("created", data);
                 });

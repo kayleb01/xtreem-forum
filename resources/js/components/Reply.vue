@@ -20,7 +20,7 @@
                      height="36"
                      class="image-circle responsive">
                         <span class=" text-black">
-                            <a class="font-weight-bold text-black "  :href="'/user/' + reply.user.username" v-text="reply.user.username"></a> &sdot;<span class="text-muted">{{ago}}</span>
+                            <a class="font-weight-bold text-black "  :href="'/user/' + reply.user.username" v-text="reply.user.username"></a> &sdot;<span class="text-muted">{{humanTime(reply.created_at)}}</span>
                         </span><br/>
                         <div class="timestamp small" style="width: 400px">
                         replying to @{{reply.thread.user.username}}
@@ -45,18 +45,18 @@
                         <highlight :content="body" class="panel-body"></highlight>
                             <div v-if="signedIn" class="text-xs pl-2" style="padding-top:3px">
                                 <div class="d-flex justify-content-center">
-                                    <favorite :comment="reply"></favorite>
+                                    <favorite :comment="reply" class="mr-6"></favorite>
                                         <a v-if="reply.user.id == user.id || user.role == 1"
                                             href="#"
                                             @click.prevent="editing = true"
-                                            class="text-black text-xs link  pl-2"
+                                            class="text-black text-xs link  pl-2 mr-4"
                                             >
                                                 <i class="fa fa-edit" title="Edit"></i>
                                         </a>
-                                        <a  @click="replyShow" class="ml-4 pl-3 bg-color-black" title="Reply" v-show="reply.replyChild_count < 5"> 
+                                        <a  @click="replyShow" class="ml-2 pl-3 bg-color-black" title="Reply" v-show="reply.replyChild_count < 5"> 
                                             <i class="fa fa-share-square"></i>
                                         </a>
-                                        <ReportModal :thread="reply.thread.id" :comment="reply.id"/><br><br>
+                                        <ReportModal :thread="reply.thread.id" :comment="reply.id" class="ml-4"/><br><br>
                                          <div v-if="reply.attachment">
                                             <span v-for="attachment in reply.attachment" :key="attachment.id">
                                             <img :src="'/storage/public/storage/img/'+ attachment.name" class="attachment">    
@@ -64,11 +64,11 @@
                                          </div>
                                 </div>
                             </div>
-                            <div class="bg-gray p-1" v-if="reply.reply_children !=''">  
+                            <div  style="border: 1px solid #ccc;" v-if="reply.reply_children !=''">  
                                 <div class="panel-body">
                                     <span>
-                                        <button type="button" @mouseover.once="getReply" class="text-sm btn btn-flat btn-block"  @click="childShow">
-                                            <small>See more replies</small>
+                                        <button type="button" @mouseover.once="getReply" class="text-sm btn btn-flat btn-block"  @click="childShow" :class="loading ? 'loader' : ''" :disabled="loading">
+                                            <small>{{see}}</small>
                                         </button>
                                     </span>      
                                     <div v-for="(replyChildren, indexes) in items" :key="replyChildren.id" v-show="child" style="padding-bottom:2px;" class="mb-1 chld">
@@ -126,8 +126,9 @@ export default {
             id: this.reply.id,
             body: this.reply.body,
             replyClick:false,
-            child: false
-            
+            child: false,
+            loading: false,
+            see:"See more replies"
         };
     },
 
@@ -141,10 +142,15 @@ export default {
   
     methods: {
          replyShow(){
+             
             this.replyClick = !this.replyClick;
         },
          childShow(){
+             this.loading = true;
             this.child = !this.child;
+            this.see ="";
+            this.loading = false;
+        
         },
         update() {
             axios

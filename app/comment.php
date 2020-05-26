@@ -11,10 +11,9 @@ use Illuminate\Database\Eloquent\Collection;
 
 class comment extends Model
 {
-    use likableTrait;
-    use RecordsActivity;
+    use RecordsActivity, likableTrait;
     
-    const TABLE = 'threads';
+    
   /**
      * Don't auto-apply mass assignment protection.
      *
@@ -27,14 +26,14 @@ class comment extends Model
      *
      * @var array
      */
-    protected $with = ['user', 'thread', 'reply_children', 'attachment', 'like'];
+    protected $with = ['user', 'thread', 'reply_children', 'attachment', 'likess'];
 
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $appends = [ 'replyChild_count', 'isLiked', 'path'];
+    protected $appends = [ 'replyChild_count', 'isLiked', 'path', 'likesCount'];
 
     /**
      * Boot the reply instance.
@@ -70,9 +69,7 @@ class comment extends Model
     }
 
     
-    public function like(){
-        return $this->hasMany(like::class, 'likable_id');
-    }
+   
 
     /**
      * A reply belongs to a thread.

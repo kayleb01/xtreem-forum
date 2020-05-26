@@ -6,7 +6,7 @@
         <div class="input-group">
             <textarea name="replyChild" v-model="ChildReply" maxlength="250" class="form-control form-control-sm bg-gray rounded-left"  placeholder="Quick Reply" rows="1"></textarea>
             <div class="input-group-append">
-                <button type="submit"  class="btn btn-secondary btn-sm">Reply</button>
+                <button type="submit"  class="btn btn-secondary btn-sm" :class="loading ? 'loader' : ''" :disabled="loading">Reply</button>
             </div>
         </div>
         </form>
@@ -27,6 +27,7 @@ export default {
         return{
             replyClick:false,
             ChildReply:"",
+            loading: false
           
         };
     },
@@ -38,19 +39,23 @@ export default {
        
 
        sendChild(){
+           this.loading = true;
            if(this.ChildReply ==""){
             this.flashMessage.error({message:"Oops! Reply field is empty!"})
            }else{
+               
                axios
             .post("/replyChild/"+this.reply, { replyChild:this.ChildReply})
-            .catch(error => this.flashMessage.error({error: "Reply not sent, an error occured!" }))
+            .catch(
+                error => this.flashMessage.error({error: "Reply not sent, an error occured!"  }),
+                )
             .then(({data}) => {
                 this.ChildReply = "";
                 
                  this.flashMessage.success({
                         message: "Reply sent!"
                         });
-
+                    this.loading = false;
                     this.$emit("created", data);
 
             })

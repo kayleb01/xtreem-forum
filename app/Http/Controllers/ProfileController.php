@@ -11,6 +11,7 @@ use App\NewThread;
 use App\Trending;
 use Image;
 use Activity;
+use App\Follow;
 use App\comment;
 
 class ProfileController extends Controller
@@ -115,9 +116,37 @@ class ProfileController extends Controller
    		}
    	}
 
-
-
-
+        /**
+     * Fetch all threads created by a user.
+     *
+     * @param Request $request
+     * validates, check whether or not the user is following
+     * 
+     * @return mixed
+     */
+    public function follow(Request $request){
+    $request->validate([
+        'user_id' => 'numeric',
+        'userFollow' => 'numeric'
+    ]);
+        $check = Follow::where('user_id', $request->user_id)
+                        ->where('followers_id', $request->followers_id)
+                        ->first();
+        if(!$check){
+            $run = Follow::create([
+                'user_id'       => $request->user_id,
+                'followers_id'  => $request->followers_id
+            ]);
+            return $run;
+        }else{ return "Following";}
+    }
+     
+    public function unfollow($id, Request $request)
+    {
+        return Follow::where('followers_id', $id)
+                        ->where('user_id', Auth::user()->id)
+                        ->delete();
+    }
     /**
      * Fetch all threads created by a user.
      *

@@ -5,7 +5,7 @@
             {{ humanTime(activity.subject.created_at) }} in:
         </span>
 
-        <div slot="heading" class="text-xl font-semibold my-4">
+        <div slot="heading" class="text-md font-semibold">
             <a class="text-blue font-bold mb-2" :href="activity.subject.path">"{{ activity.subject.title }}"</a>
 
             <p class="text-xs text-grey-darkest font-medium mb-1">
@@ -17,7 +17,7 @@
         </div>
         <div slot="body">
             <div class="text-grey-darkest leading-loose mb-1 max-h-24 overflow-hidden">
-                <div class="ml-6 my-4 pl-4 border-l-2 border-grey-dark">
+                <div class="ml-2 my-2 pl-4 border-l-2 border-grey-dark">
                     <highlight :content="activity.subject.body"/>
                 </div>
             </div>

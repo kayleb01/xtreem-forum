@@ -6,9 +6,10 @@
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div>
+                    {{dd($forum)}}
                      <ol class="breadcrumb shadow-sm" style="margin-bottom:6px !important">
                        <li class="breadcrumb-item"><a href="/">Home</a></li>
-                       <li class="breadcrumb-item"><a href="#">{{$forum->name}}</a></li>
+                       <li class="breadcrumb-item"><a href="#">{{$forum[0]->name}}</a></li>
                        
                     </ol>
                     </ol>
