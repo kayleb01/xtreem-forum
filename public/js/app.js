@@ -85996,7 +85996,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("span", { staticClass: "text-md  font-semibold" }, [
+      _c("span", { staticClass: "text-md  font-semibold text-dark" }, [
         _vm._v("\nPlease "),
         _c(
           "a",
@@ -86145,7 +86145,7 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-secondary btn-block rounded-pill",
+                        staticClass: "btn btn-blue btn-block rounded-pill",
                         class: _vm.loading ? "loader" : "",
                         attrs: { type: "submit", disabled: _vm.loading }
                       },
@@ -86282,7 +86282,8 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "btn btn-secondary btn-block rounded-pill",
+              staticClass:
+                "btn btn-outline-secondary btn-block rounded-pill border border-secondary",
               class: _vm.loading ? "loader" : "",
               attrs: { type: "submit", disabled: _vm.loading },
               on: { click: _vm.addReply }

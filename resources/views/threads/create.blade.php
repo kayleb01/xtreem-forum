@@ -25,7 +25,7 @@
                                             <ul>
                                                 <li><h4 style="color: red">Rules</h4></li>
                                                 <li>Please do not spam</li>
-                                                <li>Fake information will be removed</li>
+                                                <li>False information will be removed</li>
                                                 <li>Don't insult any member or Admin nor Mod</li>
                                                 <li>Don't advertise commercial content, product or services in any way. You may offer suggestions for products or services but do not start a thread for them</li>
                                                 <li>Admin and Moderators may modify or remove your content at any time without prior notice</li>

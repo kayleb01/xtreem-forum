@@ -33,7 +33,7 @@ class comment extends Model
      *
      * @var array
      */
-    protected $appends = [ 'replyChild_count', 'isLiked', 'path', 'likesCount'];
+    protected $appends = [ 'replyChild_count', 'isLiked', 'likesCount'];
 
     /**
      * Boot the reply instance.

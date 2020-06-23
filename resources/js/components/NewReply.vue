@@ -17,7 +17,7 @@
             </div>
 
             <button type="submit"
-                    class="btn btn-secondary btn-block rounded-pill"
+                    class="btn btn-outline-secondary btn-block rounded-pill border border-secondary"
                     @click="addReply" :class="loading ? 'loader' : ''" :disabled="loading">Post</button>
         </div>
     </div>

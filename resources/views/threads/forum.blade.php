@@ -10,7 +10,7 @@
    </div>
     <div class="row">
         <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
-            <a   class="btn btn-secondary rounded-full mb-2 text-light" style=" color: #fff;" href="/forum/{{$threads[0]->forum->id}}/create">
+            <a   class="btn btn-secondary rounded-pill mb-2 text-light" style=" color: #fff;" href="/forum/{{$threads[0]->forum->id}}/create">
                 <span style="margin: 7px;">Create New Topic</span></a>
                                             <br>
                  

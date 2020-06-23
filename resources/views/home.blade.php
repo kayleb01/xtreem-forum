@@ -1,4 +1,4 @@
-  @extends('layouts.app')
+   @extends('layouts.app')
 
 @section('content')
 
@@ -31,7 +31,17 @@
  </div> <!--EndOfContainer -->
  <div class="container">
   <div class="row">
-   <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+   <div class="col-lg-2 col-md-2 mt-1  d-none d-sm-block">
+   <button class="btn btn-primary btn-block rounded-pill">New Topic</button>
+   <ul class="list-group align-center ml-3 mt-2">
+   <li class=""><a href="#" class="link">Most Recent</a></li>
+   <li> <a href="#" class="link">New</a></li>
+   </ul>
+
+   </div>
+
+   <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+  
       <div class="tab nav-tabs mb-1">
       <button v-for="(tab, index) in tabs" :key="index" :class="{ active: selectedTab === tab}" id="tablinks"
     @click="selectedTab = tab"> @{{ tab }}</button>
@@ -49,13 +59,16 @@
                       <a href='/register' class="text-blue">Register</a> and <a href='/login' class="text-blue">Login</a> to join our community</div>
                     @endif
             @endif
-            <div class="forum_title">
+            <div class="forum_title rounded">
              
-                <img class="image-circle" src="/storage/storage/img/{{$featured->user->avatar ? $featured->user->avatar : 'default.jpg'}}">
+               <a href="/user/{{$featured->user->username}}"><img class="image-circle" src="/storage/storage/img/{{$featured->user->avatar ? $featured->user->avatar : 'default.jpg'}}"></a> 
                 <div class="featured"> 
                   @if ($featured->pinned)
                       <small class="font-weight-bold">Pinned:</small>  
                     @endif
+                    <div class="d-none d-sm-block">97 
+                    <button class="btn d-none d-sm-block btn-outline-primary py-1 px-3 btn-sm border-info float-right rounded-pill mb-2">{{$featured->forum->name}}</button>
+                    </div>
                     <a href="/{{$featured->slug}}">{{$featured->title}} </a><br>
                     <span class="c"><i class="fa fa-comment"></i>&nbsp;{{$featured->replies_count}} {{Str::plural('comment', $featured->replies_count)}}</span>&nbsp;<span class=" v mr-2 items-center text-grey-dark mr-2">&nbsp;
                     @include ('svgs.icons.eye')

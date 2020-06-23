@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReplyChild extends Model
 {
-    protected $table = 'replies';
+    protected $table = 'comment_child';
 
     protected $fillable = ['user_id', 'comment_id', 'body'];
 

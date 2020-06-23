@@ -1,4 +1,4 @@
-<div class="col-md-3 col-lg-3 hidden-sm hidden-xs widget-over">
+<div class="col-md-3 col-lg-3  d-none d-sm-block widget-over">
         @if(Auth::check()) 
           <div class="panel-heading p-2 font-weight-bold">User Profile
             </div>
