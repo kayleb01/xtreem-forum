@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
+    @include('threads._partials.widget')
         <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12"> 
             <ol class="breadcrumb shadow-sm" style="margin-bottom:6px !important">
                <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -19,7 +20,7 @@
             </div>
         </div>
 
-     @include('threads._partials.widget')
+
 
     </div>
 </div>

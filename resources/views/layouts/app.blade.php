@@ -81,7 +81,7 @@
 
          
 
-    <div class="page-footer p-3">
+    <div class="page-footer p-3 bg-light">
         <div class="inner" style="text-align: center;">
             &copy; <?php echo date('Y')?> XtreemForum.com
         </div>

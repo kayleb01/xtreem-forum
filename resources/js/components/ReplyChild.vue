@@ -1,10 +1,9 @@
 <template>
 <div>     
-    
     <div class="p-2">
         <form @submit.prevent="sendChild" method="post">
         <div class="input-group">
-            <textarea name="replyChild" v-model="ChildReply" maxlength="250" class="form-control form-control-sm bg-gray rounded-left"  placeholder="Quick Reply" rows="1"></textarea>
+            <input type="text" name="replyChild" v-model="ChildReply" maxlength="250" class="form-control form-control-sm bg-gray rounded-left"  placeholder="Quick Reply" style="overflow:auto">
             <div class="input-group-append">
                 <button type="submit"  class="btn btn-secondary btn-sm" :class="loading ? 'loader' : ''" :disabled="loading">Reply</button>
             </div>

@@ -20,9 +20,9 @@ Please <a href="/login" @click.prevent="$modal.show('login')" class="text-blue l
                 </div>
 
                 <div class="flex justify-end items-center form-group">
-                    <button type="submit" class="btn btn-blue btn-block rounded-pill" :class="loading ? 'loader' : ''" :disabled="loading">Log In</button>
+                    <button type="submit" class="btn btn-outline-secondary btn-block rounded-pill" :class="loading ? 'loader' : ''" :disabled="loading">Log In</button>
                     <br>  DON'T HAVE ACCOUNT?
-                    <a href="#" class="btn btn-outline-secondary text-grey-dark link" @click="register">REGISTER</a>
+                    <a href="#" class="btn btn-outline-secondary text-grey-dark link rounded-pill" @click="register">REGISTER</a>
                 </div>
 
                 <div class="mt-6  p-2" v-if="feedback">

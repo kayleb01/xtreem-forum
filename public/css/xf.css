@@ -22,7 +22,19 @@
     margin-top: 175px;
     padding: 5px;
 }
+.pane-widget {
+  display: flex;
 
+}
+.list-group-items{
+  margin:4px;
+}
+.first-item{
+
+  display:flex;
+  align-self: center;
+
+} 
 .user-image{
   position: absolute;
   width: 180px;
@@ -431,35 +443,6 @@ margin-bottom:20px;background-color:#fff;border:1px solid transparent;border-rad
   font-weight: bold; 
  }
 
-/* .btn:focus,button:focus{box-shadow:none;outline:0}
- .btn{padding:.9375rem 1.875rem;background-color:#f4645f;font-size:.8125rem;color:#fff;border-width:2px;border-color:#f4645f;transition:all .2s ease-in-out !important} 
-.btn--sm{font-size:.6875rem;padding:.5rem .9375rem}
-.btn--lg{font-size:1rem;padding:.9375rem 2.5rem}
-.btn--thin{font-size:.8125rem;padding:.5rem .9375rem}
-.btn:hover{background-color:#d6514d}
-.btn.btn--neg{background-color:transparent;color:#fff;border-color:#f4645f}
-.btn.btn--neg:hover{background-color:#fff;color:#f4645f;border-color:transparent}
-.btn--blue{background-color:#22b9cc;color:#fff;border-color:#22b9cc}
-.btn--blue.btn--neg,.btn--blue:hover{background-color:transparent;color:#22b9cc}
-.btn--blue.btn--neg{border-color:#22b9cc}
-.btn--blue.btn--neg:hover{background-color:#22b9cc;color:#fff;border-color:transparent}
-.btn--teal{background-color:#00d7cc;color:#fff;border-color:#00d7cc}
-.btn--teal.btn--neg,.btn--teal:hover{background-color:transparent;color:#00d7cc}
-.btn--teal.btn--neg{border-color:#00d7cc}
-.btn--teal.btn--neg:hover{background-color:#00d7cc;color:#fff;border-color:transparent}
-.btn--black{background-color:#525252;color:#fff;border-color:#525252}
-.btn--black.btn--neg,.btn--black:hover{background-color:transparent;color:#525252}
-.btn--black.btn--neg{border-color:#525252}
-.btn--black.btn--neg:hover{background-color:#525252;color:#fff;border-color:transparent}
-.btn--grey{background-color:#a1a1a1;color:#fff;border-color:#a1a1a1}
-.btn--grey.btn--neg,.btn--grey:hover{background-color:transparent;color:#a1a1a1}
-.btn--grey.btn--neg{border-color:#a1a1a1}
-.btn--grey.btn--neg:hover{background-color:#a1a1a1;color:#fff;border-color:transparent}
-.btn--dark-red{background-color:#d6514d;color:#fff;border-color:transparent}
-.btn--dark-red:hover{background-color:#2a2a2a}
-.btn--disabled{cursor:not-allowed!important;background-color:#e8e8e8;color:#c5c5c5;border-color:transparent}
-.btn--transparent{background-color:transparent;color:#f4645f;border-color:transparent}
-.btn--transparent:hover{color:#d6514d}.hljs.hljs{background-color:#fff;padding:1.25rem .625rem;overflow-x:auto;display:block} */
 .bbcode-image {
   display: inline-block;
   width: auto;

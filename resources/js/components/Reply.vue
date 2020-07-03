@@ -64,7 +64,7 @@
                                          </div>
                                 </div>
                             </div>
-                            <div  style="border: 1px solid #ccc;" v-if="reply.reply_children !=''">  
+                            <div  style="border-top: 1px solid #ccc;" v-if="reply.reply_children !=''" class="mt-2">  
                                 <div class="panel-body">
                                     <span>
                                         <button type="button" @mouseover.once="getReply" class="text-sm btn btn-flat btn-block"  @click="childShow" :class="loading ? 'loader' : ''" :disabled="loading">

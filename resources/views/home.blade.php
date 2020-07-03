@@ -31,16 +31,9 @@
  </div> <!--EndOfContainer -->
  <div class="container">
   <div class="row">
-   <div class="col-lg-2 col-md-2 mt-1  d-none d-sm-block">
-   <button class="btn btn-primary btn-block rounded-pill">New Topic</button>
-   <ul class="list-group align-center ml-3 mt-2">
-   <li class=""><a href="#" class="link">Most Recent</a></li>
-   <li> <a href="#" class="link">New</a></li>
-   </ul>
+  @include('threads._partials.widget')
 
-   </div>
-
-   <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+   <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
   
       <div class="tab nav-tabs mb-1">
       <button v-for="(tab, index) in tabs" :key="index" :class="{ active: selectedTab === tab}" id="tablinks"
@@ -66,7 +59,7 @@
                   @if ($featured->pinned)
                       <small class="font-weight-bold">Pinned:</small>  
                     @endif
-                    <div class="d-none d-sm-block">97 
+                    <div class="d-none d-sm-block">
                     <button class="btn d-none d-sm-block btn-outline-primary py-1 px-3 btn-sm border-info float-right rounded-pill mb-2">{{$featured->forum->name}}</button>
                     </div>
                     <a href="/{{$featured->slug}}">{{$featured->title}} </a><br>
@@ -95,9 +88,7 @@
       @endif
     </div>
    </div>
-   <!-- SideWidget -->
-    @include('threads._partials.widget')
-  </div>
+   </div>
  </div>
  
 

@@ -4651,7 +4651,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = (_mixins$mixins$props$ = {
@@ -86145,7 +86144,8 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-blue btn-block rounded-pill",
+                        staticClass:
+                          "btn btn-outline-secondary btn-block rounded-pill",
                         class: _vm.loading ? "loader" : "",
                         attrs: { type: "submit", disabled: _vm.loading }
                       },
@@ -86158,7 +86158,7 @@ var render = function() {
                       "a",
                       {
                         staticClass:
-                          "btn btn-outline-secondary text-grey-dark link",
+                          "btn btn-outline-secondary text-grey-dark link rounded-pill",
                         attrs: { href: "#" },
                         on: { click: _vm.register }
                       },
@@ -87647,166 +87647,183 @@ var render = function() {
                     : _vm._e(),
                   _vm._v(" "),
                   _vm.reply.reply_children != ""
-                    ? _c("div", { staticStyle: { border: "1px solid #ccc" } }, [
-                        _c(
-                          "div",
-                          { staticClass: "panel-body" },
-                          [
-                            _c("span", [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "text-sm btn btn-flat btn-block",
-                                  class: _vm.loading ? "loader" : "",
-                                  attrs: {
-                                    type: "button",
-                                    disabled: _vm.loading
-                                  },
-                                  on: {
-                                    "~mouseover": function($event) {
-                                      return _vm.getReply($event)
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "mt-2",
+                          staticStyle: { "border-top": "1px solid #ccc" }
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "panel-body" },
+                            [
+                              _c("span", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "text-sm btn btn-flat btn-block",
+                                    class: _vm.loading ? "loader" : "",
+                                    attrs: {
+                                      type: "button",
+                                      disabled: _vm.loading
                                     },
-                                    click: _vm.childShow
-                                  }
-                                },
-                                [_c("small", [_vm._v(_vm._s(_vm.see))])]
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.items, function(replyChildren, indexes) {
-                              return _c(
-                                "div",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.child,
-                                      expression: "child"
+                                    on: {
+                                      "~mouseover": function($event) {
+                                        return _vm.getReply($event)
+                                      },
+                                      click: _vm.childShow
                                     }
-                                  ],
-                                  key: replyChildren.id,
-                                  staticClass: "mb-1 chld",
-                                  staticStyle: { "padding-bottom": "2px" }
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      on: {
-                                        destroyed: function($event) {
-                                          return _vm.destroy(indexes)
-                                        }
+                                  },
+                                  [_c("small", [_vm._v(_vm._s(_vm.see))])]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.items, function(
+                                replyChildren,
+                                indexes
+                              ) {
+                                return _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: _vm.child,
+                                        expression: "child"
                                       }
-                                    },
-                                    [
-                                      _vm.signedIn &&
-                                      replyChildren.user.id === _vm.user.id
-                                        ? _c("span", [
-                                            _c(
-                                              "a",
-                                              {
-                                                attrs: { href: "#" },
-                                                on: {
-                                                  click: function($event) {
-                                                    $event.preventDefault()
-                                                    return _vm.childDestroy(
-                                                      replyChildren.id
-                                                    )
+                                    ],
+                                    key: replyChildren.id,
+                                    staticClass: "mb-1 chld",
+                                    staticStyle: { "padding-bottom": "2px" }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        on: {
+                                          destroyed: function($event) {
+                                            return _vm.destroy(indexes)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm.signedIn &&
+                                        replyChildren.user.id === _vm.user.id
+                                          ? _c("span", [
+                                              _c(
+                                                "a",
+                                                {
+                                                  attrs: { href: "#" },
+                                                  on: {
+                                                    click: function($event) {
+                                                      $event.preventDefault()
+                                                      return _vm.childDestroy(
+                                                        replyChildren.id
+                                                      )
+                                                    }
                                                   }
+                                                },
+                                                [
+                                                  _c("i", {
+                                                    staticClass:
+                                                      "fa fa-trash float-right mr-2",
+                                                    staticStyle: {
+                                                      color: "red"
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ])
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        _c("table", [
+                                          _c("tr", [
+                                            _c("td", [
+                                              _c("img", {
+                                                staticClass:
+                                                  "image-child responsive",
+                                                attrs: {
+                                                  src:
+                                                    "/storage/storage/img/" +
+                                                    replyChildren.user.avatar,
+                                                  alt:
+                                                    replyChildren.user.username,
+                                                  width: "36",
+                                                  height: "36"
                                                 }
-                                              },
-                                              [
-                                                _c("i", {
-                                                  staticClass:
-                                                    "fa fa-trash float-right mr-2",
-                                                  staticStyle: { color: "red" }
-                                                })
-                                              ]
-                                            )
-                                          ])
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      _c("table", [
-                                        _c("tr", [
-                                          _c("td", [
-                                            _c("img", {
-                                              staticClass:
-                                                "image-child responsive",
-                                              attrs: {
-                                                src:
-                                                  "/storage/storage/img/" +
-                                                  replyChildren.user.avatar,
-                                                alt:
-                                                  replyChildren.user.username,
-                                                width: "36",
-                                                height: "36"
-                                              }
-                                            }),
-                                            _vm._v(" "),
-                                            _c(
-                                              "span",
-                                              { staticClass: " text-black" },
-                                              [
-                                                _c("a", {
-                                                  staticClass:
-                                                    "font-weight-bold text-black ",
-                                                  attrs: {
-                                                    href:
-                                                      "/user/" +
-                                                      replyChildren.user
-                                                        .username
-                                                  },
-                                                  domProps: {
-                                                    textContent: _vm._s(
-                                                      replyChildren.user
-                                                        .username
-                                                    )
-                                                  }
-                                                }),
-                                                _vm._v(" ⋅"),
-                                                _c(
-                                                  "span",
-                                                  { staticClass: "text-muted" },
-                                                  [
-                                                    _vm._v(
-                                                      _vm._s(
-                                                        _vm.humanTime(
-                                                          replyChildren.created_at
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "span",
+                                                { staticClass: " text-black" },
+                                                [
+                                                  _c("a", {
+                                                    staticClass:
+                                                      "font-weight-bold text-black ",
+                                                    attrs: {
+                                                      href:
+                                                        "/user/" +
+                                                        replyChildren.user
+                                                          .username
+                                                    },
+                                                    domProps: {
+                                                      textContent: _vm._s(
+                                                        replyChildren.user
+                                                          .username
+                                                      )
+                                                    }
+                                                  }),
+                                                  _vm._v(" ⋅"),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass: "text-muted"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.humanTime(
+                                                            replyChildren.created_at
+                                                          )
                                                         )
                                                       )
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _c("br"),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass: "replyChild-body"
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                                                        " +
-                                                    _vm._s(replyChildren.body) +
-                                                    "\n                                                        \n                                                    "
-                                                )
-                                              ]
-                                            )
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _c("br"),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "replyChild-body"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                        " +
+                                                      _vm._s(
+                                                        replyChildren.body
+                                                      ) +
+                                                      "\n                                                        \n                                                    "
+                                                  )
+                                                ]
+                                              )
+                                            ])
                                           ])
                                         ])
-                                      ])
-                                    ]
-                                  )
-                                ]
-                              )
-                            })
-                          ],
-                          2
-                        )
-                      ])
+                                      ]
+                                    )
+                                  ]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ]
+                      )
                     : _vm._e(),
                   _vm._v(" "),
                   _c("ReplyChild", {
@@ -87877,7 +87894,7 @@ var render = function() {
         },
         [
           _c("div", { staticClass: "input-group" }, [
-            _c("textarea", {
+            _c("input", {
               directives: [
                 {
                   name: "model",
@@ -87887,11 +87904,12 @@ var render = function() {
                 }
               ],
               staticClass: "form-control form-control-sm bg-gray rounded-left",
+              staticStyle: { overflow: "auto" },
               attrs: {
+                type: "text",
                 name: "replyChild",
                 maxlength: "250",
-                placeholder: "Quick Reply",
-                rows: "1"
+                placeholder: "Quick Reply"
               },
               domProps: { value: _vm.ChildReply },
               on: {
