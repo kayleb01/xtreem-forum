@@ -39,7 +39,7 @@ const app = new Vue({
     	return {
             profile:false,
     		active:false,
-            tabs: ['Featured', 'Trending'],
+            tabs: ['Feed', 'Featured'],
             tab:[ 'Threads', 'Comments'],
             select: 'Threads',
             selectedTab: 'Featured',

@@ -12,7 +12,8 @@ class ReportController extends Controller
    {
           $request->validate([
             'comment'=> 'required',
-            'thread' => 'required'
+            'thread' => 'required',
+            'report' => 'required'
           ]);
           $report = report::create([
             'byUser'     => Auth::user()->id,

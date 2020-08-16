@@ -1,8 +1,7 @@
-<template>
+<template >
 <div>
     <span class="text-md  font-semibold text-dark">
-Please <a href="/login" @click.prevent="$modal.show('login')" class="text-blue link">sign in</a> to participate in this
-                discussion.
+<a href="/login" @click.prevent="$modal.show('login')" class="btn btn-secondary btn-block text-light rounded-pill">Login to Post</a>
     </span>
     <modal name="login" height="auto" :adaptive="true" transition="slide">
         <div class="float-right"><button class="btn btn-flat" @click="$modal.hide('login')">X</button></div>
@@ -19,9 +18,9 @@ Please <a href="/login" @click.prevent="$modal.show('login')" class="text-blue l
                     <input type="password" class="w-full p-2 leading-normal form-control" style="border-radius: 15px;" id="password" name="password" autocomplete="current-password" required v-model="form.password">
                 </div>
 
-                <div class="flex justify-end items-center form-group">
-                    <button type="submit" class="btn btn-outline-secondary btn-block border-secondary rounded-pill" :class="loading ? 'loader' : ''" :disabled="loading">Log In</button>
-                    <br>  DON'T HAVE ACCOUNT?
+                <div class=" items-center form-group">
+                    <button type="submit" class="btn btn-secondary btn-block border border-secondary rounded-pill" :class="loading ? 'loader' : ''" :disabled="loading">Log In</button>
+                    <br>  Don't have an account??
                     <a href="#" class="btn btn-outline-secondary text-grey-dark rounded-pill" @click="register">REGISTER</a>
                 </div>
 

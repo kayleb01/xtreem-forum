@@ -184,7 +184,8 @@ class ThreadsController extends Controller
         $trending->push($thread);
         $comment = comment::where('thread_id', '=', $thread->id)->paginate(20);
         $title = $thread->title;
-        return view('threads.show')->with(['thread' => $thread, 'comment' => $comment, 'title' => $title, 'newThread' => $newThread]);
+        $trending = $trending->get();
+        return view('threads.show')->with(['thread' => $thread, 'comment' => $comment, 'title' => $title, 'newThread' => $newThread, 'trending' => $trending]);
         }
         
     }
@@ -204,7 +205,7 @@ class ThreadsController extends Controller
     *@param Forum $forums
     *;
     */
-    public function forums($slug, NewThread $NewThread){
+    public function forums($slug, NewThread $NewThread, Trending $trending){
         if(empty($slug)){
             Redirect()->back();
         }
@@ -213,6 +214,7 @@ class ThreadsController extends Controller
             $forum = Forum::where('slug', '=', $slug)->first();
             $forum_ID = $forum->id;
              $newThread = $NewThread->get();
+             $trending = $trending->get();
             //Get all the posts from the forum
             $threads = Thread::with('category')->where('forum_id', $forum_ID)
                                     ->orderBy('created_at', 'desc')
@@ -221,11 +223,11 @@ class ThreadsController extends Controller
                             $threads = $forum_ID;
                             $title = 'Forums';
 
-                            return view("threads.no_forum", compact('threads', 'title', 'newThread'));
+                            return view("threads.no_forum", compact('threads', 'title', 'newThread', 'trending'));
                         }else{
                             
                             $title = $threads[0]->forum->name;
-                            return view('threads.forum', compact('threads', 'title', 'newThread'));
+                            return view('threads.forum', compact('threads', 'title', 'newThread', 'trending'));
                         }                   
         }
     }

@@ -1,5 +1,5 @@
 <template>
-    <div :id="'comment-'+id" class="panel panel-body">
+    <div :id="'comment-'+id" class="panel panel-body rounded">
         <div class="dropdown float-right" v-if="signedIn">
             <button class=" btn btn-flat dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton">
             </button>
@@ -13,7 +13,7 @@
             <div class="thread-user" style="margin-left:-63px; margin-top:-8px">
                 <table>
                     <tr>
-                    <td>
+                    <td >
                     <img :src="'/storage/storage/img/'+reply.user.avatar"
                      :alt="reply.user.username"
                      width="36"
@@ -45,18 +45,18 @@
                         <highlight :content="body" class="panel-body"></highlight>
                             <div v-if="signedIn" class="text-xs pl-2" style="padding-top:3px">
                                 <div class="d-flex justify-content-center">
-                                    <favorite :comment="reply" class="mr-6"></favorite>
+                                    <favorite :comment="reply" class="mr-4"></favorite>
                                         <a v-if="reply.user.id == user.id || user.role == 1"
                                             href="#"
                                             @click.prevent="editing = true"
-                                            class="text-black text-xs link  pl-2 mr-4"
+                                            class="text-black text-xs link  pl-3 mr-4"
                                             >
                                                 <i class="fa fa-edit" title="Edit"></i>
                                         </a>
-                                        <a  @click="replyShow" class="ml-2 pl-3 bg-color-black" title="Reply" v-show="reply.replyChild_count < 5"> 
+                                        <a  @click="replyShow" class="ml-4 pl-3 bg-color-black" title="Reply" v-show="reply.replyChild_count <= 5"> 
                                             <i class="fa fa-share-square"></i>
                                         </a>
-                                        <ReportModal :thread="reply.thread.id" :comment="reply.id" class="ml-4"/><br><br>
+                                        <ReportModal :thread="reply.thread.id" :comment="reply.id" class="ml-5 pl-3"/><br><br>
                                          <div v-if="reply.attachment">
                                             <span v-for="attachment in reply.attachment" :key="attachment.id">
                                             <img :src="'/storage/public/storage/img/'+ attachment.name" class="attachment">    
@@ -164,7 +164,7 @@ export default {
             this.editing = false;
 
             this.flashMessage.success({
-                message: 'Updated!'
+                message: 'Updated successfully!'
                 });
         },
         childDestroy(id){
@@ -207,3 +207,9 @@ export default {
     
 }
 </script>
+<style  scoped>
+.chld{
+    overflow: hidden;
+    width: 100%;
+}
+</style>

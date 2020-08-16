@@ -39,6 +39,22 @@
       <button v-for="(tab, index) in tabs" :key="index" :class="{ active: selectedTab === tab}" id="tablinks"
     @click="selectedTab = tab"> @{{ tab }}</button>
       </div>
+     
+      <div v-show="selectedTab =='Feed'"> 
+        @if(Auth::check()) 
+            <activities :user="{{ Auth::user()}}"></activities>
+         @else
+          <div class="" style="font-size: 15px;  line-height: 24px; margin: 0.5%; width: 100%;">
+ 
+            <span><i class="font-weight-bold"> Ooops!...</i> Seems like you've not registered or loggedIn yet</span>
+             <span class=""><a href="/register" class="btn btn-outline-secondary  border-secondary px-5 mr-2 rounded-pill">Register</a> or <a href="/login" class="btn btn-primary text-light rounded-pill px-5 ">Login</a> to get started</span> 
+            
+
+         </div>
+      @endif
+    </div>
+     
+      
       <div v-show="selectedTab == 'Featured'" class="shadow-sm">
           @if(isset($getFeatured))
                 @foreach($getFeatured as $key => $featured)
@@ -60,7 +76,7 @@
                       <small class="font-weight-bold">Pinned:</small>  
                     @endif
                     <div class="d-none d-sm-block">
-                    <button class="btn d-none d-sm-block btn-outline-primary py-1 px-3 btn-sm border-info float-right rounded-pill mb-2">{{$featured->forum->name}}</button>
+                    <button class="btn d-none d-sm-block btn-outline py-1 px-3 btn-sm  float-right rounded-pill mb-2" style="border-color:{{$featured->category->colour}}; color:{{$featured->category->colour}};">{{$featured->forum->name}}</button>
                     </div>
                     <a href="/{{$featured->slug}}">{{$featured->title}} </a><br>
                     <span class="c"><i class="fa fa-comment"></i>&nbsp;{{$featured->replies_count}} {{Str::plural('comment', $featured->replies_count)}}</span>&nbsp;<span class=" v mr-2 items-center text-grey-dark mr-2">&nbsp;

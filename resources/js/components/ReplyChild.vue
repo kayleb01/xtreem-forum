@@ -17,8 +17,7 @@
  import activation from '../mixins/activation';
  import collection from "../mixins/collection";
 export default {
-    mixins: [ activation ],
-    mixins: [collection],
+    mixins: [ activation, collection ],
     props:["reply"],
 
 
@@ -40,13 +39,13 @@ export default {
        sendChild(){
            this.loading = true;
            if(this.ChildReply ==""){
-            this.flashMessage.error({message:"Oops! Reply field is empty!"})
+            this.flashMessage.error({message:"Oops! reply field is empty!"})
            }else{
                
                axios
             .post("/replyChild/"+this.reply, { replyChild:this.ChildReply})
             .catch(
-                error => this.flashMessage.error({error: "Reply not sent, an error occured!"  }),
+                error => this.flashMessage.error({error: "reply not sent, an error occured!"  }),
                 )
             .then(({data}) => {
                 this.ChildReply = "";
@@ -56,6 +55,7 @@ export default {
                         });
                     this.loading = false;
                     this.$emit("created", data);
+                    this.child = true;
 
             })
            }

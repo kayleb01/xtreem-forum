@@ -26,7 +26,7 @@ export default {
             this.isActive = !this.isActive;
             if (this.isActive) {
                 this.flashMessage.success({
-                   message: "Okay, we'll notify you when this thread is updated!"
+                   message: "You're now Subscribed!"
                     });
             }
         }

@@ -81,11 +81,19 @@
 
          
 
-    <div class="page-footer p-3 bg-light">
-        <div class="inner" style="text-align: center;">
-            &copy; <?php echo date('Y')?> XtreemForum.com
+    <footer class="page-footer p-1 bg-light">
+    <!-- <div class="footnote d-flex justify-center">
+    <ul>
+    <li></li>
+   
+    </ul>
+    
+    </div> -->
+         <div class="inner" style="text-align: center;"> <!--<a href="/terms" class="link m-3">Terms</a>
+    <a href="/privacy" class="link m-3">Privacy</a><br> -->
+            &copy; <?php echo date('Y')?> Xtreemforum.com, All rights reserved.
         </div>
-    </div>
+    </footer>
     </div>
    </div> <!-- end of ID-APP -->
  <script type="text/javascript" src="{{url('js/app.js')}}"></script> 
