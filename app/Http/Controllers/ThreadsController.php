@@ -91,7 +91,7 @@ class ThreadsController extends Controller
    public function store(Request $request, NewThread $NewThread)
     {
         if(Auth::user()->confirmed != 1){
-            Redirect()->back()->with('error', 'Your have not verified your account, you cannot post, please verify account email');
+            Redirect()->back()->with('error', 'Your account has not been verified, you cannot post, please verify account email');
         }
         $request->validate([
             'title'         => 'required|max:150',
@@ -117,7 +117,6 @@ class ThreadsController extends Controller
         if($slug != $incremnted_slug){
             $slug = $incremnted_slug;
         }
-
         $user_id = Auth::user()->id;
         $thread = thread::create([
             'user_id'       => $user_id,
@@ -133,23 +132,10 @@ class ThreadsController extends Controller
             return response($thread, 201);
         }
          if($request->hasFile('file')){
-                            //Image upload
-                         $images = $request->file('file');
-                        foreach ($images as $key => $image) {
-                $fulname        = $image->getClientOriginalName();
-                $filenam        = pathinfo($fulname, PATHINFO_FILENAME);
-                $ext            = $image->getClientOriginalExtension();
-                $filename       = rand().time().'.'.$ext;
-                $Img            = $image->storeAs("/storage/storage/img/", $filename);
-                $upload         = attachment::create([
-                                                        'user_id'   => Auth::user()->id,
-                                                        'thread_id' => $thread->id,
-                                                        'filename'  => $fulname,
-                                                        'name'      => $filename
-                                                        ]);
-                                                   
+            //Image upload
+            imageAtt($request->file('file'));                               
             }  //end of foreach   
-        }
+        
         
         if( $thread ){
             $NewThread->push($thread);
@@ -170,13 +156,11 @@ class ThreadsController extends Controller
      */
     public function show($slug, Trending $trending, NewThread $NewThread)
     {     
-        
         //get all comments for this thread
        $threads  = thread::where('slug', '=', $slug)->get();
         // if (auth()->check()) {
         //    auth()->user()->read($threads);
         //      } 
-        
         foreach ($threads as $thread) {
        //   dd(json_encode($thread));
         $newThread = $NewThread->get();
@@ -199,6 +183,26 @@ class ThreadsController extends Controller
 
     }
 
+    //Image upload
+    //Upload attached images
+    public function imageAtt($file)
+    {
+        $images = $file;
+        foreach ($images as $key => $image) {
+            $fulname        = $image->getClientOriginalName();
+            $filenam        = pathinfo($fulname, PATHINFO_FILENAME);
+            $ext            = $image->getClientOriginalExtension();
+            $filename       = rand().time().'.'.$ext;
+            $Img            = $image->storeAs("/storage/storage/img/", $filename);
+            $upload         = attachment::create([
+                                                    'user_id'   => Auth::user()->id,
+                                                    'thread_id' => $thread->id,
+                                                    'filename'  => $fulname,
+                                                    'name'      => $filename
+                                                    ]);
+            }
+    }
+
     /**
     *Display all the forums content
     *
@@ -219,16 +223,14 @@ class ThreadsController extends Controller
             $threads = Thread::with('category')->where('forum_id', $forum_ID)
                                     ->orderBy('created_at', 'desc')
                                     ->paginate(10);
-                        if(empty($threads[0])){
-                            $threads = $forum_ID;
-                            $title = 'Forums';
-
-                            return view("threads.no_forum", compact('threads', 'title', 'newThread', 'trending'));
-                        }else{
-                            
-                            $title = $threads[0]->forum->name;
-                            return view('threads.forum', compact('threads', 'title', 'newThread', 'trending'));
-                        }                   
+            if(empty($threads[0])){
+                $threads = $forum_ID;
+                $title = 'Forums';
+                return view("threads.no_forum", compact('threads', 'title', 'newThread', 'trending'));
+            }else{
+                $title = $threads[0]->forum->name;
+                return view('threads.forum', compact('threads', 'title', 'newThread', 'trending'));
+            }                   
         }
     }
 
@@ -240,14 +242,11 @@ class ThreadsController extends Controller
      */
     public function update(Request $request, thread $thread)
     {
-       
         //$this->authorize('update', $thread);
-
         $thread->update(request()->validate([
             'title' => 'required',
             'body' => 'required'
         ]));
-
         return redirect('/'.$thread->slug);
     }
 

@@ -1,4 +1,4 @@
-<template>
+<template name="signin">
 <div>
     <span class="text-md  font-semibold text-dark">
 Please <a href="/login" @click.prevent="$modal.show('login')" class="text-blue link">sign in</a> to participate in this
