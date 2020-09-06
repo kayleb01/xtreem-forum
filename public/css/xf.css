@@ -42,8 +42,8 @@ width:100%;
 } 
 .user-image{
   position: absolute;
-  width: 180px;
-  height:185px;
+  width: 170px;
+  height:150px;
   border-radius: 20px;
   border: 4px solid #fff;
   display: block;
@@ -174,6 +174,13 @@ background-color: #666;
 }
 .userprof{
   margin-top: 94px;
+}
+.img_edit{
+  display: inline-block;
+  margin: 100px;
+  font-size: 20px;
+  margin: 0px;
+  padding: 0;
 }
 .note-group-select-from-files{
   display: none;
@@ -564,7 +571,7 @@ img.img { padding:0; margin:3;max-width: 100%;}
 @media (max-width: 767px) {
 
   .xf-theme .main-header .navbar .dropdown-menu li.divider {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.87);
   }
   .xf-theme .main-header .navbar .dropdown-menu li a {
     color: #fff;
@@ -607,7 +614,7 @@ img.img { padding:0; margin:3;max-width: 100%;}
 .xf-theme .wrapper,
 .xf-theme .main-sidebar,
 .xf-theme .left-side {
-  background-color:#e1e7d8;
+  background-color:rgba(219, 214, 214, 0.301);
   padding: 0px;
 }
 .xf-theme .content-wrapper,

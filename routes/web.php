@@ -104,13 +104,14 @@ Route::put('admin/categories/update/{id}', 'CategoriesController@update')->name(
  #-----------Profile-------------------------
  Route::post('/user/follow/{id}', 'ProfileController@follow');
  Route::get('/user/follow/{id}', 'ProfileController@unfollow');
- Route::get('user/{username}',['as' =>'profile', 'uses'=>'ProfileController@show'] );
+ Route::get('u/{username}',['as' =>'profile', 'uses'=>'ProfileController@show']);
  Route::get('/user/{user}/edit', ['as'=>'user/{user}/edit', 'uses'=>'ProfileController@edit']);
  Route::put('user/update', ['as'=>'user/update', 'uses'=>'ProfileController@update']);
  Route::put('user/pix', ['as'=>'user/pix', 'uses'=>'ProfileController@img']);
- Route::get('user/threads/{user}', 'ProfileController@user_threads');
+ Route::get('user/threads/{user}', 'ProfileController@user_threads')->middleware('auth');
+ Route::post('u/threads/{user}', 'ProfileController@update')->middleware('auth');
  Route::get('profiles/{user}/activity', 'ProfilesController@index')->name('activity');
- Route::get('profiles/{user}', 'ProfilesController@show')->name('profile');
+ Route::get('profiles/{user}', 'ProfilesController@show');
 
  #..........Pages
  Route::get('admin/pages', 'pagesController@index')->name('admin/pages');

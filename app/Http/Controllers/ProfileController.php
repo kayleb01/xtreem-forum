@@ -92,18 +92,15 @@ class ProfileController extends Controller
 
    public function update(Request $request, User $user){
    	$this->validate($request, [ 
-   	   		'email'		=>'required',
-   	   		 'location'	=>'required|min:2',
-   	   		 'dob'		=>'required',
-   	   		 'sex'		=>'required',
+   	   		'avatar'		=>'nullable',
+   	   		 'location'	=>'nullable|min:2',
+   	   		 'dob'		=>'nullable',
    	   		 'bio'		=> 'nullable',
    	   		 'website'	=>'nullable']);
 
 
-   	$user = User::where('id', $request->_user)->update(
-   		['email' 	=> $request->email,
+   	$user = User::where('id', $request->_user)->update([
    		'location'	=> $request->location,
-   		'sex'		=> $request->sex,
    		'website'	=> $request->website,
    		'bio'		=> $request->bio,
    		'dob'		=> $request->dob
@@ -154,12 +151,13 @@ class ProfileController extends Controller
      * @param User $user
      * @return mixed
      */
-    public function user_threads($user, NewThread $NewThread){
+    public function user_threads($user, NewThread $NewThread, trending $trending){
         $users      = User::where('username', $user)->first();
         $threads    = thread::where('user_id', $users->id)->paginate(20);
         $title      =  'Xtreem Forum - '.$users->username.'\'s Threads';
         $newThread = $NewThread->get();
-        return view('threads/user_threads', compact('threads', 'users', 'title', 'newThread'));
+        $trending = $trending->get();
+        return view('threads/user_threads', compact('threads', 'users', 'title', 'newThread', 'trending'));
     }
 
 

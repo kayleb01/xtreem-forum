@@ -2,6 +2,7 @@
 @section('content')
 <div class="container">
     <div class="row">
+    @include('threads._partials.widget')     
         <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
             <div class="">
                 <div class="">
@@ -18,7 +19,7 @@
                     <div class="" style="padding: 0">
                         @foreach($threads as $thread)
                       <div class="panel-body" style="padding:6px; border: none;">
-                        <img class="image-circle" src="/storage/storage/img/{{$thread->user->image_url}}">
+                        <img class="image-circle" src="/storage/storage/img/{{$thread->user->avatar}}" alt="{{$thread->user->username}}">
                           <span class="title">
                                     <!-- The thread section -->
                             &nbsp;&nbsp;<a href="/xf/{{$thread->slug}}">{{$thread->title}}</a>
@@ -34,7 +35,7 @@
               </div>
               {!!$threads->links()!!}
              </div>
-             @include('threads._partials.widget')     
+          
              </div><!-- End of row -->
                    
        
