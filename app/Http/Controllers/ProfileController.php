@@ -91,8 +91,6 @@ class ProfileController extends Controller
    }
 
    public function update(Request $request, User $username){
-       //If there's an attached image, UPLOAD!
-        $this->img($request);
         //The $username is an object that contains all the user details
         //So $username->id returns the userId 
    	$user = User::where('id', $username->id)->update([

@@ -87656,7 +87656,7 @@ var render = function() {
                   _c("span", { staticClass: " text-black" }, [
                     _c("a", {
                       staticClass: "font-weight-bold text-black ",
-                      attrs: { href: "/user/" + _vm.reply.user.username },
+                      attrs: { href: "/u/" + _vm.reply.user.username },
                       domProps: { textContent: _vm._s(_vm.reply.user.username) }
                     }),
                     _vm._v(" ⋅"),
@@ -87967,7 +87967,7 @@ var render = function() {
                                                       "font-weight-bold text-black ",
                                                     attrs: {
                                                       href:
-                                                        "/user/" +
+                                                        "/u/" +
                                                         replyChildren.user
                                                           .username
                                                     },
