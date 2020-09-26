@@ -234,9 +234,7 @@ text-decoration: underline;
 .title{
   display:inherit;
 }
-.title a:hover{
-  text-decoration:underline;
-}
+
 .timestamp{
   color:#036;
   max-width: 300px;
@@ -255,12 +253,9 @@ text-decoration: underline;
   color: #999;
 }
 .details a{
-  color:#034;font-weight:bold;}
+  color:#034;}
 .dis2{text-align: center;align-self: center;margin:0;font-family:Verdana, Geneva, sans-serif;font-size: 13px;padding-left: 8px;padding: 5px;}
-.details a:hover{
-  background-color:#034;
-  color:#fff;
-}
+
 .c{
   color:#F90;
   font-size: 14px;

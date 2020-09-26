@@ -34,7 +34,10 @@
                              <table  style="margin-bottom: 0;border-radius: 0;">
                                   <tr>
                                     <td style="max-width:350px;">
-                                      <img src="/storage/storage/img/{{$thread->user->avatar? $thread->user->avatar : 'default.jpg'}}" class="image-circle responsive">
+                                      <a href="/u/{{$thread->user->username}}">
+                                        <img src="/storage/storage/img/{{$thread->user->avatar? $thread->user->avatar : 'default.jpg'}}" class="image-circle responsive">
+                                      </a>
+                                      
                                       <span><a href="/u/{{$thread->user->username}}" class="username">{{$thread->user->username}}</a> </span> 
                                       &nbsp;&sdot;&nbsp; <span>{{$thread->created_at->toFormattedDateString()}}</span> 
                                       <div class="timestamp" style="width: 400px">

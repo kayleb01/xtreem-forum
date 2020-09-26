@@ -171,7 +171,7 @@ class comment extends Model
     {
         $this->attributes['body'] = preg_replace(
             '/@([\w\-]+)/',
-            '<a href="/user/$1">$0</a>',
+            '<a href="/u/$1">$0</a>',
             $body
         );
            }

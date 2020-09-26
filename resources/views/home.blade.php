@@ -1,7 +1,5 @@
-   @extends('layouts.app')
-
+@extends('layouts.app')
 @section('content')
-
 <div class="card pt-1 ">
   <div class="container mt-1" v-on:click="toggle">
     <span class="activea"><h4 class="ml-2">FORUMS <a href="#" ><i class="fa fa-caret-down" style="color: #000"></i></a></h4></span>
@@ -26,36 +24,27 @@
           @endforeach    
         </table>    
     </div>
-
   </div>  <!--EndOfRow -->                 
  </div> <!--EndOfContainer -->
  <div class="container">
   <div class="row">
   @include('threads._partials.widget')
-
    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-  
       <div class="tab nav-tabs mb-1">
       <button v-for="(tab, index) in tabs" :key="index" :class="{ active: selectedTab === tab}" id="tablinks"
     @click="selectedTab = tab"> @{{ tab }}</button>
       </div>
-     
       <div v-show="selectedTab =='Feed'"> 
         @if(Auth::check()) 
             <activities :user="{{ Auth::user()}}"></activities>
          @else
           <div class="" style="font-size: 15px;  line-height: 24px; margin: 0.5%; width: 100%;">
- 
             <span><i class="font-weight-bold"> Ooops!...</i> Seems like you've not registered or loggedIn yet</span>
              <span class=""><a href="/register" class="btn btn-outline-secondary  border-secondary px-5 mr-2 rounded-pill">Register</a> or <a href="/login" class="btn btn-primary text-light rounded-pill px-5 ">Login</a> to get started</span> 
-            
-
          </div>
       @endif
     </div>
-     
-      
-      <div v-show="selectedTab == 'Featured'" class="shadow-sm">
+     <div v-show="selectedTab == 'Featured'" class="shadow-sm">
           @if(isset($getFeatured))
                 @foreach($getFeatured as $key => $featured)
                   @if(!Auth::check())  
@@ -64,13 +53,11 @@
                           <a href="/register" target="_blank">
                             <img src="storage/storage/img/advert.jpg" alt=""><br>
                           </a>
-                     
                       <a href='/register' class="text-blue">Register</a> and <a href='/login' class="text-blue">Login</a> to join our community</div>
                     @endif
             @endif
             <div class="forum_title rounded">
-             
-               <a href="/user/{{$featured->user->username}}"><img class="image-circle" src="/storage/storage/img/{{$featured->user->avatar ? $featured->user->avatar : 'default.jpg'}}"></a> 
+               <a href="/u/{{$featured->user->username}}"><img class="image-circle" src="/storage/storage/img/{{$featured->user->avatar ? $featured->user->avatar : 'default.jpg'}}"></a> 
                 <div class="featured"> 
                   @if ($featured->pinned)
                       <small class="font-weight-bold">Pinned:</small>  
@@ -106,6 +93,4 @@
    </div>
    </div>
  </div>
- 
-
 @endsection
