@@ -176,8 +176,7 @@ background-color: #666;
   margin-top: 94px;
 }
 .img_edit{
-  display: inline-block;
-  margin: 100px;
+  margin-top: -2.2em;
   font-size: 20px;
   margin: 0px;
   padding: 0;

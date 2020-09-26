@@ -109,7 +109,7 @@ Route::put('admin/categories/update/{id}', 'CategoriesController@update')->name(
  Route::put('user/update', ['as'=>'user/update', 'uses'=>'ProfileController@update']);
  Route::put('user/pix', ['as'=>'user/pix', 'uses'=>'ProfileController@img']);
  Route::get('user/threads/{user}', 'ProfileController@user_threads')->middleware('auth');
- Route::post('u/threads/{user}', 'ProfileController@update')->middleware('auth');
+ Route::post('u/{username}/store', 'ProfileController@update')->middleware('auth');
  Route::get('profiles/{user}/activity', 'ProfilesController@index')->name('activity');
  Route::get('profiles/{user}', 'ProfilesController@show');
 

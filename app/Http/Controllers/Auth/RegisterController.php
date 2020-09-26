@@ -79,6 +79,7 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data){
+        return $data;
         if(!$data){
             return redirect('/');
         }
@@ -105,7 +106,6 @@ class RegisterController extends Controller
             'password'  => Hash::make($data['password']),
             'confirmation_token' => Str::limit(Hash::make($data['email'].Str::random()), 25, ''),
             'username'  => $data['username']
-
         ]);
 
         if ($userCreate) {

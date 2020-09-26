@@ -68,14 +68,14 @@ class ProfileController extends Controller
    	return view('frontend.editProfile', compact('user', 'title'));
    }
 
-   public function img(Request $request){
-            if($request->hasFile('pic')){
+   public function img($file){
+            if($file){
          //Get the  filename with extension
          //Get just the filename
          //Just the extension
-         $fulnameWithExt = $request->pic->getClientOriginalName();
+         $fulnameWithExt = $file->getClientOriginalName();
          $filenam =  pathinfo($fulnameWithExt, PATHINFO_FILENAME);
-         $ext  = $request->pic->getClientOriginalExtension();
+         $ext  = $file->getClientOriginalExtension();
          $filename  =  '$qwcsdiuhj'.time().'.'.$ext;
          $path = $request->pic->storeAs("public/storage/img", $filename);
          $upload = User::where('id', $request->id)->update(['image_url' => $filename]);
@@ -90,24 +90,20 @@ class ProfileController extends Controller
 
    }
 
-   public function update(Request $request, User $user){
-   	$this->validate($request, [ 
-   	   		'avatar'		=>'nullable',
-   	   		 'location'	=>'nullable|min:2',
-   	   		 'dob'		=>'nullable',
-   	   		 'bio'		=> 'nullable',
-   	   		 'website'	=>'nullable']);
-
-
-   	$user = User::where('id', $request->_user)->update([
+   public function update(Request $request, User $username){
+       //If there's an attached image, UPLOAD!
+        $this->img($request);
+        //The $username is an object that contains all the user details
+        //So $username->id returns the userId 
+   	$user = User::where('id', $username->id)->update([
    		'location'	=> $request->location,
-   		'website'	=> $request->website,
+   		'website'	=> $request->web,
    		'bio'		=> $request->bio,
-   		'dob'		=> $request->dob
+   		'dob'		=> $request->birthday
    	]);
-   	if($user)
-   	{
-   		return Redirect('user/'.$request->username.'');
+   	if($user){
+           //Username->username returns the username of the user
+   		return Redirect('u/'.$username->username.'');
    	}else{
    		return back()->withInput();
    		}
