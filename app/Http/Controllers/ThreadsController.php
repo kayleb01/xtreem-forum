@@ -133,7 +133,7 @@ class ThreadsController extends Controller
         }
          if($request->hasFile('file')){
             //Image upload
-            imageAtt($request->file('file'));                               
+            $this->imageAtt($request->file('file'), $thread);                               
             }  //end of foreach   
         
         
@@ -185,7 +185,7 @@ class ThreadsController extends Controller
 
     //Image upload
     //Upload attached images
-    public function imageAtt($file)
+    public function imageAtt($file, $thread)
     {
         $images = $file;
         foreach ($images as $key => $image) {
@@ -193,7 +193,7 @@ class ThreadsController extends Controller
             $filenam        = pathinfo($fulname, PATHINFO_FILENAME);
             $ext            = $image->getClientOriginalExtension();
             $filename       = rand().time().'.'.$ext;
-            $Img            = $image->storeAs("/storage/storage/img/", $filename);
+            $Img            = $image->public_path("/storage/storage/img/", $filename);
             $upload         = attachment::create([
                                                     'user_id'   => Auth::user()->id,
                                                     'thread_id' => $thread->id,

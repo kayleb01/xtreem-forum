@@ -65,9 +65,7 @@ class RegisterController extends Controller
             'sex'      => ['required'],
             'location' => ['required'],
             'avatar'   => ['image', 'mimes:jpeg,jpg,png,gif,svg'],
-            'birthday' => ['required','numeric'],
-            'birthmonth'=> ['required','numeric'],
-            'birthyear' => ['required','numeric'],
+            'birthday' => ['required'],
             'categories'=> ['required'],
         ]);
     }
@@ -79,7 +77,7 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data){
-        return $data;
+    
         if(!$data){
             return redirect('/');
         }
@@ -99,7 +97,7 @@ class RegisterController extends Controller
          $userCreate =   User::Create([
             'email'     => $data['email'],
             'location'  => $data['location'],
-            'dob'       => $data['birthyear'].'-'.$data['birthmonth'].'-'.$data['birthday'],
+            'dob'       => $data['birthday'],
             'sex'       => $data['sex'],
             'avatar'    => time().$originalImage->getClientOriginalName(),
             'role'      => 3,     
@@ -124,7 +122,8 @@ class RegisterController extends Controller
 
 public function registered(Request $request, $user)
 { 
-    Mail::to($user)->send(new PleaseConfirmYourEmail($user));
+
+    //Mail::to($user)->send(new PleaseConfirmYourEmail($user));
 }
 
 public function showRegistrationForm(NewThread $newThread, Trending $trending)

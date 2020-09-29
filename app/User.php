@@ -32,7 +32,7 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
      */
     protected $fillable = ['email', 'password', 'sex', 'location', 'dob', 'role', 'avatar', 'username', 'confirmation_token'];
 
-    protected $appends = ['isFollowed'];
+    protected $appends = [];
     /**
      * The attributes that should be cast to native types.
      *
@@ -132,10 +132,10 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
         );
     }
 
-    public function getIsFollowedAttribute()
-    {
-        return Follow::where('user_id', $this->id)->exists();
-    }
+    // public function getIsFollowedAttribute()
+    // {
+    //     return Follow::where('user_id', $this->id)->exists();
+    // }
 /**
      * Get the cache key for when a user reads a thread.
      *

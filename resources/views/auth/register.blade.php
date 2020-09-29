@@ -12,7 +12,7 @@
                         <div class="form-group ">
                             <!-- <label for="username" class=" col-form-label text-md-right">{{ __('Username') }}</label> -->
                             <div class="">
-                                <input id="username" type="text" class="form-control rounded-pill @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus placeholder="Username">
+                                <input id="username" type="text" class="form-control rounded-pill @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="" autofocus placeholder="Username">
                                     
                                 @error('username')
                                     <span class="invalid-feedback" role="alert">
