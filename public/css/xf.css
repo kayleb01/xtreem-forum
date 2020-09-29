@@ -189,9 +189,9 @@ background-color: #666;
 .note-group-select-from-files{
   display: none;
 }
-img.attachment{max-width: 100%;}
+img.attachment{max-width: 100%}
 img.img-locked{width: 100px; height: 100px; margin-left: 300px}
-img{width: 100%;}
+img{max-width: 100%;}
 img.icon{
   width: auto;
 }

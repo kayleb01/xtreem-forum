@@ -64,7 +64,7 @@
                               {!!$thread->body!!}
                               @if($thread->attachment)
                                         @foreach($thread->attachment as $attachment)
-                                        <img class="attachment" src="{{url('/storage/storage/img')}}/{{$attachment->name}}"/>
+                                        <img class="attachment" src="{{url('/storage/storage/img')}}/{{$attachment->filename}}"/>
                                         @endforeach
                                       @endif     
                               <div class="lks">

@@ -38,7 +38,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/ ';
 
     /**
      * Create a new controller instance.
@@ -81,13 +81,12 @@ class RegisterController extends Controller
         if(!$data){
             return redirect('/');
         }
-        //dd($data['username']);
         //The forums for the Feed
        $feedData =  $data['categories'];
         //upload the avatar using Intervention
-        $originalImage = $data['avatar'];
-        $avatar = Image::make($originalImage);
-        $path   = public_path()."/storage/storage/img/";
+        $originalImage  = $data['avatar'];
+        $avatar         = Image::make($originalImage);
+        $path           = public_path()."/storage/storage/img/";
         $avatar->resize(200,200, function($constraint){
             $constraint->aspectratio();
             $constraint->upsize();

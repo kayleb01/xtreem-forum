@@ -2,25 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Categories;
-use App\filter\ThreadFilters;
-use App\thread;
-use App\User;
-use App\Trending;
-use App\NewThread;
-use App\comment;
-use App\Forum;
-use Carbon\carbon;
-use Rules\SpamFree;
-use Auth;
-use Linkify;
-use App\attachment;
-use Illuminate\Http\Request;
 use App\Events\ThreadReceivedNewReply;
+use App\filter\ThreadFilters;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
-
-
+use App\attachment;
+use App\Categories;
+use Rules\SpamFree;
+use App\NewThread;
+use Carbon\carbon;
+use App\Trending;
+use App\comment;
+use App\thread;
+use App\Forum;
+use Linkify;
+use App\User;
+use Image;
+use Auth;
 
 class ThreadsController extends Controller
 {
@@ -55,15 +53,14 @@ class ThreadsController extends Controller
                     $newThread      = $NewThread->get();
                     $trending       = $trending->get();     
                     $Categories     = Categories::all();
-        //load the view
-        return view('home', compact('getFeatured', 'trending', 'newThread', 'title','Categories'));
+                //load the view
+                return view('home', compact('getFeatured', 'trending', 'newThread', 'title','Categories'));
 
     }
    
 
     public function replies($slug){
         $thread = thread::where('slug', '=', $slug)->first();
-
         return comment::where('thread_id', $thread->id)
                         ->paginate(10);
     }
@@ -98,6 +95,9 @@ class ThreadsController extends Controller
             'body'          => 'required|max:8000',
             'image'         => 'image|mimes:jpeg,jpg,gif,png|size:4096'
         ]);
+
+        // if the time is not up to minute fromthe previous reply
+        // make the user to wait
         if (config('xf.security.limit_time_between_post')) {
             if ($this->time_btw_threads()) {
                 return Redirect()->back()->with('error', 'Please wait for a minute before you post again')->withInput();
@@ -186,20 +186,25 @@ class ThreadsController extends Controller
     //Image upload
     //Upload attached images
     public function imageAtt($file, $thread)
-    {
-        $images = $file;
-        foreach ($images as $key => $image) {
+    {   
+          
+        foreach ($file as $key => $image) {
             $fulname        = $image->getClientOriginalName();
-            $filenam        = pathinfo($fulname, PATHINFO_FILENAME);
-            $ext            = $image->getClientOriginalExtension();
-            $filename       = rand().time().'.'.$ext;
-            $Img            = $image->public_path("/storage/storage/img/", $filename);
-            $upload         = attachment::create([
-                                                    'user_id'   => Auth::user()->id,
-                                                    'thread_id' => $thread->id,
-                                                    'filename'  => $fulname,
-                                                    'name'      => $filename
-                                                    ]);
+            $avatar         = Image::make($image);
+            $path           = public_path()."/storage/storage/img/";
+            
+            $avatar->resize(400,400, function($constraint){
+            $constraint->aspectratio();
+            $constraint->upsize();
+            });
+            $all = time().$fulname;
+            $avatar->save($path.$all);
+            $upload   = attachment::create([
+                        'user_id'   => Auth::user()->id,
+                        'thread_id' => $thread->id,
+                        'filename'  => $all,
+                 
+                        ]);
             }
     }
 
