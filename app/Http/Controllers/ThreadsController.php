@@ -176,10 +176,10 @@ class ThreadsController extends Controller
 
     // Fetch all the data of the thread
     // @param thread $thread
-    public function edit(thread $id) {
+    public function edit(thread $id, Trending $trending) {
       //For readability
       $thread = $id;
-        return view('threads.edit')->with(['thread'=>$thread, 'title' => 'Edit thread']);
+        return view('threads.edit')->with(['thread'=>$thread, 'title' => 'Edit thread', 'trending' => $trending->get()]);
 
     }
 
