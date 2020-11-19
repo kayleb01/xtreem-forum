@@ -13,6 +13,11 @@
     margin-left:20%;
     
 }
+.link:hover{
+  text-decoration: none;
+  color:#037 !important;
+}
+
 .logo{
   width: 150px;
   height: 25px;

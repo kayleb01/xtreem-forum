@@ -40,7 +40,7 @@
          @else
           <div class="" style="font-size: 15px;  line-height: 24px; margin: 0.5%; width: 100%;">
             <span><i class="font-weight-bold"> Ooops!...</i> Seems like you've not registered or loggedIn yet</span>
-             <span class=""><a href="/register" class="btn btn-outline-secondary  border-secondary px-5 mr-2 rounded-pill">Register</a> or <a href="/login" class="btn btn-primary text-light rounded-pill px-5 ">Login</a> to get started</span> 
+             <span class=""><a href="/register" class="btn btn-outline-secondary  border-secondary px-5 mr-2 rounded-pill">Register</a> or  <a href="/login" class="btn btn-primary text-light rounded-pill px-5 ">Login</a> to get started</span> 
          </div>
       @endif
     </div>

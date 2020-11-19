@@ -40,7 +40,7 @@
   </noscript>
 <div id="app">
     <div class="wrapper">
-         <nav class="navbar sticky-top navbar-expand-sm x-c">
+         <nav class="navbar navbar-static-top navbar-expand-sm x-c">
             <a class="navbar-brand" href="/"><img  class="navbar-brand" src="/storage/storage/img/logo.png" width="150" height="40" class="logo"></a>
                 <button class="navbar-toggler" type="button text-light" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon" ><i class="fa fa-bars text-light"></i></span>
