@@ -99,5 +99,5 @@ Banned Users</h1>
 </div>
 <span>{{$user->links()}}</span>
 </div>
-@include('admin.modFooter')
+@include('Admin.modFooter')
 <div class="modal"></div>

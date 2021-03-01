@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class HomeController extends Controller
 {
@@ -21,8 +23,28 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+
+        $feed = DB::table('threads')->where(function($query) {
+
+            $query->where('user_id', auth()->id())
+                    ->orWhere('user_id', auth()->user()->following->pluck('id'));
+
+        })->withCount([
+            'likes',
+            'likes as like' => function($q){
+                $q->where('user_id', auth()->id())
+                    ->orWhere('user_id',  auth()->user()->following->pluck('id'));
+            }
+        ])
+        ->withCasts(['likes'=> 'boolean'])
+        ->join('comments', 'threads.id', '=', 'thread_id')
+        ->with('user')
+        ->get();
+
+        if ($request->wantsJson($feed)) {
+          return response()->json($feed);
+        }
     }
 }

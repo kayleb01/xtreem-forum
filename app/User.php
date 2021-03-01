@@ -13,14 +13,14 @@ use Auth;
 use App\Follow;
 
 
-class User extends Authenticatable 
+class User extends Authenticatable
 {
    // use HasApiTokens;
     // use Bannable;
     use softDeletes;
     use Notifiable;
 
-    
+
 protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'];
 
 //protected $dateFormat = 'U';
@@ -59,13 +59,13 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
     protected $hidden = [
         'password', 'remember_token'
     ];
-    
+
     /**
-     *  The attributes that should be used for eager loading 
+     *  The attributes that should be used for eager loading
      */
-    
+
 //protected   $with = ['comment', 'thread'];
-    
+
 #Relationships
     public function comment()
     {
@@ -80,14 +80,28 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
     public function role(){
         return $this->BelongsTo(Role::class);
     }
-     
-    public function follow()
-    {
-        return $this->hasMany(Follow::class);
-    }
+
+    // public function follow()
+    // {
+    //     return $this->hasMany(Follow::class);
+    // }
+
      public function thread(){
         return $this->hasMany(thread::class)->latest();
     }
+
+    public function follower()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id')
+            ->withTimestamps();
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id')
+            ->withTimestamps();
+    }
+
      /**
      * Fetch the last published reply for the user.
      *
@@ -132,10 +146,10 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
         );
     }
 
-    // public function getIsFollowedAttribute()
-    // {
-    //     return Follow::where('user_id', $this->id)->exists();
-    // }
+    public function getIsFollowingAttribute()
+    {
+        return $this->following()->where('follower_id', '=', auth()->id());
+    }
 /**
      * Get the cache key for when a user reads a thread.
      *
@@ -147,5 +161,5 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
         return sprintf("users.%s.visits.%s", $this->id, $thread->id);
     }
 
-    
+
 }

@@ -12,6 +12,7 @@
 */
 Auth::routes();
 
+Route::get('/feed', 'Api\HomeController@index')->middleware('auth');
 Route::post('replyChild/{id}', 'ReplyChildController@store');
 Route::get('replychild/{id}', 'ReplyChildController@index');
 Route::delete('replychildren/{id}', 'ReplyChildController@destroy');
@@ -22,8 +23,8 @@ Route::post('{slug}/sendReport', 'ReportController@create');
 //Thread search
 Route::get('/xf/search', ['as' => '/xf/search', 'uses' => 'SearchController@show']);
 Route::get('/thread/{id}/edit', 'ThreadsController@edit');
-Route::post('/thread/{thread}/edit', 'ThreadsController@update'); 
-Route::get('/', 'ThreadsController@index')->name('/'); 
+Route::post('/thread/{thread}/edit', 'ThreadsController@update');
+Route::get('/', 'ThreadsController@index')->name('/');
 Route::get('/home', 'ThreadsController@index')->name('home');
 
 Route::get('/{thread}', ['as' => '/{thread}', 'uses' => 'ThreadsController@show']);
@@ -40,7 +41,7 @@ Route::delete('/xf/destroy/{id}/comment', 'RepliesController@destroy')->name('/x
 
 //Replies\
 Route::post('{slug}/create', 'RepliesController@store')->name('reply.create');
-Route::get('{slug}/replies', 'ThreadsController@replies')->name('replies');
+Route::get('{slug}/replies', 'RepliesController@replies')->name('replies');
 
 Route::patch('/commentEdit/{id}', ['as' => '/commentEdit/{id}', 'uses' => 'RepliesController@update']);
 Route::get('/comment/like/{id}', ['as' => '/comment/like/{id}', 'uses' => 'likesController@togglelikes']);
@@ -102,8 +103,8 @@ Route::put('admin/categories/update/{id}', 'CategoriesController@update')->name(
  Route::delete('moderation/destroy', ['as' => 'moderation/destroy', 'uses' => 'ModerationController@destroy'])->middleware('auth');
 
  #-----------Profile-------------------------
- Route::post('/user/follow/{id}', 'ProfileController@follow');
- Route::get('/user/follow/{id}', 'ProfileController@unfollow');
+ Route::post('/u/{user}/follow/{id}', 'FollowersController@store');
+ Route::delete('/u/{user}/follow/{id}', 'FollowersController@destroy');
  Route::get('u/{username}',['as' =>'profile', 'uses'=>'ProfileController@show']);
  Route::get('/user/{user}/edit', ['as'=>'user/{user}/edit', 'uses'=>'ProfileController@edit']);
  Route::put('user/update', ['as'=>'user/update', 'uses'=>'ProfileController@update']);

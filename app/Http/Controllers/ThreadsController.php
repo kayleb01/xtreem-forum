@@ -38,31 +38,27 @@ class ThreadsController extends Controller
      * @param \App\Trending $trending
      * @return \Illuminate\Http\Response
      */
-    public function index(Categories $category, Trending $trending, NewThread $NewThread)
-    {   //get the front page threads
-        //  $threads = $this->getThreads($category, $filters);
+    public function index(Trending $trending, NewThread $NewThread)
+    {
+
 
         // if (request()->wantsJson()) {
         //     return $threads;
         // }
         $getFeatured = thread::where('fp', '=', 1)
                         ->orderBy('created_at', 'desc')
+                        ->with('forum', 'user', 'category')
                         ->simplePaginate(30);
-        
-                    $title          = 'XtreemForum';
+
+                    $title          = 'XtreemForum|Home';
                     $newThread      = $NewThread->get();
-                    $trending       = $trending->get();     
-                    $Categories     = Categories::all();
+                    $trending       = $trending->get();
+
+                    $Categories     = Categories::with('forums')
+                                                ->get();
                 //load the view
-                return view('home', compact('getFeatured', 'trending', 'newThread', 'title','Categories'));
+                return view('home', compact('getFeatured', 'trending', 'newThread', 'title', 'Categories'));
 
-    }
-   
-
-    public function replies($slug){
-        $thread = thread::where('slug', '=', $slug)->first();
-        return comment::where('thread_id', $thread->id)
-                        ->paginate(10);
     }
 
     /**
@@ -74,7 +70,7 @@ class ThreadsController extends Controller
     {
         $forum        = $id;
         $newThread    = $NewThread->get();
-        $trending     = $trending->get(); 
+        $trending     = $trending->get();
         $title = 'Xtreem Forum - Create Thread';
         return view('threads.create', compact('forum', 'title','trending', 'newThread'));
     }
@@ -82,7 +78,7 @@ class ThreadsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
    public function store(Request $request, NewThread $NewThread)
@@ -122,28 +118,28 @@ class ThreadsController extends Controller
             'user_id'       => $user_id,
             'cat_id'        => request('category_id'),
             'forum_id'      => request('forum_id'),
-            'slug'          => $slug,  
+            'slug'          => $slug,
             'title'         => request('title'),
             'body'         => request('body'),
             'reply_user'   => $user_id,
         ]);
-        
+
         if (request()->wantsJson()) {
             return response($thread, 201);
         }
          if($request->hasFile('file')){
             //Image upload
-            $this->imageAtt($request->file('file'), $thread);                               
-            }  //end of foreach   
-        
-        
+            $this->imageAtt($request->file('file'), $thread);
+            }  //end of foreach
+
+
         if( $thread ){
             $NewThread->push($thread);
             return redirect($thread->path());
         }else{
             return redirect()->back()->with('error', 'An error was encountered');
         }
-        
+
     }
 
     /**
@@ -155,23 +151,24 @@ class ThreadsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($slug, Trending $trending, NewThread $NewThread)
-    {     
-        //get all comments for this thread
-       $threads  = thread::where('slug', '=', $slug)->get();
+    {
+
+       $threads  = thread::where('slug', '=', $slug)->with(['user', 'attachment'])->get();
         // if (auth()->check()) {
         //    auth()->user()->read($threads);
-        //      } 
+        //      }
         foreach ($threads as $thread) {
-       //   dd(json_encode($thread));
+
         $newThread = $NewThread->get();
         $thread->increment('visits');
+
         $trending->push($thread);
-        $comment = comment::where('thread_id', '=', $thread->id)->paginate(20);
+        $comment = comment::where('thread_id', '=', $thread->id)->with('thread')->paginate(20);
         $title = $thread->title;
         $trending = $trending->get();
         return view('threads.show')->with(['thread' => $thread, 'comment' => $comment, 'title' => $title, 'newThread' => $newThread, 'trending' => $trending]);
         }
-        
+
     }
 
     // Fetch all the data of the thread
@@ -186,13 +183,13 @@ class ThreadsController extends Controller
     //Image upload
     //Upload attached images
     public function imageAtt($file, $thread)
-    {   
-          
+    {
+
         foreach ($file as $key => $image) {
             $fulname        = $image->getClientOriginalName();
             $avatar         = Image::make($image);
-            $path           = public_path()."/storage/storage/img/";
-            
+            $path           = public_path()."/storage/img/";
+
             $avatar->resize(400,400, function($constraint){
             $constraint->aspectratio();
             $constraint->upsize();
@@ -200,10 +197,11 @@ class ThreadsController extends Controller
             $all = time().$fulname;
             $avatar->save($path.$all);
             $upload   = attachment::create([
+                        'name'      => $fulname,
                         'user_id'   => Auth::user()->id,
                         'thread_id' => $thread->id,
                         'filename'  => $all,
-                 
+
                         ]);
             }
     }
@@ -235,7 +233,7 @@ class ThreadsController extends Controller
             }else{
                 $title = $threads[0]->forum->name;
                 return view('threads.forum', compact('threads', 'title', 'newThread', 'trending'));
-            }                   
+            }
         }
     }
 

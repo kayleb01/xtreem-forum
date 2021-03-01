@@ -6,7 +6,7 @@
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="jumbotron bg-img mt-2 text-light d-flex justify-content-center" style="height: 108px !important; margin-bottom: 85px;">
 			<div class="d-flex justify-center img_edit mt-3 text-dark rounded"><i class="fa fa-edit fa-lg"></i></div>
-              <img src="/storage/storage/img/{{$user->avatar}}" class="user-image mt-3" >
+              <img src="/storage/img/{{$user->avatar}}" class="user-image mt-3" >
   		</div>
 			<div class="panel panel-body " style="padding:20px; margin-top:105px">
 				<legend>

@@ -9,7 +9,7 @@ class Forum extends Model
 {
 
    //use softDeletes;
-   protected $with = ['comment', 'category'];
+   protected $with = [];
    protected $fillable = [
    'name',
    'description',

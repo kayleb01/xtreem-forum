@@ -5,6 +5,7 @@
  */
 require('./bootstrap');
 import FlashMessage from '@smartweb/vue-flash-message';
+import 'animate.css';
 
 
 

@@ -22,4 +22,17 @@ class ReplyChild extends Model
 
     }
    
+     /**
+     * Set the body attribute.
+     *
+     * @param string $body
+     */
+    public function setBodyAttribute($body)
+    {
+        $this->attributes['body'] = preg_replace(
+            '/@([\w\-]+)/',
+            '<a href="/u/$1">$0</a>',
+            $body
+        );
+           }
 }

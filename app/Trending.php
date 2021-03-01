@@ -14,7 +14,7 @@ class Trending{
     {
         return Cache::get($this->cacheKey(), collect())
                     ->sortByDesc('score')
-                    ->slice(0, 15)
+                    ->slice(0, 5)
                     ->values();
     }
 

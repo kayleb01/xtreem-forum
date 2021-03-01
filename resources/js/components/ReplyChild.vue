@@ -40,6 +40,7 @@ export default {
            this.loading = true;
            if(this.ChildReply ==""){
             this.flashMessage.error({message:"Oops! reply field is empty!"})
+            this.loading = false;
            }else{
                
                axios

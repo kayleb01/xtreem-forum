@@ -63,4 +63,4 @@
     </div>
 </section>
 </div>
-@include('admin.footer')
+@include('Admin.footer')

@@ -85,4 +85,4 @@
 </div>
 </div>
 </div>
-@include('admin.footer')
+@include('Admin.footer')

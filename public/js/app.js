@@ -97,6 +97,36 @@ module.exports=function(t){var e={};function n(r){if(e[r])return e[r].exports;va
 
 /***/ }),
 
+/***/ "./node_modules/animate.css/animate.css":
+/*!**********************************************!*\
+  !*** ./node_modules/animate.css/animate.css ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../css-loader??ref--6-1!../postcss-loader/src??ref--6-2!./animate.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/animate.css/animate.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/at.js/dist/js/jquery.atwho.js":
 /*!****************************************************!*\
   !*** ./node_modules/at.js/dist/js/jquery.atwho.js ***!
@@ -3085,8 +3115,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Activities',
   props: {
@@ -3232,75 +3260,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    activity: {
-      required: true
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ActivityThread.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ActivityThread.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Highlight_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Highlight.vue */ "./resources/js/components/Highlight.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    highlight: _Highlight_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
   props: {
     activity: {
       required: true
@@ -3797,6 +3756,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3828,7 +3799,10 @@ __webpack_require__.r(__webpack_exports__);
         var redirect = _ref.data.redirect;
         location.assign(redirect);
       })["catch"](function (error) {
-        _this.feedback = "The given credentials are incorrect. Please try again.";
+        _this.flashMessage.error({
+          "message": "The given credentials are incorrect. Please try again."
+        });
+
         _this.loading = false;
       });
     },
@@ -3931,7 +3905,7 @@ __webpack_require__.r(__webpack_exports__);
       delay: 750,
       callbacks: {
         remoteFilter: function remoteFilter(query, callback) {
-          $.getJSON("/api/users", {
+          $.get("/api/users", {
             name: query
           }, function (usernames) {
             callback(usernames);
@@ -3956,6 +3930,8 @@ __webpack_require__.r(__webpack_exports__);
           _this.flashMessage.error({
             message: "An internal error occured, please try again later"
           });
+
+          _this.loading = false;
         }).then(function (_ref) {
           var data = _ref.data;
           _this.body = "";
@@ -4537,6 +4513,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -4556,8 +4533,11 @@ __webpack_require__.r(__webpack_exports__);
       replyClick: false,
       child: false,
       loading: false,
-      see: "See more replies"
+      see: "See more replies" // items: []
+
     };
+  },
+  mounted: function mounted() {//
   },
   computed: {
     ago: function ago() {
@@ -4672,6 +4652,7 @@ __webpack_require__.r(__webpack_exports__);
         this.flashMessage.error({
           message: "Oops! reply field is empty!"
         });
+        this.loading = false;
       } else {
         axios.post("/replyChild/" + this.reply, {
           replyChild: this.ChildReply
@@ -5086,6 +5067,55 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/feed.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/feed.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      feeds: ''
+    };
+  },
+  created: function created() {
+    this.getFeed();
+  },
+  methods: {
+    getFeed: function getFeed() {
+      var _this = this;
+
+      axios.get('/feed').then(function (_ref) {
+        var data = _ref.data;
+        return _this.feeds = data;
+      })["catch"](function (error) {
+        _this.flashMessage.error({
+          message: "An Unexpected error occured. Please try again." + error
+        });
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/follow.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/follow.vue?vue&type=script&lang=js& ***!
@@ -5095,6 +5125,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -5113,10 +5144,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     follow: function follow() {
-      axios[this.active ? 'get' : 'post']('/user/follow/' + this.follower + '', {
-        user_id: this.user.id,
-        followers_id: this.follower
-      });
+      var req;
+
+      if (this.isActive) {
+        req = {
+          follower_id: this.user.id,
+          followed_id: this.follower,
+          '_method': 'delete'
+        };
+      } else {
+        req = {
+          follower_id: this.user.id,
+          followed_id: this.follower
+        };
+      }
+
+      axios[this.active ? 'get' : 'post']('/u/' + this.user.username + '/follow/' + this.follower + '', req);
       this.isActive = !this.isActive;
 
       if (this.isActive) {
@@ -10407,6 +10450,25 @@ exports.push([module.i, "\n", ""]);
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/animate.css/animate.css":
+/*!******************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/animate.css/animate.css ***!
+  \******************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n\n/*!\n * animate.css - https://animate.style/\n * Version - 4.1.1\n * Licensed under the MIT license - http://opensource.org/licenses/MIT\n *\n * Copyright (c) 2020 Animate.css\n */\n\n:root {\n  --animate-duration: 1s;\n  --animate-delay: 1s;\n  --animate-repeat: 1;\n}\n\n.animate__animated {\n  -webkit-animation-duration: 1s;\n          animation-duration: 1s;\n  -webkit-animation-duration: var(--animate-duration);\n          animation-duration: var(--animate-duration);\n  -webkit-animation-fill-mode: both;\n          animation-fill-mode: both;\n}\n\n.animate__animated.animate__infinite {\n  -webkit-animation-iteration-count: infinite;\n          animation-iteration-count: infinite;\n}\n\n.animate__animated.animate__repeat-1 {\n  -webkit-animation-iteration-count: 1;\n          animation-iteration-count: 1;\n  -webkit-animation-iteration-count: var(--animate-repeat);\n          animation-iteration-count: var(--animate-repeat);\n}\n\n.animate__animated.animate__repeat-2 {\n  -webkit-animation-iteration-count: calc(1 * 2);\n          animation-iteration-count: calc(1 * 2);\n  -webkit-animation-iteration-count: calc(var(--animate-repeat) * 2);\n          animation-iteration-count: calc(var(--animate-repeat) * 2);\n}\n\n.animate__animated.animate__repeat-3 {\n  -webkit-animation-iteration-count: calc(1 * 3);\n          animation-iteration-count: calc(1 * 3);\n  -webkit-animation-iteration-count: calc(var(--animate-repeat) * 3);\n          animation-iteration-count: calc(var(--animate-repeat) * 3);\n}\n\n.animate__animated.animate__delay-1s {\n  -webkit-animation-delay: 1s;\n          animation-delay: 1s;\n  -webkit-animation-delay: var(--animate-delay);\n          animation-delay: var(--animate-delay);\n}\n\n.animate__animated.animate__delay-2s {\n  -webkit-animation-delay: calc(1s * 2);\n          animation-delay: calc(1s * 2);\n  -webkit-animation-delay: calc(var(--animate-delay) * 2);\n          animation-delay: calc(var(--animate-delay) * 2);\n}\n\n.animate__animated.animate__delay-3s {\n  -webkit-animation-delay: calc(1s * 3);\n          animation-delay: calc(1s * 3);\n  -webkit-animation-delay: calc(var(--animate-delay) * 3);\n          animation-delay: calc(var(--animate-delay) * 3);\n}\n\n.animate__animated.animate__delay-4s {\n  -webkit-animation-delay: calc(1s * 4);\n          animation-delay: calc(1s * 4);\n  -webkit-animation-delay: calc(var(--animate-delay) * 4);\n          animation-delay: calc(var(--animate-delay) * 4);\n}\n\n.animate__animated.animate__delay-5s {\n  -webkit-animation-delay: calc(1s * 5);\n          animation-delay: calc(1s * 5);\n  -webkit-animation-delay: calc(var(--animate-delay) * 5);\n          animation-delay: calc(var(--animate-delay) * 5);\n}\n\n.animate__animated.animate__faster {\n  -webkit-animation-duration: calc(1s / 2);\n          animation-duration: calc(1s / 2);\n  -webkit-animation-duration: calc(var(--animate-duration) / 2);\n          animation-duration: calc(var(--animate-duration) / 2);\n}\n\n.animate__animated.animate__fast {\n  -webkit-animation-duration: calc(1s * .8);\n          animation-duration: calc(1s * .8);\n  -webkit-animation-duration: calc(var(--animate-duration) * .8);\n          animation-duration: calc(var(--animate-duration) * .8);\n}\n\n.animate__animated.animate__slow {\n  -webkit-animation-duration: calc(1s * 2);\n          animation-duration: calc(1s * 2);\n  -webkit-animation-duration: calc(var(--animate-duration) * 2);\n          animation-duration: calc(var(--animate-duration) * 2);\n}\n\n.animate__animated.animate__slower {\n  -webkit-animation-duration: calc(1s * 3);\n          animation-duration: calc(1s * 3);\n  -webkit-animation-duration: calc(var(--animate-duration) * 3);\n          animation-duration: calc(var(--animate-duration) * 3);\n}\n\n@media print, (prefers-reduced-motion: reduce) {\n  .animate__animated {\n    -webkit-animation-duration: 1ms !important;\n            animation-duration: 1ms !important;\n    -webkit-transition-duration: 1ms !important;\n            transition-duration: 1ms !important;\n    -webkit-animation-iteration-count: 1 !important;\n            animation-iteration-count: 1 !important;\n  }\n\n  .animate__animated[class*='Out'] {\n    opacity: 0;\n  }\n}\n\n/* Attention seekers  */\n\n@-webkit-keyframes bounce {\n  from,\n  20%,\n  53%,\n  to {\n    -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n            animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  40%,\n  43% {\n    -webkit-animation-timing-function: cubic-bezier(.755, .05, .855, .06);\n            animation-timing-function: cubic-bezier(.755, .05, .855, .06);\n    -webkit-transform: translate3d(0, -30px, 0) scaleY(1.1);\n            transform: translate3d(0, -30px, 0) scaleY(1.1);\n  }\n\n  70% {\n    -webkit-animation-timing-function: cubic-bezier(.755, .05, .855, .06);\n            animation-timing-function: cubic-bezier(.755, .05, .855, .06);\n    -webkit-transform: translate3d(0, -15px, 0) scaleY(1.05);\n            transform: translate3d(0, -15px, 0) scaleY(1.05);\n  }\n\n  80% {\n    -webkit-transition-timing-function: cubic-bezier(.215, .61, .355, 1);\n            transition-timing-function: cubic-bezier(.215, .61, .355, 1);\n    -webkit-transform: translate3d(0, 0, 0) scaleY(.95);\n            transform: translate3d(0, 0, 0) scaleY(.95);\n  }\n\n  90% {\n    -webkit-transform: translate3d(0, -4px, 0) scaleY(1.02);\n            transform: translate3d(0, -4px, 0) scaleY(1.02);\n  }\n}\n\n@keyframes bounce {\n  from,\n  20%,\n  53%,\n  to {\n    -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n            animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  40%,\n  43% {\n    -webkit-animation-timing-function: cubic-bezier(.755, .05, .855, .06);\n            animation-timing-function: cubic-bezier(.755, .05, .855, .06);\n    -webkit-transform: translate3d(0, -30px, 0) scaleY(1.1);\n            transform: translate3d(0, -30px, 0) scaleY(1.1);\n  }\n\n  70% {\n    -webkit-animation-timing-function: cubic-bezier(.755, .05, .855, .06);\n            animation-timing-function: cubic-bezier(.755, .05, .855, .06);\n    -webkit-transform: translate3d(0, -15px, 0) scaleY(1.05);\n            transform: translate3d(0, -15px, 0) scaleY(1.05);\n  }\n\n  80% {\n    -webkit-transition-timing-function: cubic-bezier(.215, .61, .355, 1);\n            transition-timing-function: cubic-bezier(.215, .61, .355, 1);\n    -webkit-transform: translate3d(0, 0, 0) scaleY(.95);\n            transform: translate3d(0, 0, 0) scaleY(.95);\n  }\n\n  90% {\n    -webkit-transform: translate3d(0, -4px, 0) scaleY(1.02);\n            transform: translate3d(0, -4px, 0) scaleY(1.02);\n  }\n}\n\n.animate__bounce {\n  -webkit-animation-name: bounce;\n          animation-name: bounce;\n  -webkit-transform-origin: center bottom;\n          transform-origin: center bottom;\n}\n\n@-webkit-keyframes flash {\n  from,\n  50%,\n  to {\n    opacity: 1;\n  }\n\n  25%,\n  75% {\n    opacity: 0;\n  }\n}\n\n@keyframes flash {\n  from,\n  50%,\n  to {\n    opacity: 1;\n  }\n\n  25%,\n  75% {\n    opacity: 0;\n  }\n}\n\n.animate__flash {\n  -webkit-animation-name: flash;\n          animation-name: flash;\n}\n\n/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */\n\n@-webkit-keyframes pulse {\n  from {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n\n  50% {\n    -webkit-transform: scale3d(1.05, 1.05, 1.05);\n            transform: scale3d(1.05, 1.05, 1.05);\n  }\n\n  to {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n}\n\n@keyframes pulse {\n  from {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n\n  50% {\n    -webkit-transform: scale3d(1.05, 1.05, 1.05);\n            transform: scale3d(1.05, 1.05, 1.05);\n  }\n\n  to {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n}\n\n.animate__pulse {\n  -webkit-animation-name: pulse;\n          animation-name: pulse;\n  -webkit-animation-timing-function: ease-in-out;\n          animation-timing-function: ease-in-out;\n}\n\n@-webkit-keyframes rubberBand {\n  from {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n\n  30% {\n    -webkit-transform: scale3d(1.25, .75, 1);\n            transform: scale3d(1.25, .75, 1);\n  }\n\n  40% {\n    -webkit-transform: scale3d(.75, 1.25, 1);\n            transform: scale3d(.75, 1.25, 1);\n  }\n\n  50% {\n    -webkit-transform: scale3d(1.15, .85, 1);\n            transform: scale3d(1.15, .85, 1);\n  }\n\n  65% {\n    -webkit-transform: scale3d(.95, 1.05, 1);\n            transform: scale3d(.95, 1.05, 1);\n  }\n\n  75% {\n    -webkit-transform: scale3d(1.05, .95, 1);\n            transform: scale3d(1.05, .95, 1);\n  }\n\n  to {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n}\n\n@keyframes rubberBand {\n  from {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n\n  30% {\n    -webkit-transform: scale3d(1.25, .75, 1);\n            transform: scale3d(1.25, .75, 1);\n  }\n\n  40% {\n    -webkit-transform: scale3d(.75, 1.25, 1);\n            transform: scale3d(.75, 1.25, 1);\n  }\n\n  50% {\n    -webkit-transform: scale3d(1.15, .85, 1);\n            transform: scale3d(1.15, .85, 1);\n  }\n\n  65% {\n    -webkit-transform: scale3d(.95, 1.05, 1);\n            transform: scale3d(.95, 1.05, 1);\n  }\n\n  75% {\n    -webkit-transform: scale3d(1.05, .95, 1);\n            transform: scale3d(1.05, .95, 1);\n  }\n\n  to {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n}\n\n.animate__rubberBand {\n  -webkit-animation-name: rubberBand;\n          animation-name: rubberBand;\n}\n\n@-webkit-keyframes shakeX {\n  from,\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  10%,\n  30%,\n  50%,\n  70%,\n  90% {\n    -webkit-transform: translate3d(-10px, 0, 0);\n            transform: translate3d(-10px, 0, 0);\n  }\n\n  20%,\n  40%,\n  60%,\n  80% {\n    -webkit-transform: translate3d(10px, 0, 0);\n            transform: translate3d(10px, 0, 0);\n  }\n}\n\n@keyframes shakeX {\n  from,\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  10%,\n  30%,\n  50%,\n  70%,\n  90% {\n    -webkit-transform: translate3d(-10px, 0, 0);\n            transform: translate3d(-10px, 0, 0);\n  }\n\n  20%,\n  40%,\n  60%,\n  80% {\n    -webkit-transform: translate3d(10px, 0, 0);\n            transform: translate3d(10px, 0, 0);\n  }\n}\n\n.animate__shakeX {\n  -webkit-animation-name: shakeX;\n          animation-name: shakeX;\n}\n\n@-webkit-keyframes shakeY {\n  from,\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  10%,\n  30%,\n  50%,\n  70%,\n  90% {\n    -webkit-transform: translate3d(0, -10px, 0);\n            transform: translate3d(0, -10px, 0);\n  }\n\n  20%,\n  40%,\n  60%,\n  80% {\n    -webkit-transform: translate3d(0, 10px, 0);\n            transform: translate3d(0, 10px, 0);\n  }\n}\n\n@keyframes shakeY {\n  from,\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  10%,\n  30%,\n  50%,\n  70%,\n  90% {\n    -webkit-transform: translate3d(0, -10px, 0);\n            transform: translate3d(0, -10px, 0);\n  }\n\n  20%,\n  40%,\n  60%,\n  80% {\n    -webkit-transform: translate3d(0, 10px, 0);\n            transform: translate3d(0, 10px, 0);\n  }\n}\n\n.animate__shakeY {\n  -webkit-animation-name: shakeY;\n          animation-name: shakeY;\n}\n\n@-webkit-keyframes headShake {\n  0% {\n    -webkit-transform: translateX(0);\n            transform: translateX(0);\n  }\n\n  6.5% {\n    -webkit-transform: translateX(-6px) rotateY(-9deg);\n            transform: translateX(-6px) rotateY(-9deg);\n  }\n\n  18.5% {\n    -webkit-transform: translateX(5px) rotateY(7deg);\n            transform: translateX(5px) rotateY(7deg);\n  }\n\n  31.5% {\n    -webkit-transform: translateX(-3px) rotateY(-5deg);\n            transform: translateX(-3px) rotateY(-5deg);\n  }\n\n  43.5% {\n    -webkit-transform: translateX(2px) rotateY(3deg);\n            transform: translateX(2px) rotateY(3deg);\n  }\n\n  50% {\n    -webkit-transform: translateX(0);\n            transform: translateX(0);\n  }\n}\n\n@keyframes headShake {\n  0% {\n    -webkit-transform: translateX(0);\n            transform: translateX(0);\n  }\n\n  6.5% {\n    -webkit-transform: translateX(-6px) rotateY(-9deg);\n            transform: translateX(-6px) rotateY(-9deg);\n  }\n\n  18.5% {\n    -webkit-transform: translateX(5px) rotateY(7deg);\n            transform: translateX(5px) rotateY(7deg);\n  }\n\n  31.5% {\n    -webkit-transform: translateX(-3px) rotateY(-5deg);\n            transform: translateX(-3px) rotateY(-5deg);\n  }\n\n  43.5% {\n    -webkit-transform: translateX(2px) rotateY(3deg);\n            transform: translateX(2px) rotateY(3deg);\n  }\n\n  50% {\n    -webkit-transform: translateX(0);\n            transform: translateX(0);\n  }\n}\n\n.animate__headShake {\n  -webkit-animation-timing-function: ease-in-out;\n          animation-timing-function: ease-in-out;\n  -webkit-animation-name: headShake;\n          animation-name: headShake;\n}\n\n@-webkit-keyframes swing {\n  20% {\n    -webkit-transform: rotate3d(0, 0, 1, 15deg);\n            transform: rotate3d(0, 0, 1, 15deg);\n  }\n\n  40% {\n    -webkit-transform: rotate3d(0, 0, 1, -10deg);\n            transform: rotate3d(0, 0, 1, -10deg);\n  }\n\n  60% {\n    -webkit-transform: rotate3d(0, 0, 1, 5deg);\n            transform: rotate3d(0, 0, 1, 5deg);\n  }\n\n  80% {\n    -webkit-transform: rotate3d(0, 0, 1, -5deg);\n            transform: rotate3d(0, 0, 1, -5deg);\n  }\n\n  to {\n    -webkit-transform: rotate3d(0, 0, 1, 0deg);\n            transform: rotate3d(0, 0, 1, 0deg);\n  }\n}\n\n@keyframes swing {\n  20% {\n    -webkit-transform: rotate3d(0, 0, 1, 15deg);\n            transform: rotate3d(0, 0, 1, 15deg);\n  }\n\n  40% {\n    -webkit-transform: rotate3d(0, 0, 1, -10deg);\n            transform: rotate3d(0, 0, 1, -10deg);\n  }\n\n  60% {\n    -webkit-transform: rotate3d(0, 0, 1, 5deg);\n            transform: rotate3d(0, 0, 1, 5deg);\n  }\n\n  80% {\n    -webkit-transform: rotate3d(0, 0, 1, -5deg);\n            transform: rotate3d(0, 0, 1, -5deg);\n  }\n\n  to {\n    -webkit-transform: rotate3d(0, 0, 1, 0deg);\n            transform: rotate3d(0, 0, 1, 0deg);\n  }\n}\n\n.animate__swing {\n  -webkit-transform-origin: top center;\n          transform-origin: top center;\n  -webkit-animation-name: swing;\n          animation-name: swing;\n}\n\n@-webkit-keyframes tada {\n  from {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n\n  10%,\n  20% {\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\n            transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\n  }\n\n  30%,\n  50%,\n  70%,\n  90% {\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\n            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\n  }\n\n  40%,\n  60%,\n  80% {\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\n            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\n  }\n\n  to {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n}\n\n@keyframes tada {\n  from {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n\n  10%,\n  20% {\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\n            transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\n  }\n\n  30%,\n  50%,\n  70%,\n  90% {\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\n            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\n  }\n\n  40%,\n  60%,\n  80% {\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\n            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\n  }\n\n  to {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n}\n\n.animate__tada {\n  -webkit-animation-name: tada;\n          animation-name: tada;\n}\n\n/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */\n\n@-webkit-keyframes wobble {\n  from {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  15% {\n    -webkit-transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);\n            transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);\n  }\n\n  30% {\n    -webkit-transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);\n            transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);\n  }\n\n  45% {\n    -webkit-transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);\n            transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);\n  }\n\n  60% {\n    -webkit-transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);\n            transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);\n  }\n\n  75% {\n    -webkit-transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);\n            transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes wobble {\n  from {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  15% {\n    -webkit-transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);\n            transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);\n  }\n\n  30% {\n    -webkit-transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);\n            transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);\n  }\n\n  45% {\n    -webkit-transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);\n            transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);\n  }\n\n  60% {\n    -webkit-transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);\n            transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);\n  }\n\n  75% {\n    -webkit-transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);\n            transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__wobble {\n  -webkit-animation-name: wobble;\n          animation-name: wobble;\n}\n\n@-webkit-keyframes jello {\n  from,\n  11.1%,\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  22.2% {\n    -webkit-transform: skewX(-12.5deg) skewY(-12.5deg);\n            transform: skewX(-12.5deg) skewY(-12.5deg);\n  }\n\n  33.3% {\n    -webkit-transform: skewX(6.25deg) skewY(6.25deg);\n            transform: skewX(6.25deg) skewY(6.25deg);\n  }\n\n  44.4% {\n    -webkit-transform: skewX(-3.125deg) skewY(-3.125deg);\n            transform: skewX(-3.125deg) skewY(-3.125deg);\n  }\n\n  55.5% {\n    -webkit-transform: skewX(1.5625deg) skewY(1.5625deg);\n            transform: skewX(1.5625deg) skewY(1.5625deg);\n  }\n\n  66.6% {\n    -webkit-transform: skewX(-0.78125deg) skewY(-0.78125deg);\n            transform: skewX(-0.78125deg) skewY(-0.78125deg);\n  }\n\n  77.7% {\n    -webkit-transform: skewX(.390625deg) skewY(.390625deg);\n            transform: skewX(.390625deg) skewY(.390625deg);\n  }\n\n  88.8% {\n    -webkit-transform: skewX(-0.1953125deg) skewY(-0.1953125deg);\n            transform: skewX(-0.1953125deg) skewY(-0.1953125deg);\n  }\n}\n\n@keyframes jello {\n  from,\n  11.1%,\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  22.2% {\n    -webkit-transform: skewX(-12.5deg) skewY(-12.5deg);\n            transform: skewX(-12.5deg) skewY(-12.5deg);\n  }\n\n  33.3% {\n    -webkit-transform: skewX(6.25deg) skewY(6.25deg);\n            transform: skewX(6.25deg) skewY(6.25deg);\n  }\n\n  44.4% {\n    -webkit-transform: skewX(-3.125deg) skewY(-3.125deg);\n            transform: skewX(-3.125deg) skewY(-3.125deg);\n  }\n\n  55.5% {\n    -webkit-transform: skewX(1.5625deg) skewY(1.5625deg);\n            transform: skewX(1.5625deg) skewY(1.5625deg);\n  }\n\n  66.6% {\n    -webkit-transform: skewX(-0.78125deg) skewY(-0.78125deg);\n            transform: skewX(-0.78125deg) skewY(-0.78125deg);\n  }\n\n  77.7% {\n    -webkit-transform: skewX(.390625deg) skewY(.390625deg);\n            transform: skewX(.390625deg) skewY(.390625deg);\n  }\n\n  88.8% {\n    -webkit-transform: skewX(-0.1953125deg) skewY(-0.1953125deg);\n            transform: skewX(-0.1953125deg) skewY(-0.1953125deg);\n  }\n}\n\n.animate__jello {\n  -webkit-animation-name: jello;\n          animation-name: jello;\n  -webkit-transform-origin: center;\n          transform-origin: center;\n}\n\n@-webkit-keyframes heartBeat {\n  0% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n\n  14% {\n    -webkit-transform: scale(1.3);\n            transform: scale(1.3);\n  }\n\n  28% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n\n  42% {\n    -webkit-transform: scale(1.3);\n            transform: scale(1.3);\n  }\n\n  70% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n}\n\n@keyframes heartBeat {\n  0% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n\n  14% {\n    -webkit-transform: scale(1.3);\n            transform: scale(1.3);\n  }\n\n  28% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n\n  42% {\n    -webkit-transform: scale(1.3);\n            transform: scale(1.3);\n  }\n\n  70% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n}\n\n.animate__heartBeat {\n  -webkit-animation-name: heartBeat;\n          animation-name: heartBeat;\n  -webkit-animation-duration: calc(1s * 1.3);\n          animation-duration: calc(1s * 1.3);\n  -webkit-animation-duration: calc(var(--animate-duration) * 1.3);\n          animation-duration: calc(var(--animate-duration) * 1.3);\n  -webkit-animation-timing-function: ease-in-out;\n          animation-timing-function: ease-in-out;\n}\n\n/* Back entrances */\n\n@-webkit-keyframes backInDown {\n  0% {\n    -webkit-transform: translateY(-1200px) scale(.7);\n            transform: translateY(-1200px) scale(.7);\n    opacity: .7;\n  }\n\n  80% {\n    -webkit-transform: translateY(0) scale(.7);\n            transform: translateY(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n}\n\n@keyframes backInDown {\n  0% {\n    -webkit-transform: translateY(-1200px) scale(.7);\n            transform: translateY(-1200px) scale(.7);\n    opacity: .7;\n  }\n\n  80% {\n    -webkit-transform: translateY(0) scale(.7);\n            transform: translateY(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n}\n\n.animate__backInDown {\n  -webkit-animation-name: backInDown;\n          animation-name: backInDown;\n}\n\n@-webkit-keyframes backInLeft {\n  0% {\n    -webkit-transform: translateX(-2000px) scale(.7);\n            transform: translateX(-2000px) scale(.7);\n    opacity: .7;\n  }\n\n  80% {\n    -webkit-transform: translateX(0) scale(.7);\n            transform: translateX(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n}\n\n@keyframes backInLeft {\n  0% {\n    -webkit-transform: translateX(-2000px) scale(.7);\n            transform: translateX(-2000px) scale(.7);\n    opacity: .7;\n  }\n\n  80% {\n    -webkit-transform: translateX(0) scale(.7);\n            transform: translateX(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n}\n\n.animate__backInLeft {\n  -webkit-animation-name: backInLeft;\n          animation-name: backInLeft;\n}\n\n@-webkit-keyframes backInRight {\n  0% {\n    -webkit-transform: translateX(2000px) scale(.7);\n            transform: translateX(2000px) scale(.7);\n    opacity: .7;\n  }\n\n  80% {\n    -webkit-transform: translateX(0) scale(.7);\n            transform: translateX(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n}\n\n@keyframes backInRight {\n  0% {\n    -webkit-transform: translateX(2000px) scale(.7);\n            transform: translateX(2000px) scale(.7);\n    opacity: .7;\n  }\n\n  80% {\n    -webkit-transform: translateX(0) scale(.7);\n            transform: translateX(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n}\n\n.animate__backInRight {\n  -webkit-animation-name: backInRight;\n          animation-name: backInRight;\n}\n\n@-webkit-keyframes backInUp {\n  0% {\n    -webkit-transform: translateY(1200px) scale(.7);\n            transform: translateY(1200px) scale(.7);\n    opacity: .7;\n  }\n\n  80% {\n    -webkit-transform: translateY(0) scale(.7);\n            transform: translateY(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n}\n\n@keyframes backInUp {\n  0% {\n    -webkit-transform: translateY(1200px) scale(.7);\n            transform: translateY(1200px) scale(.7);\n    opacity: .7;\n  }\n\n  80% {\n    -webkit-transform: translateY(0) scale(.7);\n            transform: translateY(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n}\n\n.animate__backInUp {\n  -webkit-animation-name: backInUp;\n          animation-name: backInUp;\n}\n\n/* Back exits */\n\n@-webkit-keyframes backOutDown {\n  0% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n\n  20% {\n    -webkit-transform: translateY(0) scale(.7);\n            transform: translateY(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: translateY(700px) scale(.7);\n            transform: translateY(700px) scale(.7);\n    opacity: .7;\n  }\n}\n\n@keyframes backOutDown {\n  0% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n\n  20% {\n    -webkit-transform: translateY(0) scale(.7);\n            transform: translateY(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: translateY(700px) scale(.7);\n            transform: translateY(700px) scale(.7);\n    opacity: .7;\n  }\n}\n\n.animate__backOutDown {\n  -webkit-animation-name: backOutDown;\n          animation-name: backOutDown;\n}\n\n@-webkit-keyframes backOutLeft {\n  0% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n\n  20% {\n    -webkit-transform: translateX(0) scale(.7);\n            transform: translateX(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: translateX(-2000px) scale(.7);\n            transform: translateX(-2000px) scale(.7);\n    opacity: .7;\n  }\n}\n\n@keyframes backOutLeft {\n  0% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n\n  20% {\n    -webkit-transform: translateX(0) scale(.7);\n            transform: translateX(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: translateX(-2000px) scale(.7);\n            transform: translateX(-2000px) scale(.7);\n    opacity: .7;\n  }\n}\n\n.animate__backOutLeft {\n  -webkit-animation-name: backOutLeft;\n          animation-name: backOutLeft;\n}\n\n@-webkit-keyframes backOutRight {\n  0% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n\n  20% {\n    -webkit-transform: translateX(0) scale(.7);\n            transform: translateX(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: translateX(2000px) scale(.7);\n            transform: translateX(2000px) scale(.7);\n    opacity: .7;\n  }\n}\n\n@keyframes backOutRight {\n  0% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n\n  20% {\n    -webkit-transform: translateX(0) scale(.7);\n            transform: translateX(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: translateX(2000px) scale(.7);\n            transform: translateX(2000px) scale(.7);\n    opacity: .7;\n  }\n}\n\n.animate__backOutRight {\n  -webkit-animation-name: backOutRight;\n          animation-name: backOutRight;\n}\n\n@-webkit-keyframes backOutUp {\n  0% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n\n  20% {\n    -webkit-transform: translateY(0) scale(.7);\n            transform: translateY(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: translateY(-700px) scale(.7);\n            transform: translateY(-700px) scale(.7);\n    opacity: .7;\n  }\n}\n\n@keyframes backOutUp {\n  0% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n  }\n\n  20% {\n    -webkit-transform: translateY(0) scale(.7);\n            transform: translateY(0) scale(.7);\n    opacity: .7;\n  }\n\n  100% {\n    -webkit-transform: translateY(-700px) scale(.7);\n            transform: translateY(-700px) scale(.7);\n    opacity: .7;\n  }\n}\n\n.animate__backOutUp {\n  -webkit-animation-name: backOutUp;\n          animation-name: backOutUp;\n}\n\n/* Bouncing entrances  */\n\n@-webkit-keyframes bounceIn {\n  from,\n  20%,\n  40%,\n  60%,\n  80%,\n  to {\n    -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n            animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n  }\n\n  0% {\n    opacity: 0;\n    -webkit-transform: scale3d(.3, .3, .3);\n            transform: scale3d(.3, .3, .3);\n  }\n\n  20% {\n    -webkit-transform: scale3d(1.1, 1.1, 1.1);\n            transform: scale3d(1.1, 1.1, 1.1);\n  }\n\n  40% {\n    -webkit-transform: scale3d(.9, .9, .9);\n            transform: scale3d(.9, .9, .9);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: scale3d(1.03, 1.03, 1.03);\n            transform: scale3d(1.03, 1.03, 1.03);\n  }\n\n  80% {\n    -webkit-transform: scale3d(.97, .97, .97);\n            transform: scale3d(.97, .97, .97);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n}\n\n@keyframes bounceIn {\n  from,\n  20%,\n  40%,\n  60%,\n  80%,\n  to {\n    -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n            animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n  }\n\n  0% {\n    opacity: 0;\n    -webkit-transform: scale3d(.3, .3, .3);\n            transform: scale3d(.3, .3, .3);\n  }\n\n  20% {\n    -webkit-transform: scale3d(1.1, 1.1, 1.1);\n            transform: scale3d(1.1, 1.1, 1.1);\n  }\n\n  40% {\n    -webkit-transform: scale3d(.9, .9, .9);\n            transform: scale3d(.9, .9, .9);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: scale3d(1.03, 1.03, 1.03);\n            transform: scale3d(1.03, 1.03, 1.03);\n  }\n\n  80% {\n    -webkit-transform: scale3d(.97, .97, .97);\n            transform: scale3d(.97, .97, .97);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n  }\n}\n\n.animate__bounceIn {\n  -webkit-animation-duration: calc(1s * .75);\n          animation-duration: calc(1s * .75);\n  -webkit-animation-duration: calc(var(--animate-duration) * .75);\n          animation-duration: calc(var(--animate-duration) * .75);\n  -webkit-animation-name: bounceIn;\n          animation-name: bounceIn;\n}\n\n@-webkit-keyframes bounceInDown {\n  from,\n  60%,\n  75%,\n  90%,\n  to {\n    -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n            animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n  }\n\n  0% {\n    opacity: 0;\n    -webkit-transform: translate3d(0, -3000px, 0) scaleY(3);\n            transform: translate3d(0, -3000px, 0) scaleY(3);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 25px, 0) scaleY(.9);\n            transform: translate3d(0, 25px, 0) scaleY(.9);\n  }\n\n  75% {\n    -webkit-transform: translate3d(0, -10px, 0) scaleY(.95);\n            transform: translate3d(0, -10px, 0) scaleY(.95);\n  }\n\n  90% {\n    -webkit-transform: translate3d(0, 5px, 0) scaleY(.985);\n            transform: translate3d(0, 5px, 0) scaleY(.985);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes bounceInDown {\n  from,\n  60%,\n  75%,\n  90%,\n  to {\n    -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n            animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n  }\n\n  0% {\n    opacity: 0;\n    -webkit-transform: translate3d(0, -3000px, 0) scaleY(3);\n            transform: translate3d(0, -3000px, 0) scaleY(3);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 25px, 0) scaleY(.9);\n            transform: translate3d(0, 25px, 0) scaleY(.9);\n  }\n\n  75% {\n    -webkit-transform: translate3d(0, -10px, 0) scaleY(.95);\n            transform: translate3d(0, -10px, 0) scaleY(.95);\n  }\n\n  90% {\n    -webkit-transform: translate3d(0, 5px, 0) scaleY(.985);\n            transform: translate3d(0, 5px, 0) scaleY(.985);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__bounceInDown {\n  -webkit-animation-name: bounceInDown;\n          animation-name: bounceInDown;\n}\n\n@-webkit-keyframes bounceInLeft {\n  from,\n  60%,\n  75%,\n  90%,\n  to {\n    -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n            animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n  }\n\n  0% {\n    opacity: 0;\n    -webkit-transform: translate3d(-3000px, 0, 0) scaleX(3);\n            transform: translate3d(-3000px, 0, 0) scaleX(3);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(25px, 0, 0) scaleX(1);\n            transform: translate3d(25px, 0, 0) scaleX(1);\n  }\n\n  75% {\n    -webkit-transform: translate3d(-10px, 0, 0) scaleX(.98);\n            transform: translate3d(-10px, 0, 0) scaleX(.98);\n  }\n\n  90% {\n    -webkit-transform: translate3d(5px, 0, 0) scaleX(.995);\n            transform: translate3d(5px, 0, 0) scaleX(.995);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes bounceInLeft {\n  from,\n  60%,\n  75%,\n  90%,\n  to {\n    -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n            animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n  }\n\n  0% {\n    opacity: 0;\n    -webkit-transform: translate3d(-3000px, 0, 0) scaleX(3);\n            transform: translate3d(-3000px, 0, 0) scaleX(3);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(25px, 0, 0) scaleX(1);\n            transform: translate3d(25px, 0, 0) scaleX(1);\n  }\n\n  75% {\n    -webkit-transform: translate3d(-10px, 0, 0) scaleX(.98);\n            transform: translate3d(-10px, 0, 0) scaleX(.98);\n  }\n\n  90% {\n    -webkit-transform: translate3d(5px, 0, 0) scaleX(.995);\n            transform: translate3d(5px, 0, 0) scaleX(.995);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__bounceInLeft {\n  -webkit-animation-name: bounceInLeft;\n          animation-name: bounceInLeft;\n}\n\n@-webkit-keyframes bounceInRight {\n  from,\n  60%,\n  75%,\n  90%,\n  to {\n    -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n            animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n  }\n\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(3000px, 0, 0) scaleX(3);\n            transform: translate3d(3000px, 0, 0) scaleX(3);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(-25px, 0, 0) scaleX(1);\n            transform: translate3d(-25px, 0, 0) scaleX(1);\n  }\n\n  75% {\n    -webkit-transform: translate3d(10px, 0, 0) scaleX(.98);\n            transform: translate3d(10px, 0, 0) scaleX(.98);\n  }\n\n  90% {\n    -webkit-transform: translate3d(-5px, 0, 0) scaleX(.995);\n            transform: translate3d(-5px, 0, 0) scaleX(.995);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes bounceInRight {\n  from,\n  60%,\n  75%,\n  90%,\n  to {\n    -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n            animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n  }\n\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(3000px, 0, 0) scaleX(3);\n            transform: translate3d(3000px, 0, 0) scaleX(3);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(-25px, 0, 0) scaleX(1);\n            transform: translate3d(-25px, 0, 0) scaleX(1);\n  }\n\n  75% {\n    -webkit-transform: translate3d(10px, 0, 0) scaleX(.98);\n            transform: translate3d(10px, 0, 0) scaleX(.98);\n  }\n\n  90% {\n    -webkit-transform: translate3d(-5px, 0, 0) scaleX(.995);\n            transform: translate3d(-5px, 0, 0) scaleX(.995);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__bounceInRight {\n  -webkit-animation-name: bounceInRight;\n          animation-name: bounceInRight;\n}\n\n@-webkit-keyframes bounceInUp {\n  from,\n  60%,\n  75%,\n  90%,\n  to {\n    -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n            animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n  }\n\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 3000px, 0) scaleY(5);\n            transform: translate3d(0, 3000px, 0) scaleY(5);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, -20px, 0) scaleY(.9);\n            transform: translate3d(0, -20px, 0) scaleY(.9);\n  }\n\n  75% {\n    -webkit-transform: translate3d(0, 10px, 0) scaleY(.95);\n            transform: translate3d(0, 10px, 0) scaleY(.95);\n  }\n\n  90% {\n    -webkit-transform: translate3d(0, -5px, 0) scaleY(.985);\n            transform: translate3d(0, -5px, 0) scaleY(.985);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes bounceInUp {\n  from,\n  60%,\n  75%,\n  90%,\n  to {\n    -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n            animation-timing-function: cubic-bezier(.215, .61, .355, 1);\n  }\n\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 3000px, 0) scaleY(5);\n            transform: translate3d(0, 3000px, 0) scaleY(5);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, -20px, 0) scaleY(.9);\n            transform: translate3d(0, -20px, 0) scaleY(.9);\n  }\n\n  75% {\n    -webkit-transform: translate3d(0, 10px, 0) scaleY(.95);\n            transform: translate3d(0, 10px, 0) scaleY(.95);\n  }\n\n  90% {\n    -webkit-transform: translate3d(0, -5px, 0) scaleY(.985);\n            transform: translate3d(0, -5px, 0) scaleY(.985);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__bounceInUp {\n  -webkit-animation-name: bounceInUp;\n          animation-name: bounceInUp;\n}\n\n/* Bouncing exits  */\n\n@-webkit-keyframes bounceOut {\n  20% {\n    -webkit-transform: scale3d(.9, .9, .9);\n            transform: scale3d(.9, .9, .9);\n  }\n\n  50%,\n  55% {\n    opacity: 1;\n    -webkit-transform: scale3d(1.1, 1.1, 1.1);\n            transform: scale3d(1.1, 1.1, 1.1);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: scale3d(.3, .3, .3);\n            transform: scale3d(.3, .3, .3);\n  }\n}\n\n@keyframes bounceOut {\n  20% {\n    -webkit-transform: scale3d(.9, .9, .9);\n            transform: scale3d(.9, .9, .9);\n  }\n\n  50%,\n  55% {\n    opacity: 1;\n    -webkit-transform: scale3d(1.1, 1.1, 1.1);\n            transform: scale3d(1.1, 1.1, 1.1);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: scale3d(.3, .3, .3);\n            transform: scale3d(.3, .3, .3);\n  }\n}\n\n.animate__bounceOut {\n  -webkit-animation-duration: calc(1s * .75);\n          animation-duration: calc(1s * .75);\n  -webkit-animation-duration: calc(var(--animate-duration) * .75);\n          animation-duration: calc(var(--animate-duration) * .75);\n  -webkit-animation-name: bounceOut;\n          animation-name: bounceOut;\n}\n\n@-webkit-keyframes bounceOutDown {\n  20% {\n    -webkit-transform: translate3d(0, 10px, 0) scaleY(.985);\n            transform: translate3d(0, 10px, 0) scaleY(.985);\n  }\n\n  40%,\n  45% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, -20px, 0) scaleY(.9);\n            transform: translate3d(0, -20px, 0) scaleY(.9);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 2000px, 0) scaleY(3);\n            transform: translate3d(0, 2000px, 0) scaleY(3);\n  }\n}\n\n@keyframes bounceOutDown {\n  20% {\n    -webkit-transform: translate3d(0, 10px, 0) scaleY(.985);\n            transform: translate3d(0, 10px, 0) scaleY(.985);\n  }\n\n  40%,\n  45% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, -20px, 0) scaleY(.9);\n            transform: translate3d(0, -20px, 0) scaleY(.9);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 2000px, 0) scaleY(3);\n            transform: translate3d(0, 2000px, 0) scaleY(3);\n  }\n}\n\n.animate__bounceOutDown {\n  -webkit-animation-name: bounceOutDown;\n          animation-name: bounceOutDown;\n}\n\n@-webkit-keyframes bounceOutLeft {\n  20% {\n    opacity: 1;\n    -webkit-transform: translate3d(20px, 0, 0) scaleX(.9);\n            transform: translate3d(20px, 0, 0) scaleX(.9);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(-2000px, 0, 0) scaleX(2);\n            transform: translate3d(-2000px, 0, 0) scaleX(2);\n  }\n}\n\n@keyframes bounceOutLeft {\n  20% {\n    opacity: 1;\n    -webkit-transform: translate3d(20px, 0, 0) scaleX(.9);\n            transform: translate3d(20px, 0, 0) scaleX(.9);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(-2000px, 0, 0) scaleX(2);\n            transform: translate3d(-2000px, 0, 0) scaleX(2);\n  }\n}\n\n.animate__bounceOutLeft {\n  -webkit-animation-name: bounceOutLeft;\n          animation-name: bounceOutLeft;\n}\n\n@-webkit-keyframes bounceOutRight {\n  20% {\n    opacity: 1;\n    -webkit-transform: translate3d(-20px, 0, 0) scaleX(.9);\n            transform: translate3d(-20px, 0, 0) scaleX(.9);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(2000px, 0, 0) scaleX(2);\n            transform: translate3d(2000px, 0, 0) scaleX(2);\n  }\n}\n\n@keyframes bounceOutRight {\n  20% {\n    opacity: 1;\n    -webkit-transform: translate3d(-20px, 0, 0) scaleX(.9);\n            transform: translate3d(-20px, 0, 0) scaleX(.9);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(2000px, 0, 0) scaleX(2);\n            transform: translate3d(2000px, 0, 0) scaleX(2);\n  }\n}\n\n.animate__bounceOutRight {\n  -webkit-animation-name: bounceOutRight;\n          animation-name: bounceOutRight;\n}\n\n@-webkit-keyframes bounceOutUp {\n  20% {\n    -webkit-transform: translate3d(0, -10px, 0) scaleY(.985);\n            transform: translate3d(0, -10px, 0) scaleY(.985);\n  }\n\n  40%,\n  45% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 20px, 0) scaleY(.9);\n            transform: translate3d(0, 20px, 0) scaleY(.9);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(0, -2000px, 0) scaleY(3);\n            transform: translate3d(0, -2000px, 0) scaleY(3);\n  }\n}\n\n@keyframes bounceOutUp {\n  20% {\n    -webkit-transform: translate3d(0, -10px, 0) scaleY(.985);\n            transform: translate3d(0, -10px, 0) scaleY(.985);\n  }\n\n  40%,\n  45% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 20px, 0) scaleY(.9);\n            transform: translate3d(0, 20px, 0) scaleY(.9);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(0, -2000px, 0) scaleY(3);\n            transform: translate3d(0, -2000px, 0) scaleY(3);\n  }\n}\n\n.animate__bounceOutUp {\n  -webkit-animation-name: bounceOutUp;\n          animation-name: bounceOutUp;\n}\n\n/* Fading entrances  */\n\n@-webkit-keyframes fadeIn {\n  from {\n    opacity: 0;\n  }\n\n  to {\n    opacity: 1;\n  }\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n  }\n\n  to {\n    opacity: 1;\n  }\n}\n\n.animate__fadeIn {\n  -webkit-animation-name: fadeIn;\n          animation-name: fadeIn;\n}\n\n@-webkit-keyframes fadeInDown {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, -100%, 0);\n            transform: translate3d(0, -100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes fadeInDown {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, -100%, 0);\n            transform: translate3d(0, -100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__fadeInDown {\n  -webkit-animation-name: fadeInDown;\n          animation-name: fadeInDown;\n}\n\n@-webkit-keyframes fadeInDownBig {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, -2000px, 0);\n            transform: translate3d(0, -2000px, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes fadeInDownBig {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, -2000px, 0);\n            transform: translate3d(0, -2000px, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__fadeInDownBig {\n  -webkit-animation-name: fadeInDownBig;\n          animation-name: fadeInDownBig;\n}\n\n@-webkit-keyframes fadeInLeft {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, 0, 0);\n            transform: translate3d(-100%, 0, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes fadeInLeft {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, 0, 0);\n            transform: translate3d(-100%, 0, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__fadeInLeft {\n  -webkit-animation-name: fadeInLeft;\n          animation-name: fadeInLeft;\n}\n\n@-webkit-keyframes fadeInLeftBig {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(-2000px, 0, 0);\n            transform: translate3d(-2000px, 0, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes fadeInLeftBig {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(-2000px, 0, 0);\n            transform: translate3d(-2000px, 0, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__fadeInLeftBig {\n  -webkit-animation-name: fadeInLeftBig;\n          animation-name: fadeInLeftBig;\n}\n\n@-webkit-keyframes fadeInRight {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, 0, 0);\n            transform: translate3d(100%, 0, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes fadeInRight {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, 0, 0);\n            transform: translate3d(100%, 0, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__fadeInRight {\n  -webkit-animation-name: fadeInRight;\n          animation-name: fadeInRight;\n}\n\n@-webkit-keyframes fadeInRightBig {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(2000px, 0, 0);\n            transform: translate3d(2000px, 0, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes fadeInRightBig {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(2000px, 0, 0);\n            transform: translate3d(2000px, 0, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__fadeInRightBig {\n  -webkit-animation-name: fadeInRightBig;\n          animation-name: fadeInRightBig;\n}\n\n@-webkit-keyframes fadeInUp {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 100%, 0);\n            transform: translate3d(0, 100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 100%, 0);\n            transform: translate3d(0, 100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__fadeInUp {\n  -webkit-animation-name: fadeInUp;\n          animation-name: fadeInUp;\n}\n\n@-webkit-keyframes fadeInUpBig {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 2000px, 0);\n            transform: translate3d(0, 2000px, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes fadeInUpBig {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 2000px, 0);\n            transform: translate3d(0, 2000px, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__fadeInUpBig {\n  -webkit-animation-name: fadeInUpBig;\n          animation-name: fadeInUpBig;\n}\n\n@-webkit-keyframes fadeInTopLeft {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, -100%, 0);\n            transform: translate3d(-100%, -100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes fadeInTopLeft {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, -100%, 0);\n            transform: translate3d(-100%, -100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__fadeInTopLeft {\n  -webkit-animation-name: fadeInTopLeft;\n          animation-name: fadeInTopLeft;\n}\n\n@-webkit-keyframes fadeInTopRight {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, -100%, 0);\n            transform: translate3d(100%, -100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes fadeInTopRight {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, -100%, 0);\n            transform: translate3d(100%, -100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__fadeInTopRight {\n  -webkit-animation-name: fadeInTopRight;\n          animation-name: fadeInTopRight;\n}\n\n@-webkit-keyframes fadeInBottomLeft {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, 100%, 0);\n            transform: translate3d(-100%, 100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes fadeInBottomLeft {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, 100%, 0);\n            transform: translate3d(-100%, 100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__fadeInBottomLeft {\n  -webkit-animation-name: fadeInBottomLeft;\n          animation-name: fadeInBottomLeft;\n}\n\n@-webkit-keyframes fadeInBottomRight {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, 100%, 0);\n            transform: translate3d(100%, 100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes fadeInBottomRight {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, 100%, 0);\n            transform: translate3d(100%, 100%, 0);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__fadeInBottomRight {\n  -webkit-animation-name: fadeInBottomRight;\n          animation-name: fadeInBottomRight;\n}\n\n/* Fading exits */\n\n@-webkit-keyframes fadeOut {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n  }\n}\n\n@keyframes fadeOut {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n  }\n}\n\n.animate__fadeOut {\n  -webkit-animation-name: fadeOut;\n          animation-name: fadeOut;\n}\n\n@-webkit-keyframes fadeOutDown {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 100%, 0);\n            transform: translate3d(0, 100%, 0);\n  }\n}\n\n@keyframes fadeOutDown {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 100%, 0);\n            transform: translate3d(0, 100%, 0);\n  }\n}\n\n.animate__fadeOutDown {\n  -webkit-animation-name: fadeOutDown;\n          animation-name: fadeOutDown;\n}\n\n@-webkit-keyframes fadeOutDownBig {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 2000px, 0);\n            transform: translate3d(0, 2000px, 0);\n  }\n}\n\n@keyframes fadeOutDownBig {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 2000px, 0);\n            transform: translate3d(0, 2000px, 0);\n  }\n}\n\n.animate__fadeOutDownBig {\n  -webkit-animation-name: fadeOutDownBig;\n          animation-name: fadeOutDownBig;\n}\n\n@-webkit-keyframes fadeOutLeft {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, 0, 0);\n            transform: translate3d(-100%, 0, 0);\n  }\n}\n\n@keyframes fadeOutLeft {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, 0, 0);\n            transform: translate3d(-100%, 0, 0);\n  }\n}\n\n.animate__fadeOutLeft {\n  -webkit-animation-name: fadeOutLeft;\n          animation-name: fadeOutLeft;\n}\n\n@-webkit-keyframes fadeOutLeftBig {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(-2000px, 0, 0);\n            transform: translate3d(-2000px, 0, 0);\n  }\n}\n\n@keyframes fadeOutLeftBig {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(-2000px, 0, 0);\n            transform: translate3d(-2000px, 0, 0);\n  }\n}\n\n.animate__fadeOutLeftBig {\n  -webkit-animation-name: fadeOutLeftBig;\n          animation-name: fadeOutLeftBig;\n}\n\n@-webkit-keyframes fadeOutRight {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, 0, 0);\n            transform: translate3d(100%, 0, 0);\n  }\n}\n\n@keyframes fadeOutRight {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, 0, 0);\n            transform: translate3d(100%, 0, 0);\n  }\n}\n\n.animate__fadeOutRight {\n  -webkit-animation-name: fadeOutRight;\n          animation-name: fadeOutRight;\n}\n\n@-webkit-keyframes fadeOutRightBig {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(2000px, 0, 0);\n            transform: translate3d(2000px, 0, 0);\n  }\n}\n\n@keyframes fadeOutRightBig {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(2000px, 0, 0);\n            transform: translate3d(2000px, 0, 0);\n  }\n}\n\n.animate__fadeOutRightBig {\n  -webkit-animation-name: fadeOutRightBig;\n          animation-name: fadeOutRightBig;\n}\n\n@-webkit-keyframes fadeOutUp {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(0, -100%, 0);\n            transform: translate3d(0, -100%, 0);\n  }\n}\n\n@keyframes fadeOutUp {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(0, -100%, 0);\n            transform: translate3d(0, -100%, 0);\n  }\n}\n\n.animate__fadeOutUp {\n  -webkit-animation-name: fadeOutUp;\n          animation-name: fadeOutUp;\n}\n\n@-webkit-keyframes fadeOutUpBig {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(0, -2000px, 0);\n            transform: translate3d(0, -2000px, 0);\n  }\n}\n\n@keyframes fadeOutUpBig {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(0, -2000px, 0);\n            transform: translate3d(0, -2000px, 0);\n  }\n}\n\n.animate__fadeOutUpBig {\n  -webkit-animation-name: fadeOutUpBig;\n          animation-name: fadeOutUpBig;\n}\n\n@-webkit-keyframes fadeOutTopLeft {\n  from {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, -100%, 0);\n            transform: translate3d(-100%, -100%, 0);\n  }\n}\n\n@keyframes fadeOutTopLeft {\n  from {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, -100%, 0);\n            transform: translate3d(-100%, -100%, 0);\n  }\n}\n\n.animate__fadeOutTopLeft {\n  -webkit-animation-name: fadeOutTopLeft;\n          animation-name: fadeOutTopLeft;\n}\n\n@-webkit-keyframes fadeOutTopRight {\n  from {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, -100%, 0);\n            transform: translate3d(100%, -100%, 0);\n  }\n}\n\n@keyframes fadeOutTopRight {\n  from {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, -100%, 0);\n            transform: translate3d(100%, -100%, 0);\n  }\n}\n\n.animate__fadeOutTopRight {\n  -webkit-animation-name: fadeOutTopRight;\n          animation-name: fadeOutTopRight;\n}\n\n@-webkit-keyframes fadeOutBottomRight {\n  from {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, 100%, 0);\n            transform: translate3d(100%, 100%, 0);\n  }\n}\n\n@keyframes fadeOutBottomRight {\n  from {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, 100%, 0);\n            transform: translate3d(100%, 100%, 0);\n  }\n}\n\n.animate__fadeOutBottomRight {\n  -webkit-animation-name: fadeOutBottomRight;\n          animation-name: fadeOutBottomRight;\n}\n\n@-webkit-keyframes fadeOutBottomLeft {\n  from {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, 100%, 0);\n            transform: translate3d(-100%, 100%, 0);\n  }\n}\n\n@keyframes fadeOutBottomLeft {\n  from {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, 100%, 0);\n            transform: translate3d(-100%, 100%, 0);\n  }\n}\n\n.animate__fadeOutBottomLeft {\n  -webkit-animation-name: fadeOutBottomLeft;\n          animation-name: fadeOutBottomLeft;\n}\n\n/* Flippers */\n\n@-webkit-keyframes flip {\n  from {\n    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);\n            transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);\n    -webkit-animation-timing-function: ease-out;\n            animation-timing-function: ease-out;\n  }\n\n  40% {\n    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);\n            transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);\n    -webkit-animation-timing-function: ease-out;\n            animation-timing-function: ease-out;\n  }\n\n  50% {\n    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);\n            transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n  }\n\n  80% {\n    -webkit-transform: perspective(400px) scale3d(.95, .95, .95) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);\n            transform: perspective(400px) scale3d(.95, .95, .95) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n  }\n\n  to {\n    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);\n            transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n  }\n}\n\n@keyframes flip {\n  from {\n    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);\n            transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);\n    -webkit-animation-timing-function: ease-out;\n            animation-timing-function: ease-out;\n  }\n\n  40% {\n    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);\n            transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);\n    -webkit-animation-timing-function: ease-out;\n            animation-timing-function: ease-out;\n  }\n\n  50% {\n    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);\n            transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n  }\n\n  80% {\n    -webkit-transform: perspective(400px) scale3d(.95, .95, .95) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);\n            transform: perspective(400px) scale3d(.95, .95, .95) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n  }\n\n  to {\n    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);\n            transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n  }\n}\n\n.animate__animated.animate__flip {\n  -webkit-backface-visibility: visible;\n          backface-visibility: visible;\n  -webkit-animation-name: flip;\n          animation-name: flip;\n}\n\n@-webkit-keyframes flipInX {\n  from {\n    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);\n            transform: perspective(400px) rotate3d(1, 0, 0, 90deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n    opacity: 0;\n  }\n\n  40% {\n    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);\n            transform: perspective(400px) rotate3d(1, 0, 0, -20deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n  }\n\n  60% {\n    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);\n            transform: perspective(400px) rotate3d(1, 0, 0, 10deg);\n    opacity: 1;\n  }\n\n  80% {\n    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);\n            transform: perspective(400px) rotate3d(1, 0, 0, -5deg);\n  }\n\n  to {\n    -webkit-transform: perspective(400px);\n            transform: perspective(400px);\n  }\n}\n\n@keyframes flipInX {\n  from {\n    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);\n            transform: perspective(400px) rotate3d(1, 0, 0, 90deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n    opacity: 0;\n  }\n\n  40% {\n    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);\n            transform: perspective(400px) rotate3d(1, 0, 0, -20deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n  }\n\n  60% {\n    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);\n            transform: perspective(400px) rotate3d(1, 0, 0, 10deg);\n    opacity: 1;\n  }\n\n  80% {\n    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);\n            transform: perspective(400px) rotate3d(1, 0, 0, -5deg);\n  }\n\n  to {\n    -webkit-transform: perspective(400px);\n            transform: perspective(400px);\n  }\n}\n\n.animate__flipInX {\n  -webkit-backface-visibility: visible !important;\n          backface-visibility: visible !important;\n  -webkit-animation-name: flipInX;\n          animation-name: flipInX;\n}\n\n@-webkit-keyframes flipInY {\n  from {\n    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);\n            transform: perspective(400px) rotate3d(0, 1, 0, 90deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n    opacity: 0;\n  }\n\n  40% {\n    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -20deg);\n            transform: perspective(400px) rotate3d(0, 1, 0, -20deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n  }\n\n  60% {\n    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 10deg);\n            transform: perspective(400px) rotate3d(0, 1, 0, 10deg);\n    opacity: 1;\n  }\n\n  80% {\n    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -5deg);\n            transform: perspective(400px) rotate3d(0, 1, 0, -5deg);\n  }\n\n  to {\n    -webkit-transform: perspective(400px);\n            transform: perspective(400px);\n  }\n}\n\n@keyframes flipInY {\n  from {\n    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);\n            transform: perspective(400px) rotate3d(0, 1, 0, 90deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n    opacity: 0;\n  }\n\n  40% {\n    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -20deg);\n            transform: perspective(400px) rotate3d(0, 1, 0, -20deg);\n    -webkit-animation-timing-function: ease-in;\n            animation-timing-function: ease-in;\n  }\n\n  60% {\n    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 10deg);\n            transform: perspective(400px) rotate3d(0, 1, 0, 10deg);\n    opacity: 1;\n  }\n\n  80% {\n    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -5deg);\n            transform: perspective(400px) rotate3d(0, 1, 0, -5deg);\n  }\n\n  to {\n    -webkit-transform: perspective(400px);\n            transform: perspective(400px);\n  }\n}\n\n.animate__flipInY {\n  -webkit-backface-visibility: visible !important;\n          backface-visibility: visible !important;\n  -webkit-animation-name: flipInY;\n          animation-name: flipInY;\n}\n\n@-webkit-keyframes flipOutX {\n  from {\n    -webkit-transform: perspective(400px);\n            transform: perspective(400px);\n  }\n\n  30% {\n    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);\n            transform: perspective(400px) rotate3d(1, 0, 0, -20deg);\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);\n            transform: perspective(400px) rotate3d(1, 0, 0, 90deg);\n    opacity: 0;\n  }\n}\n\n@keyframes flipOutX {\n  from {\n    -webkit-transform: perspective(400px);\n            transform: perspective(400px);\n  }\n\n  30% {\n    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);\n            transform: perspective(400px) rotate3d(1, 0, 0, -20deg);\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);\n            transform: perspective(400px) rotate3d(1, 0, 0, 90deg);\n    opacity: 0;\n  }\n}\n\n.animate__flipOutX {\n  -webkit-animation-duration: calc(1s * .75);\n          animation-duration: calc(1s * .75);\n  -webkit-animation-duration: calc(var(--animate-duration) * .75);\n          animation-duration: calc(var(--animate-duration) * .75);\n  -webkit-animation-name: flipOutX;\n          animation-name: flipOutX;\n  -webkit-backface-visibility: visible !important;\n          backface-visibility: visible !important;\n}\n\n@-webkit-keyframes flipOutY {\n  from {\n    -webkit-transform: perspective(400px);\n            transform: perspective(400px);\n  }\n\n  30% {\n    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -15deg);\n            transform: perspective(400px) rotate3d(0, 1, 0, -15deg);\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);\n            transform: perspective(400px) rotate3d(0, 1, 0, 90deg);\n    opacity: 0;\n  }\n}\n\n@keyframes flipOutY {\n  from {\n    -webkit-transform: perspective(400px);\n            transform: perspective(400px);\n  }\n\n  30% {\n    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -15deg);\n            transform: perspective(400px) rotate3d(0, 1, 0, -15deg);\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);\n            transform: perspective(400px) rotate3d(0, 1, 0, 90deg);\n    opacity: 0;\n  }\n}\n\n.animate__flipOutY {\n  -webkit-animation-duration: calc(1s * .75);\n          animation-duration: calc(1s * .75);\n  -webkit-animation-duration: calc(var(--animate-duration) * .75);\n          animation-duration: calc(var(--animate-duration) * .75);\n  -webkit-backface-visibility: visible !important;\n          backface-visibility: visible !important;\n  -webkit-animation-name: flipOutY;\n          animation-name: flipOutY;\n}\n\n/* Lightspeed */\n\n@-webkit-keyframes lightSpeedInRight {\n  from {\n    -webkit-transform: translate3d(100%, 0, 0) skewX(-30deg);\n            transform: translate3d(100%, 0, 0) skewX(-30deg);\n    opacity: 0;\n  }\n\n  60% {\n    -webkit-transform: skewX(20deg);\n            transform: skewX(20deg);\n    opacity: 1;\n  }\n\n  80% {\n    -webkit-transform: skewX(-5deg);\n            transform: skewX(-5deg);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes lightSpeedInRight {\n  from {\n    -webkit-transform: translate3d(100%, 0, 0) skewX(-30deg);\n            transform: translate3d(100%, 0, 0) skewX(-30deg);\n    opacity: 0;\n  }\n\n  60% {\n    -webkit-transform: skewX(20deg);\n            transform: skewX(20deg);\n    opacity: 1;\n  }\n\n  80% {\n    -webkit-transform: skewX(-5deg);\n            transform: skewX(-5deg);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__lightSpeedInRight {\n  -webkit-animation-name: lightSpeedInRight;\n          animation-name: lightSpeedInRight;\n  -webkit-animation-timing-function: ease-out;\n          animation-timing-function: ease-out;\n}\n\n@-webkit-keyframes lightSpeedInLeft {\n  from {\n    -webkit-transform: translate3d(-100%, 0, 0) skewX(30deg);\n            transform: translate3d(-100%, 0, 0) skewX(30deg);\n    opacity: 0;\n  }\n\n  60% {\n    -webkit-transform: skewX(-20deg);\n            transform: skewX(-20deg);\n    opacity: 1;\n  }\n\n  80% {\n    -webkit-transform: skewX(5deg);\n            transform: skewX(5deg);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes lightSpeedInLeft {\n  from {\n    -webkit-transform: translate3d(-100%, 0, 0) skewX(30deg);\n            transform: translate3d(-100%, 0, 0) skewX(30deg);\n    opacity: 0;\n  }\n\n  60% {\n    -webkit-transform: skewX(-20deg);\n            transform: skewX(-20deg);\n    opacity: 1;\n  }\n\n  80% {\n    -webkit-transform: skewX(5deg);\n            transform: skewX(5deg);\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__lightSpeedInLeft {\n  -webkit-animation-name: lightSpeedInLeft;\n          animation-name: lightSpeedInLeft;\n  -webkit-animation-timing-function: ease-out;\n          animation-timing-function: ease-out;\n}\n\n@-webkit-keyframes lightSpeedOutRight {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: translate3d(100%, 0, 0) skewX(30deg);\n            transform: translate3d(100%, 0, 0) skewX(30deg);\n    opacity: 0;\n  }\n}\n\n@keyframes lightSpeedOutRight {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: translate3d(100%, 0, 0) skewX(30deg);\n            transform: translate3d(100%, 0, 0) skewX(30deg);\n    opacity: 0;\n  }\n}\n\n.animate__lightSpeedOutRight {\n  -webkit-animation-name: lightSpeedOutRight;\n          animation-name: lightSpeedOutRight;\n  -webkit-animation-timing-function: ease-in;\n          animation-timing-function: ease-in;\n}\n\n@-webkit-keyframes lightSpeedOutLeft {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: translate3d(-100%, 0, 0) skewX(-30deg);\n            transform: translate3d(-100%, 0, 0) skewX(-30deg);\n    opacity: 0;\n  }\n}\n\n@keyframes lightSpeedOutLeft {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: translate3d(-100%, 0, 0) skewX(-30deg);\n            transform: translate3d(-100%, 0, 0) skewX(-30deg);\n    opacity: 0;\n  }\n}\n\n.animate__lightSpeedOutLeft {\n  -webkit-animation-name: lightSpeedOutLeft;\n          animation-name: lightSpeedOutLeft;\n  -webkit-animation-timing-function: ease-in;\n          animation-timing-function: ease-in;\n}\n\n/* Rotating entrances */\n\n@-webkit-keyframes rotateIn {\n  from {\n    -webkit-transform: rotate3d(0, 0, 1, -200deg);\n            transform: rotate3d(0, 0, 1, -200deg);\n    opacity: 0;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    opacity: 1;\n  }\n}\n\n@keyframes rotateIn {\n  from {\n    -webkit-transform: rotate3d(0, 0, 1, -200deg);\n            transform: rotate3d(0, 0, 1, -200deg);\n    opacity: 0;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    opacity: 1;\n  }\n}\n\n.animate__rotateIn {\n  -webkit-animation-name: rotateIn;\n          animation-name: rotateIn;\n  -webkit-transform-origin: center;\n          transform-origin: center;\n}\n\n@-webkit-keyframes rotateInDownLeft {\n  from {\n    -webkit-transform: rotate3d(0, 0, 1, -45deg);\n            transform: rotate3d(0, 0, 1, -45deg);\n    opacity: 0;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    opacity: 1;\n  }\n}\n\n@keyframes rotateInDownLeft {\n  from {\n    -webkit-transform: rotate3d(0, 0, 1, -45deg);\n            transform: rotate3d(0, 0, 1, -45deg);\n    opacity: 0;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    opacity: 1;\n  }\n}\n\n.animate__rotateInDownLeft {\n  -webkit-animation-name: rotateInDownLeft;\n          animation-name: rotateInDownLeft;\n  -webkit-transform-origin: left bottom;\n          transform-origin: left bottom;\n}\n\n@-webkit-keyframes rotateInDownRight {\n  from {\n    -webkit-transform: rotate3d(0, 0, 1, 45deg);\n            transform: rotate3d(0, 0, 1, 45deg);\n    opacity: 0;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    opacity: 1;\n  }\n}\n\n@keyframes rotateInDownRight {\n  from {\n    -webkit-transform: rotate3d(0, 0, 1, 45deg);\n            transform: rotate3d(0, 0, 1, 45deg);\n    opacity: 0;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    opacity: 1;\n  }\n}\n\n.animate__rotateInDownRight {\n  -webkit-animation-name: rotateInDownRight;\n          animation-name: rotateInDownRight;\n  -webkit-transform-origin: right bottom;\n          transform-origin: right bottom;\n}\n\n@-webkit-keyframes rotateInUpLeft {\n  from {\n    -webkit-transform: rotate3d(0, 0, 1, 45deg);\n            transform: rotate3d(0, 0, 1, 45deg);\n    opacity: 0;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    opacity: 1;\n  }\n}\n\n@keyframes rotateInUpLeft {\n  from {\n    -webkit-transform: rotate3d(0, 0, 1, 45deg);\n            transform: rotate3d(0, 0, 1, 45deg);\n    opacity: 0;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    opacity: 1;\n  }\n}\n\n.animate__rotateInUpLeft {\n  -webkit-animation-name: rotateInUpLeft;\n          animation-name: rotateInUpLeft;\n  -webkit-transform-origin: left bottom;\n          transform-origin: left bottom;\n}\n\n@-webkit-keyframes rotateInUpRight {\n  from {\n    -webkit-transform: rotate3d(0, 0, 1, -90deg);\n            transform: rotate3d(0, 0, 1, -90deg);\n    opacity: 0;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    opacity: 1;\n  }\n}\n\n@keyframes rotateInUpRight {\n  from {\n    -webkit-transform: rotate3d(0, 0, 1, -90deg);\n            transform: rotate3d(0, 0, 1, -90deg);\n    opacity: 0;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    opacity: 1;\n  }\n}\n\n.animate__rotateInUpRight {\n  -webkit-animation-name: rotateInUpRight;\n          animation-name: rotateInUpRight;\n  -webkit-transform-origin: right bottom;\n          transform-origin: right bottom;\n}\n\n/* Rotating exits */\n\n@-webkit-keyframes rotateOut {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: rotate3d(0, 0, 1, 200deg);\n            transform: rotate3d(0, 0, 1, 200deg);\n    opacity: 0;\n  }\n}\n\n@keyframes rotateOut {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: rotate3d(0, 0, 1, 200deg);\n            transform: rotate3d(0, 0, 1, 200deg);\n    opacity: 0;\n  }\n}\n\n.animate__rotateOut {\n  -webkit-animation-name: rotateOut;\n          animation-name: rotateOut;\n  -webkit-transform-origin: center;\n          transform-origin: center;\n}\n\n@-webkit-keyframes rotateOutDownLeft {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: rotate3d(0, 0, 1, 45deg);\n            transform: rotate3d(0, 0, 1, 45deg);\n    opacity: 0;\n  }\n}\n\n@keyframes rotateOutDownLeft {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: rotate3d(0, 0, 1, 45deg);\n            transform: rotate3d(0, 0, 1, 45deg);\n    opacity: 0;\n  }\n}\n\n.animate__rotateOutDownLeft {\n  -webkit-animation-name: rotateOutDownLeft;\n          animation-name: rotateOutDownLeft;\n  -webkit-transform-origin: left bottom;\n          transform-origin: left bottom;\n}\n\n@-webkit-keyframes rotateOutDownRight {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: rotate3d(0, 0, 1, -45deg);\n            transform: rotate3d(0, 0, 1, -45deg);\n    opacity: 0;\n  }\n}\n\n@keyframes rotateOutDownRight {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: rotate3d(0, 0, 1, -45deg);\n            transform: rotate3d(0, 0, 1, -45deg);\n    opacity: 0;\n  }\n}\n\n.animate__rotateOutDownRight {\n  -webkit-animation-name: rotateOutDownRight;\n          animation-name: rotateOutDownRight;\n  -webkit-transform-origin: right bottom;\n          transform-origin: right bottom;\n}\n\n@-webkit-keyframes rotateOutUpLeft {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: rotate3d(0, 0, 1, -45deg);\n            transform: rotate3d(0, 0, 1, -45deg);\n    opacity: 0;\n  }\n}\n\n@keyframes rotateOutUpLeft {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: rotate3d(0, 0, 1, -45deg);\n            transform: rotate3d(0, 0, 1, -45deg);\n    opacity: 0;\n  }\n}\n\n.animate__rotateOutUpLeft {\n  -webkit-animation-name: rotateOutUpLeft;\n          animation-name: rotateOutUpLeft;\n  -webkit-transform-origin: left bottom;\n          transform-origin: left bottom;\n}\n\n@-webkit-keyframes rotateOutUpRight {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: rotate3d(0, 0, 1, 90deg);\n            transform: rotate3d(0, 0, 1, 90deg);\n    opacity: 0;\n  }\n}\n\n@keyframes rotateOutUpRight {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: rotate3d(0, 0, 1, 90deg);\n            transform: rotate3d(0, 0, 1, 90deg);\n    opacity: 0;\n  }\n}\n\n.animate__rotateOutUpRight {\n  -webkit-animation-name: rotateOutUpRight;\n          animation-name: rotateOutUpRight;\n  -webkit-transform-origin: right bottom;\n          transform-origin: right bottom;\n}\n\n/* Specials */\n\n@-webkit-keyframes hinge {\n  0% {\n    -webkit-animation-timing-function: ease-in-out;\n            animation-timing-function: ease-in-out;\n  }\n\n  20%,\n  60% {\n    -webkit-transform: rotate3d(0, 0, 1, 80deg);\n            transform: rotate3d(0, 0, 1, 80deg);\n    -webkit-animation-timing-function: ease-in-out;\n            animation-timing-function: ease-in-out;\n  }\n\n  40%,\n  80% {\n    -webkit-transform: rotate3d(0, 0, 1, 60deg);\n            transform: rotate3d(0, 0, 1, 60deg);\n    -webkit-animation-timing-function: ease-in-out;\n            animation-timing-function: ease-in-out;\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 700px, 0);\n            transform: translate3d(0, 700px, 0);\n    opacity: 0;\n  }\n}\n\n@keyframes hinge {\n  0% {\n    -webkit-animation-timing-function: ease-in-out;\n            animation-timing-function: ease-in-out;\n  }\n\n  20%,\n  60% {\n    -webkit-transform: rotate3d(0, 0, 1, 80deg);\n            transform: rotate3d(0, 0, 1, 80deg);\n    -webkit-animation-timing-function: ease-in-out;\n            animation-timing-function: ease-in-out;\n  }\n\n  40%,\n  80% {\n    -webkit-transform: rotate3d(0, 0, 1, 60deg);\n            transform: rotate3d(0, 0, 1, 60deg);\n    -webkit-animation-timing-function: ease-in-out;\n            animation-timing-function: ease-in-out;\n    opacity: 1;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 700px, 0);\n            transform: translate3d(0, 700px, 0);\n    opacity: 0;\n  }\n}\n\n.animate__hinge {\n  -webkit-animation-duration: calc(1s * 2);\n          animation-duration: calc(1s * 2);\n  -webkit-animation-duration: calc(var(--animate-duration) * 2);\n          animation-duration: calc(var(--animate-duration) * 2);\n  -webkit-animation-name: hinge;\n          animation-name: hinge;\n  -webkit-transform-origin: top left;\n          transform-origin: top left;\n}\n\n@-webkit-keyframes jackInTheBox {\n  from {\n    opacity: 0;\n    -webkit-transform: scale(.1) rotate(30deg);\n            transform: scale(.1) rotate(30deg);\n    -webkit-transform-origin: center bottom;\n             transform-origin: center bottom;\n  }\n\n  50% {\n    -webkit-transform: rotate(-10deg);\n            transform: rotate(-10deg);\n  }\n\n  70% {\n    -webkit-transform: rotate(3deg);\n            transform: rotate(3deg);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n}\n\n@keyframes jackInTheBox {\n  from {\n    opacity: 0;\n    -webkit-transform: scale(.1) rotate(30deg);\n            transform: scale(.1) rotate(30deg);\n    -webkit-transform-origin: center bottom;\n             transform-origin: center bottom;\n  }\n\n  50% {\n    -webkit-transform: rotate(-10deg);\n            transform: rotate(-10deg);\n  }\n\n  70% {\n    -webkit-transform: rotate(3deg);\n            transform: rotate(3deg);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n}\n\n.animate__jackInTheBox {\n  -webkit-animation-name: jackInTheBox;\n          animation-name: jackInTheBox;\n}\n\n/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */\n\n@-webkit-keyframes rollIn {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, 0, 0) rotate3d(0, 0, 1, -120deg);\n            transform: translate3d(-100%, 0, 0) rotate3d(0, 0, 1, -120deg);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes rollIn {\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(-100%, 0, 0) rotate3d(0, 0, 1, -120deg);\n            transform: translate3d(-100%, 0, 0) rotate3d(0, 0, 1, -120deg);\n  }\n\n  to {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__rollIn {\n  -webkit-animation-name: rollIn;\n          animation-name: rollIn;\n}\n\n/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */\n\n@-webkit-keyframes rollOut {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg);\n            transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg);\n  }\n}\n\n@keyframes rollOut {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg);\n            transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg);\n  }\n}\n\n.animate__rollOut {\n  -webkit-animation-name: rollOut;\n          animation-name: rollOut;\n}\n\n/* Zooming entrances */\n\n@-webkit-keyframes zoomIn {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.3, .3, .3);\n            transform: scale3d(.3, .3, .3);\n  }\n\n  50% {\n    opacity: 1;\n  }\n}\n\n@keyframes zoomIn {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.3, .3, .3);\n            transform: scale3d(.3, .3, .3);\n  }\n\n  50% {\n    opacity: 1;\n  }\n}\n\n.animate__zoomIn {\n  -webkit-animation-name: zoomIn;\n          animation-name: zoomIn;\n}\n\n@-webkit-keyframes zoomInDown {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\n            transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n            animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\n            transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n            animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n  }\n}\n\n@keyframes zoomInDown {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\n            transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n            animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\n            transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n            animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n  }\n}\n\n.animate__zoomInDown {\n  -webkit-animation-name: zoomInDown;\n          animation-name: zoomInDown;\n}\n\n@-webkit-keyframes zoomInLeft {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\n            transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\n    -webkit-animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n            animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\n            transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\n    -webkit-animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n            animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n  }\n}\n\n@keyframes zoomInLeft {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\n            transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\n    -webkit-animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n            animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\n            transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\n    -webkit-animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n            animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n  }\n}\n\n.animate__zoomInLeft {\n  -webkit-animation-name: zoomInLeft;\n          animation-name: zoomInLeft;\n}\n\n@-webkit-keyframes zoomInRight {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\n            transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\n    -webkit-animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n            animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\n            transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\n    -webkit-animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n            animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n  }\n}\n\n@keyframes zoomInRight {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\n            transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\n    -webkit-animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n            animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\n            transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\n    -webkit-animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n            animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n  }\n}\n\n.animate__zoomInRight {\n  -webkit-animation-name: zoomInRight;\n          animation-name: zoomInRight;\n}\n\n@-webkit-keyframes zoomInUp {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);\n            transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n            animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);\n            transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n            animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n  }\n}\n\n@keyframes zoomInUp {\n  from {\n    opacity: 0;\n    -webkit-transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);\n            transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n            animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n  }\n\n  60% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);\n            transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n            animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n  }\n}\n\n.animate__zoomInUp {\n  -webkit-animation-name: zoomInUp;\n          animation-name: zoomInUp;\n}\n\n/* Zooming exits */\n\n@-webkit-keyframes zoomOut {\n  from {\n    opacity: 1;\n  }\n\n  50% {\n    opacity: 0;\n    -webkit-transform: scale3d(.3, .3, .3);\n            transform: scale3d(.3, .3, .3);\n  }\n\n  to {\n    opacity: 0;\n  }\n}\n\n@keyframes zoomOut {\n  from {\n    opacity: 1;\n  }\n\n  50% {\n    opacity: 0;\n    -webkit-transform: scale3d(.3, .3, .3);\n            transform: scale3d(.3, .3, .3);\n  }\n\n  to {\n    opacity: 0;\n  }\n}\n\n.animate__zoomOut {\n  -webkit-animation-name: zoomOut;\n          animation-name: zoomOut;\n}\n\n@-webkit-keyframes zoomOutDown {\n  40% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);\n            transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n            animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: scale3d(.1, .1, .1) translate3d(0, 2000px, 0);\n            transform: scale3d(.1, .1, .1) translate3d(0, 2000px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n            animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n  }\n}\n\n@keyframes zoomOutDown {\n  40% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);\n            transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n            animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: scale3d(.1, .1, .1) translate3d(0, 2000px, 0);\n            transform: scale3d(.1, .1, .1) translate3d(0, 2000px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n            animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n  }\n}\n\n.animate__zoomOutDown {\n  -webkit-animation-name: zoomOutDown;\n          animation-name: zoomOutDown;\n  -webkit-transform-origin: center bottom;\n          transform-origin: center bottom;\n}\n\n@-webkit-keyframes zoomOutLeft {\n  40% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(42px, 0, 0);\n            transform: scale3d(.475, .475, .475) translate3d(42px, 0, 0);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: scale(.1) translate3d(-2000px, 0, 0);\n            transform: scale(.1) translate3d(-2000px, 0, 0);\n  }\n}\n\n@keyframes zoomOutLeft {\n  40% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(42px, 0, 0);\n            transform: scale3d(.475, .475, .475) translate3d(42px, 0, 0);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: scale(.1) translate3d(-2000px, 0, 0);\n            transform: scale(.1) translate3d(-2000px, 0, 0);\n  }\n}\n\n.animate__zoomOutLeft {\n  -webkit-animation-name: zoomOutLeft;\n          animation-name: zoomOutLeft;\n  -webkit-transform-origin: left center;\n          transform-origin: left center;\n}\n\n@-webkit-keyframes zoomOutRight {\n  40% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(-42px, 0, 0);\n            transform: scale3d(.475, .475, .475) translate3d(-42px, 0, 0);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: scale(.1) translate3d(2000px, 0, 0);\n            transform: scale(.1) translate3d(2000px, 0, 0);\n  }\n}\n\n@keyframes zoomOutRight {\n  40% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(-42px, 0, 0);\n            transform: scale3d(.475, .475, .475) translate3d(-42px, 0, 0);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: scale(.1) translate3d(2000px, 0, 0);\n            transform: scale(.1) translate3d(2000px, 0, 0);\n  }\n}\n\n.animate__zoomOutRight {\n  -webkit-animation-name: zoomOutRight;\n          animation-name: zoomOutRight;\n  -webkit-transform-origin: right center;\n          transform-origin: right center;\n}\n\n@-webkit-keyframes zoomOutUp {\n  40% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\n            transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n            animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -2000px, 0);\n            transform: scale3d(.1, .1, .1) translate3d(0, -2000px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n            animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n  }\n}\n\n@keyframes zoomOutUp {\n  40% {\n    opacity: 1;\n    -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\n            transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n            animation-timing-function: cubic-bezier(.55, .055, .675, .19);\n  }\n\n  to {\n    opacity: 0;\n    -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -2000px, 0);\n            transform: scale3d(.1, .1, .1) translate3d(0, -2000px, 0);\n    -webkit-animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n            animation-timing-function: cubic-bezier(.175, .885, .32, 1);\n  }\n}\n\n.animate__zoomOutUp {\n  -webkit-animation-name: zoomOutUp;\n          animation-name: zoomOutUp;\n  -webkit-transform-origin: center bottom;\n          transform-origin: center bottom;\n}\n\n/* Sliding entrances */\n\n@-webkit-keyframes slideInDown {\n  from {\n    -webkit-transform: translate3d(0, -100%, 0);\n            transform: translate3d(0, -100%, 0);\n    visibility: visible;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes slideInDown {\n  from {\n    -webkit-transform: translate3d(0, -100%, 0);\n            transform: translate3d(0, -100%, 0);\n    visibility: visible;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__slideInDown {\n  -webkit-animation-name: slideInDown;\n          animation-name: slideInDown;\n}\n\n@-webkit-keyframes slideInLeft {\n  from {\n    -webkit-transform: translate3d(-100%, 0, 0);\n            transform: translate3d(-100%, 0, 0);\n    visibility: visible;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes slideInLeft {\n  from {\n    -webkit-transform: translate3d(-100%, 0, 0);\n            transform: translate3d(-100%, 0, 0);\n    visibility: visible;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__slideInLeft {\n  -webkit-animation-name: slideInLeft;\n          animation-name: slideInLeft;\n}\n\n@-webkit-keyframes slideInRight {\n  from {\n    -webkit-transform: translate3d(100%, 0, 0);\n            transform: translate3d(100%, 0, 0);\n    visibility: visible;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes slideInRight {\n  from {\n    -webkit-transform: translate3d(100%, 0, 0);\n            transform: translate3d(100%, 0, 0);\n    visibility: visible;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__slideInRight {\n  -webkit-animation-name: slideInRight;\n          animation-name: slideInRight;\n}\n\n@-webkit-keyframes slideInUp {\n  from {\n    -webkit-transform: translate3d(0, 100%, 0);\n            transform: translate3d(0, 100%, 0);\n    visibility: visible;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n@keyframes slideInUp {\n  from {\n    -webkit-transform: translate3d(0, 100%, 0);\n            transform: translate3d(0, 100%, 0);\n    visibility: visible;\n  }\n\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n}\n\n.animate__slideInUp {\n  -webkit-animation-name: slideInUp;\n          animation-name: slideInUp;\n}\n\n/* Sliding exits */\n\n@-webkit-keyframes slideOutDown {\n  from {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    visibility: hidden;\n    -webkit-transform: translate3d(0, 100%, 0);\n            transform: translate3d(0, 100%, 0);\n  }\n}\n\n@keyframes slideOutDown {\n  from {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    visibility: hidden;\n    -webkit-transform: translate3d(0, 100%, 0);\n            transform: translate3d(0, 100%, 0);\n  }\n}\n\n.animate__slideOutDown {\n  -webkit-animation-name: slideOutDown;\n          animation-name: slideOutDown;\n}\n\n@-webkit-keyframes slideOutLeft {\n  from {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    visibility: hidden;\n    -webkit-transform: translate3d(-100%, 0, 0);\n            transform: translate3d(-100%, 0, 0);\n  }\n}\n\n@keyframes slideOutLeft {\n  from {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    visibility: hidden;\n    -webkit-transform: translate3d(-100%, 0, 0);\n            transform: translate3d(-100%, 0, 0);\n  }\n}\n\n.animate__slideOutLeft {\n  -webkit-animation-name: slideOutLeft;\n          animation-name: slideOutLeft;\n}\n\n@-webkit-keyframes slideOutRight {\n  from {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    visibility: hidden;\n    -webkit-transform: translate3d(100%, 0, 0);\n            transform: translate3d(100%, 0, 0);\n  }\n}\n\n@keyframes slideOutRight {\n  from {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    visibility: hidden;\n    -webkit-transform: translate3d(100%, 0, 0);\n            transform: translate3d(100%, 0, 0);\n  }\n}\n\n.animate__slideOutRight {\n  -webkit-animation-name: slideOutRight;\n          animation-name: slideOutRight;\n}\n\n@-webkit-keyframes slideOutUp {\n  from {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    visibility: hidden;\n    -webkit-transform: translate3d(0, -100%, 0);\n            transform: translate3d(0, -100%, 0);\n  }\n}\n\n@keyframes slideOutUp {\n  from {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n  }\n\n  to {\n    visibility: hidden;\n    -webkit-transform: translate3d(0, -100%, 0);\n            transform: translate3d(0, -100%, 0);\n  }\n}\n\n.animate__slideOutUp {\n  -webkit-animation-name: slideOutUp;\n          animation-name: slideOutUp;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Login.vue?vue&type=style&index=0&lang=css&":
 /*!***********************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Login.vue?vue&type=style&index=0&lang=css& ***!
@@ -10438,7 +10500,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".new-reply[data-v-127aed95] {\n  background-color: #fff;\n  padding: 5px;\n}\n", ""]);
+exports.push([module.i, ".new-reply[data-v-127aed95] {\n  background-color: #f9f9f9;\n  padding: 5px;\n}\n", ""]);
 
 // exports
 
@@ -85189,10 +85251,6 @@ var render = function() {
               "div",
               { staticClass: "entry" },
               [
-                activity.type === "created_like"
-                  ? _c("activity-favorite", { attrs: { activity: activity } })
-                  : _vm._e(),
-                _vm._v(" "),
                 activity.type === "created_comment"
                   ? _c("activity-reply", { attrs: { activity: activity } })
                   : _vm._e(),
@@ -85571,176 +85629,6 @@ var render = function() {
           ]
         )
       : _vm._e()
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ActivityThread.vue?vue&type=template&id=3d2026b8&":
-/*!*****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ActivityThread.vue?vue&type=template&id=3d2026b8& ***!
-  \*****************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("activity-layout", [
-    _c("span", { attrs: { slot: "activity" }, slot: "activity" }, [
-      _vm._v("  \n        added a "),
-      _c(
-        "a",
-        {
-          staticClass: "mr-1 text-blue",
-          attrs: { href: _vm.activity.subject.path }
-        },
-        [_c("strong", [_vm._v("thread")])]
-      ),
-      _vm._v(
-        "\n        " +
-          _vm._s(_vm.humanTime(_vm.activity.subject.created_at)) +
-          " in:\n    "
-      )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "text-md font-semibold",
-        attrs: { slot: "heading" },
-        slot: "heading"
-      },
-      [
-        _c(
-          "a",
-          {
-            staticClass: "text-blue font-bold mb-2",
-            attrs: { href: _vm.activity.subject.path }
-          },
-          [_vm._v('"' + _vm._s(_vm.activity.subject.title) + '"')]
-        ),
-        _vm._v(" "),
-        _c("p", { staticClass: "text-xs text-grey-darkest font-medium mb-1" }, [
-          _vm._v("\n            Posted By:\n            "),
-          _c(
-            "a",
-            {
-              staticClass: "text-blue",
-              attrs: { href: "/user/" + _vm.activity.subject.creator.username }
-            },
-            [
-              _vm._v(
-                "\n                " +
-                  _vm._s(_vm.activity.subject.creator.username) +
-                  "\n            "
-              )
-            ]
-          )
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c("div", { attrs: { slot: "body" }, slot: "body" }, [
-      _c(
-        "div",
-        {
-          staticClass:
-            "text-grey-darkest leading-loose mb-1 max-h-24 overflow-hidden"
-        },
-        [
-          _c(
-            "div",
-            { staticClass: "ml-2 my-2 pl-4 border-l-2 border-grey-dark" },
-            [
-              _c("highlight", { attrs: { content: _vm.activity.subject.body } })
-            ],
-            1
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "flex items-center py-1 text-xs text-grey-darkest" },
-        [
-          _vm._v("\n            ⋯ "),
-          _c(
-            "a",
-            {
-              staticClass: "ml-1 text-2xs text-blue",
-              attrs: { href: _vm.activity.subject.path }
-            },
-            [_vm._v("more")]
-          )
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "flex items-center mx-3 mb-3 text-sm",
-        attrs: { slot: "badges" },
-        slot: "badges"
-      },
-      [
-        _vm.activity.subject.replies_count > 0
-          ? _c(
-              "div",
-              {
-                staticClass:
-                  "text-grey-darker text-2xs font-semibold flex items-center mr-4"
-              },
-              [
-                _c(
-                  "svg",
-                  {
-                    staticClass: "mr-1",
-                    attrs: {
-                      xmlns: "http://www.w3.org/2000/svg",
-                      width: "19",
-                      height: "14",
-                      viewBox: "0 0 19 14"
-                    }
-                  },
-                  [
-                    _c(
-                      "g",
-                      { attrs: { fill: "none", "fill-rule": "evenodd" } },
-                      [
-                        _c("path", { attrs: { d: "M0-3h19v19H0z" } }),
-                        _vm._v(" "),
-                        _c("path", {
-                          attrs: {
-                            fill: "#C1C1CE",
-                            d:
-                              "M10.292 6.5h5.541v1.187h-5.541V6.5zm0-1.98h5.541v1.188h-5.541V4.521zm0 3.96h5.541v1.187h-5.541V8.479zM16.625.166H2.375C1.505.167.792.879.792 1.75v10.292c0 .87.712 1.583 1.583 1.583h14.25c.87 0 1.583-.713 1.583-1.583V1.75c0-.87-.712-1.583-1.583-1.583zm0 11.875H9.5V1.75h7.125v10.292z"
-                          }
-                        })
-                      ]
-                    )
-                  ]
-                ),
-                _vm._v(
-                  "\n\n            " +
-                    _vm._s(_vm.activity.subject.replies_count) +
-                    " Reply(s)\n        "
-                )
-              ]
-            )
-          : _vm._e()
-      ]
-    )
   ])
 }
 var staticRenderFns = []
@@ -86184,206 +86072,207 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("span", { staticClass: "text-md  font-semibold text-dark" }, [
-        _vm._v("\nPlease "),
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass:
+          "min-h-screen flex items-center justify-center bg-gray-10 py-8 px-4 sm:px-6 lg:px-8 animate__animated animate__fadeInUp"
+      },
+      [
         _c(
-          "a",
+          "div",
           {
-            staticClass: "text-blue link",
-            attrs: { href: "/login" },
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                return _vm.$modal.show("login")
-              }
-            }
+            staticClass:
+              "max-w-sm w-full space-y-8 bg-white rounded-lg px-5 py-6 shadow-md "
           },
-          [_vm._v("sign in")]
-        ),
-        _vm._v(" to participate in this\n                discussion.\n    ")
-      ]),
-      _vm._v(" "),
-      _c(
-        "modal",
-        {
-          attrs: {
-            name: "login",
-            height: "auto",
-            adaptive: true,
-            transition: "slide"
-          }
-        },
-        [
-          _c("div", { staticClass: "float-right" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-flat",
-                on: {
-                  click: function($event) {
-                    return _vm.$modal.hide("login")
-                  }
-                }
-              },
-              [_vm._v("X")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "container px-10 py-8 p-3" }, [
-            _c("h2", { staticClass: "lead align-text-center" }, [
-              _vm._v("Login")
-            ]),
+          [
+            _vm._m(0),
             _vm._v(" "),
             _c(
               "form",
               {
-                staticClass: "px-10 py-8",
+                staticClass: "mt-8 space-y-6",
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.login($event)
-                  },
-                  keydown: function($event) {
-                    _vm.feedback = ""
+                    return _vm.login()
                   }
                 }
               },
               [
-                _c("div", { staticClass: " form-group mb-6" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass:
-                        "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 ",
-                      attrs: { for: "username" }
-                    },
-                    [_vm._v("Username")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.username,
-                        expression: "form.username"
-                      }
-                    ],
-                    staticClass: "w-full p-2 leading-normal form-control",
-                    staticStyle: { "border-radius": "15px" },
-                    attrs: {
-                      type: "text",
-                      id: "username",
-                      name: "username",
-                      autocomplete: "username",
-                      placeholder: "joe",
-                      autofocus: "",
-                      required: ""
-                    },
-                    domProps: { value: _vm.form.username },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.form, "username", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
+                _c("input", {
+                  attrs: { type: "hidden", name: "remember", value: "true" }
+                }),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group mb-6" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass:
-                        "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 ",
-                      attrs: { for: "password" }
-                    },
-                    [_vm._v("Password")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.password,
-                        expression: "form.password"
-                      }
-                    ],
-                    staticClass: "w-full p-2 leading-normal form-control",
-                    staticStyle: { "border-radius": "15px" },
-                    attrs: {
-                      type: "password",
-                      id: "password",
-                      name: "password",
-                      autocomplete: "current-password",
-                      required: ""
-                    },
-                    domProps: { value: _vm.form.password },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                _c("div", { staticClass: "rounded-md -space-y-px" }, [
+                  _c("div", { staticClass: "mb-3" }, [
+                    _c(
+                      "label",
+                      { staticClass: "sr-only", attrs: { for: "username" } },
+                      [_vm._v("Username")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.username,
+                          expression: "form.username"
                         }
-                        _vm.$set(_vm.form, "password", $event.target.value)
+                      ],
+                      staticClass:
+                        "w-full appearance-none rounded relative block px-3 py-2 border border-gray-500 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-10 focus:z-10 sm:text-sm",
+                      attrs: {
+                        id: "username",
+                        name: "username",
+                        type: "text",
+                        autocomplete: "username",
+                        required: "",
+                        placeholder: "Username"
+                      },
+                      domProps: { value: _vm.form.username },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "username", $event.target.value)
+                        }
                       }
-                    }
-                  })
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", [
+                    _c(
+                      "label",
+                      { staticClass: "sr-only", attrs: { for: "password" } },
+                      [_vm._v("Password")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.password,
+                          expression: "form.password"
+                        }
+                      ],
+                      staticClass:
+                        " rounded appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-500 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
+                      attrs: {
+                        id: "password",
+                        name: "password",
+                        type: "password",
+                        autocomplete: "current-password",
+                        required: "",
+                        placeholder: "Password"
+                      },
+                      domProps: { value: _vm.form.password },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "password", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
                 ]),
                 _vm._v(" "),
                 _c(
                   "div",
-                  { staticClass: "flex justify-end items-center form-group" },
+                  { staticClass: "flex items-center justify-between mt-2" },
                   [
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "btn btn-outline-secondary btn-block border-secondary rounded-pill",
-                        class: _vm.loading ? "loader" : "",
-                        attrs: { type: "submit", disabled: _vm.loading }
-                      },
-                      [_vm._v("Log In")]
-                    ),
+                    _vm._m(1),
                     _vm._v(" "),
-                    _c("br"),
-                    _vm._v("  DON'T HAVE ACCOUNT?\n                    "),
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          "btn btn-outline-secondary text-grey-dark rounded-pill",
-                        attrs: { href: "#" },
-                        on: { click: _vm.register }
-                      },
-                      [_vm._v("REGISTER")]
-                    )
-                  ]
+                    _c("flashMessage"),
+                    _vm._v(" "),
+                    _vm._m(2)
+                  ],
+                  1
                 ),
                 _vm._v(" "),
-                _vm.feedback
-                  ? _c("div", { staticClass: "mt-6  p-2" }, [
-                      _c("span", {
-                        staticClass: "text-xs text-danger",
-                        domProps: { textContent: _vm._s(_vm.feedback) }
-                      })
-                    ])
-                  : _vm._e()
+                _vm._m(3)
               ]
             )
-          ])
-        ]
-      )
-    ],
-    1
-  )
+          ]
+        )
+      ]
+    )
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c(
+        "h2",
+        {
+          staticClass: "mt-6 text-center text-3xl font-extrabold text-gray-900"
+        },
+        [_vm._v("\n        Sign in\n      ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flex items-center" }, [
+      _c("input", {
+        staticClass:
+          "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded",
+        attrs: { id: "remember_me", name: "remember_me", type: "checkbox" }
+      }),
+      _vm._v(" "),
+      _c(
+        "label",
+        {
+          staticClass: "ml-2 block text-sm text-gray-900",
+          attrs: { for: "remember_me" }
+        },
+        [_vm._v("\n            Remember me\n          ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-sm" }, [
+      _c(
+        "a",
+        {
+          staticClass: "font-medium text-indigo-600 hover:text-indigo-500",
+          attrs: { href: "#" }
+        },
+        [_vm._v("\n            Forgot your password?\n          ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mt-5 mb-6" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "w-full items-center px-4 py-2 bg-dark border border-transparent rounded-full p-2 font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-300focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("          Sign in\n        ")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -87571,482 +87460,463 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "panel panel-body rounded",
-      attrs: { id: "comment-" + _vm.id }
-    },
-    [
-      _vm.signedIn
-        ? _c("div", { staticClass: "dropdown float-right" }, [
-            _c("button", {
-              staticClass: " btn btn-flat dropdown-toggle",
-              attrs: {
-                "data-toggle": "dropdown",
-                type: "button",
-                "aria-haspopup": "true",
-                "aria-expanded": "false",
-                id: "dropdownMenuButton"
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "dropdown-menu",
-                attrs: { "aria-labelledby": "dropdownMenuButton" }
-              },
-              [
-                (_vm.signedIn && _vm.reply.user.id == _vm.user.id) ||
-                (_vm.signedIn && _vm.user.role == 1)
-                  ? _c(
-                      "a",
+  return _c("div", { staticClass: "panel panel-body rounded" }, [
+    _vm.signedIn
+      ? _c("div", { staticClass: "dropdown float-right" }, [
+          _c("button", {
+            staticClass: " btn btn-flat dropdown-toggle",
+            attrs: {
+              "data-toggle": "dropdown",
+              type: "button",
+              "aria-haspopup": "true",
+              "aria-expanded": "false",
+              id: "dropdownMenuButton"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "dropdown-menu",
+              attrs: { "aria-labelledby": "dropdownMenuButton" }
+            },
+            [
+              (_vm.signedIn && _vm.reply.user.id == _vm.user.id) ||
+              (_vm.signedIn && _vm.user.role == 1)
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-danger-xs btn-sm dropdown-item",
+                      staticStyle: { color: "red !important" },
+                      attrs: { href: "#" },
+                      on: { click: _vm.destroy }
+                    },
+                    [_c("i", { staticClass: "fa fa-trash" }), _vm._v(" Delete")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.user.role === 1 || _vm.user.role === 2
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "dropdown-item",
+                      attrs: {
+                        href: "/moderation/" + _vm.reply.user.id + "/ban"
+                      }
+                    },
+                    [_vm._v("Ban User")]
+                  )
+                : _vm._e()
+            ]
+          )
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticStyle: { padding: "5px" } }, [
+      _c(
+        "div",
+        {
+          staticClass: "thread-user bg-blue-500",
+          staticStyle: { "margin-left": "-63px", "margin-top": "-8px" }
+        },
+        [
+          _c("table", [
+            _c("tr", [
+              _c("td", [
+                _c("img", {
+                  staticClass: "image-circle responsive",
+                  attrs: {
+                    src:
+                      "/storage/img/" +
+                      (_vm.reply.user.avatar
+                        ? _vm.reply.user.avatar
+                        : "default.jpg"),
+                    alt: "See mee",
+                    width: "36",
+                    height: "36"
+                  }
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: " text-black" }, [
+                  _c("a", {
+                    staticClass: "font-weight-bold text-black ",
+                    attrs: { href: "/u/" + _vm.reply.user.username },
+                    domProps: { textContent: _vm._s(_vm.reply.user.username) }
+                  }),
+                  _vm._v(" ⋅"),
+                  _c("span", { staticClass: "text-muted" }, [
+                    _vm._v(_vm._s(_vm.humanTime(_vm.reply.created_at)))
+                  ])
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "timestamp small",
+                    staticStyle: { width: "400px" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    replying to @" +
+                        _vm._s(_vm.reply.thread.user) +
+                        "\n                    "
+                    )
+                  ]
+                )
+              ])
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "mb-2" }, [
+        _vm.editing
+          ? _c("div", [
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.update($event)
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "mb-4" },
+                    [
+                      _c("wysiwyg", {
+                        attrs: { name: "body" },
+                        model: {
+                          value: _vm.body,
+                          callback: function($$v) {
+                            _vm.body = $$v
+                          },
+                          expression: "body"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "flex justify-content-center" }, [
+                    _c(
+                      "button",
                       {
-                        staticClass: "btn btn-danger-xs btn-sm dropdown-item",
-                        staticStyle: { color: "red !important" },
-                        attrs: { href: "#" },
-                        on: { click: _vm.destroy }
+                        staticClass: "btn mr-2",
+                        attrs: { type: "button" },
+                        on: { click: _vm.cancel }
                       },
                       [
-                        _c("i", { staticClass: "fa fa-trash" }),
-                        _vm._v(" Delete")
+                        _c("i", {
+                          staticClass: "fa fa-power-off",
+                          staticStyle: { color: "red" }
+                        }),
+                        _vm._v(" Cancel")
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ])
+                ]
+              )
+            ])
+          : _c(
+              "div",
+              [
+                _c("highlight", {
+                  staticClass: "panel-body",
+                  attrs: { content: _vm.body }
+                }),
+                _vm._v(" "),
+                _vm.signedIn
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "text-xs pl-2",
+                        staticStyle: { "padding-top": "3px" }
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "d-flex justify-content-center" },
+                          [
+                            _c("favorite", {
+                              staticClass: "mr-4",
+                              attrs: { comment: _vm.reply }
+                            }),
+                            _vm._v(" "),
+                            _vm.reply.user.id == _vm.user.id ||
+                            _vm.user.role == 1
+                              ? _c(
+                                  "a",
+                                  {
+                                    staticClass:
+                                      "text-black text-xs link  pl-3 mr-4",
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.editing = true
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fa fa-edit",
+                                      attrs: { title: "Edit" }
+                                    })
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.reply.replyChild_count <= 5,
+                                    expression: "reply.replyChild_count <= 5"
+                                  }
+                                ],
+                                staticClass: "ml-4 pl-3 bg-color-black",
+                                attrs: { title: "Reply" },
+                                on: { click: _vm.replyShow }
+                              },
+                              [_c("i", { staticClass: "fa fa-share-square" })]
+                            ),
+                            _vm._v(" "),
+                            _c("ReportModal", {
+                              staticClass: "ml-5 pl-3",
+                              attrs: {
+                                thread: _vm.reply.thread.id,
+                                comment: _vm.reply.id
+                              }
+                            }),
+                            _c("br"),
+                            _c("br"),
+                            _vm._v(" "),
+                            _vm.reply.attachment
+                              ? _c(
+                                  "div",
+                                  _vm._l(_vm.reply.attachment, function(
+                                    attachment
+                                  ) {
+                                    return _c("span", { key: attachment.id }, [
+                                      _c("img", {
+                                        staticClass: "attachment",
+                                        attrs: {
+                                          src: "/storage/img/" + attachment.name
+                                        }
+                                      })
+                                    ])
+                                  }),
+                                  0
+                                )
+                              : _vm._e()
+                          ],
+                          1
+                        )
                       ]
                     )
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.user.role === 1 || _vm.user.role === 2
+                _vm.reply.reply_children.length > 0
                   ? _c(
-                      "a",
-                      {
-                        staticClass: "dropdown-item",
-                        attrs: {
-                          href: "/moderation/" + _vm.reply.user.id + "/ban"
-                        }
-                      },
-                      [_vm._v("Ban User")]
-                    )
-                  : _vm._e()
-              ]
-            )
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticStyle: { padding: "5px" } }, [
-        _c(
-          "div",
-          {
-            staticClass: "thread-user",
-            staticStyle: { "margin-left": "-63px", "margin-top": "-8px" }
-          },
-          [
-            _c("table", [
-              _c("tr", [
-                _c("td", [
-                  _c("img", {
-                    staticClass: "image-circle responsive",
-                    attrs: {
-                      src: "/storage/storage/img/" + _vm.reply.user.avatar,
-                      alt: _vm.reply.user.username,
-                      width: "36",
-                      height: "36"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: " text-black" }, [
-                    _c("a", {
-                      staticClass: "font-weight-bold text-black ",
-                      attrs: { href: "/u/" + _vm.reply.user.username },
-                      domProps: { textContent: _vm._s(_vm.reply.user.username) }
-                    }),
-                    _vm._v(" ⋅"),
-                    _c("span", { staticClass: "text-muted" }, [
-                      _vm._v(_vm._s(_vm.humanTime(_vm.reply.created_at)))
-                    ])
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "timestamp small",
-                      staticStyle: { width: "400px" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                    replying to @" +
-                          _vm._s(_vm.reply.thread.user.username) +
-                          "\n                 "
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "mb-2" }, [
-          _vm.editing
-            ? _c("div", [
-                _c(
-                  "form",
-                  {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.update($event)
-                      }
-                    }
-                  },
-                  [
-                    _c(
                       "div",
-                      { staticClass: "mb-4" },
+                      {
+                        staticClass: "mt-2",
+                        staticStyle: { "border-top": "1px solid #ccc" }
+                      },
                       [
-                        _c("wysiwyg", {
-                          attrs: { name: "body" },
-                          model: {
-                            value: _vm.body,
-                            callback: function($$v) {
-                              _vm.body = $$v
-                            },
-                            expression: "body"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "flex justify-content-center" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn mr-2",
-                          attrs: { type: "button" },
-                          on: { click: _vm.cancel }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-power-off",
-                            staticStyle: { color: "red" }
-                          }),
-                          _vm._v(" Cancel")
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _vm._m(0)
-                    ])
-                  ]
-                )
-              ])
-            : _c(
-                "div",
-                [
-                  _c("highlight", {
-                    staticClass: "panel-body",
-                    attrs: { content: _vm.body }
-                  }),
-                  _vm._v(" "),
-                  _vm.signedIn
-                    ? _c(
-                        "div",
-                        {
-                          staticClass: "text-xs pl-2",
-                          staticStyle: { "padding-top": "3px" }
-                        },
-                        [
-                          _c(
-                            "div",
-                            { staticClass: "d-flex justify-content-center" },
-                            [
-                              _c("favorite", {
-                                staticClass: "mr-4",
-                                attrs: { comment: _vm.reply }
-                              }),
-                              _vm._v(" "),
-                              _vm.reply.user.id == _vm.user.id ||
-                              _vm.user.role == 1
-                                ? _c(
-                                    "a",
-                                    {
-                                      staticClass:
-                                        "text-black text-xs link  pl-3 mr-4",
-                                      attrs: { href: "#" },
-                                      on: {
-                                        click: function($event) {
-                                          $event.preventDefault()
-                                          _vm.editing = true
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("i", {
-                                        staticClass: "fa fa-edit",
-                                        attrs: { title: "Edit" }
-                                      })
-                                    ]
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "panel-body" },
+                          [
+                            _c("span", [
                               _c(
-                                "a",
+                                "button",
+                                {
+                                  staticClass: "text-sm btn btn-flat btn-block",
+                                  class: _vm.loading ? "loader" : "",
+                                  attrs: {
+                                    type: "button",
+                                    disabled: _vm.loading
+                                  },
+                                  on: {
+                                    "~mouseover": function($event) {
+                                      return _vm.getReply($event)
+                                    },
+                                    click: _vm.childShow
+                                  }
+                                },
+                                [_c("small", [_vm._v(_vm._s(_vm.see))])]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.items, function(replyChildren, indexes) {
+                              return _c(
+                                "div",
                                 {
                                   directives: [
                                     {
                                       name: "show",
                                       rawName: "v-show",
-                                      value: _vm.reply.replyChild_count <= 5,
-                                      expression: "reply.replyChild_count <= 5"
+                                      value: _vm.child,
+                                      expression: "child"
                                     }
                                   ],
-                                  staticClass: "ml-4 pl-3 bg-color-black",
-                                  attrs: { title: "Reply" },
-                                  on: { click: _vm.replyShow }
+                                  key: replyChildren.id,
+                                  staticClass: "mb-1 chld",
+                                  staticStyle: { "padding-bottom": "2px" }
                                 },
-                                [_c("i", { staticClass: "fa fa-share-square" })]
-                              ),
-                              _vm._v(" "),
-                              _c("ReportModal", {
-                                staticClass: "ml-5 pl-3",
-                                attrs: {
-                                  thread: _vm.reply.thread.id,
-                                  comment: _vm.reply.id
-                                }
-                              }),
-                              _c("br"),
-                              _c("br"),
-                              _vm._v(" "),
-                              _vm.reply.attachment
-                                ? _c(
+                                [
+                                  _c(
                                     "div",
-                                    _vm._l(_vm.reply.attachment, function(
-                                      attachment
-                                    ) {
-                                      return _c(
-                                        "span",
-                                        { key: attachment.id },
-                                        [
-                                          _c("img", {
-                                            staticClass: "attachment",
-                                            attrs: {
-                                              src:
-                                                "/storage/public/storage/img/" +
-                                                attachment.name
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    }),
-                                    0
-                                  )
-                                : _vm._e()
-                            ],
-                            1
-                          )
-                        ]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.reply.reply_children != ""
-                    ? _c(
-                        "div",
-                        {
-                          staticClass: "mt-2",
-                          staticStyle: { "border-top": "1px solid #ccc" }
-                        },
-                        [
-                          _c(
-                            "div",
-                            { staticClass: "panel-body" },
-                            [
-                              _c("span", [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "text-sm btn btn-flat btn-block",
-                                    class: _vm.loading ? "loader" : "",
-                                    attrs: {
-                                      type: "button",
-                                      disabled: _vm.loading
-                                    },
-                                    on: {
-                                      "~mouseover": function($event) {
-                                        return _vm.getReply($event)
-                                      },
-                                      click: _vm.childShow
-                                    }
-                                  },
-                                  [_c("small", [_vm._v(_vm._s(_vm.see))])]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _vm._l(_vm.items, function(
-                                replyChildren,
-                                indexes
-                              ) {
-                                return _c(
-                                  "div",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "show",
-                                        rawName: "v-show",
-                                        value: _vm.child,
-                                        expression: "child"
-                                      }
-                                    ],
-                                    key: replyChildren.id,
-                                    staticClass: "mb-1 chld",
-                                    staticStyle: { "padding-bottom": "2px" }
-                                  },
-                                  [
-                                    _c(
-                                      "div",
-                                      {
-                                        on: {
-                                          destroyed: function($event) {
-                                            return _vm.destroy(indexes)
-                                          }
+                                    {
+                                      on: {
+                                        destroyed: function($event) {
+                                          return _vm.destroy(indexes)
                                         }
-                                      },
-                                      [
-                                        _vm.signedIn &&
-                                        replyChildren.user.id === _vm.user.id
-                                          ? _c("span", [
-                                              _c(
-                                                "a",
-                                                {
-                                                  attrs: { href: "#" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      $event.preventDefault()
-                                                      return _vm.childDestroy(
-                                                        replyChildren.id
-                                                      )
-                                                    }
+                                      }
+                                    },
+                                    [
+                                      _vm.signedIn &&
+                                      replyChildren.user.id === _vm.user.id
+                                        ? _c("span", [
+                                            _c(
+                                              "a",
+                                              {
+                                                attrs: { href: "#" },
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.preventDefault()
+                                                    return _vm.childDestroy(
+                                                      replyChildren.id
+                                                    )
                                                   }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-trash float-right mr-2",
-                                                    staticStyle: {
-                                                      color: "red"
-                                                    }
-                                                  })
-                                                ]
-                                              )
-                                            ])
-                                          : _vm._e(),
-                                        _vm._v(" "),
-                                        _c("table", [
-                                          _c("tr", [
-                                            _c("td", [
-                                              _c("img", {
-                                                staticClass:
-                                                  "image-child responsive",
-                                                attrs: {
-                                                  src:
-                                                    "/storage/storage/img/" +
-                                                    replyChildren.user.avatar,
-                                                  alt:
-                                                    replyChildren.user.username,
-                                                  width: "36",
-                                                  height: "36"
                                                 }
-                                              }),
-                                              _vm._v(" "),
-                                              _c(
-                                                "span",
-                                                { staticClass: " text-black" },
-                                                [
-                                                  _c("a", {
-                                                    staticClass:
-                                                      "font-weight-bold text-black ",
-                                                    attrs: {
-                                                      href:
-                                                        "/u/" +
-                                                        replyChildren.user
-                                                          .username
-                                                    },
-                                                    domProps: {
-                                                      textContent: _vm._s(
-                                                        replyChildren.user
-                                                          .username
-                                                      )
-                                                    }
-                                                  }),
-                                                  _vm._v(" ⋅"),
-                                                  _c(
-                                                    "span",
-                                                    {
-                                                      staticClass: "text-muted"
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          _vm.humanTime(
-                                                            replyChildren.created_at
-                                                          )
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass:
+                                                    "fa fa-trash float-right mr-2",
+                                                  staticStyle: { color: "red" }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _c("table", [
+                                        _c("tr", [
+                                          _c("td", [
+                                            _c("img", {
+                                              staticClass:
+                                                "image-child responsive",
+                                              attrs: {
+                                                src:
+                                                  "/storage/img/" +
+                                                  (replyChildren.user.avatar
+                                                    ? replyChildren.user.avatar
+                                                    : "default.jpg"),
+                                                alt:
+                                                  replyChildren.user.username,
+                                                width: "36",
+                                                height: "37"
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "span",
+                                              { staticClass: " text-black" },
+                                              [
+                                                _c("a", {
+                                                  staticClass:
+                                                    "font-weight-bold text-black ",
+                                                  attrs: {
+                                                    href:
+                                                      "/u/" +
+                                                      replyChildren.user
+                                                        .username
+                                                  },
+                                                  domProps: {
+                                                    textContent: _vm._s(
+                                                      replyChildren.user
+                                                        .username
+                                                    )
+                                                  }
+                                                }),
+                                                _vm._v(" ⋅"),
+                                                _c(
+                                                  "span",
+                                                  { staticClass: "text-muted" },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        _vm.humanTime(
+                                                          replyChildren.created_at
                                                         )
                                                       )
-                                                    ]
-                                                  )
-                                                ]
-                                              ),
-                                              _c("br"),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass: "replyChild-body"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                                        " +
-                                                      _vm._s(
-                                                        replyChildren.body
-                                                      ) +
-                                                      "\n                                                        \n                                                    "
-                                                  )
-                                                ]
-                                              )
-                                            ])
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _c("br"),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "replyChild-body"
+                                              },
+                                              [
+                                                _c("highlight", {
+                                                  attrs: {
+                                                    content: replyChildren.body
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
                                           ])
                                         ])
-                                      ]
-                                    )
-                                  ]
-                                )
-                              })
-                            ],
-                            2
-                          )
-                        ]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("ReplyChild", {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.replyClick,
-                        expression: "replyClick"
-                      }
-                    ],
-                    attrs: { reply: _vm.reply.id },
-                    on: { created: _vm.add }
-                  })
-                ],
-                1
-              )
-        ])
+                                      ])
+                                    ]
+                                  )
+                                ]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("ReplyChild", {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.replyClick,
+                      expression: "replyClick"
+                    }
+                  ],
+                  attrs: { reply: _vm.reply.id },
+                  on: { created: _vm.add }
+                })
+              ],
+              1
+            )
       ])
-    ]
-  )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -88482,7 +88352,7 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("br"),
-                  _vm._v("  Don't have an account??\r\n                    "),
+                  _vm._v("  Don't have an account??\n                    "),
                   _c(
                     "a",
                     {
@@ -88750,6 +88620,52 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/feed.vue?vue&type=template&id=d7560d2e&":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/feed.vue?vue&type=template&id=d7560d2e& ***!
+  \*******************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass:
+          "sticky top-0 items-center justify-between bg-white border-gray-400"
+      },
+      [
+        _c("h2", [_vm._v("FEED")]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "bg-gray-500" },
+          _vm._l(_vm.feeds.data, function(feed) {
+            return _c("span", { key: feed.id }, [
+              _c("h2", [_vm._v(_vm._s(feed.title))])
+            ])
+          }),
+          0
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/follow.vue?vue&type=template&id=ea486588&":
 /*!*********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/follow.vue?vue&type=template&id=ea486588& ***!
@@ -88765,18 +88681,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("button", {
-      staticClass: "btn btn-primary rounded-pill px-3",
-      domProps: { textContent: _vm._s(_vm.isActive ? "Unfollow" : "Follow") },
-      on: {
-        click: function($event) {
-          $event.preventDefault()
-          return _vm.follow($event)
+  return _c(
+    "div",
+    [
+      _c("flashMessage"),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn btn-primary rounded-pill px-3",
+        domProps: {
+          textContent: _vm._s(_vm.isActive ? "Following" : "Follow")
+        },
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            return _vm.follow($event)
+          }
         }
-      }
-    })
-  ])
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -102000,7 +101924,6 @@ var map = {
 	"./components/ActivityFavorite.vue": "./resources/js/components/ActivityFavorite.vue",
 	"./components/ActivityLayout.vue": "./resources/js/components/ActivityLayout.vue",
 	"./components/ActivityReply.vue": "./resources/js/components/ActivityReply.vue",
-	"./components/ActivityThread.vue": "./resources/js/components/ActivityThread.vue",
 	"./components/AvatarForm.vue": "./resources/js/components/AvatarForm.vue",
 	"./components/ChannelDropdown.vue": "./resources/js/components/ChannelDropdown.vue",
 	"./components/Dropdown.vue": "./resources/js/components/Dropdown.vue",
@@ -102023,6 +101946,7 @@ var map = {
 	"./components/UserNotifications.vue": "./resources/js/components/UserNotifications.vue",
 	"./components/Wysiwyg.vue": "./resources/js/components/Wysiwyg.vue",
 	"./components/featured.vue": "./resources/js/components/featured.vue",
+	"./components/feed.vue": "./resources/js/components/feed.vue",
 	"./components/follow.vue": "./resources/js/components/follow.vue",
 	"./components/passport/AuthorizedClients.vue": "./resources/js/components/passport/AuthorizedClients.vue",
 	"./components/passport/Clients.vue": "./resources/js/components/passport/Clients.vue",
@@ -102062,12 +101986,15 @@ webpackContext.id = "./resources/js sync recursive \\.vue$/";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _smartweb_vue_flash_message__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @smartweb/vue-flash-message */ "./node_modules/@smartweb/vue-flash-message/build/vue-flash-msg.common.js");
 /* harmony import */ var _smartweb_vue_flash_message__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_smartweb_vue_flash_message__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var animate_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! animate.css */ "./node_modules/animate.css/animate.css");
+/* harmony import */ var animate_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(animate_css__WEBPACK_IMPORTED_MODULE_1__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
 
 
 Vue.use(_smartweb_vue_flash_message__WEBPACK_IMPORTED_MODULE_0___default.a);
@@ -102481,75 +102408,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ActivityReply_vue_vue_type_template_id_7c05d740___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ActivityReply_vue_vue_type_template_id_7c05d740___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/ActivityThread.vue":
-/*!****************************************************!*\
-  !*** ./resources/js/components/ActivityThread.vue ***!
-  \****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ActivityThread_vue_vue_type_template_id_3d2026b8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ActivityThread.vue?vue&type=template&id=3d2026b8& */ "./resources/js/components/ActivityThread.vue?vue&type=template&id=3d2026b8&");
-/* harmony import */ var _ActivityThread_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ActivityThread.vue?vue&type=script&lang=js& */ "./resources/js/components/ActivityThread.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ActivityThread_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ActivityThread_vue_vue_type_template_id_3d2026b8___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ActivityThread_vue_vue_type_template_id_3d2026b8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/ActivityThread.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/ActivityThread.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************!*\
-  !*** ./resources/js/components/ActivityThread.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ActivityThread_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ActivityThread.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ActivityThread.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ActivityThread_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/ActivityThread.vue?vue&type=template&id=3d2026b8&":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/components/ActivityThread.vue?vue&type=template&id=3d2026b8& ***!
-  \***********************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ActivityThread_vue_vue_type_template_id_3d2026b8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ActivityThread.vue?vue&type=template&id=3d2026b8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ActivityThread.vue?vue&type=template&id=3d2026b8&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ActivityThread_vue_vue_type_template_id_3d2026b8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ActivityThread_vue_vue_type_template_id_3d2026b8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -104199,6 +104057,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/feed.vue":
+/*!******************************************!*\
+  !*** ./resources/js/components/feed.vue ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _feed_vue_vue_type_template_id_d7560d2e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./feed.vue?vue&type=template&id=d7560d2e& */ "./resources/js/components/feed.vue?vue&type=template&id=d7560d2e&");
+/* harmony import */ var _feed_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./feed.vue?vue&type=script&lang=js& */ "./resources/js/components/feed.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _feed_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _feed_vue_vue_type_template_id_d7560d2e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _feed_vue_vue_type_template_id_d7560d2e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/feed.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/feed.vue?vue&type=script&lang=js&":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/feed.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_feed_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./feed.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/feed.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_feed_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/feed.vue?vue&type=template&id=d7560d2e&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/feed.vue?vue&type=template&id=d7560d2e& ***!
+  \*************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_feed_vue_vue_type_template_id_d7560d2e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./feed.vue?vue&type=template&id=d7560d2e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/feed.vue?vue&type=template&id=d7560d2e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_feed_vue_vue_type_template_id_d7560d2e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_feed_vue_vue_type_template_id_d7560d2e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/follow.vue":
 /*!********************************************!*\
   !*** ./resources/js/components/follow.vue ***!
@@ -104618,8 +104545,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! c:\xampp\htdocs\xtreem2\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! c:\xampp\htdocs\xtreem2\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/xtreemforum/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/xtreemforum/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

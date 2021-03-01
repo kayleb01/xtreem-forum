@@ -1,6 +1,6 @@
-@include('admin.header')
+@include('Admin.header')
         <!-- Main Header -->
- @include('admin.adminNav')
+ @include('Admin.adminNav')
 <div style="min-height: 822px;" class="content-wrapper">
   <section class="content-header">
     <h1><i class="fa fa-dashboard"></i> Create New Forum</h1>
@@ -79,39 +79,4 @@
 	</div>
 </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- @include('admin.footer')
+ @include('Admin.footer')

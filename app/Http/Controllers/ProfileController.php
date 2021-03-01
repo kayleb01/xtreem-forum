@@ -1,18 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\User;
-use App\thread;
 use Auth;
+use Image;
+use App\User;
+use App\Follow;
+use App\thread;
+use App\comment;
+use App\Activity;
+use App\Trending;
+use App\NewThread;
+use Carbon\carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Carbon\carbon;
-use App\NewThread;
-use App\Trending;
-use Image;
-use Activity;
-use App\Follow;
-use App\comment;
 
 class ProfileController extends Controller
 {
@@ -38,8 +38,8 @@ class ProfileController extends Controller
      */
     public function show1(User $user)
     {
-     
-        $data = ['profileUser' => $user];
+
+         $data = ['profileUser' => $user];
 
         if (request()->expectsJson()) {
             return $data;
@@ -49,17 +49,23 @@ class ProfileController extends Controller
     }
 
    public function show(NewThread $new_Thread, Trending $trending, $user){
-   	//$role = User::find(1)->role;
-   	$data = user::where('username', $user)->get();
-    foreach ($data as $user_data) {
-      $threads   = thread::where('user_id', $user_data->id)->orderBy('created_at', 'DESC')->paginate(30);
-      $comments  = comment::where('user_id', $user_data->id)->orderBy('created_at', 'DESC')->paginate(30);
+
+   	$data = User::where('username', $user)->withCount([
+
+           'follower as following' => function($q){
+               return $q->where('follower_id', auth()->id());}
+
+           ])->first();
+
+      $threads   = thread::where('user_id', $data->id)->orderBy('created_at', 'DESC')->paginate(20);
+      $comments  = comment::where('user_id', $data->id)->with('thread')->orderBy('created_at', 'DESC')->paginate(20);
       $newThread = $new_Thread->get();
       $trending  = $trending->get();
-      $title     = 'XtreemForum - '.$user_data->username.'\'s Profile';
-     return view('frontend.profile', compact('user_data', 'newThread', 'title', 'trending', 'threads', 'comments'));
-    }
-   
+      $title     = 'XtreemForum - '.$data->username.'\'s Profile';
+
+     return view('frontend.profile', compact('data', 'newThread', 'title', 'trending', 'threads', 'comments'));
+
+
    }
 
    public function edit($user){
@@ -78,21 +84,22 @@ class ProfileController extends Controller
          $ext  = $file->getClientOriginalExtension();
          $filename  =  '$qwcsdiuhj'.time().'.'.$ext;
          $path = $request->pic->storeAs("public/storage/img", $filename);
+
          $upload = User::where('id', $request->id)->update(['image_url' => $filename]);
          if($upload){
             return back();
          }
       }else{
-       return back()->with('error', 'Upload failed, please try again');  
+       return back()->with('error', 'Upload failed, please try again');
       }
-      
-        
+
+
 
    }
 
    public function update(Request $request, User $username){
         //The $username is an object that contains all the user details
-        //So $username->id returns the userId 
+        //So $username->id returns the userId
    	$user = User::where('id', $username->id)->update([
    		'location'	=> $request->location,
    		'website'	=> $request->web,
@@ -100,44 +107,14 @@ class ProfileController extends Controller
    		'dob'		=> $request->birthday
    	]);
    	if($user){
-           //Username->username returns the username of the user
+
    		return Redirect('u/'.$username->username.'');
    	}else{
    		return back()->withInput();
    		}
    	}
 
-        /**
-     * Fetch all threads created by a user.
-     *
-     * @param Request $request
-     * validates, check whether or not the user is following
-     * 
-     * @return mixed
-     */
-    public function follow(Request $request){
-    $request->validate([
-        'user_id' => 'numeric',
-        'userFollow' => 'numeric'
-    ]);
-        $check = Follow::where('user_id', $request->user_id)
-                        ->where('followers_id', $request->followers_id)
-                        ->first();
-        if(!$check){
-            $run = Follow::create([
-                'user_id'       => $request->user_id,
-                'followers_id'  => $request->followers_id
-            ]);
-            return $run;
-        }else{ return "Following";}
-    }
-     
-    public function unfollow($id, Request $request)
-    {
-        return Follow::where('followers_id', $id)
-                        ->where('user_id', Auth::user()->id)
-                        ->delete();
-    }
+
     /**
      * Fetch all threads created by a user.
      *

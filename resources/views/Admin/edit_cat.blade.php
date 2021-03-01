@@ -67,4 +67,4 @@
 <script type="text/javascript">
 	
 </script>
-@include('admin.footer')
+@include('Admin.footer')

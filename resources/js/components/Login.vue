@@ -1,36 +1,48 @@
 <template name="signin">
 <div>
-    <span class="text-md  font-semibold text-dark">
-Please <a href="/login" @click.prevent="$modal.show('login')" class="text-blue link">sign in</a> to participate in this
-                discussion.
-    </span>
-    <modal name="login" height="auto" :adaptive="true" transition="slide">
-        <div class="float-right"><button class="btn btn-flat" @click="$modal.hide('login')">X</button></div>
-        <div class="container px-10 py-8 p-3">
-         <h2 class="lead align-text-center">Login</h2>
-            <form class="px-10 py-8" @submit.prevent="login" @keydown="feedback = ''">
-                <div class=" form-group mb-6">
-                    <label for="username" class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 ">Username</label>
-                    <input type="text" class="w-full p-2 leading-normal form-control" style="border-radius: 15px;" id="username" name="username" autocomplete="username" placeholder="joe"  autofocus required v-model="form.username">
-                </div>
-
-                <div class="form-group mb-6">
-                    <label for="password" class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 ">Password</label>
-                    <input type="password" class="w-full p-2 leading-normal form-control" style="border-radius: 15px;" id="password" name="password" autocomplete="current-password" required v-model="form.password">
-                </div>
-
-                <div class="flex justify-end items-center form-group">
-                    <button type="submit" class="btn btn-outline-secondary btn-block border-secondary rounded-pill" :class="loading ? 'loader' : ''" :disabled="loading">Log In</button>
-                    <br>  DON'T HAVE ACCOUNT?
-                    <a href="#" class="btn btn-outline-secondary text-grey-dark rounded-pill" @click="register">REGISTER</a>
-                </div>
-
-                <div class="mt-6  p-2" v-if="feedback">
-                    <span class="text-xs text-danger" v-text="feedback"></span>
-                </div>
-            </form>
+    <div class="min-h-screen flex items-center justify-center bg-gray-10 py-8 px-4 sm:px-6 lg:px-8 animate__animated animate__fadeInUp">
+  <div class="max-w-sm w-full space-y-8 bg-white rounded-lg px-5 py-6 shadow-md ">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        Sign in
+      </h2>
+    </div>
+    <form class="mt-8 space-y-6" @submit.prevent="login()">
+      <input type="hidden" name="remember" value="true">
+      <div class="rounded-md -space-y-px">
+        <div class="mb-3">
+          <label for="username" class="sr-only">Username</label>
+          <input id="username" name="username" type="text" autocomplete="username" required class="w-full appearance-none rounded relative block px-3 py-2 border border-gray-500 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-10 focus:z-10 sm:text-sm" placeholder="Username" v-model="form.username">
         </div>
-    </modal>
+        <div>
+          <label for="password" class="sr-only">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required class=" rounded appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-500 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password" v-model="form.password">
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between mt-2">
+        <div class="flex items-center">
+          <input id="remember_me" name="remember_me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+          <label for="remember_me" class="ml-2 block text-sm text-gray-900">
+            Remember me
+          </label>
+        </div>
+        <flashMessage></flashMessage>
+
+        <div class="text-sm">
+          <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+            Forgot your password?
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-5 mb-6">
+        <button type="submit" class="w-full items-center px-4 py-2 bg-dark border border-transparent rounded-full p-2 font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-300focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150">          Sign in
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 </div>
 </template>
 
@@ -65,8 +77,8 @@ export default {
                     location.assign(redirect);
                 })
                 .catch(error => {
-                    this.feedback =
-                        "The given credentials are incorrect. Please try again.";
+                    this.flashMessage.error({"message" :
+                        "The given credentials are incorrect. Please try again."});
                     this.loading = false;
                 });
         },
@@ -82,4 +94,4 @@ export default {
 login{
     padding:10px;
 }
-</style>   
+</style>

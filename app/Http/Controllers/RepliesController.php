@@ -155,4 +155,11 @@ class RepliesController extends Controller
             return false;
         }
     }
+
+    public function replies($slug){
+        $thread = thread::where('slug', '=', $slug)->first();
+        return comment::where('thread_id', $thread->id)
+                        ->with(['user','thread'])
+                        ->paginate(10);
+    }
 }

@@ -17,10 +17,10 @@ class thread extends Model
 {
 	use RecordsActivity;
     use likableTrait;
-    
-//**Don't apply mass assignment protection    
+
+//**Don't apply mass assignment protection
 protected $guarded = [];
-protected $with = ['user', 'category', 'creator'];
+//protected $with = ['user', 'category', 'creator'];
 protected $appends = ['path'];
 
  /**
@@ -32,14 +32,14 @@ protected $appends = ['path'];
         'locked' => 'boolean',
         'pinned' => 'boolean'
     ];
-    
+
  protected static function boot()
     {
         parent::boot();
         static::deleting(function ($thread) {
             if($thread->comment->count() > 1){
                 $thread->comment->each->delete();}
-            
+
         });
 
         static::created(function ($thread) {
@@ -77,7 +77,7 @@ protected $appends = ['path'];
 
 
 
-//Files uploaded in comments
+//Eloquent relationships
     //
 public function attachment()
 {
@@ -106,7 +106,7 @@ public function category(){
 }
 
 public function comment(){
-	return $this->hasMany(comment::class);
+	return $this->hasMany(comment::class, 'thread_id');
 }
 
 public function notifyReplies($comment){
@@ -128,7 +128,7 @@ public function addFilters($query, threadFilters $filters){
 
 
 //users subscription to threads
-public function subscribe($userID = NULL){	
+public function subscribe($userID = NULL){
 	 $this->subscription()->create([
 		'user_id'       => $userID ?: auth()->id()
 	]);
@@ -148,7 +148,7 @@ public function getIsSubscribedToAttribute(){
         return $this->subscription()
             ->where('user_id', auth()->id())
             ->exists();
-    
+
 }
 
 public function hasBeenUpdatedUser($user){

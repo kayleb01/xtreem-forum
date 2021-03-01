@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Follow extends Model
 {
    protected $table = "follows";
-   protected $fillable = ['user_id', 'followers_id'];
+   protected $fillable = ['followed_id', 'follower_id'];
 
    /*
    *Relationships
    */
-  public function user()
+  public function following()
   {
-     return $this->hasMany(User::class);
+     return $this->belongsTo(User::class);
   }
 
-  
+
 }

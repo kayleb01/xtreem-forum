@@ -12,7 +12,7 @@
         <div v-else id="reply">
             <div class="mb-3">
                 <wysiwyg name="body" v-model="body" class="at" id="body" required>
-                 
+
                 </wysiwyg>
             </div>
 
@@ -28,7 +28,7 @@ import "jquery.caret";
 import "at.js";
 
 export default {
-   
+
     data() {
         return {
             body: "",
@@ -48,7 +48,7 @@ export default {
             delay: 750,
             callbacks: {
                 remoteFilter: function(query, callback) {
-                    $.getJSON("/api/users", { name: query }, function(
+                    $.get("/api/users", { name: query }, function(
                         usernames
                     ) {
                         callback(usernames);
@@ -68,8 +68,9 @@ export default {
                 .post(location.pathname + "/create", { body: this.body })
                 .catch(error => {
                     this.flashMessage.error({
-                        message:"An internal error occured, please try again later" 
+                        message:"An internal error occured, please try again later"
                         });
+                        this.loading = false;
                 })
                 .then(({ data }) => {
                     this.body = "";
@@ -82,7 +83,7 @@ export default {
                     this.$emit("created", data);
                 });
             }
-            
+
         }
     }
 };
@@ -90,7 +91,7 @@ export default {
 
 <style scoped>
 .new-reply {
-    background-color: #fff;
+    background-color: #f9f9f9;
     padding:5px;
 }
 </style>

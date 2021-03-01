@@ -135,7 +135,7 @@ public function store_forum(Request $request){
     $forum->slug        = $request->name;
     $forum->categories_id = $request->category;
     if($forum->save()){
-      return Redirect('admin/forums')->with('success', 'Forum created!');
+      return Redirect('Admin/forums')->with('success', 'Forum created!');
     }
   }
 }
@@ -143,19 +143,19 @@ public function store_forum(Request $request){
 public function new_forum(){
   //displays the page to create new forums
   $forum = categories::all();
-  return view('admin/addForum', ['forum' => $forum]);
+  return view('Admin/addForum', ['forum' => $forum]);
 }
 
 public function view(){
   //Displays the forums
   
 $forum = forum::paginate(15);
-return view('admin/forums',['forum' => $forum]);
+return view('Admin/forums',['forum' => $forum]);
 }
 
 public function edit_forum(Forum $forum){
   $categories = Categories::all();
-return view('admin/edit_forum', ['forum' => $forum, 'cat' => $categories]);
+return view('Admin/edit_forum', ['forum' => $forum, 'cat' => $categories]);
 }
 
 public function update_forum(Request $request, $id){
@@ -178,20 +178,20 @@ if(isset($request)){
  
  public function removed_threads(){
   $threads =  thread::onlyTrashed()->paginate(10);
-    return view('admin/removed_thread', ['thread' => $threads]);
+    return view('Admin/removed_thread', ['thread' => $threads]);
  }
 
 
 
 public function deleted(){
   $users = User::onlyTrashed()->paginate(10);
-  return view('admin/deleted', ['user' => $users]);
+  return view('Admin/deleted', ['user' => $users]);
 }
 
 public function restore($id){
   $user = User::withTrashed()->find($id);
  if($user->restore()){
-  return Redirect('admin/users/deleted')->with('success', ''.$user->username.' restored successfully');
+  return Redirect('Admin/users/deleted')->with('success', ''.$user->username.' restored successfully');
  }
 }
 

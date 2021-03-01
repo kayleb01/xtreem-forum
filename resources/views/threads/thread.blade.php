@@ -1,11 +1,11 @@
 
                                       <subscribe-button :threads='@json($thread->id)' :active="{{ json_encode($thread->isSubscribedTo) }}" v-if="signedIn"></subscribe-button>
-                          
+
                                       <div class="panel-heading rounded-top p-1">
-                                       {{($thread->title)}} 
+                                       {{($thread->title)}}
                                         @if(Auth::check())
-                                          @if(Auth::user()->role == 1 || Auth::user()->role == 2) 
-                                        <div class="dropdown">
+                                          @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+                                        <div class="dropdown" style="display: inline-block">
                                           <a href="#" class="dropdown-toggle text-light" id="dropdownMenuButton" data-toggle="dropdown" role="menu" aria-expanded="false" aria-haspopup="true"> <i class="fa fa-toggle-on"></i> </a>
                                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                               @if($thread->locked == 0)
@@ -28,18 +28,18 @@
                                       </div>
                               @endif
                             @endif
-                           
+
                             </div>
                             <div class="thread-use">
                              <table  style="margin-bottom: 0;border-radius: 0;">
                                   <tr>
                                     <td style="max-width:350px;">
                                       <a href="/u/{{$thread->user->username}}">
-                                        <img src="/storage/storage/img/{{$thread->user->avatar? $thread->user->avatar : 'default.jpg'}}" class="image-circle responsive">
+                                        <img src="/storage/img/{{$thread->user->avatar? $thread->user->avatar : 'default.jpg'}}" class="image-circle responsive">
                                       </a>
-                                      
-                                      <span><a href="/u/{{$thread->user->username}}" class="username">{{$thread->user->username}}</a> </span> 
-                                      &nbsp;&sdot;&nbsp; <span>{{$thread->created_at->toFormattedDateString()}}</span> 
+
+                                      <span><a href="/u/{{$thread->user->username}}" class="username">{{$thread->user->username}}</a> </span>
+                                      &nbsp;&sdot;&nbsp; <span>{{$thread->created_at->toFormattedDateString()}}</span>
                                       <div class="timestamp" style="width: 400px">
                                         @if(Auth::check())
                                       @if(Auth::user()->role == 1 )
@@ -53,20 +53,20 @@
                                         @endif
                                       @endif
                                       </div>
-                                      
+
                                     </td>
                                   </tr>
                                   </table>
-                            </div>      
+                            </div>
                                   <hr style="margin: 0;">
 
                             <div class="thread-body">
                               {!!$thread->body!!}
                               @if($thread->attachment)
                                         @foreach($thread->attachment as $attachment)
-                                        <img class="attachment" src="{{url('/storage/storage/img')}}/{{$attachment->filename}}"/>
+                                        <img class="attachment" src="{{url('/storage/img')}}/{{$attachment->filename}}"/>
                                         @endforeach
-                                      @endif     
+                                      @endif
                               <div class="lks">
                                         <a href="#" onclick="event.preventDefault(); actOnLikes('{{$thread->id}}', '/comment/like/{{$thread->id}}')" data-id="{{$thread->id}}" class="ikes">
 
@@ -80,7 +80,7 @@
                                             </span>
                                         &nbsp;&nbsp;
                                         <a href="#" class="quote" data-id="{{$thread->id}}">
-                                            <i class="fa fa-quote-right" title="Qoute"></i> Qoute 
+                                            <i class="fa fa-quote-right" title="Qoute"></i> Qoute
                                         </a>&nbsp;&nbsp;
                                         <a href="#">
                                             <i class=" fa fa-share-square" title="reply"></i> Reply</a>&nbsp;&nbsp;@if(!Auth::guest() && Auth::user()->id == $thread->user->id)
@@ -90,7 +90,7 @@
                                         <a href="#" id="ave{{$thread->id}}" class="ave" style="display:none" data-id="{{$thread->id}}">
                                            <i class="fa fa-check"></i>Update
                                         </a>&nbsp;&nbsp;
-                                        <a href="#" id="cancel{{$thread->id}}" class="cancel" style="display:none" data-id="{{$thread->id}}"> 
+                                        <a href="#" id="cancel{{$thread->id}}" class="cancel" style="display:none" data-id="{{$thread->id}}">
                                             <i class="fa fa-power-off" style="color: red;"></i> Cancel
                                         </a>
                                         <span id="cfa{{$thread->id}}"></span>
@@ -98,4 +98,3 @@
                                       </div>
                             </div>
                          <!-- this is the comment section -->
-         

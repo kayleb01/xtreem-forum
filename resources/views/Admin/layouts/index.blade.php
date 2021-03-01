@@ -1,6 +1,6 @@
-@include('admin.header')
+@include('Admin.header')
         <!-- Main Header -->
- @include('admin.adminNav')      
+ @include('Admin.adminNav')      
 
 <div style="min-height: 700px;" class="content-wrapper">
   <section class="content-header">
@@ -90,4 +90,4 @@
 </section>
 </div>
         
-@include('admin.footer')
+@include('Admin.footer')

@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Collection;
 class comment extends Model
 {
     use RecordsActivity, likableTrait;
-    
-    
+
+
   /**
      * Don't auto-apply mass assignment protection.
      *
@@ -26,7 +26,8 @@ class comment extends Model
      *
      * @var array
      */
-    protected $with = ['user', 'thread', 'reply_children', 'attachment', 'likess'];
+    protected $with = [];
+//protected $id;
 
     /**
      * The accessors to append to the model's array form.
@@ -50,7 +51,7 @@ class comment extends Model
             $comment->thread->decrement('replies_count');
         });
 
-      
+
     }
 
 
@@ -68,8 +69,8 @@ class comment extends Model
         return $this->belongsTo('App\User', 'user_id');
     }
 
-    
-   
+
+
 
     /**
      * A reply belongs to a thread.
@@ -80,11 +81,12 @@ class comment extends Model
     {
         return $this->belongsTo(thread::class);
     }
-    
 
-    
+
+
+
     /**
-     * 
+     *
      * A reply has many attachments i.e pictures of whatever
      *  @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      * */
@@ -117,7 +119,7 @@ class comment extends Model
     /**
      * Determine if the reply was just published a moment ago.
      *
-     * @return bool 
+     * @return bool
      */
     public function wasJustPublished()
     {

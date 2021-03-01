@@ -1,7 +1,8 @@
 <template>
 <div>
-   
-    <button class="btn btn-primary rounded-pill px-3" @click.prevent="follow" v-text="isActive ? 'Unfollow' : 'Follow'"></button>
+    <flashMessage></flashMessage>
+    <button class="btn btn-primary rounded-pill px-3" @click.prevent="follow" v-text="isActive ? 'Following' : 'Follow'"></button>
+
 </div>
 </template>
 
@@ -18,15 +19,22 @@ export default {
     },
     methods:{
         follow(){
+            let req
+            if (this.isActive) {
+                 req = {follower_id: this.user.id, followed_id:this.follower, '_method':'delete'}
+            } else {
+                 req = {follower_id: this.user.id, followed_id:this.follower}
+            }
+
             axios[this.active ? 'get' : 'post']
-            ('/user/follow/'+this.follower+'', {user_id: this.user.id, followers_id:this.follower});
+            ('/u/' + this.user.username + '/follow/'+this.follower+'', req );
             this.isActive = !this.isActive;
             if (this.isActive) {
                 this.flashMessage.success({
                    message: "You are now following this user!"
                     });
             }
-        }     
+        }
     },
 }
 </script>
