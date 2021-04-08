@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\thread;
+use App\comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\thread;
 
 class HomeController extends Controller
 {
@@ -31,6 +32,7 @@ class HomeController extends Controller
             $query->where('threads.user_id', auth()->id())
                     ->orWhereIn('threads.user_id', auth()->user()->following->pluck('id'));
         })->with([
+            'user',
             'comment' => function($q){
                 $q->where('user_id',  auth()->user()->following->pluck('id'));
             }
@@ -43,7 +45,9 @@ class HomeController extends Controller
             }
 
         ])->latest()
-          ->paginate(20);
+          ->paginate(100);
+            $comments = comment::with(['thread', 'user'])->where('user_id', auth()->user()->following->pluck('id'))->latest()->get();
+
 
         if ($request->wantsJson($feed)) {
           return response()->json($feed);

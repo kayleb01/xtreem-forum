@@ -19,6 +19,9 @@ class FollowersController extends Controller
      */
         public function store($user, $id)
         {
+            if ($user == auth()->user()->username) {
+                return response()->back()->with('error', 'You cannot follow yourself');
+            }
             $user = User::where('username', $user)->first();
             $user->following()->attach($id);
             return redirect()->back();

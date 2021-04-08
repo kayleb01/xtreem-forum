@@ -36,7 +36,7 @@
       </div>
       <div v-show="selectedTab =='Feed'">
         @if(Auth::check())
-            <feed></feed>
+            <user-feed></user-feed>
         @else
           <div class="" style="font-size: 15px;  line-height: 24px; margin: 0.5%; width: 100%;">
             <span><i class="font-weight-bold"> Ooops!...</i> Seems like you've not registered or loggedIn yet</span>

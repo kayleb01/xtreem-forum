@@ -17,4 +17,4 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/feed', 'Api\HomeController@index')->middleware('auth');
+Route::get('feed', 'Api\HomeController@index')->middleware('auth');

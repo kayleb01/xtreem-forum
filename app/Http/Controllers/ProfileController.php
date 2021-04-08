@@ -75,15 +75,14 @@ class ProfileController extends Controller
    }
 
    public function img($file){
-            if($file){
-         //Get the  filename with extension
-         //Get just the filename
-         //Just the extension
-         $fulnameWithExt = $file->getClientOriginalName();
-         $filenam =  pathinfo($fulnameWithExt, PATHINFO_FILENAME);
-         $ext  = $file->getClientOriginalExtension();
-         $filename  =  '$qwcsdiuhj'.time().'.'.$ext;
-         $path = $request->pic->storeAs("public/storage/img", $filename);
+       
+        if($file){
+       
+         $fulnameWithExt 	= $file->getClientOriginalName();
+         $filenam 			=  pathinfo($fulnameWithExt, PATHINFO_FILENAME);
+         $ext  				= $file->getClientOriginalExtension();
+         $filename  		=  '$qwcsdiuhj'.time().'.'.$ext;
+         $path 				= $request->pic->storeAs("public/storage/img", $filename);
 
          $upload = User::where('id', $request->id)->update(['image_url' => $filename]);
          if($upload){

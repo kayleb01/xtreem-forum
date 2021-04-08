@@ -3,7 +3,6 @@
         <div v-if="! signedIn">
             <p class="text-center text-sm text-grey-dark">
                <login/>
-               <register/>
             </p>
         </div>
         <div v-else-if="! confirmed">
@@ -11,11 +10,12 @@
         </div>
         <div v-else id="reply">
             <div class="mb-3">
-                <wysiwyg name="body" v-model="body" class="at" id="body" required>
-
-                </wysiwyg>
+                <at-ta :members="usersat">
+                    <textarea name="body" v-model="body" class="editor" id="body" required>
+                    </textarea>
+                </at-ta>
             </div>
-
+            <image-upload></image-upload>
             <button type="submit"
                     class="btn btn-outline-secondary btn-block rounded-pill border border-secondary"
                     @click="addReply" :class="loading ? 'loader' : ''" :disabled="loading">Post</button>
@@ -24,15 +24,18 @@
 </template>
 
 <script>
-import "jquery.caret";
-import "at.js";
+
+import AtTa from 'vue-at/dist/vue-at-textarea';
+import ImageUpload from './ImageUpload.vue';
 
 export default {
+  components: { ImageUpload, AtTa },
 
     data() {
         return {
             body: "",
-            loading:false
+            loading:false,
+            usersat:[]
         }
     },
 
@@ -51,7 +54,7 @@ export default {
                     $.get("/api/users", { name: query }, function(
                         usernames
                     ) {
-                        callback(usernames);
+                        this.usersat = usernames;
                     });
                 }
             }

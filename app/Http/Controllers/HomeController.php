@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,6 +13,7 @@ class HomeController extends Controller
      * Create a new controller instance.
      *
      * @return void
+     *
      */
     public function __construct()
     {
@@ -43,8 +45,12 @@ class HomeController extends Controller
         ->with('user')
         ->get();
 
-        if ($request->wantsJson($feed)) {
-          return response()->json($feed);
+        $comments = comment::with(['thread', 'user'])->where('user_id', auth()->user()->following->pluck('id'));
+
+        $merger = array_merge($feed, $comments);
+
+        if ($request->wantsJson($merger)) {
+          return response()->json($merger);
         }
     }
 }

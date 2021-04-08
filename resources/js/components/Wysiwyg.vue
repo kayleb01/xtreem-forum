@@ -2,13 +2,13 @@
     <div>
         <input id="trix" type="hidden" :name="name" :value="value" required>
 
-        <trix-editor
+        <textarea
                 ref="trix"
                 input="trix"
                 @trix-change="change"
                 :placeholder="placeholder"
-                required>
-        </trix-editor>
+                required v-model="name">
+        </textarea>
     </div>
 </template>
 

@@ -43,7 +43,7 @@ const app = new Vue({
             tabs: ['Feed', 'Featured'],
             tab:[ 'Threads', 'Comments'],
             select: 'Threads',
-            selectedTab: 'Featured',
+            selectedTab: 'Feed',
              searching: false
     	};
     },
@@ -53,9 +53,9 @@ const app = new Vue({
     	toggle () {
     		this.active = !this.active;
     	},
-       
+
     },
 
-    
+
 });
 

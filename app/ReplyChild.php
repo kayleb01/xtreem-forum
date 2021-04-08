@@ -21,7 +21,7 @@ class ReplyChild extends Model
         return $this->belongsTo(comment::class);
 
     }
-   
+
      /**
      * Set the body attribute.
      *

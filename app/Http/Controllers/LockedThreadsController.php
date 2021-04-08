@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Thread;
+use App\thread;
 
 class LockedThreadsController extends Controller
 {
@@ -11,7 +11,7 @@ class LockedThreadsController extends Controller
      *
      * @param \App\Thread $thread
      */
-    public function store(Thread $id)
+    public function store(thread $id)
     {
         $id->update(['locked' => true]);
         return Redirect()->back()->with('success', 'Thread locked');
@@ -22,7 +22,7 @@ class LockedThreadsController extends Controller
      *
      * @param \App\Thread $thread
      */
-    public function destroy(Thread $id)
+    public function destroy(thread $id)
     {
         $id->update(['locked' => false]);
         return Redirect()->back()->with('success', 'Thread Unlocked');
