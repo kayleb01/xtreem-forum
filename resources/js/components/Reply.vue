@@ -88,10 +88,10 @@
 
                                                         class="image-child responsive">
                                                             <span class=" text-black">
-                                                                <a class="font-weight-bold text-black "  :href="'/u/' + replyChildren.user.username" v-text="replyChildren.user.username"></a> &sdot;<span class="text-muted">{{humanTime(replyChildren.created_at)}}</span>
+                                                                <a class="font-weight-bold text-black"  :href="'/u/' + replyChildren.user.username" v-text="replyChildren.user.username"></a> &sdot;<small class="text-muted">{{humanTime(replyChildren.created_at)}}</small>
                                                             </span><br/>
                                                         <div class="replyChild-body">
-                                                            <highlight :content="replyChildren.body"></highlight>
+                                                            <small><highlight :content="replyChildren.body"></highlight></small>
 
                                                         </div>
                                                         </td>

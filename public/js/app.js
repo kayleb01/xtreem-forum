@@ -2515,24 +2515,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     onChange: function onChange(e) {
-      var _this = this;
-
       if (!e.target.files.length) return;
-      var file = e.target.files[0];
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onload = function (e) {
-        var src = e.target.result;
-
-        _this.$emit('loaded', {
-          src: src,
-          file: file
-        });
-      };
+      this.$emit('loaded', e.target.files);
+    },
+    browse: function browse() {
+      this.$refs.picker.click();
     }
   }
 });
@@ -2767,6 +2761,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2778,7 +2784,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       body: "",
       loading: false,
-      usersat: []
+      usersat: [],
+      file: []
     };
   },
   computed: {
@@ -2832,6 +2839,35 @@ __webpack_require__.r(__webpack_exports__);
           _this.$emit("created", data);
         });
       }
+    },
+    uploadImages: function uploadImages(files) {
+      var _this2 = this;
+
+      Array.from(files).forEach(function (media) {
+        //let file = e.target.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(media);
+
+        reader.onload = function (e) {
+          var src = e.target.result;
+          var item = {
+            url: e.target.result // id: undefined,
+            // loading: true
+
+          }; // let formdata = new FormData();
+          // formdata.append('file', media);
+          //  axios.post('/attachment', formdata)
+          //  .then( ({data}) => {
+          //      item.id = data.id
+          //  })
+          //  .finally( () => this.loading = false )
+
+          _this2.file.push(item);
+        };
+      });
+    },
+    removeMedia: function removeMedia(index) {
+      this.file.splice(index, 1);
     }
   }
 });
@@ -84988,10 +85024,30 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("input", {
-    attrs: { type: "file", accept: "image/*" },
-    on: { change: _vm.onChange }
-  })
+  return _c("div", { staticClass: "border-t" }, [
+    _c("input", {
+      ref: "picker",
+      staticClass: "hidden",
+      attrs: {
+        type: "file",
+        accept: "image/*",
+        multiple: "",
+        name: "upload__files"
+      },
+      on: { change: _vm.onChange }
+    }),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass:
+          "inline-flex items-center rouded-full p-2 hover:bg-black-100 text-dark focus:inline-none",
+        attrs: { type: "button" },
+        on: { click: _vm.browse }
+      },
+      [_c("i", { staticClass: "fa fa-lg fa-image fill-current" })]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -85364,6 +85420,10 @@ var render = function() {
           "div",
           { attrs: { id: "reply" } },
           [
+            _c("form", {
+              attrs: { action: "", enctype: "multipart/form-data" }
+            }),
+            _vm._v(" "),
             _c(
               "div",
               { staticClass: "mb-3" },
@@ -85378,8 +85438,14 @@ var render = function() {
                         expression: "body"
                       }
                     ],
-                    staticClass: "editor",
-                    attrs: { name: "body", id: "body", required: "" },
+                    staticClass:
+                      "editor w-full text-md rounded mt-3 p-2 resize-none outline-dashed",
+                    attrs: {
+                      name: "body",
+                      placeholder: "Type a reply...",
+                      id: "body",
+                      required: ""
+                    },
                     domProps: { value: _vm.body },
                     on: {
                       input: function($event) {
@@ -85390,12 +85456,63 @@ var render = function() {
                       }
                     }
                   })
-                ])
+                ]),
+                _vm._v(" "),
+                _vm.file.length
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "grid gap-2",
+                        class: { "grid-cols-2": _vm.file.length > 1 }
+                      },
+                      _vm._l(_vm.file, function(item, index) {
+                        return _c(
+                          "div",
+                          {
+                            key: index,
+                            staticClass:
+                              "relative flex flex-col items-center justify-center"
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "m-1 top-0 left-0 absolute text-light bg-black opacity-75 rounded-full cusor-pointer hover:opacity-100 p-2",
+                                attrs: { title: "Remove Image" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.removeMedia(index)
+                                  }
+                                }
+                              },
+                              [_vm._v("x")]
+                            ),
+                            _vm._v(" "),
+                            _c("img", {
+                              staticClass: "rounded-lg object-cover h-48",
+                              attrs: { src: item.url, alt: "" }
+                            }),
+                            _vm._v(" "),
+                            _c("div", {
+                              staticClass:
+                                "absolute bg-black opacity-75 text-white",
+                              class: _vm.loading ? "loader" : ""
+                            })
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  : _vm._e()
               ],
               1
             ),
             _vm._v(" "),
-            _c("image-upload"),
+            _c("image-upload", {
+              staticClass: "mt-2 p-1",
+              on: { loaded: _vm.uploadImages }
+            }),
             _vm._v(" "),
             _c(
               "button",
@@ -86870,7 +86987,7 @@ var render = function() {
                                               [
                                                 _c("a", {
                                                   staticClass:
-                                                    "font-weight-bold text-black ",
+                                                    "font-weight-bold text-black",
                                                   attrs: {
                                                     href:
                                                       "/u/" +
@@ -86886,7 +87003,7 @@ var render = function() {
                                                 }),
                                                 _vm._v(" ⋅"),
                                                 _c(
-                                                  "span",
+                                                  "small",
                                                   { staticClass: "text-muted" },
                                                   [
                                                     _vm._v(
@@ -86908,13 +87025,19 @@ var render = function() {
                                                 staticClass: "replyChild-body"
                                               },
                                               [
-                                                _c("highlight", {
-                                                  attrs: {
-                                                    content: replyChildren.body
-                                                  }
-                                                })
-                                              ],
-                                              1
+                                                _c(
+                                                  "small",
+                                                  [
+                                                    _c("highlight", {
+                                                      attrs: {
+                                                        content:
+                                                          replyChildren.body
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                )
+                                              ]
                                             )
                                           ])
                                         ])
@@ -101067,7 +101190,7 @@ var app = new Vue({
       tabs: ['Feed', 'Featured'],
       tab: ['Threads', 'Comments'],
       select: 'Threads',
-      selectedTab: 'Feed',
+      selectedTab: 'Featured',
       searching: false
     };
   },

@@ -43,7 +43,7 @@ const app = new Vue({
             tabs: ['Feed', 'Featured'],
             tab:[ 'Threads', 'Comments'],
             select: 'Threads',
-            selectedTab: 'Feed',
+            selectedTab: 'Featured',
              searching: false
     	};
     },

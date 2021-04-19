@@ -1,5 +1,9 @@
 <template>
-    <input type="file" accept="image/*" @change="onChange">
+<div class="border-t">
+     <input type="file" accept="image/*" @change="onChange" class="hidden" multiple ref="picker" name="upload__files">
+     <button type="button" class="inline-flex items-center rouded-full p-2 hover:bg-black-100 text-dark focus:inline-none" @click="browse"><i class="fa fa-lg fa-image fill-current"></i></button>
+</div>
+
 </template>
 
 <script>
@@ -7,18 +11,10 @@
         methods: {
             onChange(e) {
                 if (! e.target.files.length) return;
-
-                let file = e.target.files[0];
-
-                let reader = new FileReader();
-
-                reader.readAsDataURL(file);
-
-                reader.onload = e => {
-                    let src = e.target.result;
-
-                    this.$emit('loaded', { src, file });
-                };
+                this.$emit('loaded', e.target.files)
+            },
+            browse(){
+                this.$refs  .picker.click();
             }
         }
     }
