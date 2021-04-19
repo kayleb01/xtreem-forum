@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use App\thread;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class comment extends Model
 {
@@ -85,14 +87,15 @@ class comment extends Model
 
 
 
+
     /**
      *
      * A reply has many attachments i.e pictures of whatever
      *  @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      * */
-    public function attachment()
+    public function media():MorphMany
     {
-        return $this->hasMany(attachment::class);
+        return $this->morphMany(Media::class, 'model');
     }
     /**
      * A reply has many children since we can't qoute in peace

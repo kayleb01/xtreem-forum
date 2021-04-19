@@ -2782,7 +2782,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      body: "",
+      form: {
+        body: '',
+        imageIds: []
+      },
       loading: false,
       usersat: [],
       file: []
@@ -2794,32 +2797,39 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    $("#body").atwho({
-      at: "@",
-      delay: 750,
-      callbacks: {
-        remoteFilter: function remoteFilter(query, callback) {
-          $.get("/api/users", {
-            name: query
-          }, function (usernames) {
-            this.usersat = usernames;
-          });
-        }
-      }
-    });
+    //
+    this.getUsers();
   },
   methods: {
     addReply: function addReply() {
       var _this = this;
 
-      if (this.body == "") {
+      if (this.form.body == "" && this.form.imageIds == "") {
         this.flashMessage.error({
           message: "Your reply cannot be empty"
         });
       } else {
         this.loading = true;
-        axios.post(location.pathname + "/create", {
-          body: this.body
+        this.form.imageIds = this.file.map(function (item) {
+          return item.id;
+        });
+        axios.post(location.pathname + "/create", this.form, {
+          preserveState: true,
+          onStart: function onStart() {
+            return _this.loading = true;
+          },
+          onFinish: function onFinish() {
+            return _this.loading = false;
+          },
+          onSuccess: function onSuccess() {
+            if (Object.keys(_this.$page.props.errors.length === 0)) {
+              _this.form = {
+                content: '',
+                imageIds: []
+              };
+              _this.file = [];
+            }
+          }
         })["catch"](function (error) {
           _this.flashMessage.error({
             message: "An internal error occured, please try again later"
@@ -2828,7 +2838,8 @@ __webpack_require__.r(__webpack_exports__);
           _this.loading = false;
         }).then(function (_ref) {
           var data = _ref.data;
-          _this.body = "";
+          _this.form.body = "";
+          _this.file = [];
 
           _this.flashMessage.success({
             message: "Your reply has been posted."
@@ -2840,8 +2851,18 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     },
-    uploadImages: function uploadImages(files) {
+    getUsers: function getUsers() {
       var _this2 = this;
+
+      axios.post('api/users').then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.usersat = data;
+      })["catch"](function (err) {
+        return console.log(errs);
+      });
+    },
+    uploadImages: function uploadImages(files) {
+      var _this3 = this;
 
       Array.from(files).forEach(function (media) {
         //let file = e.target.files[0];
@@ -2851,23 +2872,37 @@ __webpack_require__.r(__webpack_exports__);
         reader.onload = function (e) {
           var src = e.target.result;
           var item = {
-            url: e.target.result // id: undefined,
-            // loading: true
+            url: e.target.result,
+            id: undefined,
+            loading: true
+          };
+          var formdata = new FormData();
+          formdata.append('file', media);
+          axios.post('/media', formdata).then(function (_ref3) {
+            var data = _ref3.data;
+            item.id = data.id;
+          })["catch"](function (err) {
+            return console.log(err);
+          })["finally"](function () {
+            return _this3.loading = false;
+          });
 
-          }; // let formdata = new FormData();
-          // formdata.append('file', media);
-          //  axios.post('/attachment', formdata)
-          //  .then( ({data}) => {
-          //      item.id = data.id
-          //  })
-          //  .finally( () => this.loading = false )
-
-          _this2.file.push(item);
+          _this3.file.push(item);
         };
       });
     },
-    removeMedia: function removeMedia(index) {
+    removeMedia: function removeMedia(index, item) {
+      var _this4 = this;
+
       this.file.splice(index, 1);
+
+      if (item.id) {
+        axios["delete"]("/media/".concat(item.id))["catch"](function (err) {
+          console.log(err);
+
+          _this4.file.splice(index, 0, item);
+        });
+      }
     }
   }
 });
@@ -3442,7 +3477,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["reply"],
+  props: {
+    reply: Object
+  },
   mixins: [_mixins_collection__WEBPACK_IMPORTED_MODULE_3__["default"]],
   components: {
     Favorite: _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -3509,7 +3546,13 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit("deleted", this.id);
     },
     fetch: function fetch() {
-      axios.get(this.url()).then(this.refresh);
+      var _this2 = this;
+
+      axios.get(this.url()).then(this.refresh)["catch"](function (err) {
+        _this2.flashMessage.error({
+          error: "Error fetching resources"
+        });
+      });
     },
     url: function url() {
       return "replychild/".concat(this.reply.id);
@@ -85434,25 +85477,25 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.body,
-                        expression: "body"
+                        value: _vm.form.body,
+                        expression: "form.body"
                       }
                     ],
                     staticClass:
-                      "editor w-full text-md rounded mt-3 p-2 resize-none outline-dashed",
+                      "editor w-full text-md rounded mt-3 p-2 resize-none outline",
                     attrs: {
                       name: "body",
                       placeholder: "Type a reply...",
                       id: "body",
                       required: ""
                     },
-                    domProps: { value: _vm.body },
+                    domProps: { value: _vm.form.body },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.body = $event.target.value
+                        _vm.$set(_vm.form, "body", $event.target.value)
                       }
                     }
                   })
@@ -85475,10 +85518,13 @@ var render = function() {
                               {
                                 staticClass:
                                   "m-1 top-0 left-0 absolute text-light bg-black opacity-75 rounded-full cusor-pointer hover:opacity-100 p-2",
-                                attrs: { title: "Remove Image" },
+                                attrs: {
+                                  type: "button",
+                                  title: "Remove Image"
+                                },
                                 on: {
                                   click: function($event) {
-                                    return _vm.removeMedia(index)
+                                    return _vm.removeMedia(index, item)
                                   }
                                 }
                               },
@@ -86777,6 +86823,25 @@ var render = function() {
                   attrs: { content: _vm.body }
                 }),
                 _vm._v(" "),
+                _vm.reply.media
+                  ? _c(
+                      "div",
+                      _vm._l(_vm.reply.media, function(mdia) {
+                        return _c(
+                          "div",
+                          { key: mdia.id, staticClass: "w-8/12 p-2 block" },
+                          [
+                            _c("img", {
+                              staticClass: "rounded-lg",
+                              attrs: { src: mdia.ImageUrl }
+                            })
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
                 _vm.signedIn
                   ? _c(
                       "div",
@@ -86844,26 +86909,7 @@ var render = function() {
                               }
                             }),
                             _c("br"),
-                            _c("br"),
-                            _vm._v(" "),
-                            _vm.reply.attachment
-                              ? _c(
-                                  "div",
-                                  _vm._l(_vm.reply.attachment, function(
-                                    attachment
-                                  ) {
-                                    return _c("span", { key: attachment.id }, [
-                                      _c("img", {
-                                        staticClass: "attachment",
-                                        attrs: {
-                                          src: "/storage/img/" + attachment.name
-                                        }
-                                      })
-                                    ])
-                                  }),
-                                  0
-                                )
-                              : _vm._e()
+                            _c("br")
                           ],
                           1
                         )
@@ -86871,184 +86917,179 @@ var render = function() {
                     )
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.reply.reply_children.length > 0
-                  ? _c(
-                      "div",
+                _c(
+                  "div",
+                  {
+                    directives: [
                       {
-                        staticClass: "mt-2",
-                        staticStyle: { "border-top": "1px solid #ccc" }
-                      },
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.reply.reply_children.length > 0,
+                        expression: "reply.reply_children.length > 0"
+                      }
+                    ],
+                    staticClass: "mt-2"
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "panel-body border-t" },
                       [
-                        _c(
-                          "div",
-                          { staticClass: "panel-body" },
-                          [
-                            _c("span", [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "text-sm btn btn-flat btn-block",
-                                  class: _vm.loading ? "loader" : "",
-                                  attrs: {
-                                    type: "button",
-                                    disabled: _vm.loading
-                                  },
-                                  on: {
-                                    "~mouseover": function($event) {
-                                      return _vm.getReply($event)
-                                    },
-                                    click: _vm.childShow
-                                  }
+                        _c("span", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "text-sm btn btn-flat btn-block",
+                              class: _vm.loading ? "loader" : "",
+                              attrs: { type: "button", disabled: _vm.loading },
+                              on: {
+                                "~mouseover": function($event) {
+                                  return _vm.getReply($event)
                                 },
-                                [_c("small", [_vm._v(_vm._s(_vm.see))])]
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.items, function(replyChildren, indexes) {
-                              return _c(
+                                click: _vm.childShow
+                              }
+                            },
+                            [_c("small", [_vm._v(_vm._s(_vm.see))])]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.items, function(replyChildren) {
+                          return _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.child,
+                                  expression: "child"
+                                }
+                              ],
+                              key: replyChildren.id,
+                              staticClass: "mb-1 chld",
+                              staticStyle: { "padding-bottom": "2px" }
+                            },
+                            [
+                              _c(
                                 "div",
                                 {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.child,
-                                      expression: "child"
+                                  on: {
+                                    destroyed: function($event) {
+                                      return _vm.destroy(_vm.indexes)
                                     }
-                                  ],
-                                  key: replyChildren.id,
-                                  staticClass: "mb-1 chld",
-                                  staticStyle: { "padding-bottom": "2px" }
+                                  }
                                 },
                                 [
-                                  _c(
-                                    "div",
-                                    {
-                                      on: {
-                                        destroyed: function($event) {
-                                          return _vm.destroy(indexes)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _vm.signedIn &&
-                                      replyChildren.user.id === _vm.user.id
-                                        ? _c("span", [
-                                            _c(
-                                              "a",
-                                              {
-                                                attrs: { href: "#" },
-                                                on: {
-                                                  click: function($event) {
-                                                    $event.preventDefault()
-                                                    return _vm.childDestroy(
-                                                      replyChildren.id
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _c("i", {
-                                                  staticClass:
-                                                    "fa fa-trash float-right mr-2",
-                                                  staticStyle: { color: "red" }
-                                                })
-                                              ]
-                                            )
-                                          ])
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      _c("table", [
-                                        _c("tr", [
-                                          _c("td", [
-                                            _c("img", {
+                                  _vm.signedIn &&
+                                  replyChildren.user.id === _vm.user.id
+                                    ? _c("span", [
+                                        _c(
+                                          "a",
+                                          {
+                                            attrs: { href: "#" },
+                                            on: {
+                                              click: function($event) {
+                                                $event.preventDefault()
+                                                return _vm.childDestroy(
+                                                  replyChildren.id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
                                               staticClass:
-                                                "image-child responsive",
+                                                "fa fa-trash float-right mr-2",
+                                              staticStyle: { color: "red" }
+                                            })
+                                          ]
+                                        )
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c("table", [
+                                    _c("tr", [
+                                      _c("td", [
+                                        _c("img", {
+                                          staticClass: "image-child responsive",
+                                          attrs: {
+                                            src:
+                                              "/storage/img/" +
+                                              (replyChildren.user.avatar
+                                                ? replyChildren.user.avatar
+                                                : "default.jpg"),
+                                            alt: replyChildren.user.username,
+                                            width: "36",
+                                            height: "37"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "span",
+                                          { staticClass: " text-black" },
+                                          [
+                                            _c("a", {
+                                              staticClass:
+                                                "font-weight-bold text-black",
                                               attrs: {
-                                                src:
-                                                  "/storage/img/" +
-                                                  (replyChildren.user.avatar
-                                                    ? replyChildren.user.avatar
-                                                    : "default.jpg"),
-                                                alt:
-                                                  replyChildren.user.username,
-                                                width: "36",
-                                                height: "37"
+                                                href:
+                                                  "/u/" +
+                                                  replyChildren.user.username
+                                              },
+                                              domProps: {
+                                                textContent: _vm._s(
+                                                  replyChildren.user.username
+                                                )
                                               }
                                             }),
-                                            _vm._v(" "),
+                                            _vm._v(" ⋅"),
                                             _c(
-                                              "span",
-                                              { staticClass: " text-black" },
+                                              "small",
+                                              { staticClass: "text-muted" },
                                               [
-                                                _c("a", {
-                                                  staticClass:
-                                                    "font-weight-bold text-black",
-                                                  attrs: {
-                                                    href:
-                                                      "/u/" +
-                                                      replyChildren.user
-                                                        .username
-                                                  },
-                                                  domProps: {
-                                                    textContent: _vm._s(
-                                                      replyChildren.user
-                                                        .username
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm.humanTime(
+                                                      replyChildren.created_at
                                                     )
-                                                  }
-                                                }),
-                                                _vm._v(" ⋅"),
-                                                _c(
-                                                  "small",
-                                                  { staticClass: "text-muted" },
-                                                  [
-                                                    _vm._v(
-                                                      _vm._s(
-                                                        _vm.humanTime(
-                                                          replyChildren.created_at
-                                                        )
-                                                      )
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _c("br"),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass: "replyChild-body"
-                                              },
-                                              [
-                                                _c(
-                                                  "small",
-                                                  [
-                                                    _c("highlight", {
-                                                      attrs: {
-                                                        content:
-                                                          replyChildren.body
-                                                      }
-                                                    })
-                                                  ],
-                                                  1
+                                                  )
                                                 )
                                               ]
                                             )
-                                          ])
-                                        ])
+                                          ]
+                                        ),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "replyChild-body" },
+                                          [
+                                            _c(
+                                              "small",
+                                              [
+                                                _c("highlight", {
+                                                  attrs: {
+                                                    content: replyChildren.body
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        )
                                       ])
-                                    ]
-                                  )
+                                    ])
+                                  ])
                                 ]
                               )
-                            })
-                          ],
-                          2
-                        )
-                      ]
+                            ]
+                          )
+                        })
+                      ],
+                      2
                     )
-                  : _vm._e(),
+                  ]
+                ),
                 _vm._v(" "),
                 _c("ReplyChild", {
                   directives: [

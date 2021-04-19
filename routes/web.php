@@ -126,8 +126,11 @@ Route::put('admin/categories/update/{id}', 'CategoriesController@update')->name(
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('api/users', 'Api\UsersController@index')->name('api.users');
+Route::post('api/users', 'Api\UsersController@index')->name('api.users')->middleware('auth');
 Route::get('api/channels', 'Api\ChannelsController@index');
 
+//Media
+Route::post('/media', 'MediaController@store')->name('media.store');
+Route::delete('/media/{media}', 'MediaController@destroy')->name('media.destroy');
 
 Route::get('/home', 'HomeController@index')->name('home');

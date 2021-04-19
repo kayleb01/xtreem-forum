@@ -7,10 +7,12 @@ use App\comment;
 use App\thread;
 use Auth;
 use Carbon\carbon;
+use Illuminate\Validation\Rule;
 use App\Events\ThreadRecievedNewReply;
 use Linkify;
 use Illuminate\Http\Request;
 use App\attachment;
+use App\Media;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -37,9 +39,15 @@ class RepliesController extends Controller
     public function store($slug, Request $request)
     {
         $url = $request->body;
-
+    //    dd($request);
         $request->validate([
-            'body' => 'required'
+            'body' => 'required',
+            'imageIds.*' => [
+                Rule::exists('media', 'id')
+                ->where(function ($query) use ($request){
+                    $query->where('user_id', $request->user()->id);
+                })
+            ]
         ]);
         $thread = thread::where('slug', '=', $slug)->first();
         if ($thread->locked) {
@@ -53,7 +61,9 @@ class RepliesController extends Controller
                 return Redirect()->back()->with('error', 'Please wait for a minute before you post again')->withInput();
             }
         }
-        return $thread->AddComment([
+
+
+        $threadIn = $thread->AddComment([
             'user_id'       => Auth::user()->id,
             'thread_id'     => $thread->id,
             'forum_id'      => $thread->forum->id,
@@ -62,13 +72,19 @@ class RepliesController extends Controller
             'created_at'    => now()
             ])->load('user');
 
+            //store media attachments
+            Media::find($request->imageIds)->each->update([
+                        'model_id' => $threadIn->id,
+                        'model_type' => comment::class
+                    ]);
+
            $rep = $thread->replies_count;
             $thread->update([
                 'last_reply_at' => Carbon::now(),
                 'reply_user'    => Auth::user()->id,
                 'replies_count' => ++$rep
             ]);
-
+        return $threadIn;
 
     }
 
@@ -159,7 +175,7 @@ class RepliesController extends Controller
     public function replies($slug){
         $thread = thread::where('slug', '=', $slug)->first();
         return comment::where('thread_id', $thread->id)
-                        ->with(['user','thread'])
+                        ->with(['user','thread', 'media'])
                         ->paginate(10);
     }
 }
