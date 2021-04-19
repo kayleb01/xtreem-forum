@@ -12,7 +12,7 @@
             <form action="" enctype="multipart/form-data">
 
             </form>
-            <div class="mb-3">
+            <div class="mb-3 ml-2 mr-2">
                 <at-ta :members="usersat">
                     <textarea name="body" placeholder="Type a reply..." v-model="body"
                     class="editor w-full text-md rounded mt-3 p-2 resize-none outline-dashed"
@@ -20,7 +20,7 @@
                     </textarea>
                 </at-ta>
                 <div v-if="file.length" class="grid gap-2" :class="{'grid-cols-2':file.length > 1}">
-                    <div v-for="(item , index) in file" :key="index" class="relative flex flex-col items-center justify-center">
+                    <div v-for="(item , index) in file" :key="index" class="relative">
                         <button @click="removeMedia(index)" class="m-1 top-0 left-0 absolute text-light bg-black opacity-75 rounded-full cusor-pointer hover:opacity-100 p-2" title="Remove Image">x</button>
                         <img :src="item.url" alt="" class="rounded-lg object-cover h-48">
                         <div :class="loading ? 'loader':''" class="absolute bg-black opacity-75 text-white"></div>

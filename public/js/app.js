@@ -85426,7 +85426,7 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "mb-3" },
+              { staticClass: "mb-3 ml-2 mr-2" },
               [
                 _c("at-ta", { attrs: { members: _vm.usersat } }, [
                   _c("textarea", {
@@ -85468,11 +85468,7 @@ var render = function() {
                       _vm._l(_vm.file, function(item, index) {
                         return _c(
                           "div",
-                          {
-                            key: index,
-                            staticClass:
-                              "relative flex flex-col items-center justify-center"
-                          },
+                          { key: index, staticClass: "relative" },
                           [
                             _c(
                               "button",

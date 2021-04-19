@@ -35,9 +35,9 @@ class RepliesController extends Controller
      */
 
     public function store($slug, Request $request)
-    {    
+    {
         $url = $request->body;
-      
+
         $request->validate([
             'body' => 'required'
         ]);
@@ -52,7 +52,7 @@ class RepliesController extends Controller
             if ($this->time_btw_threads()) {
                 return Redirect()->back()->with('error', 'Please wait for a minute before you post again')->withInput();
             }
-        }   
+        }
         return $thread->AddComment([
             'user_id'       => Auth::user()->id,
             'thread_id'     => $thread->id,
@@ -61,15 +61,15 @@ class RepliesController extends Controller
             'body'          => $url,
             'created_at'    => now()
             ])->load('user');
-             
+
            $rep = $thread->replies_count;
             $thread->update([
-                'last_reply_at' => now(),
+                'last_reply_at' => Carbon::now(),
                 'reply_user'    => Auth::user()->id,
                 'replies_count' => ++$rep
             ]);
-            
-            
+
+
     }
 
 /**
@@ -82,10 +82,10 @@ class RepliesController extends Controller
     {
         $slug = $id->thread->slug;
         $this->authorize('update', $id);
-        $body = $request->body;        
+        $body = $request->body;
         $id->update([
             'body' => $body
-        ]); 
+        ]);
 
         return true;
     }
@@ -101,11 +101,11 @@ class RepliesController extends Controller
        $comment = $id;
         ///$this->authorize('update', $comment);
          $comment->update(request()->validate(['body' => 'required']));
-        
+
     }
 
     /**
-     * Delete the given reply.  
+     * Delete the given reply.
      *
      * @param  Reply $reply
      * @return \Illuminate\Http\RedirectResponse
@@ -132,7 +132,7 @@ class RepliesController extends Controller
             case 'like':
                 Comment::where('id', $id)->increment('likes');
                 break;
-            
+
             case 'unlike':
                 Comment::where('id', $id)->decrement('likes');
                 break;
@@ -140,7 +140,7 @@ class RepliesController extends Controller
         return "";
     }
 
-   
+
     /**
     *Check spam by create a time limit between posts by a user;
     *
