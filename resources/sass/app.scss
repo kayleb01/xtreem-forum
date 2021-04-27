@@ -7,16 +7,15 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-@tailwind preflight;
+
 
 @import "components/btn";
 @import "components/widget";
 
-@import "sections/search";
-@import "sections/trix";
-
 @import "timeline";
 
+@tailwind base;
+@tailwind components;
 @tailwind utilities;
 
 a {

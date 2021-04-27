@@ -44,7 +44,7 @@
                     <div v-else>
                         <highlight :content="body" class="panel-body"></highlight>
                             <div v-if="reply.media">
-                                            <div class="w-8/12 p-2 block" v-for="mdia in reply.media" :key="mdia.id">
+                                            <div class="grid gap-2 p-2 block" v-for="mdia in reply.media" :key="mdia.id">
                                             <img :src="mdia.ImageUrl" class="rounded-lg">
                                             </div>
                                          </div>
