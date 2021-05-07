@@ -97,6 +97,6166 @@ module.exports=function(t){var e={};function n(r){if(e[r])return e[r].exports;va
 
 /***/ }),
 
+/***/ "./node_modules/@splidejs/splide/dist/css/themes/splide-default.min.css":
+/*!******************************************************************************!*\
+  !*** ./node_modules/@splidejs/splide/dist/css/themes/splide-default.min.css ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../css-loader??ref--6-1!../../../../../postcss-loader/src??ref--6-2!./splide-default.min.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/@splidejs/splide/dist/css/themes/splide-default.min.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/@splidejs/splide/dist/js/splide.esm.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@splidejs/splide/dist/js/splide.esm.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*!
+ * Splide.js
+ * Version  : 2.4.20
+ * License  : MIT
+ * Copyright: 2020 Naotoshi Fujita
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else {}
+})(self, function() {
+return /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ 311:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  "default": () => /* binding */ module_Splide
+});
+
+// NAMESPACE OBJECT: ./src/js/constants/states.js
+var states_namespaceObject = {};
+__webpack_require__.r(states_namespaceObject);
+__webpack_require__.d(states_namespaceObject, {
+  "CREATED": () => CREATED,
+  "DESTROYED": () => DESTROYED,
+  "IDLE": () => IDLE,
+  "MOUNTED": () => MOUNTED,
+  "MOVING": () => MOVING
+});
+
+;// CONCATENATED MODULE: ./src/js/core/event.js
+/**
+ * The function for providing an Event object simply managing events.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * The function for providing an Event object simply managing events.
+ */
+/* harmony default export */ const core_event = (function () {
+  /**
+   * Store all event data.
+   *
+   * @type {Array}
+   */
+  var data = [];
+  var Event = {
+    /**
+     * Subscribe the given event(s).
+     *
+     * @param {string}   events  - An event name. Use space to separate multiple events.
+     *                             Also, namespace is accepted by dot, such as 'resize.{namespace}'.
+     * @param {function} handler - A callback function.
+     * @param {Element}  elm     - Optional. Native event will be listened to when this arg is provided.
+     * @param {Object}   options - Optional. Options for addEventListener.
+     */
+    on: function on(events, handler, elm, options) {
+      if (elm === void 0) {
+        elm = null;
+      }
+
+      if (options === void 0) {
+        options = {};
+      }
+
+      events.split(' ').forEach(function (event) {
+        if (elm) {
+          elm.addEventListener(event, handler, options);
+        }
+
+        data.push({
+          event: event,
+          handler: handler,
+          elm: elm,
+          options: options
+        });
+      });
+    },
+
+    /**
+     * Unsubscribe the given event(s).
+     *
+     * @param {string}  events - A event name or names split by space.
+     * @param {Element} elm    - Optional. removeEventListener() will be called when this arg is provided.
+     */
+    off: function off(events, elm) {
+      if (elm === void 0) {
+        elm = null;
+      }
+
+      events.split(' ').forEach(function (event) {
+        data = data.filter(function (item) {
+          if (item && item.event === event && item.elm === elm) {
+            unsubscribe(item);
+            return false;
+          }
+
+          return true;
+        });
+      });
+    },
+
+    /**
+     * Emit an event.
+     * This method is only for custom events.
+     *
+     * @param {string}  event - An event name.
+     * @param {*}       args  - Any number of arguments passed to handlers.
+     */
+    emit: function emit(event) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      data.forEach(function (item) {
+        if (!item.elm && item.event.split('.')[0] === event) {
+          item.handler.apply(item, args);
+        }
+      });
+    },
+
+    /**
+     * Clear event data.
+     */
+    destroy: function destroy() {
+      data.forEach(unsubscribe);
+      data = [];
+    }
+  };
+  /**
+   * Remove the registered event listener.
+   *
+   * @param {Object} item - An object containing event data.
+   */
+
+  function unsubscribe(item) {
+    if (item.elm) {
+      item.elm.removeEventListener(item.event, item.handler, item.options);
+    }
+  }
+
+  return Event;
+});
+;// CONCATENATED MODULE: ./src/js/core/state.js
+/**
+ * The function providing a super simple state system.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * The function providing a super simple state system.
+ *
+ * @param {string|number} initialState - Provide the initial state value.
+ */
+/* harmony default export */ const state = (function (initialState) {
+  /**
+   * Store the current state.
+   *
+   * @type {string|number}
+   */
+  var curr = initialState;
+  return {
+    /**
+     * Change state.
+     *
+     * @param {string|number} state - A new state.
+     */
+    set: function set(state) {
+      curr = state;
+    },
+
+    /**
+     * Verify if the current state is given one or not.
+     *
+     * @param {string|number} state - A state name to be verified.
+     *
+     * @return {boolean} - True if the current state is the given one.
+     */
+    is: function is(state) {
+      return state === curr;
+    }
+  };
+});
+;// CONCATENATED MODULE: ./src/js/utils/object.js
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+/**
+ * Some utility functions related with Object, supporting IE.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+var keys = Object.keys;
+/**
+ * Iterate an object like Array.forEach.
+ * IE doesn't support forEach of HTMLCollection.
+ *
+ * @param {Object}    obj       - An object.
+ * @param {function}  callback  - A function handling each value. Arguments are value, property and index.
+ */
+
+function each(obj, callback) {
+  keys(obj).some(function (key, index) {
+    return callback(obj[key], key, index);
+  });
+}
+/**
+ * Return values of the given object as an array.
+ * IE doesn't support Object.values.
+ *
+ * @param {Object} obj - An object.
+ *
+ * @return {Array} - An array containing all values of the given object.
+ */
+
+function values(obj) {
+  return keys(obj).map(function (key) {
+    return obj[key];
+  });
+}
+/**
+ * Check if the given subject is object or not.
+ *
+ * @param {*} subject - A subject to be verified.
+ *
+ * @return {boolean} - True if object, false otherwise.
+ */
+
+function isObject(subject) {
+  return typeof subject === 'object';
+}
+/**
+ * Merge two objects deeply.
+ *
+ * @param {Object} to   - An object where "from" is merged.
+ * @param {Object} from - An object merged to "to".
+ *
+ * @return {Object} - A merged object.
+ */
+
+function merge(_ref, from) {
+  var to = _extends({}, _ref);
+
+  each(from, function (value, key) {
+    if (isObject(value)) {
+      if (!isObject(to[key])) {
+        to[key] = {};
+      }
+
+      to[key] = merge(to[key], value);
+    } else {
+      to[key] = value;
+    }
+  });
+  return to;
+}
+/**
+ * Assign all properties "from" to "to" object.
+ *
+ * @param {Object} to   - An object where properties are assigned.
+ * @param {Object} from - An object whose properties are assigned to "to".
+ *
+ * @return {Object} - An assigned object.
+ */
+
+function object_assign(to, from) {
+  keys(from).forEach(function (key) {
+    if (!to[key]) {
+      Object.defineProperty(to, key, Object.getOwnPropertyDescriptor(from, key));
+    }
+  });
+  return to;
+}
+;// CONCATENATED MODULE: ./src/js/utils/utils.js
+/**
+ * A package of some miscellaneous utility functions.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * Convert the given value to array.
+ *
+ * @param {*} value - Any value.
+ *
+ * @return {*[]} - Array containing the given value.
+ */
+
+function toArray(value) {
+  return Array.isArray(value) ? value : [value];
+}
+/**
+ * Check if the given value is between min and max.
+ * Min will be returned when the value is less than min or max will do when greater than max.
+ *
+ * @param {number} value - A number to be checked.
+ * @param {number} m1    - Minimum or maximum number.
+ * @param {number} m2    - Maximum or minimum number.
+ *
+ * @return {number} - A value itself, min or max.
+ */
+
+function between(value, m1, m2) {
+  return Math.min(Math.max(value, m1 > m2 ? m2 : m1), m1 > m2 ? m1 : m2);
+}
+/**
+ * The sprintf method with minimum functionality.
+ *
+ * @param {string}       format       - The string format.
+ * @param {string|Array} replacements - Replacements accepting multiple arguments.
+ *
+ * @returns {string} - Converted string.
+ */
+
+function sprintf(format, replacements) {
+  var i = 0;
+  return format.replace(/%s/g, function () {
+    return toArray(replacements)[i++];
+  });
+}
+/**
+ * Append px unit to the given subject if necessary.
+ *
+ * @param {number|string} value - A value that may not include an unit.
+ *
+ * @return {string} - If the value is string, return itself.
+ *                    If number, do value + "px". An empty string, otherwise.
+ */
+
+function unit(value) {
+  var type = typeof value;
+
+  if (type === 'number' && value > 0) {
+    return parseFloat(value) + 'px';
+  }
+
+  return type === 'string' ? value : '';
+}
+/**
+ * Pad start with 0.
+ *
+ * @param {number} number - A number to be filled with 0.
+ *
+ * @return {string|number} - Padded number.
+ */
+
+function pad(number) {
+  return number < 10 ? '0' + number : number;
+}
+/**
+ * Convert the given value to pixel.
+ *
+ * @param {Element}       root  - Root element where a dummy div is appended.
+ * @param {string|number} value - CSS value to be converted, such as 10rem.
+ *
+ * @return {number} - Pixel.
+ */
+
+function toPixel(root, value) {
+  if (typeof value === 'string') {
+    var div = create('div', {});
+    applyStyle(div, {
+      position: 'absolute',
+      width: value
+    });
+    append(root, div);
+    value = div.clientWidth;
+    dom_remove(div);
+  }
+
+  return +value || 0;
+}
+;// CONCATENATED MODULE: ./src/js/utils/dom.js
+/**
+ * Some utility functions related with DOM.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+/**
+ * Find the first element matching the given selector.
+ * Be aware that all selectors after a space are ignored.
+ *
+ * @param {Element|Node}  elm       - An ancestor element.
+ * @param {string}        selector  - DOMString.
+ *
+ * @return {Element|null} - A found element or null.
+ */
+
+function find(elm, selector) {
+  return elm ? elm.querySelector(selector.split(' ')[0]) : null;
+}
+/**
+ * Find a first child having the given tag or class name.
+ *
+ * @param {Element} parent         - A parent element.
+ * @param {string}  tagOrClassName - A tag or class name.
+ *
+ * @return {Element|undefined} - A found element on success or undefined on failure.
+ */
+
+function child(parent, tagOrClassName) {
+  return children(parent, tagOrClassName)[0];
+}
+/**
+ * Return chile elements that matches the provided tag or class name.
+ *
+ * @param {Element} parent         - A parent element.
+ * @param {string}  tagOrClassName - A tag or class name.
+ *
+ * @return {Element[]} - Found elements.
+ */
+
+function children(parent, tagOrClassName) {
+  if (parent) {
+    return values(parent.children).filter(function (child) {
+      return hasClass(child, tagOrClassName.split(' ')[0]) || child.tagName === tagOrClassName;
+    });
+  }
+
+  return [];
+}
+/**
+ * Create an element with some optional attributes.
+ *
+ * @param {string} tag   - A tag name.
+ * @param {Object} attrs - An object any attribute pairs of name and value.
+ *
+ * @return {Element} - A created element.
+ */
+
+function create(tag, attrs) {
+  var elm = document.createElement(tag);
+  each(attrs, function (value, key) {
+    return setAttribute(elm, key, value);
+  });
+  return elm;
+}
+/**
+ * Convert HTML string to DOM node.
+ *
+ * @param {string} html - HTML string.
+ *
+ * @return {Node} - A created node.
+ */
+
+function domify(html) {
+  var div = create('div', {});
+  div.innerHTML = html;
+  return div.firstChild;
+}
+/**
+ * Remove a given element from a DOM tree.
+ *
+ * @param {Element|Element[]} elms - Element(s) to be removed.
+ */
+
+function dom_remove(elms) {
+  toArray(elms).forEach(function (elm) {
+    if (elm) {
+      var parent = elm.parentElement;
+      parent && parent.removeChild(elm);
+    }
+  });
+}
+/**
+ * Append a child to a given element.
+ *
+ * @param {Element} parent - A parent element.
+ * @param {Element} child  - An element to be appended.
+ */
+
+function append(parent, child) {
+  if (parent) {
+    parent.appendChild(child);
+  }
+}
+/**
+ * Insert an element before the reference element.
+ *
+ * @param {Element|Node} ref - A reference element.
+ * @param {Element}      elm - An element to be inserted.
+ */
+
+function before(elm, ref) {
+  if (elm && ref) {
+    var parent = ref.parentElement;
+    parent && parent.insertBefore(elm, ref);
+  }
+}
+/**
+ * Apply styles to the given element.
+ *
+ * @param {Element} elm     - An element where styles are applied.
+ * @param {Object}  styles  - Object containing styles.
+ */
+
+function applyStyle(elm, styles) {
+  if (elm) {
+    each(styles, function (value, prop) {
+      if (value !== null) {
+        elm.style[prop] = value;
+      }
+    });
+  }
+}
+/**
+ * Add or remove classes to/from the element.
+ * This function is for internal usage.
+ *
+ * @param {Element}         elm     - An element where classes are added.
+ * @param {string|string[]} classes - Class names being added.
+ * @param {boolean}         remove  - Whether to remove or add classes.
+ */
+
+function addOrRemoveClasses(elm, classes, remove) {
+  if (elm) {
+    toArray(classes).forEach(function (name) {
+      if (name) {
+        elm.classList[remove ? 'remove' : 'add'](name);
+      }
+    });
+  }
+}
+/**
+ * Add classes to the element.
+ *
+ * @param {Element}          elm     - An element where classes are added.
+ * @param {string|string[]}  classes - Class names being added.
+ */
+
+
+function addClass(elm, classes) {
+  addOrRemoveClasses(elm, classes, false);
+}
+/**
+ * Remove a class from the element.
+ *
+ * @param {Element}         elm     - An element where classes are removed.
+ * @param {string|string[]} classes - A class name being removed.
+ */
+
+function removeClass(elm, classes) {
+  addOrRemoveClasses(elm, classes, true);
+}
+/**
+ * Verify if the provided element has the class or not.
+ *
+ * @param {Element} elm       - An element.
+ * @param {string}  className - A class name.
+ *
+ * @return {boolean} - True if the element has the class or false if not.
+ */
+
+function hasClass(elm, className) {
+  return !!elm && elm.classList.contains(className);
+}
+/**
+ * Set attribute to the given element.
+ *
+ * @param {Element}                 elm   - An element where an attribute is assigned.
+ * @param {string}                  name  - Attribute name.
+ * @param {string|number|boolean}   value - Attribute value.
+ */
+
+function setAttribute(elm, name, value) {
+  if (elm) {
+    elm.setAttribute(name, value);
+  }
+}
+/**
+ * Get attribute from the given element.
+ *
+ * @param {Element} elm  - An element where an attribute is assigned.
+ * @param {string}  name - Attribute name.
+ *
+ * @return {string} - The value of the given attribute if available. An empty string if not.
+ */
+
+function getAttribute(elm, name) {
+  return elm ? elm.getAttribute(name) : '';
+}
+/**
+ * Remove attribute from the given element.
+ *
+ * @param {Element|Element[]} elms  - An element where an attribute is removed.
+ * @param {string|string[]}      names - Attribute name.
+ */
+
+function removeAttribute(elms, names) {
+  toArray(names).forEach(function (name) {
+    toArray(elms).forEach(function (elm) {
+      return elm && elm.removeAttribute(name);
+    });
+  });
+}
+/**
+ * Return the Rect object of the provided object.
+ *
+ * @param {Element} elm - An element.
+ *
+ * @return {ClientRect|DOMRect} - A rect object.
+ */
+
+function getRect(elm) {
+  return elm.getBoundingClientRect();
+}
+/**
+ * Trigger the given callback after all images contained by the element are loaded.
+ *
+ * @param {Element}  elm      - Element that may contain images.
+ * @param {Function} callback - Callback function fired right after all images are loaded.
+ */
+
+function loaded(elm, callback) {
+  var images = elm.querySelectorAll('img');
+  var length = images.length;
+
+  if (length) {
+    var count = 0;
+    each(images, function (img) {
+      img.onload = img.onerror = function () {
+        if (++count === length) {
+          callback();
+        }
+      };
+    });
+  } else {
+    // Trigger the callback immediately if there is no image.
+    callback();
+  }
+}
+;// CONCATENATED MODULE: ./src/js/constants/types.js
+/**
+ * Export slider types.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * Normal slider.
+ *
+ * @type {string}
+ */
+var SLIDE = 'slide';
+/**
+ * Loop after the last slide and before the first one.
+ *
+ * @type {string}
+ */
+
+var LOOP = 'loop';
+/**
+ * The track doesn't move.
+ *
+ * @type {string}
+ */
+
+var FADE = 'fade';
+;// CONCATENATED MODULE: ./src/js/transitions/slide/index.js
+/**
+ * The component for general slide effect transition.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+/**
+ * The component for general slide effect transition.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const slide = (function (Splide, Components) {
+  /**
+   * Hold the list element.
+   *
+   * @type {Element}
+   */
+  var list;
+  /**
+   * Hold the onEnd callback function.
+   *
+   * @type {function}
+   */
+
+  var endCallback;
+  return {
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      list = Components.Elements.list;
+      Splide.on('transitionend', function (e) {
+        if (e.target === list && endCallback) {
+          endCallback();
+        }
+      }, list);
+    },
+
+    /**
+     * Start transition.
+     *
+     * @param {number}   destIndex - Destination slide index that might be clone's.
+     * @param {number}   newIndex  - New index.
+     * @param {number}   prevIndex - Previous index.
+     * @param {Object}   coord     - Destination coordinates.
+     * @param {function} done      - Callback function must be invoked when transition is completed.
+     */
+    start: function start(destIndex, newIndex, prevIndex, coord, done) {
+      var options = Splide.options;
+      var edgeIndex = Components.Controller.edgeIndex;
+      var speed = options.speed;
+      endCallback = done;
+
+      if (Splide.is(SLIDE)) {
+        if (prevIndex === 0 && newIndex >= edgeIndex || prevIndex >= edgeIndex && newIndex === 0) {
+          speed = options.rewindSpeed || speed;
+        }
+      }
+
+      applyStyle(list, {
+        transition: "transform " + speed + "ms " + options.easing,
+        transform: "translate(" + coord.x + "px," + coord.y + "px)"
+      });
+    }
+  };
+});
+;// CONCATENATED MODULE: ./src/js/transitions/fade/index.js
+/**
+ * The component for fade transition.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+/**
+ * The component for fade transition.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const fade = (function (Splide, Components) {
+  var Fade = {
+    /**
+     * Called when the component is mounted.
+     * Apply transition style to the first slide.
+     */
+    mount: function mount() {
+      apply(Splide.index);
+    },
+
+    /**
+     * Start transition.
+     *
+     * @param {number}    destIndex - Destination slide index that might be clone's.
+     * @param {number}    newIndex  - New index.
+     * @param {number}    prevIndex - Previous index.
+     * @param {Object}    coord     - Destination coordinates.
+     * @param {function}  done      - Callback function must be invoked when transition is completed.
+     */
+    start: function start(destIndex, newIndex, prevIndex, coord, done) {
+      var track = Components.Elements.track;
+      applyStyle(track, {
+        height: unit(track.clientHeight)
+      });
+      apply(newIndex);
+      setTimeout(function () {
+        done();
+        applyStyle(track, {
+          height: ''
+        });
+      });
+    }
+  };
+  /**
+   * Apply transition style to the slide specified by the given index.
+   *
+   * @param {number} index - A slide index.
+   */
+
+  function apply(index) {
+    var options = Splide.options;
+    applyStyle(Components.Elements.slides[index], {
+      transition: "opacity " + options.speed + "ms " + options.easing
+    });
+  }
+
+  return Fade;
+});
+;// CONCATENATED MODULE: ./src/js/transitions/index.js
+/**
+ * Export transition components.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+;// CONCATENATED MODULE: ./src/js/core/composer.js
+/**
+ * Provide a function for composing components.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+/**
+ * Compose components.
+ *
+ * @param {Splide}   Splide     - Splide instance.
+ * @param {Object}   Components - Additional components.
+ * @param {function} Transition - Change component for transition.
+ *
+ * @return {Object} - An object containing all components.
+ */
+
+function compose(Splide, Components, Transition) {
+  var components = {};
+  each(Components, function (Component, name) {
+    components[name] = Component(Splide, components, name.toLowerCase());
+  });
+
+  if (!Transition) {
+    Transition = Splide.is(FADE) ? fade : slide;
+  }
+
+  components.Transition = Transition(Splide, components);
+  return components;
+}
+;// CONCATENATED MODULE: ./src/js/utils/error.js
+/**
+ * Utility functions for outputting logs.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * Prefix of an error massage.
+ *
+ * @type {string}
+ */
+var MESSAGE_PREFIX = '[SPLIDE]';
+/**
+ * Display an error message on the browser console.
+ *
+ * @param {string} message - An error message.
+ */
+
+function error(message) {
+  console.error(MESSAGE_PREFIX + " " + message);
+}
+/**
+ * Check existence of the given object and throw an error if it doesn't.
+ *
+ * @throws {Error}
+ *
+ * @param {*}      subject - A subject to be confirmed.
+ * @param {string} message - An error message.
+ */
+
+function exist(subject, message) {
+  if (!subject) {
+    throw new Error(message);
+  }
+}
+;// CONCATENATED MODULE: ./src/js/constants/classes.js
+/**
+ * Export class names.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * A root class name.
+ *
+ * @type {string}
+ */
+var ROOT = 'splide';
+/**
+ * The definition table of all classes for elements.
+ * They might be modified by options.
+ *
+ * @type {Object}
+ */
+
+var ELEMENT_CLASSES = {
+  root: ROOT,
+  slider: ROOT + "__slider",
+  track: ROOT + "__track",
+  list: ROOT + "__list",
+  slide: ROOT + "__slide",
+  container: ROOT + "__slide__container",
+  arrows: ROOT + "__arrows",
+  arrow: ROOT + "__arrow",
+  prev: ROOT + "__arrow--prev",
+  next: ROOT + "__arrow--next",
+  pagination: ROOT + "__pagination",
+  page: ROOT + "__pagination__page",
+  clone: ROOT + "__slide--clone",
+  progress: ROOT + "__progress",
+  bar: ROOT + "__progress__bar",
+  autoplay: ROOT + "__autoplay",
+  play: ROOT + "__play",
+  pause: ROOT + "__pause",
+  spinner: ROOT + "__spinner",
+  sr: ROOT + "__sr"
+};
+/**
+ * Definitions of status classes.
+ *
+ * @type {Object}
+ */
+
+var STATUS_CLASSES = {
+  active: 'is-active',
+  visible: 'is-visible',
+  loading: 'is-loading'
+};
+;// CONCATENATED MODULE: ./src/js/constants/i18n.js
+/**
+ * Export i18n texts as object.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * Texts for i18n.
+ *
+ * @type {Object}
+ */
+var I18N = {
+  prev: 'Previous slide',
+  next: 'Next slide',
+  first: 'Go to first slide',
+  last: 'Go to last slide',
+  slideX: 'Go to slide %s',
+  pageX: 'Go to page %s',
+  play: 'Start autoplay',
+  pause: 'Pause autoplay'
+};
+;// CONCATENATED MODULE: ./src/js/constants/defaults.js
+/**
+ * Export default options.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+var DEFAULTS = {
+  /**
+   * Determine a slider type.
+   * - 'slide': Regular slider.
+   * - 'loop' : Carousel slider.
+   * - 'fade' : Change slides with fade transition. perPage, drag options are ignored.
+   *
+   * @type {string}
+   */
+  type: 'slide',
+
+  /**
+   * Whether to rewind a slider before the first slide or after the last one.
+   * In "loop" mode, this option is ignored.
+   *
+   * @type {boolean}
+   */
+  rewind: false,
+
+  /**
+   * Transition speed in milliseconds.
+   *
+   * @type {number}
+   */
+  speed: 400,
+
+  /**
+   * Transition speed on rewind in milliseconds.
+   *
+   * @type {number}
+   */
+  rewindSpeed: 0,
+
+  /**
+   * Whether to prevent any actions while a slider is transitioning.
+   * If false, navigation, drag and swipe work while the slider is running.
+   * Even so, it will be forced to wait for transition in some cases in the loop mode to shift a slider.
+   *
+   * @type {boolean}
+   */
+  waitForTransition: true,
+
+  /**
+   * Define slider max width.
+   *
+   * @type {number}
+   */
+  width: 0,
+
+  /**
+   * Define slider height.
+   *
+   * @type {number}
+   */
+  height: 0,
+
+  /**
+   * Fix width of slides. CSS format is allowed such as 10em, 80% or 80vw.
+   * perPage number will be ignored when this option is falsy.
+   *
+   * @type {number|string}
+   */
+  fixedWidth: 0,
+
+  /**
+   * Fix height of slides. CSS format is allowed such as 10em, 80vh but % unit is not accepted.
+   * heightRatio option will be ignored when this option is falsy.
+   *
+   * @type {number|string}
+   */
+  fixedHeight: 0,
+
+  /**
+   * Determine height of slides by ratio to a slider width.
+   * This will be ignored when the fixedHeight is provided.
+   *
+   * @type {number}
+   */
+  heightRatio: 0,
+
+  /**
+   * If true, slide width will be determined by the element width itself.
+   * - perPage/perMove should be 1.
+   *
+   * @type {boolean}
+   */
+  autoWidth: false,
+
+  /**
+   * If true, slide height will be determined by the element width itself.
+   * - perPage/perMove should be 1.
+   *
+   * @type {boolean}
+   */
+  autoHeight: false,
+
+  /**
+   * Determine how many slides should be displayed per page.
+   *
+   * @type {number}
+   */
+  perPage: 1,
+
+  /**
+   * Determine how many slides should be moved when a slider goes to next or perv.
+   *
+   * @type {number}
+   */
+  perMove: 0,
+
+  /**
+   * Determine manually how many clones should be generated on the left and right side.
+   * The total number of clones will be twice of this number.
+   *
+   * @type {number}
+   */
+  clones: 0,
+
+  /**
+   * Start index.
+   *
+   * @type {number}
+   */
+  start: 0,
+
+  /**
+   * Determine which slide should be focused if there are multiple slides in a page.
+   * A string "center" is acceptable for centering slides.
+   *
+   * @type {boolean|number|string}
+   */
+  focus: false,
+
+  /**
+   * Gap between slides. CSS format is allowed such as 1em.
+   *
+   * @type {number|string}
+   */
+  gap: 0,
+
+  /**
+   * Set padding-left/right in horizontal mode or padding-top/bottom in vertical one.
+   * Give a single value to set a same size for both sides or
+   * do an object for different sizes.
+   * Also, CSS format is allowed such as 1em.
+   *
+   * @example
+   * - 10: Number
+   * - '1em': CSS format.
+   * - { left: 0, right: 20 }: Object for different sizes in horizontal mode.
+   * - { top: 0, bottom: 20 }: Object for different sizes in vertical mode.
+   *
+   * @type {number|string|Object}
+   */
+  padding: 0,
+
+  /**
+   * Whether to append arrows.
+   *
+   * @type {boolean}
+   */
+  arrows: true,
+
+  /**
+   * Change the arrow SVG path like 'm7.61 0.807-2.12...'.
+   *
+   * @type {string}
+   */
+  arrowPath: '',
+
+  /**
+   * Whether to append pagination(indicator dots) or not.
+   *
+   * @type {boolean}
+   */
+  pagination: true,
+
+  /**
+   * Activate autoplay.
+   *
+   * @type {boolean}
+   */
+  autoplay: false,
+
+  /**
+   * Autoplay interval in milliseconds.
+   *
+   * @type {number}
+   */
+  interval: 5000,
+
+  /**
+   * Whether to stop autoplay when a slider is hovered.
+   *
+   * @type {boolean}
+   */
+  pauseOnHover: true,
+
+  /**
+   * Whether to stop autoplay when a slider elements are focused.
+   * True is recommended for accessibility.
+   *
+   * @type {boolean}
+   */
+  pauseOnFocus: true,
+
+  /**
+   * Whether to reset progress of the autoplay timer when resumed.
+   *
+   * @type {boolean}
+   */
+  resetProgress: true,
+
+  /**
+   * Loading images lazily.
+   * Image src must be provided by a data-splide-lazy attribute.
+   *
+   * - false: Do nothing.
+   * - 'nearby': Only images around an active slide will be loaded.
+   * - 'sequential': All images will be sequentially loaded.
+   *
+   * @type {boolean|string}
+   */
+  lazyLoad: false,
+
+  /**
+   * This option works only when a lazyLoad option is "nearby".
+   * Determine how many pages(not slides) around an active slide should be loaded beforehand.
+   *
+   * @type {number}
+   */
+  preloadPages: 1,
+
+  /**
+   * Easing for CSS transition. For example, linear, ease or cubic-bezier().
+   *
+   * @type {string}
+   */
+  easing: 'cubic-bezier(.42,.65,.27,.99)',
+
+  /**
+   * Whether to enable keyboard shortcuts
+   * - true or 'global': Listen to keydown event of the document.
+   * - 'focused': Listen to the keydown event of the slider root element. tabindex="0" will be added to the element.
+   * - false: Disable keyboard shortcuts.
+   *
+   * @type {boolean|string}
+   */
+  keyboard: 'global',
+
+  /**
+   * Whether to allow mouse drag and touch swipe.
+   *
+   * @type {boolean}
+   */
+  drag: true,
+
+  /**
+   * The angle threshold for drag.
+   * The slider starts moving only when the drag angle is less than this threshold.
+   *
+   * @type {number}
+   */
+  dragAngleThreshold: 30,
+
+  /**
+   * Distance threshold for determining if the action is "flick" or "swipe".
+   * When a drag distance is over this value, the action will be treated as "swipe", not "flick".
+   *
+   * @type {number}
+   */
+  swipeDistanceThreshold: 150,
+
+  /**
+   * Velocity threshold for determining if the action is "flick" or "swipe".
+   * Around 0.5 is recommended.
+   *
+   * @type {number}
+   */
+  flickVelocityThreshold: .6,
+
+  /**
+   * Determine power of flick. The larger number this is, the farther a slider runs by flick.
+   * Around 500 is recommended.
+   *
+   * @type {number}
+   */
+  flickPower: 600,
+
+  /**
+   * Limit a number of pages to move by flick.
+   *
+   * @type {number}
+   */
+  flickMaxPages: 1,
+
+  /**
+   * Slider direction.
+   * - 'ltr': Left to right.
+   * - 'rtl': Right to left.
+   * - 'ttb': Top to bottom.
+   *
+   * @type {string}
+   */
+  direction: 'ltr',
+
+  /**
+   * Set img src to background-image of its parent element.
+   * Images with various sizes can be displayed as same dimension without cropping work.
+   * fixedHeight or heightRatio is required.
+   *
+   * @type {boolean}
+   */
+  cover: false,
+
+  /**
+   * Whether to enable accessibility(aria and screen reader texts) or not.
+   *
+   * @type {boolean}
+   */
+  accessibility: true,
+
+  /**
+   * Whether to add tabindex="0" to visible slides or not.
+   *
+   * @type {boolean}
+   */
+  slideFocus: true,
+
+  /**
+   * Determine if a slider is navigation for another.
+   * Use "sync" API to synchronize two sliders.
+   *
+   * @type {boolean}
+   */
+  isNavigation: false,
+
+  /**
+   * Whether to trim spaces before the fist slide or after the last one when "focus" is not 0.
+   *
+   * @type {boolean}
+   */
+  trimSpace: true,
+
+  /**
+   * The "is-active" class is added after transition as default.
+   * If true, it will be added before move.
+   *
+   * @type {boolean}
+   */
+  updateOnMove: false,
+
+  /**
+   * Throttle duration in milliseconds for the resize event.
+   *
+   * @type {number}
+   */
+  throttle: 100,
+
+  /**
+   * Whether to destroy a slider or not.
+   *
+   * @type {boolean}
+   */
+  destroy: false,
+
+  /**
+   * Options for specific breakpoints.
+   *
+   * @example
+   * {
+   *   1000: {
+   *     perPage: 3,
+   *     gap: 20
+   *   },
+   *   600: {
+   *     perPage: 1,
+   *     gap: 5,
+   *   }
+   * }
+   *
+   * @type {boolean|Object}
+   */
+  breakpoints: false,
+
+  /**
+   * Collection of class names.
+   *
+   * @see ./classes.js
+   *
+   * @type {Object}
+   */
+  classes: ELEMENT_CLASSES,
+
+  /**
+   * Collection of i18n texts.
+   *
+   * @see ./i18n.js
+   *
+   * @type {Object}
+   */
+  i18n: I18N
+};
+;// CONCATENATED MODULE: ./src/js/constants/states.js
+/**
+ * Export state constants.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * Splide has been just created.
+ *
+ * @type {number}
+ */
+var CREATED = 1;
+/**
+ * All components have been mounted and initialized.
+ *
+ * @type {number}
+ */
+
+var MOUNTED = 2;
+/**
+ * Splide is ready for transition.
+ *
+ * @type {number}
+ */
+
+var IDLE = 3;
+/**
+ * Splide is moving.
+ *
+ * @type {number}
+ */
+
+var MOVING = 4;
+/**
+ * Splide is moving.
+ *
+ * @type {number}
+ */
+
+var DESTROYED = 5;
+;// CONCATENATED MODULE: ./src/js/splide.js
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/**
+ * The main class for applying Splide to an element.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+
+
+
+
+
+/**
+ * The main class for applying Splide to an element,
+ * providing some APIs to control the behavior.
+ */
+
+var Splide = /*#__PURE__*/function () {
+  /**
+   * Splide constructor.
+   *
+   * @throws {Error} When the given root element or selector is invalid.
+   *
+   * @param {Element|string}  root       - A selector for a root element or an element itself.
+   * @param {Object}          options    - Optional. Options to change default behaviour.
+   * @param {Object}          Components - Optional. Components.
+   */
+  function Splide(root, options, Components) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    if (Components === void 0) {
+      Components = {};
+    }
+
+    this.root = root instanceof Element ? root : document.querySelector(root);
+    exist(this.root, 'An invalid element/selector was given.');
+    this.Components = null;
+    this.Event = core_event();
+    this.State = state(CREATED);
+    this.STATES = states_namespaceObject;
+    this._o = merge(DEFAULTS, options);
+    this._i = 0;
+    this._c = Components;
+    this._e = {}; // Extensions
+
+    this._t = null; // Transition
+  }
+  /**
+   * Compose and mount components.
+   *
+   * @param {Object}   Extensions - Optional. Additional components.
+   * @param {function} Transition - Optional. Set a custom transition component.
+   *
+   * @return {Splide|undefined} - This instance or undefined if an exception occurred.
+   */
+
+
+  var _proto = Splide.prototype;
+
+  _proto.mount = function mount(Extensions, Transition) {
+    var _this = this;
+
+    if (Extensions === void 0) {
+      Extensions = this._e;
+    }
+
+    if (Transition === void 0) {
+      Transition = this._t;
+    }
+
+    // Reset the state.
+    this.State.set(CREATED);
+    this._e = Extensions;
+    this._t = Transition;
+    this.Components = compose(this, merge(this._c, Extensions), Transition);
+
+    try {
+      each(this.Components, function (component, key) {
+        var required = component.required;
+
+        if (required === undefined || required) {
+          component.mount && component.mount();
+        } else {
+          delete _this.Components[key];
+        }
+      });
+    } catch (e) {
+      error(e.message);
+      return;
+    }
+
+    var State = this.State;
+    State.set(MOUNTED);
+    each(this.Components, function (component) {
+      component.mounted && component.mounted();
+    });
+    this.emit('mounted');
+    State.set(IDLE);
+    this.emit('ready');
+    applyStyle(this.root, {
+      visibility: 'visible'
+    });
+    this.on('move drag', function () {
+      return State.set(MOVING);
+    }).on('moved dragged', function () {
+      return State.set(IDLE);
+    });
+    return this;
+  }
+  /**
+   * Set sync target.
+   *
+   * @param {Splide} splide - A Splide instance.
+   *
+   * @return {Splide} - This instance.
+   */
+  ;
+
+  _proto.sync = function sync(splide) {
+    this.sibling = splide;
+    return this;
+  }
+  /**
+   * Register callback fired on the given event(s).
+   *
+   * @param {string}   events  - An event name. Use space to separate multiple events.
+   *                             Also, namespace is accepted by dot, such as 'resize.{namespace}'.
+   * @param {function} handler - A callback function.
+   * @param {Element}  elm     - Optional. Native event will be listened to when this arg is provided.
+   * @param {Object}   options - Optional. Options for addEventListener.
+   *
+   * @return {Splide} - This instance.
+   */
+  ;
+
+  _proto.on = function on(events, handler, elm, options) {
+    if (elm === void 0) {
+      elm = null;
+    }
+
+    if (options === void 0) {
+      options = {};
+    }
+
+    this.Event.on(events, handler, elm, options);
+    return this;
+  }
+  /**
+   * Unsubscribe the given event.
+   *
+   * @param {string}  events - A event name.
+   * @param {Element} elm    - Optional. removeEventListener() will be called when this arg is provided.
+   *
+   * @return {Splide} - This instance.
+   */
+  ;
+
+  _proto.off = function off(events, elm) {
+    if (elm === void 0) {
+      elm = null;
+    }
+
+    this.Event.off(events, elm);
+    return this;
+  }
+  /**
+   * Emit an event.
+   *
+   * @param {string} event - An event name.
+   * @param {*}      args  - Any number of arguments passed to handlers.
+   */
+  ;
+
+  _proto.emit = function emit(event) {
+    var _this$Event;
+
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    (_this$Event = this.Event).emit.apply(_this$Event, [event].concat(args));
+
+    return this;
+  }
+  /**
+   * Go to the slide specified by the given control.
+   *
+   * @param {string|number} control - A control pattern.
+   * @param {boolean}       wait    - Optional. Whether to wait for transition.
+   */
+  ;
+
+  _proto.go = function go(control, wait) {
+    if (wait === void 0) {
+      wait = this.options.waitForTransition;
+    }
+
+    if (this.State.is(IDLE) || this.State.is(MOVING) && !wait) {
+      this.Components.Controller.go(control, false);
+    }
+
+    return this;
+  }
+  /**
+   * Verify whether the slider type is the given one or not.
+   *
+   * @param {string} type - A slider type.
+   *
+   * @return {boolean} - True if the slider type is the provided type or false if not.
+   */
+  ;
+
+  _proto.is = function is(type) {
+    return type === this._o.type;
+  }
+  /**
+   * Insert a slide.
+   *
+   * @param {Element|string} slide - A slide element to be added.
+   * @param {number}         index - A slide will be added at the position.
+   */
+  ;
+
+  _proto.add = function add(slide, index) {
+    if (index === void 0) {
+      index = -1;
+    }
+
+    this.Components.Elements.add(slide, index, this.refresh.bind(this));
+    return this;
+  }
+  /**
+   * Remove the slide designated by the index.
+   *
+   * @param {number} index - A slide index.
+   */
+  ;
+
+  _proto.remove = function remove(index) {
+    this.Components.Elements.remove(index);
+    this.refresh();
+    return this;
+  }
+  /**
+   * Destroy all Slide objects and clones and recreate them again.
+   */
+  ;
+
+  _proto.refresh = function refresh() {
+    this.emit('refresh:before').emit('refresh').emit('resize');
+    return this;
+  }
+  /**
+   * Destroy the Splide.
+   * "Completely" boolean is mainly for breakpoints.
+   *
+   * @param {boolean} completely - Destroy completely.
+   */
+  ;
+
+  _proto.destroy = function destroy(completely) {
+    var _this2 = this;
+
+    if (completely === void 0) {
+      completely = true;
+    }
+
+    // Postpone destroy because it should be done after mount.
+    if (this.State.is(CREATED)) {
+      this.on('ready', function () {
+        return _this2.destroy(completely);
+      });
+      return;
+    }
+
+    values(this.Components).reverse().forEach(function (component) {
+      component.destroy && component.destroy(completely);
+    });
+    this.emit('destroy', completely); // Destroy all event handlers, including ones for native events.
+
+    this.Event.destroy();
+    this.State.set(DESTROYED);
+    return this;
+  }
+  /**
+   * Return the current slide index.
+   *
+   * @return {number} - The current slide index.
+   // */
+  ;
+
+  _createClass(Splide, [{
+    key: "index",
+    get: function get() {
+      return this._i;
+    }
+    /**
+     * Set the current slide index.
+     *
+     * @param {number|string} index - A new index.
+     */
+    ,
+    set: function set(index) {
+      this._i = parseInt(index);
+    }
+    /**
+     * Return length of slides.
+     * This is an alias of Elements.length.
+     *
+     * @return {number} - A number of slides.
+     */
+
+  }, {
+    key: "length",
+    get: function get() {
+      return this.Components.Elements.length;
+    }
+    /**
+     * Return options.
+     *
+     * @return {Object} - Options object.
+     */
+
+  }, {
+    key: "options",
+    get: function get() {
+      return this._o;
+    }
+    /**
+     * Set options with merging the given object to the current one.
+     *
+     * @param {Object} options - New options.
+     */
+    ,
+    set: function set(options) {
+      var created = this.State.is(CREATED);
+
+      if (!created) {
+        this.emit('update');
+      }
+
+      this._o = merge(this._o, options);
+
+      if (!created) {
+        this.emit('updated', this._o);
+      }
+    }
+    /**
+     * Return the class list.
+     * This is an alias of Splide.options.classList.
+     *
+     * @return {Object} - An object containing all class list.
+     */
+
+  }, {
+    key: "classes",
+    get: function get() {
+      return this._o.classes;
+    }
+    /**
+     * Return the i18n strings.
+     * This is an alias of Splide.options.i18n.
+     *
+     * @return {Object} - An object containing all i18n strings.
+     */
+
+  }, {
+    key: "i18n",
+    get: function get() {
+      return this._o.i18n;
+    }
+  }]);
+
+  return Splide;
+}();
+
+
+;// CONCATENATED MODULE: ./src/js/components/options/index.js
+/**
+ * The component for initializing options.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+/**
+ * The component for initializing options.
+ *
+ * @param {Splide} Splide - A Splide instance.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const options = (function (Splide) {
+  /**
+   * Retrieve options from the data attribute.
+   * Note that IE10 doesn't support dataset property.
+   *
+   * @type {string}
+   */
+  var options = getAttribute(Splide.root, 'data-splide');
+
+  if (options) {
+    try {
+      Splide.options = JSON.parse(options);
+    } catch (e) {
+      error(e.message);
+    }
+  }
+
+  return {
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      if (Splide.State.is(CREATED)) {
+        Splide.index = Splide.options.start;
+      }
+    }
+  };
+});
+;// CONCATENATED MODULE: ./src/js/constants/directions.js
+/**
+ * Export layout modes.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * Enumerate slides from left to right.
+ *
+ * @type {string}
+ */
+var LTR = 'ltr';
+/**
+ * Enumerate slides from right to left.
+ *
+ * @type {string}
+ */
+
+var RTL = 'rtl';
+/**
+ * Enumerate slides in a col.
+ *
+ * @type {string}
+ */
+
+var TTB = 'ttb';
+;// CONCATENATED MODULE: ./src/js/components/elements/slide.js
+/**
+ * The sub component for handling each slide.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+
+
+
+/**
+ * Events for restoring original styles.
+ *
+ * @type {string}
+ */
+
+var STYLE_RESTORE_EVENTS = 'update.slide';
+/**
+ * The sub component for handling each slide.
+ *
+ * @param {Splide}  Splide    - A Splide instance.
+ * @param {number}  index     - An unique slide index.
+ * @param {number}  realIndex - Clones should pass a real slide index.
+ * @param {Element} slide     - A slide element.
+ *
+ * @return {Object} - The sub component object.
+ */
+
+/* harmony default export */ const elements_slide = (function (Splide, index, realIndex, slide) {
+  /**
+   * Whether to update "is-active" class before or after transition.
+   *
+   * @type {boolean}
+   */
+  var updateOnMove = Splide.options.updateOnMove;
+  /**
+   * Events when the slide status is updated.
+   * Append a namespace to remove listeners later.
+   *
+   * @type {string}
+   */
+
+  var STATUS_UPDATE_EVENTS = 'ready.slide updated.slide resized.slide moved.slide' + (updateOnMove ? ' move.slide' : '');
+  /**
+   * Slide sub component object.
+   *
+   * @type {Object}
+   */
+
+  var Slide = {
+    /**
+     * Slide element.
+     *
+     * @type {Element}
+     */
+    slide: slide,
+
+    /**
+     * Slide index.
+     *
+     * @type {number}
+     */
+    index: index,
+
+    /**
+     * Real index for clones.
+     *
+     * @type {number}
+     */
+    realIndex: realIndex,
+
+    /**
+     * Container element if available.
+     *
+     * @type {Element|undefined}
+     */
+    container: child(slide, Splide.classes.container),
+
+    /**
+     * Whether this is a cloned slide or not.
+     *
+     * @type {boolean}
+     */
+    isClone: realIndex > -1,
+
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      var _this = this;
+
+      if (!this.isClone) {
+        slide.id = Splide.root.id + "-slide" + pad(index + 1);
+      }
+
+      Splide.on(STATUS_UPDATE_EVENTS, function () {
+        return _this.update();
+      }).on(STYLE_RESTORE_EVENTS, restoreStyles).on('click', function () {
+        return Splide.emit('click', _this);
+      }, slide);
+      /*
+       * Add "is-active" class to a clone element temporarily
+       * and it will be removed on "moved" event.
+       */
+
+      if (updateOnMove) {
+        Splide.on('move.slide', function (newIndex) {
+          if (newIndex === realIndex) {
+            _update(true, false);
+          }
+        });
+      } // Make sure the slide is shown.
+
+
+      applyStyle(slide, {
+        display: ''
+      }); // Hold the original styles.
+
+      this.styles = getAttribute(slide, 'style') || '';
+    },
+
+    /**
+     * Destroy.
+     */
+    destroy: function destroy() {
+      Splide.off(STATUS_UPDATE_EVENTS).off(STYLE_RESTORE_EVENTS).off('click', slide);
+      removeClass(slide, values(STATUS_CLASSES));
+      restoreStyles();
+      removeAttribute(this.container, 'style');
+    },
+
+    /**
+     * Update active and visible status.
+     */
+    update: function update() {
+      _update(this.isActive(), false);
+
+      _update(this.isVisible(), true);
+    },
+
+    /**
+     * Check whether this slide is active or not.
+     *
+     * @return {boolean} - True if the slide is active or false if not.
+     */
+    isActive: function isActive() {
+      return Splide.index === index;
+    },
+
+    /**
+     * Check whether this slide is visible in the viewport or not.
+     *
+     * @return {boolean} - True if the slide is visible or false if not.
+     */
+    isVisible: function isVisible() {
+      var active = this.isActive();
+
+      if (Splide.is(FADE) || active) {
+        return active;
+      }
+
+      var ceil = Math.ceil;
+      var trackRect = getRect(Splide.Components.Elements.track);
+      var slideRect = getRect(slide);
+
+      if (Splide.options.direction === TTB) {
+        return trackRect.top <= slideRect.top && slideRect.bottom <= ceil(trackRect.bottom);
+      }
+
+      return trackRect.left <= slideRect.left && slideRect.right <= ceil(trackRect.right);
+    },
+
+    /**
+     * Calculate how far this slide is from another slide and
+     * return true if the distance is within the given number.
+     *
+     * @param {number} from   - Index of a target slide.
+     * @param {number} within - True if the slide is within this number.
+     *
+     * @return {boolean} - True if the slide is within the number or false otherwise.
+     */
+    isWithin: function isWithin(from, within) {
+      var diff = Math.abs(from - index);
+
+      if (!Splide.is(SLIDE) && !this.isClone) {
+        diff = Math.min(diff, Splide.length - diff);
+      }
+
+      return diff < within;
+    }
+  };
+  /**
+   * Update classes for activity or visibility.
+   *
+   * @param {boolean} active        - Is active/visible or not.
+   * @param {boolean} forVisibility - Toggle classes for activity or visibility.
+   */
+
+  function _update(active, forVisibility) {
+    var type = forVisibility ? 'visible' : 'active';
+    var className = STATUS_CLASSES[type];
+
+    if (active) {
+      addClass(slide, className);
+      Splide.emit("" + type, Slide);
+    } else {
+      if (hasClass(slide, className)) {
+        removeClass(slide, className);
+        Splide.emit("" + (forVisibility ? 'hidden' : 'inactive'), Slide);
+      }
+    }
+  }
+  /**
+   * Restore the original styles.
+   */
+
+
+  function restoreStyles() {
+    setAttribute(slide, 'style', Slide.styles);
+  }
+
+  return Slide;
+});
+;// CONCATENATED MODULE: ./src/js/components/elements/index.js
+/**
+ * The component for main elements.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+
+
+/**
+ * The property name for UID stored in a window object.
+ *
+ * @type {string}
+ */
+
+var UID_NAME = 'uid';
+/**
+ * The component for main elements.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const components_elements = (function (Splide, Components) {
+  /**
+   * Hold the root element.
+   *
+   * @type {Element}
+   */
+  var root = Splide.root;
+  /**
+   * Hold the class list.
+   *
+   * @type {Object}
+   */
+
+  var classes = Splide.classes;
+  /**
+   * Store Slide objects.
+   *
+   * @type {Array}
+   */
+
+  var Slides = [];
+  /*
+   * Assign unique ID to the root element if it doesn't have the one.
+   * Note that IE doesn't support padStart() to fill the uid by 0.
+   */
+
+  if (!root.id) {
+    window.splide = window.splide || {};
+    var uid = window.splide[UID_NAME] || 0;
+    window.splide[UID_NAME] = ++uid;
+    root.id = "splide" + pad(uid);
+  }
+  /**
+   * Elements component object.
+   *
+   * @type {Object}
+   */
+
+
+  var Elements = {
+    /**
+     * Called when the component is mounted.
+     * Collect main elements and store them as member properties.
+     */
+    mount: function mount() {
+      var _this = this;
+
+      this.init();
+      Splide.on('refresh', function () {
+        _this.destroy();
+
+        _this.init();
+      }).on('updated', function () {
+        removeClass(root, getClasses());
+        addClass(root, getClasses());
+      });
+    },
+
+    /**
+     * Destroy.
+     */
+    destroy: function destroy() {
+      Slides.forEach(function (Slide) {
+        Slide.destroy();
+      });
+      Slides = [];
+      removeClass(root, getClasses());
+    },
+
+    /**
+     * Initialization.
+     */
+    init: function init() {
+      var _this2 = this;
+
+      collect();
+      addClass(root, getClasses());
+      this.slides.forEach(function (slide, index) {
+        _this2.register(slide, index, -1);
+      });
+    },
+
+    /**
+     * Register a slide to create a Slide object and handle its behavior.
+     *
+     * @param {Element} slide     - A slide element.
+     * @param {number}  index     - A unique index. This can be negative.
+     * @param {number}  realIndex - A real index for clones. Set -1 for real slides.
+     */
+    register: function register(slide, index, realIndex) {
+      var SlideObject = elements_slide(Splide, index, realIndex, slide);
+      SlideObject.mount();
+      Slides.push(SlideObject);
+    },
+
+    /**
+     * Return the Slide object designated by the index.
+     * Note that "find" is not supported by IE.
+     *
+     * @return {Object|undefined} - A Slide object if available. Undefined if not.
+     */
+    getSlide: function getSlide(index) {
+      return Slides.filter(function (Slide) {
+        return Slide.index === index;
+      })[0];
+    },
+
+    /**
+     * Return all Slide objects.
+     *
+     * @param {boolean} includeClones - Whether to include cloned slides or not.
+     *
+     * @return {Object[]} - Slide objects.
+     */
+    getSlides: function getSlides(includeClones) {
+      return includeClones ? Slides : Slides.filter(function (Slide) {
+        return !Slide.isClone;
+      });
+    },
+
+    /**
+     * Return Slide objects belonging to the given page.
+     *
+     * @param {number} page - A page number.
+     *
+     * @return {Object[]} - An array containing Slide objects.
+     */
+    getSlidesByPage: function getSlidesByPage(page) {
+      var idx = Components.Controller.toIndex(page);
+      var options = Splide.options;
+      var max = options.focus !== false ? 1 : options.perPage;
+      return Slides.filter(function (_ref) {
+        var index = _ref.index;
+        return idx <= index && index < idx + max;
+      });
+    },
+
+    /**
+     * Insert a slide to a slider.
+     * Need to refresh Splide after adding a slide.
+     *
+     * @param {Node|string} slide    - A slide element to be added.
+     * @param {number}      index    - A slide will be added at the position.
+     * @param {Function}    callback - Called right after the slide is added to the DOM tree.
+     */
+    add: function add(slide, index, callback) {
+      if (typeof slide === 'string') {
+        slide = domify(slide);
+      }
+
+      if (slide instanceof Element) {
+        var ref = this.slides[index]; // This will be removed in mount() of a Slide component.
+
+        applyStyle(slide, {
+          display: 'none'
+        });
+
+        if (ref) {
+          before(slide, ref);
+          this.slides.splice(index, 0, slide);
+        } else {
+          append(this.list, slide);
+          this.slides.push(slide);
+        }
+
+        loaded(slide, function () {
+          callback && callback(slide);
+        });
+      }
+    },
+
+    /**
+     * Remove a slide from a slider.
+     * Need to refresh Splide after removing a slide.
+     *
+     * @param index - Slide index.
+     */
+    remove: function remove(index) {
+      dom_remove(this.slides.splice(index, 1)[0]);
+    },
+
+    /**
+     * Trigger the provided callback for each Slide object.
+     *
+     * @param {Function} callback - A callback function. The first argument will be the Slide object.
+     */
+    each: function each(callback) {
+      Slides.forEach(callback);
+    },
+
+    /**
+     * Return slides length without clones.
+     *
+     * @return {number} - Slide length.
+     */
+    get length() {
+      return this.slides.length;
+    },
+
+    /**
+     * Return "SlideObjects" length including clones.
+     *
+     * @return {number} - Slide length including clones.
+     */
+    get total() {
+      return Slides.length;
+    }
+
+  };
+  /**
+   * Collect elements.
+   */
+
+  function collect() {
+    Elements.slider = child(root, classes.slider);
+    Elements.track = find(root, "." + classes.track);
+    Elements.list = child(Elements.track, classes.list);
+    exist(Elements.track && Elements.list, 'Track or list was not found.');
+    Elements.slides = children(Elements.list, classes.slide);
+    var arrows = findParts(classes.arrows);
+    Elements.arrows = {
+      prev: find(arrows, "." + classes.prev),
+      next: find(arrows, "." + classes.next)
+    };
+    var autoplay = findParts(classes.autoplay);
+    Elements.bar = find(findParts(classes.progress), "." + classes.bar);
+    Elements.play = find(autoplay, "." + classes.play);
+    Elements.pause = find(autoplay, "." + classes.pause);
+    Elements.track.id = Elements.track.id || root.id + "-track";
+    Elements.list.id = Elements.list.id || root.id + "-list";
+  }
+  /**
+   * Return class names for the root element.
+   */
+
+
+  function getClasses() {
+    var rootClass = classes.root;
+    var options = Splide.options;
+    return [rootClass + "--" + options.type, rootClass + "--" + options.direction, options.drag ? rootClass + "--draggable" : '', options.isNavigation ? rootClass + "--nav" : '', STATUS_CLASSES.active];
+  }
+  /**
+   * Find parts only from children of the root or track.
+   *
+   * @return {Element} - A found element or undefined.
+   */
+
+
+  function findParts(className) {
+    return child(root, className) || child(Elements.slider, className);
+  }
+
+  return Elements;
+});
+;// CONCATENATED MODULE: ./src/js/components/controller/index.js
+/**
+ * The component for controlling the track.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+var floor = Math.floor;
+/**
+ * The component for controlling the track.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const controller = (function (Splide, Components) {
+  /**
+   * Store current options.
+   *
+   * @type {Object}
+   */
+  var options;
+  /**
+   * True if the slide is LOOP mode.
+   *
+   * @type {boolean}
+   */
+
+  var isLoop;
+  /**
+   * Controller component object.
+   *
+   * @type {Object}
+   */
+
+  var Controller = {
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      options = Splide.options;
+      isLoop = Splide.is(LOOP);
+      bind();
+    },
+
+    /**
+     * Make track run by the given control.
+     * - "+{i}" : Increment the slide index by i.
+     * - "-{i}" : Decrement the slide index by i.
+     * - "{i}"  : Go to the slide whose index is i.
+     * - ">"    : Go to next page.
+     * - "<"    : Go to prev page.
+     * - ">{i}" : Go to page i.
+     *
+     * @param {string|number} control  - A control pattern.
+     * @param {boolean}       silently - Go to the destination without event emission.
+     */
+    go: function go(control, silently) {
+      var destIndex = this.trim(this.parse(control));
+      Components.Track.go(destIndex, this.rewind(destIndex), silently);
+    },
+
+    /**
+     * Parse the given control and return the destination index for the track.
+     *
+     * @param {string} control - A control target pattern.
+     *
+     * @return {number} - A parsed target.
+     */
+    parse: function parse(control) {
+      var index = Splide.index;
+      var matches = String(control).match(/([+\-<>]+)(\d+)?/);
+      var indicator = matches ? matches[1] : '';
+      var number = matches ? parseInt(matches[2]) : 0;
+
+      switch (indicator) {
+        case '+':
+          index += number || 1;
+          break;
+
+        case '-':
+          index -= number || 1;
+          break;
+
+        case '>':
+        case '<':
+          index = parsePage(number, index, indicator === '<');
+          break;
+
+        default:
+          index = parseInt(control);
+      }
+
+      return index;
+    },
+
+    /**
+     * Compute index from the given page number.
+     *
+     * @param {number} page - Page number.
+     *
+     * @return {number} - A computed page number.
+     */
+    toIndex: function toIndex(page) {
+      if (hasFocus()) {
+        return page;
+      }
+
+      var length = Splide.length;
+      var perPage = options.perPage;
+      var index = page * perPage;
+      index = index - (this.pageLength * perPage - length) * floor(index / length); // Adjustment for the last page.
+
+      if (length - perPage <= index && index < length) {
+        index = length - perPage;
+      }
+
+      return index;
+    },
+
+    /**
+     * Compute page number from the given slide index.
+     *
+     * @param {number} index - Slide index.
+     *
+     * @return {number} - A computed page number.
+     */
+    toPage: function toPage(index) {
+      if (hasFocus()) {
+        return index;
+      }
+
+      var length = Splide.length;
+      var perPage = options.perPage; // Make the last "perPage" number of slides belong to the last page.
+
+      if (length - perPage <= index && index < length) {
+        return floor((length - 1) / perPage);
+      }
+
+      return floor(index / perPage);
+    },
+
+    /**
+     * Trim the given index according to the current mode.
+     * Index being returned could be less than 0 or greater than the length in Loop mode.
+     *
+     * @param {number} index - An index being trimmed.
+     *
+     * @return {number} - A trimmed index.
+     */
+    trim: function trim(index) {
+      if (!isLoop) {
+        index = options.rewind ? this.rewind(index) : between(index, 0, this.edgeIndex);
+      }
+
+      return index;
+    },
+
+    /**
+     * Rewind the given index if it's out of range.
+     *
+     * @param {number} index - An index.
+     *
+     * @return {number} - A rewound index.
+     */
+    rewind: function rewind(index) {
+      var edge = this.edgeIndex;
+
+      if (isLoop) {
+        while (index > edge) {
+          index -= edge + 1;
+        }
+
+        while (index < 0) {
+          index += edge + 1;
+        }
+      } else {
+        if (index > edge) {
+          index = 0;
+        } else if (index < 0) {
+          index = edge;
+        }
+      }
+
+      return index;
+    },
+
+    /**
+     * Check if the direction is "rtl" or not.
+     *
+     * @return {boolean} - True if "rtl" or false if not.
+     */
+    isRtl: function isRtl() {
+      return options.direction === RTL;
+    },
+
+    /**
+     * Return the page length.
+     *
+     * @return {number} - Max page number.
+     */
+    get pageLength() {
+      var length = Splide.length;
+      return hasFocus() ? length : Math.ceil(length / options.perPage);
+    },
+
+    /**
+     * Return the edge index.
+     *
+     * @return {number} - Edge index.
+     */
+    get edgeIndex() {
+      var length = Splide.length;
+
+      if (!length) {
+        return 0;
+      }
+
+      if (hasFocus() || options.isNavigation || isLoop) {
+        return length - 1;
+      }
+
+      return length - options.perPage;
+    },
+
+    /**
+     * Return the index of the previous slide.
+     *
+     * @return {number} - The index of the previous slide if available. -1 otherwise.
+     */
+    get prevIndex() {
+      var prev = Splide.index - 1;
+
+      if (isLoop || options.rewind) {
+        prev = this.rewind(prev);
+      }
+
+      return prev > -1 ? prev : -1;
+    },
+
+    /**
+     * Return the index of the next slide.
+     *
+     * @return {number} - The index of the next slide if available. -1 otherwise.
+     */
+    get nextIndex() {
+      var next = Splide.index + 1;
+
+      if (isLoop || options.rewind) {
+        next = this.rewind(next);
+      }
+
+      return Splide.index < next && next <= this.edgeIndex || next === 0 ? next : -1;
+    }
+
+  };
+  /**
+   * Listen to some events.
+   */
+
+  function bind() {
+    Splide.on('move', function (newIndex) {
+      Splide.index = newIndex;
+    }).on('updated refresh', function (newOptions) {
+      options = newOptions || options;
+      Splide.index = between(Splide.index, 0, Controller.edgeIndex);
+    });
+  }
+  /**
+   * Verify if the focus option is available or not.
+   *
+   * @return {boolean} - True if a slider has the focus option.
+   */
+
+
+  function hasFocus() {
+    return options.focus !== false;
+  }
+  /**
+   * Return the next or previous page index computed by the page number and current index.
+   *
+   * @param {number}  number - Specify the page number.
+   * @param {number}  index  - Current index.
+   * @param {boolean} prev   - Prev or next.
+   *
+   * @return {number} - Slide index.
+   */
+
+
+  function parsePage(number, index, prev) {
+    if (number > -1) {
+      return Controller.toIndex(number);
+    }
+
+    var perMove = options.perMove;
+    var sign = prev ? -1 : 1;
+
+    if (perMove) {
+      return index + perMove * sign;
+    }
+
+    return Controller.toIndex(Controller.toPage(index) + sign);
+  }
+
+  return Controller;
+});
+;// CONCATENATED MODULE: ./src/js/components/track/index.js
+/**
+ * The component for moving list in the track.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+
+
+var abs = Math.abs;
+/**
+ * The component for moving list in the track.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const track = (function (Splide, Components) {
+  /**
+   * Hold the Layout component.
+   *
+   * @type {Object}
+   */
+  var Layout;
+  /**
+   * Hold the Layout component.
+   *
+   * @type {Object}
+   */
+
+  var Elements;
+  /**
+   * Store the list element.
+   *
+   * @type {Element}
+   */
+
+  var list;
+  /**
+   * Whether the current direction is vertical or not.
+   *
+   * @type {boolean}
+   */
+
+  var isVertical = Splide.options.direction === TTB;
+  /**
+   * Whether the slider type is FADE or not.
+   *
+   * @type {boolean}
+   */
+
+  var isFade = Splide.is(FADE);
+  /**
+   * Whether the slider direction is RTL or not.
+   *
+   * @type {boolean}
+   */
+
+  var isRTL = Splide.options.direction === RTL;
+  /**
+   * This will be true while transitioning from the last index to the first one.
+   *
+   * @type {boolean}
+   */
+
+  var isLoopPending = false;
+  /**
+   * Sign for the direction. Only RTL mode uses the positive sign.
+   *
+   * @type {number}
+   */
+
+  var sign = isRTL ? 1 : -1;
+  /**
+   * Track component object.
+   *
+   * @type {Object}
+   */
+
+  var Track = {
+    /**
+     * Make public the sign defined locally.
+     *
+     * @type {number}
+     */
+    sign: sign,
+
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      Elements = Components.Elements;
+      Layout = Components.Layout;
+      list = Elements.list;
+    },
+
+    /**
+     * Called after the component is mounted.
+     * The resize event must be registered after the Layout's one is done.
+     */
+    mounted: function mounted() {
+      var _this = this;
+
+      if (!isFade) {
+        this.jump(0);
+        Splide.on('mounted resize updated', function () {
+          _this.jump(Splide.index);
+        });
+      }
+    },
+
+    /**
+     * Go to the given destination index.
+     * After arriving there, the track is jump to the new index without animation, mainly for loop mode.
+     *
+     * @param {number}  destIndex - A destination index.
+     *                              This can be negative or greater than slides length for reaching clones.
+     * @param {number}  newIndex  - An actual new index. They are always same in Slide and Rewind mode.
+     * @param {boolean} silently  - If true, suppress emitting events.
+     */
+    go: function go(destIndex, newIndex, silently) {
+      var newPosition = getTrimmedPosition(destIndex);
+      var prevIndex = Splide.index; // Prevent any actions while transitioning from the last index to the first one for jump.
+
+      if (Splide.State.is(MOVING) && isLoopPending) {
+        return;
+      }
+
+      isLoopPending = destIndex !== newIndex;
+
+      if (!silently) {
+        Splide.emit('move', newIndex, prevIndex, destIndex);
+      }
+
+      if (Math.abs(newPosition - this.position) >= 1 || isFade) {
+        Components.Transition.start(destIndex, newIndex, prevIndex, this.toCoord(newPosition), function () {
+          onTransitionEnd(destIndex, newIndex, prevIndex, silently);
+        });
+      } else {
+        if (destIndex !== prevIndex && Splide.options.trimSpace === 'move') {
+          Components.Controller.go(destIndex + destIndex - prevIndex, silently);
+        } else {
+          onTransitionEnd(destIndex, newIndex, prevIndex, silently);
+        }
+      }
+    },
+
+    /**
+     * Move the track to the specified index.
+     *
+     * @param {number} index - A destination index where the track jumps.
+     */
+    jump: function jump(index) {
+      this.translate(getTrimmedPosition(index));
+    },
+
+    /**
+     * Set the list position by CSS translate property.
+     *
+     * @param {number} position - A new position value.
+     */
+    translate: function translate(position) {
+      applyStyle(list, {
+        transform: "translate" + (isVertical ? 'Y' : 'X') + "(" + position + "px)"
+      });
+    },
+
+    /**
+     * Cancel the transition and set the list position.
+     * Also, loop the slider if necessary.
+     */
+    cancel: function cancel() {
+      if (Splide.is(LOOP)) {
+        this.shift();
+      } else {
+        // Ensure the current position.
+        this.translate(this.position);
+      }
+
+      applyStyle(list, {
+        transition: ''
+      });
+    },
+
+    /**
+     * Shift the slider if it exceeds borders on the edge.
+     */
+    shift: function shift() {
+      var position = abs(this.position);
+      var left = abs(this.toPosition(0));
+      var right = abs(this.toPosition(Splide.length));
+      var innerSize = right - left;
+
+      if (position < left) {
+        position += innerSize;
+      } else if (position > right) {
+        position -= innerSize;
+      }
+
+      this.translate(sign * position);
+    },
+
+    /**
+     * Trim redundant spaces on the left or right edge if necessary.
+     *
+     * @param {number} position - Position value to be trimmed.
+     *
+     * @return {number} - Trimmed position.
+     */
+    trim: function trim(position) {
+      if (!Splide.options.trimSpace || Splide.is(LOOP)) {
+        return position;
+      }
+
+      var edge = sign * (Layout.totalSize() - Layout.size - Layout.gap);
+      return between(position, edge, 0);
+    },
+
+    /**
+     * Calculate the closest slide index from the given position.
+     *
+     * @param {number} position - A position converted to an slide index.
+     *
+     * @return {number} - The closest slide index.
+     */
+    toIndex: function toIndex(position) {
+      var _this2 = this;
+
+      var index = 0;
+      var minDistance = Infinity;
+      Elements.getSlides(true).forEach(function (Slide) {
+        var slideIndex = Slide.index;
+        var distance = abs(_this2.toPosition(slideIndex) - position);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          index = slideIndex;
+        }
+      });
+      return index;
+    },
+
+    /**
+     * Return coordinates object by the given position.
+     *
+     * @param {number} position - A position value.
+     *
+     * @return {Object} - A coordinates object.
+     */
+    toCoord: function toCoord(position) {
+      return {
+        x: isVertical ? 0 : position,
+        y: isVertical ? position : 0
+      };
+    },
+
+    /**
+     * Calculate the track position by a slide index.
+     *
+     * @param {number} index - Slide index.
+     *
+     * @return {Object} - Calculated position.
+     */
+    toPosition: function toPosition(index) {
+      var position = Layout.totalSize(index) - Layout.slideSize(index) - Layout.gap;
+      return sign * (position + this.offset(index));
+    },
+
+    /**
+     * Return the current offset value, considering direction.
+     *
+     * @return {number} - Offset amount.
+     */
+    offset: function offset(index) {
+      var focus = Splide.options.focus;
+      var slideSize = Layout.slideSize(index);
+
+      if (focus === 'center') {
+        return -(Layout.size - slideSize) / 2;
+      }
+
+      return -(parseInt(focus) || 0) * (slideSize + Layout.gap);
+    },
+
+    /**
+     * Return the current position.
+     * This returns the correct position even while transitioning by CSS.
+     *
+     * @return {number} - Current position.
+     */
+    get position() {
+      var prop = isVertical ? 'top' : isRTL ? 'right' : 'left';
+      return getRect(list)[prop] - (getRect(Elements.track)[prop] - Layout.padding[prop] * sign);
+    }
+
+  };
+  /**
+   * Called whenever slides arrive at a destination.
+   *
+   * @param {number}  destIndex - A destination index.
+   * @param {number}  newIndex  - A new index.
+   * @param {number}  prevIndex - A previous index.
+   * @param {boolean} silently  - If true, suppress emitting events.
+   */
+
+  function onTransitionEnd(destIndex, newIndex, prevIndex, silently) {
+    applyStyle(list, {
+      transition: ''
+    });
+    isLoopPending = false;
+
+    if (!isFade) {
+      Track.jump(newIndex);
+    }
+
+    if (!silently) {
+      Splide.emit('moved', newIndex, prevIndex, destIndex);
+    }
+  }
+  /**
+   * Convert index to the trimmed position.
+   *
+   * @return {number} - Trimmed position.
+   */
+
+
+  function getTrimmedPosition(index) {
+    return Track.trim(Track.toPosition(index));
+  }
+
+  return Track;
+});
+;// CONCATENATED MODULE: ./src/js/components/clones/index.js
+/**
+ * The component for cloning some slides for "loop" mode of the track.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+
+/**
+ * The component for cloning some slides for "loop" mode of the track.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const clones = (function (Splide, Components) {
+  /**
+   * Store information of all clones.
+   *
+   * @type {Array}
+   */
+  var clones = [];
+  /**
+   * Store the current clone count on one side.
+   *
+   * @type {number}
+   */
+
+  var cloneCount = 0;
+  /**
+   * Keep Elements component.
+   *
+   * @type {Object}
+   */
+
+  var Elements = Components.Elements;
+  /**
+   * Clones component object.
+   *
+   * @type {Object}
+   */
+
+  var Clones = {
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      var _this = this;
+
+      if (Splide.is(LOOP)) {
+        init();
+        Splide.on('refresh:before', function () {
+          _this.destroy();
+        }).on('refresh', init).on('resize', function () {
+          if (cloneCount !== getCloneCount()) {
+            // Destroy before refresh not to collect clones by the Elements component.
+            _this.destroy();
+
+            Splide.refresh();
+          }
+        });
+      }
+    },
+
+    /**
+     * Destroy.
+     */
+    destroy: function destroy() {
+      dom_remove(clones);
+      clones = [];
+    },
+
+    /**
+     * Return all clones.
+     *
+     * @return {Element[]} - Cloned elements.
+     */
+    get clones() {
+      return clones;
+    },
+
+    /**
+     * Return clone length.
+     *
+     * @return {number} - A length of clones.
+     */
+    get length() {
+      return clones.length;
+    }
+
+  };
+  /**
+   * Initialization.
+   */
+
+  function init() {
+    Clones.destroy();
+    cloneCount = getCloneCount();
+    generateClones(cloneCount);
+  }
+  /**
+   * Generate and append/prepend clones.
+   *
+   * @param {number} count - The half number of clones.
+   */
+
+
+  function generateClones(count) {
+    var length = Elements.length,
+        register = Elements.register;
+
+    if (length) {
+      var slides = Elements.slides;
+
+      while (slides.length < count) {
+        slides = slides.concat(slides);
+      } // Clones after the last element.
+
+
+      slides.slice(0, count).forEach(function (elm, index) {
+        var clone = cloneDeeply(elm);
+        append(Elements.list, clone);
+        clones.push(clone);
+        register(clone, index + length, index % length);
+      }); // Clones before the first element.
+
+      slides.slice(-count).forEach(function (elm, index) {
+        var clone = cloneDeeply(elm);
+        before(clone, slides[0]);
+        clones.push(clone);
+        register(clone, index - count, (length + index - count % length) % length);
+      });
+    }
+  }
+  /**
+   * Return half count of clones to be generated.
+   * Clone count is determined by:
+   * - "clones" value in the options.
+   * - Number of slides that can be placed in a view in "fixed" mode.
+   * - Max pages a flick action can move.
+   * - Whether the slide length is enough for perPage.
+   *
+   * @return {number} - Count for clones.
+   */
+
+
+  function getCloneCount() {
+    var options = Splide.options;
+
+    if (options.clones) {
+      return options.clones;
+    } // Use the slide length in autoWidth mode because the number cannot be calculated.
+
+
+    var baseCount = options.autoWidth || options.autoHeight ? Elements.length : options.perPage;
+    var dimension = options.direction === TTB ? 'Height' : 'Width';
+    var fixedSize = toPixel(Splide.root, options["fixed" + dimension]);
+
+    if (fixedSize) {
+      // Roughly calculate the count. This needs not to be strict.
+      baseCount = Math.ceil(Elements.track["client" + dimension] / fixedSize);
+    }
+
+    return baseCount * (options.drag ? options.flickMaxPages + 1 : 1);
+  }
+  /**
+   * Clone deeply the given element.
+   *
+   * @param {Element} elm - An element being duplicated.
+   *
+   * @return {Node} - A cloned node(element).
+   */
+
+
+  function cloneDeeply(elm) {
+    var clone = elm.cloneNode(true);
+    addClass(clone, Splide.classes.clone); // ID should not be duplicated.
+
+    removeAttribute(clone, 'id');
+    return clone;
+  }
+
+  return Clones;
+});
+;// CONCATENATED MODULE: ./src/js/components/layout/directions/horizontal.js
+/**
+ * The resolver component for horizontal layout.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+/**
+ * The resolver component for horizontal layout.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The resolver object.
+ */
+
+/* harmony default export */ const horizontal = (function (Splide, Components) {
+  /**
+   * Keep the Elements component.
+   *
+   * @type {string}
+   */
+  var Elements = Components.Elements;
+  /**
+   * Keep the root element.
+   *
+   * @type {Element}
+   */
+
+  var root = Splide.root;
+  /**
+   * Keep the track element.
+   *
+   * @type {Element}
+   */
+
+  var track;
+  /**
+   * Keep the latest options.
+   *
+   * @type {Element}
+   */
+
+  var options = Splide.options;
+  return {
+    /**
+     * Margin property name.
+     *
+     * @type {string}
+     */
+    margin: 'margin' + (options.direction === RTL ? 'Left' : 'Right'),
+
+    /**
+     * Always 0 because the height will be determined by inner contents.
+     *
+     * @type {number}
+     */
+    height: 0,
+
+    /**
+     * Initialization.
+     */
+    init: function init() {
+      this.resize();
+    },
+
+    /**
+     * Resize gap and padding.
+     * This must be called on init.
+     */
+    resize: function resize() {
+      options = Splide.options;
+      track = Elements.track;
+      this.gap = toPixel(root, options.gap);
+      var padding = options.padding;
+      var left = toPixel(root, padding.left || padding);
+      var right = toPixel(root, padding.right || padding);
+      this.padding = {
+        left: left,
+        right: right
+      };
+      applyStyle(track, {
+        paddingLeft: unit(left),
+        paddingRight: unit(right)
+      });
+    },
+
+    /**
+     * Return total width from the left of the list to the right of the slide specified by the provided index.
+     *
+     * @param {number} index - Optional. A slide index. If undefined, total width of the slider will be returned.
+     *
+     * @return {number} - Total width to the right side of the specified slide, or 0 for an invalid index.
+     */
+    totalWidth: function totalWidth(index) {
+      if (index === void 0) {
+        index = Splide.length - 1;
+      }
+
+      var Slide = Elements.getSlide(index);
+      var width = 0;
+
+      if (Slide) {
+        var slideRect = getRect(Slide.slide);
+        var listRect = getRect(Elements.list);
+
+        if (options.direction === RTL) {
+          width = listRect.right - slideRect.left;
+        } else {
+          width = slideRect.right - listRect.left;
+        }
+
+        width += this.gap;
+      }
+
+      return width;
+    },
+
+    /**
+     * Return the slide width in px.
+     *
+     * @param {number} index - Slide index.
+     *
+     * @return {number} - The slide width.
+     */
+    slideWidth: function slideWidth(index) {
+      if (options.autoWidth) {
+        var Slide = Elements.getSlide(index);
+        return Slide ? Slide.slide.offsetWidth : 0;
+      }
+
+      var width = options.fixedWidth || (this.width + this.gap) / options.perPage - this.gap;
+      return toPixel(root, width);
+    },
+
+    /**
+     * Return the slide height in px.
+     *
+     * @return {number} - The slide height.
+     */
+    slideHeight: function slideHeight() {
+      var height = options.height || options.fixedHeight || this.width * options.heightRatio;
+      return toPixel(root, height);
+    },
+
+    /**
+     * Return slider width without padding.
+     *
+     * @return {number} - Current slider width.
+     */
+    get width() {
+      return track.clientWidth - this.padding.left - this.padding.right;
+    }
+
+  };
+});
+;// CONCATENATED MODULE: ./src/js/components/layout/directions/vertical.js
+/**
+ * The resolver component for vertical layout.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+/**
+ * The resolver component for vertical layout.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The resolver object.
+ */
+
+/* harmony default export */ const vertical = (function (Splide, Components) {
+  /**
+   * Keep the Elements component.
+   *
+   * @type {string}
+   */
+  var Elements = Components.Elements;
+  /**
+   * Keep the root element.
+   *
+   * @type {Element}
+   */
+
+  var root = Splide.root;
+  /**
+   * Keep the track element.
+   *
+   * @type {Element}
+   */
+
+  var track;
+  /**
+   * Keep the latest options.
+   *
+   * @type {Element}
+   */
+
+  var options;
+  return {
+    /**
+     * Margin property name.
+     *
+     * @type {string}
+     */
+    margin: 'marginBottom',
+
+    /**
+     * Initialization.
+     */
+    init: function init() {
+      this.resize();
+    },
+
+    /**
+     * Resize gap and padding.
+     * This must be called on init.
+     */
+    resize: function resize() {
+      options = Splide.options;
+      track = Elements.track;
+      this.gap = toPixel(root, options.gap);
+      var padding = options.padding;
+      var top = toPixel(root, padding.top || padding);
+      var bottom = toPixel(root, padding.bottom || padding);
+      this.padding = {
+        top: top,
+        bottom: bottom
+      };
+      applyStyle(track, {
+        paddingTop: unit(top),
+        paddingBottom: unit(bottom)
+      });
+    },
+
+    /**
+     * Return total height from the top of the list to the bottom of the slide specified by the provided index.
+     *
+     * @param {number} index - Optional. A slide index. If undefined, total height of the slider will be returned.
+     *
+     * @return {number} - Total height to the bottom of the specified slide, or 0 for an invalid index.
+     */
+    totalHeight: function totalHeight(index) {
+      if (index === void 0) {
+        index = Splide.length - 1;
+      }
+
+      var Slide = Elements.getSlide(index);
+
+      if (Slide) {
+        return getRect(Slide.slide).bottom - getRect(Elements.list).top + this.gap;
+      }
+
+      return 0;
+    },
+
+    /**
+     * Return the slide width in px.
+     *
+     * @return {number} - The slide width.
+     */
+    slideWidth: function slideWidth() {
+      return toPixel(root, options.fixedWidth || this.width);
+    },
+
+    /**
+     * Return the slide height in px.
+     *
+     * @param {number} index - Slide index.
+     *
+     * @return {number} - The slide height.
+     */
+    slideHeight: function slideHeight(index) {
+      if (options.autoHeight) {
+        var Slide = Elements.getSlide(index);
+        return Slide ? Slide.slide.offsetHeight : 0;
+      }
+
+      var height = options.fixedHeight || (this.height + this.gap) / options.perPage - this.gap;
+      return toPixel(root, height);
+    },
+
+    /**
+     * Return slider width without padding.
+     *
+     * @return {number} - Current slider width.
+     */
+    get width() {
+      return track.clientWidth;
+    },
+
+    /**
+     * Return slide height without padding.
+     *
+     * @return {number} - Slider height.
+     */
+    get height() {
+      var height = options.height || this.width * options.heightRatio;
+      exist(height, '"height" or "heightRatio" is missing.');
+      return toPixel(root, height) - this.padding.top - this.padding.bottom;
+    }
+
+  };
+});
+;// CONCATENATED MODULE: ./src/js/utils/time.js
+/**
+ * A package of utility functions related with time.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * Simple throttle function that controls how often the given function is executed.
+ *
+ * @param {function} func - A function to be throttled.
+ * @param {number}   wait - Time in millisecond for interval of execution.
+ *
+ * @return {Function} - A debounced function.
+ */
+function throttle(func, wait) {
+  var timeout; // Declare function by the "function" keyword to prevent "this" from being inherited.
+
+  return function () {
+    if (!timeout) {
+      timeout = setTimeout(function () {
+        func();
+        timeout = null;
+      }, wait);
+    }
+  };
+}
+/**
+ * Custom setInterval function that provides progress rate as callback.
+ *
+ * @param {function} callback - A callback function fired every time the interval time passes.
+ * @param {number}   interval - Interval duration in milliseconds.
+ * @param {function} progress - A callback function fired whenever the progress goes.
+ *
+ * @return {Object} - An object containing play() and pause() functions.
+ */
+
+function createInterval(callback, interval, progress) {
+  var _window = window,
+      requestAnimationFrame = _window.requestAnimationFrame;
+  var start,
+      elapse,
+      rate,
+      _pause = true;
+
+  var step = function step(timestamp) {
+    if (!_pause) {
+      if (!start) {
+        start = timestamp;
+
+        if (rate && rate < 1) {
+          start -= rate * interval;
+        }
+      }
+
+      elapse = timestamp - start;
+      rate = elapse / interval;
+
+      if (elapse >= interval) {
+        start = 0;
+        rate = 1;
+        callback();
+      }
+
+      if (progress) {
+        progress(rate);
+      }
+
+      requestAnimationFrame(step);
+    }
+  };
+
+  return {
+    pause: function pause() {
+      _pause = true;
+      start = 0;
+    },
+    play: function play(reset) {
+      start = 0;
+
+      if (reset) {
+        rate = 0;
+      }
+
+      if (_pause) {
+        _pause = false;
+        requestAnimationFrame(step);
+      }
+    }
+  };
+}
+;// CONCATENATED MODULE: ./src/js/components/layout/index.js
+/**
+ * The component for handing slide layouts and their sizes.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+
+
+
+
+/**
+ * The component for handing slide layouts and their sizes.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const layout = (function (Splide, Components) {
+  /**
+   * Keep the Elements component.
+   *
+   * @type {string}
+   */
+  var Elements = Components.Elements;
+  /**
+   * Whether the slider is vertical or not.
+   *
+   * @type {boolean}
+   */
+
+  var isVertical = Splide.options.direction === TTB;
+  /**
+   * Layout component object.
+   *
+   * @type {Object}
+   */
+
+  var Layout = object_assign({
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      bind();
+      init(); // The word "size" means width for a horizontal slider and height for a vertical slider.
+
+      this.totalSize = isVertical ? this.totalHeight : this.totalWidth;
+      this.slideSize = isVertical ? this.slideHeight : this.slideWidth;
+    },
+
+    /**
+     * Destroy the component.
+     */
+    destroy: function destroy() {
+      removeAttribute([Elements.list, Elements.track], 'style');
+    },
+
+    /**
+     * Return the slider height on the vertical mode or width on the horizontal mode.
+     *
+     * @return {number}
+     */
+    get size() {
+      return isVertical ? this.height : this.width;
+    }
+
+  }, isVertical ? vertical(Splide, Components) : horizontal(Splide, Components));
+  /**
+   * Init slider styles according to options.
+   */
+
+  function init() {
+    Layout.init();
+    applyStyle(Splide.root, {
+      maxWidth: unit(Splide.options.width)
+    });
+    Elements.each(function (Slide) {
+      Slide.slide.style[Layout.margin] = unit(Layout.gap);
+    });
+    resize();
+  }
+  /**
+   * Listen the resize native event with throttle.
+   * Initialize when the component is mounted or options are updated.
+   */
+
+
+  function bind() {
+    Splide.on('resize load', throttle(function () {
+      Splide.emit('resize');
+    }, Splide.options.throttle), window).on('resize', resize).on('updated refresh', init);
+  }
+  /**
+   * Resize the track and slide elements.
+   */
+
+
+  function resize() {
+    var options = Splide.options;
+    Layout.resize();
+    applyStyle(Elements.track, {
+      height: unit(Layout.height)
+    });
+    var slideHeight = options.autoHeight ? null : unit(Layout.slideHeight());
+    Elements.each(function (Slide) {
+      applyStyle(Slide.container, {
+        height: slideHeight
+      });
+      applyStyle(Slide.slide, {
+        width: options.autoWidth ? null : unit(Layout.slideWidth(Slide.index)),
+        height: Slide.container ? null : slideHeight
+      });
+    });
+    Splide.emit('resized');
+  }
+
+  return Layout;
+});
+;// CONCATENATED MODULE: ./src/js/components/drag/index.js
+/**
+ * The component for supporting mouse drag and swipe.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+
+
+var drag_abs = Math.abs;
+/**
+ * If the absolute velocity is greater thant this value,
+ * a slider always goes to a different slide after drag, not allowed to stay on a current slide.
+ */
+
+var MIN_VELOCITY = 0.1;
+/**
+ * Adjust how much the track can be pulled on the first or last page.
+ * The larger number this is, the farther the track moves.
+ * This should be around 5 - 9.
+ *
+ * @type {number}
+ */
+
+var FRICTION_REDUCER = 7;
+/**
+ * The component supporting mouse drag and swipe.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const drag = (function (Splide, Components) {
+  /**
+   * Store the Move component.
+   *
+   * @type {Object}
+   */
+  var Track = Components.Track;
+  /**
+   * Store the Controller component.
+   *
+   * @type {Object}
+   */
+
+  var Controller = Components.Controller;
+  /**
+   * Coordinate of the track on starting drag.
+   *
+   * @type {Object}
+   */
+
+  var startCoord;
+  /**
+   * Analyzed info on starting drag.
+   *
+   * @type {Object|null}
+   */
+
+  var startInfo;
+  /**
+   * Analyzed info being updated while dragging/swiping.
+   *
+   * @type {Object}
+   */
+
+  var currentInfo;
+  /**
+   * Determine whether slides are being dragged or not.
+   *
+   * @type {boolean}
+   */
+
+  var isDragging;
+  /**
+   * Whether the slider direction is vertical or not.
+   *
+   * @type {boolean}
+   */
+
+  var isVertical = Splide.options.direction === TTB;
+  /**
+   * Axis for the direction.
+   *
+   * @type {string}
+   */
+
+  var axis = isVertical ? 'y' : 'x';
+  /**
+   * Drag component object.
+   *
+   * @type {Object}
+   */
+
+  var Drag = {
+    /**
+     * Whether dragging is disabled or not.
+     *
+     * @type {boolean}
+     */
+    disabled: false,
+
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      var _this = this;
+
+      var Elements = Components.Elements;
+      var track = Elements.track;
+      Splide.on('touchstart mousedown', start, track).on('touchmove mousemove', move, track, {
+        passive: false
+      }).on('touchend touchcancel mouseleave mouseup dragend', end, track).on('mounted refresh', function () {
+        // Prevent dragging an image or anchor itself.
+        each(Elements.list.querySelectorAll('img, a'), function (elm) {
+          Splide.off('dragstart', elm).on('dragstart', function (e) {
+            e.preventDefault();
+          }, elm, {
+            passive: false
+          });
+        });
+      }).on('mounted updated', function () {
+        _this.disabled = !Splide.options.drag;
+      });
+    }
+  };
+  /**
+   * Called when the track starts to be dragged.
+   *
+   * @param {TouchEvent|MouseEvent} e - TouchEvent or MouseEvent object.
+   */
+
+  function start(e) {
+    if (!Drag.disabled && !isDragging) {
+      // These prams are used to evaluate whether the slider should start moving.
+      init(e);
+    }
+  }
+  /**
+   * Initialize parameters.
+   *
+   * @param {TouchEvent|MouseEvent} e - TouchEvent or MouseEvent object.
+   */
+
+
+  function init(e) {
+    startCoord = Track.toCoord(Track.position);
+    startInfo = analyze(e, {});
+    currentInfo = startInfo;
+  }
+  /**
+   * Called while the track being dragged.
+   *
+   * @param {TouchEvent|MouseEvent} e - TouchEvent or MouseEvent object.
+   */
+
+
+  function move(e) {
+    if (startInfo) {
+      currentInfo = analyze(e, startInfo);
+
+      if (isDragging) {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+
+        if (!Splide.is(FADE)) {
+          var position = startCoord[axis] + currentInfo.offset[axis];
+          Track.translate(resist(position));
+        }
+      } else {
+        if (shouldMove(currentInfo)) {
+          Splide.emit('drag', startInfo);
+          isDragging = true;
+          Track.cancel(); // These params are actual drag data.
+
+          init(e);
+        }
+      }
+    }
+  }
+  /**
+   * Determine whether to start moving the track or not by drag angle.
+   *
+   * @param {Object} info - An information object.
+   *
+   * @return {boolean} - True if the track should be moved or false if not.
+   */
+
+
+  function shouldMove(_ref) {
+    var offset = _ref.offset;
+
+    if (Splide.State.is(MOVING) && Splide.options.waitForTransition) {
+      return false;
+    }
+
+    var angle = Math.atan(drag_abs(offset.y) / drag_abs(offset.x)) * 180 / Math.PI;
+
+    if (isVertical) {
+      angle = 90 - angle;
+    }
+
+    return angle < Splide.options.dragAngleThreshold;
+  }
+  /**
+   * Resist dragging the track on the first/last page because there is no more.
+   *
+   * @param {number} position - A position being applied to the track.
+   *
+   * @return {Object} - Adjusted position.
+   */
+
+
+  function resist(position) {
+    if (Splide.is(SLIDE)) {
+      var sign = Track.sign;
+
+      var _start = sign * Track.trim(Track.toPosition(0));
+
+      var _end = sign * Track.trim(Track.toPosition(Controller.edgeIndex));
+
+      position *= sign;
+
+      if (position < _start) {
+        position = _start - FRICTION_REDUCER * Math.log(_start - position);
+      } else if (position > _end) {
+        position = _end + FRICTION_REDUCER * Math.log(position - _end);
+      }
+
+      position *= sign;
+    }
+
+    return position;
+  }
+  /**
+   * Called when dragging ends.
+   */
+
+
+  function end() {
+    startInfo = null;
+
+    if (isDragging) {
+      Splide.emit('dragged', currentInfo);
+      go(currentInfo);
+      isDragging = false;
+    }
+  }
+  /**
+   * Go to the slide determined by the analyzed data.
+   *
+   * @param {Object} info - An info object.
+   */
+
+
+  function go(info) {
+    var velocity = info.velocity[axis];
+    var absV = drag_abs(velocity);
+
+    if (absV > 0) {
+      var options = Splide.options;
+      var index = Splide.index;
+      var sign = velocity < 0 ? -1 : 1;
+      var destIndex = index;
+
+      if (!Splide.is(FADE)) {
+        var destination = Track.position;
+
+        if (absV > options.flickVelocityThreshold && drag_abs(info.offset[axis]) < options.swipeDistanceThreshold) {
+          destination += sign * Math.min(absV * options.flickPower, Components.Layout.size * (options.flickMaxPages || 1));
+        }
+
+        destIndex = Track.toIndex(destination);
+      }
+      /*
+       * Do not allow the track to go to a previous position if there is enough velocity.
+       * Always use the adjacent index for the fade mode.
+       */
+
+
+      if (destIndex === index && absV > MIN_VELOCITY) {
+        destIndex = index + sign * Track.sign;
+      }
+
+      if (Splide.is(SLIDE)) {
+        destIndex = between(destIndex, 0, Controller.edgeIndex);
+      }
+
+      Controller.go(destIndex, options.isNavigation);
+    }
+  }
+  /**
+   * Analyze the given event object and return important information for handling swipe behavior.
+   *
+   * @param {Event}   e          - Touch or Mouse event object.
+   * @param {Object}  startInfo  - Information analyzed on start for calculating difference from the current one.
+   *
+   * @return {Object} - An object containing analyzed information, such as offset, velocity, etc.
+   */
+
+
+  function analyze(e, startInfo) {
+    var timeStamp = e.timeStamp,
+        touches = e.touches;
+
+    var _ref2 = touches ? touches[0] : e,
+        clientX = _ref2.clientX,
+        clientY = _ref2.clientY;
+
+    var _ref3 = startInfo.to || {},
+        _ref3$x = _ref3.x,
+        fromX = _ref3$x === void 0 ? clientX : _ref3$x,
+        _ref3$y = _ref3.y,
+        fromY = _ref3$y === void 0 ? clientY : _ref3$y;
+
+    var startTime = startInfo.time || 0;
+    var offset = {
+      x: clientX - fromX,
+      y: clientY - fromY
+    };
+    var duration = timeStamp - startTime;
+    var velocity = {
+      x: offset.x / duration,
+      y: offset.y / duration
+    };
+    return {
+      to: {
+        x: clientX,
+        y: clientY
+      },
+      offset: offset,
+      time: timeStamp,
+      velocity: velocity
+    };
+  }
+
+  return Drag;
+});
+;// CONCATENATED MODULE: ./src/js/components/click/index.js
+/**
+ * The component for handling a click event.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * The component for handling a click event.
+ * Click should be disabled during drag/swipe.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The component object.
+ */
+/* harmony default export */ const click = (function (Splide, Components) {
+  /**
+   * Whether click is disabled or not.
+   *
+   * @type {boolean}
+   */
+  var disabled = false;
+  /**
+   * Click component object.
+   *
+   * @type {Object}
+   */
+
+  var Click = {
+    /**
+     * Mount only when the drag is activated and the slide type is not "fade".
+     *
+     * @type {boolean}
+     */
+    required: Splide.options.drag,
+
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      Splide.on('click', onClick, Components.Elements.track, {
+        capture: true
+      }).on('drag', function () {
+        disabled = true;
+      }).on('dragged', function () {
+        // Make sure the flag is released after the click event is fired.
+        setTimeout(function () {
+          disabled = false;
+        });
+      });
+    }
+  };
+  /**
+   * Called when a track element is clicked.
+   *
+   * @param {Event} e - A click event.
+   */
+
+  function onClick(e) {
+    if (disabled) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+    }
+  }
+
+  return Click;
+});
+;// CONCATENATED MODULE: ./src/js/components/autoplay/index.js
+/**
+ * The component for playing slides automatically.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+/**
+ * Set of pause flags.
+ */
+
+var PAUSE_FLAGS = {
+  HOVER: 1,
+  FOCUS: 2,
+  MANUAL: 3
+};
+/**
+ * The component for playing slides automatically.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ * @param {string} name       - A component name as a lowercase string.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const autoplay = (function (Splide, Components, name) {
+  /**
+   * Store pause flags.
+   *
+   * @type {Array}
+   */
+  var flags = [];
+  /**
+   * Store an interval object.
+   *
+   * @type {Object};
+   */
+
+  var interval;
+  /**
+   * Keep the Elements component.
+   *
+   * @type {string}
+   */
+
+  var Elements = Components.Elements;
+  /**
+   * Autoplay component object.
+   *
+   * @type {Object}
+   */
+
+  var Autoplay = {
+    /**
+     * Required only when the autoplay option is true.
+     *
+     * @type {boolean}
+     */
+    required: Splide.options.autoplay,
+
+    /**
+     * Called when the component is mounted.
+     * Note that autoplay starts only if there are slides over perPage number.
+     */
+    mount: function mount() {
+      var options = Splide.options;
+
+      if (Elements.slides.length > options.perPage) {
+        interval = createInterval(function () {
+          Splide.go('>');
+        }, options.interval, function (rate) {
+          Splide.emit(name + ":playing", rate);
+
+          if (Elements.bar) {
+            applyStyle(Elements.bar, {
+              width: rate * 100 + "%"
+            });
+          }
+        });
+        bind();
+        this.play();
+      }
+    },
+
+    /**
+     * Start autoplay.
+     *
+     * @param {number} flag - A pause flag to be removed.
+     */
+    play: function play(flag) {
+      if (flag === void 0) {
+        flag = 0;
+      }
+
+      flags = flags.filter(function (f) {
+        return f !== flag;
+      });
+
+      if (!flags.length) {
+        Splide.emit(name + ":play");
+        interval.play(Splide.options.resetProgress);
+      }
+    },
+
+    /**
+     * Pause autoplay.
+     * Note that Array.includes is not supported by IE.
+     *
+     * @param {number} flag - A pause flag to be added.
+     */
+    pause: function pause(flag) {
+      if (flag === void 0) {
+        flag = 0;
+      }
+
+      interval.pause();
+
+      if (flags.indexOf(flag) === -1) {
+        flags.push(flag);
+      }
+
+      if (flags.length === 1) {
+        Splide.emit(name + ":pause");
+      }
+    }
+  };
+  /**
+   * Listen some events.
+   */
+
+  function bind() {
+    var options = Splide.options;
+    var sibling = Splide.sibling;
+    var elms = [Splide.root, sibling ? sibling.root : null];
+
+    if (options.pauseOnHover) {
+      switchOn(elms, 'mouseleave', PAUSE_FLAGS.HOVER, true);
+      switchOn(elms, 'mouseenter', PAUSE_FLAGS.HOVER, false);
+    }
+
+    if (options.pauseOnFocus) {
+      switchOn(elms, 'focusout', PAUSE_FLAGS.FOCUS, true);
+      switchOn(elms, 'focusin', PAUSE_FLAGS.FOCUS, false);
+    }
+
+    if (Elements.play) {
+      Splide.on('click', function () {
+        // Need to be removed a focus flag at first.
+        Autoplay.play(PAUSE_FLAGS.FOCUS);
+        Autoplay.play(PAUSE_FLAGS.MANUAL);
+      }, Elements.play);
+    }
+
+    if (Elements.pause) {
+      switchOn([Elements.pause], 'click', PAUSE_FLAGS.MANUAL, false);
+    }
+
+    Splide.on('move refresh', function () {
+      Autoplay.play();
+    }) // Rewind the timer.
+    .on('destroy', function () {
+      Autoplay.pause();
+    });
+  }
+  /**
+   * Play or pause on the given event.
+   *
+   * @param {Element[]} elms  - Elements.
+   * @param {string}    event - An event name or names.
+   * @param {number}    flag  - A pause flag defined on the top.
+   * @param {boolean}   play  - Determine whether to play or pause.
+   */
+
+
+  function switchOn(elms, event, flag, play) {
+    elms.forEach(function (elm) {
+      Splide.on(event, function () {
+        Autoplay[play ? 'play' : 'pause'](flag);
+      }, elm);
+    });
+  }
+
+  return Autoplay;
+});
+;// CONCATENATED MODULE: ./src/js/components/cover/index.js
+/**
+ * The component for change an img element to background image of its wrapper.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * The component for change an img element to background image of its wrapper.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const cover = (function (Splide, Components) {
+  /**
+   * Hold options.
+   *
+   * @type {Object}
+   */
+  var options = Splide.options;
+  /**
+   * Cover component object.
+   *
+   * @type {Object}
+   */
+
+  var Cover = {
+    /**
+     * Required only when "cover" option is true.
+     *
+     * @type {boolean}
+     */
+    required: options.cover,
+
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      Splide.on('lazyload:loaded', function (img) {
+        cover(img, false);
+      });
+      Splide.on('mounted updated refresh', function () {
+        return apply(false);
+      });
+    },
+
+    /**
+     * Destroy.
+     */
+    destroy: function destroy() {
+      apply(true);
+    }
+  };
+  /**
+   * Apply "cover" to all slides.
+   *
+   * @param {boolean} uncover - If true, "cover" will be clear.
+   */
+
+  function apply(uncover) {
+    Components.Elements.each(function (Slide) {
+      var img = child(Slide.slide, 'IMG') || child(Slide.container, 'IMG');
+
+      if (img && img.src) {
+        cover(img, uncover);
+      }
+    });
+  }
+  /**
+   * Set background image of the parent element, using source of the given image element.
+   *
+   * @param {Element} img     - An image element.
+   * @param {boolean} uncover - Reset "cover".
+   */
+
+
+  function cover(img, uncover) {
+    applyStyle(img.parentElement, {
+      background: uncover ? '' : "center/cover no-repeat url(\"" + img.src + "\")"
+    });
+    applyStyle(img, {
+      display: uncover ? '' : 'none'
+    });
+  }
+
+  return Cover;
+});
+;// CONCATENATED MODULE: ./src/js/components/arrows/path.js
+/**
+ * Export vector path for an arrow.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * Namespace definition for SVG element.
+ *
+ * @type {string}
+ */
+var XML_NAME_SPACE = 'http://www.w3.org/2000/svg';
+/**
+ * The arrow vector path.
+ *
+ * @type {number}
+ */
+
+var PATH = 'm15.5 0.932-4.3 4.38 14.5 14.6-14.5 14.5 4.3 4.4 14.6-14.6 4.4-4.3-4.4-4.4-14.6-14.6z';
+/**
+ * SVG width and height.
+ *
+ * @type {number}
+ */
+
+var SIZE = 40;
+;// CONCATENATED MODULE: ./src/js/components/arrows/index.js
+/**
+ * The component for appending prev/next arrows.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+/**
+ * The component for appending prev/next arrows.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ * @param {string} name       - A component name as a lowercase string.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const arrows = (function (Splide, Components, name) {
+  /**
+   * Previous arrow element.
+   *
+   * @type {Element|undefined}
+   */
+  var prev;
+  /**
+   * Next arrow element.
+   *
+   * @type {Element|undefined}
+   */
+
+  var next;
+  /**
+   * Store the class list.
+   *
+   * @type {Object}
+   */
+
+  var classes = Splide.classes;
+  /**
+   * Hold the root element.
+   *
+   * @type {Element}
+   */
+
+  var root = Splide.root;
+  /**
+   * Whether arrows are created programmatically or not.
+   *
+   * @type {boolean}
+   */
+
+  var created;
+  /**
+   * Hold the Elements component.
+   *
+   * @type {Object}
+   */
+
+  var Elements = Components.Elements;
+  /**
+   * Arrows component object.
+   *
+   * @type {Object}
+   */
+
+  var Arrows = {
+    /**
+     * Required when the arrows option is true.
+     *
+     * @type {boolean}
+     */
+    required: Splide.options.arrows,
+
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      // Attempt to get arrows from HTML source.
+      prev = Elements.arrows.prev;
+      next = Elements.arrows.next; // If arrows were not found in HTML, let's generate them.
+
+      if ((!prev || !next) && Splide.options.arrows) {
+        prev = createArrow(true);
+        next = createArrow(false);
+        created = true;
+        appendArrows();
+      }
+
+      if (prev && next) {
+        bind();
+      }
+
+      this.arrows = {
+        prev: prev,
+        next: next
+      };
+    },
+
+    /**
+     * Called after all components are mounted.
+     */
+    mounted: function mounted() {
+      Splide.emit(name + ":mounted", prev, next);
+    },
+
+    /**
+     * Destroy.
+     */
+    destroy: function destroy() {
+      removeAttribute([prev, next], 'disabled');
+
+      if (created) {
+        dom_remove(prev.parentElement);
+      }
+    }
+  };
+  /**
+   * Listen to native and custom events.
+   */
+
+  function bind() {
+    Splide.on('click', function () {
+      Splide.go('<');
+    }, prev).on('click', function () {
+      Splide.go('>');
+    }, next).on('mounted move updated refresh', updateDisabled);
+  }
+  /**
+   * Update a disabled attribute.
+   */
+
+
+  function updateDisabled() {
+    var _Components$Controlle = Components.Controller,
+        prevIndex = _Components$Controlle.prevIndex,
+        nextIndex = _Components$Controlle.nextIndex;
+    var isEnough = Splide.length > Splide.options.perPage || Splide.is(LOOP);
+    prev.disabled = prevIndex < 0 || !isEnough;
+    next.disabled = nextIndex < 0 || !isEnough;
+    Splide.emit(name + ":updated", prev, next, prevIndex, nextIndex);
+  }
+  /**
+   * Create a wrapper element and append arrows.
+   */
+
+
+  function appendArrows() {
+    var wrapper = create('div', {
+      "class": classes.arrows
+    });
+    append(wrapper, prev);
+    append(wrapper, next);
+    var slider = Elements.slider;
+    var parent = Splide.options.arrows === 'slider' && slider ? slider : root;
+    before(wrapper, parent.firstElementChild);
+  }
+  /**
+   * Create an arrow element.
+   *
+   * @param {boolean} prev - Determine to create a prev arrow or next arrow.
+   *
+   * @return {Element} - A created arrow element.
+   */
+
+
+  function createArrow(prev) {
+    var arrow = "<button class=\"" + classes.arrow + " " + (prev ? classes.prev : classes.next) + "\" type=\"button\">" + ("<svg xmlns=\"" + XML_NAME_SPACE + "\"\tviewBox=\"0 0 " + SIZE + " " + SIZE + "\"\twidth=\"" + SIZE + "\"\theight=\"" + SIZE + "\">") + ("<path d=\"" + (Splide.options.arrowPath || PATH) + "\" />");
+    return domify(arrow);
+  }
+
+  return Arrows;
+});
+;// CONCATENATED MODULE: ./src/js/components/pagination/index.js
+/**
+ * The component for handling pagination
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+/**
+ * The event name for updating some attributes of pagination nodes.
+ *
+ * @type {string}
+ */
+
+var ATTRIBUTES_UPDATE_EVENT = 'move.page';
+/**
+ * The event name for recreating pagination.
+ *
+ * @type {string}
+ */
+
+var UPDATE_EVENT = 'updated.page refresh.page';
+/**
+ * The component for handling pagination
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ * @param {string} name       - A component name as a lowercase string.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const pagination = (function (Splide, Components, name) {
+  /**
+   * Store all data for pagination.
+   * - list: A list element.
+   * - items: An array that contains objects(li, button, index, page).
+   *
+   * @type {Object}
+   */
+  var data = {};
+  /**
+   * Hold the Elements component.
+   *
+   * @type {Object}
+   */
+
+  var Elements = Components.Elements;
+  /**
+   * Pagination component object.
+   *
+   * @type {Object}
+   */
+
+  var Pagination = {
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      var pagination = Splide.options.pagination;
+
+      if (pagination) {
+        data = createPagination();
+        var slider = Elements.slider;
+        var parent = pagination === 'slider' && slider ? slider : Splide.root;
+        append(parent, data.list);
+        Splide.on(ATTRIBUTES_UPDATE_EVENT, updateAttributes);
+      }
+
+      Splide.off(UPDATE_EVENT).on(UPDATE_EVENT, function () {
+        Pagination.destroy();
+
+        if (Splide.options.pagination) {
+          Pagination.mount();
+          Pagination.mounted();
+        }
+      });
+    },
+
+    /**
+     * Called after all components are mounted.
+     */
+    mounted: function mounted() {
+      if (Splide.options.pagination) {
+        var index = Splide.index;
+        Splide.emit(name + ":mounted", data, this.getItem(index));
+        updateAttributes(index, -1);
+      }
+    },
+
+    /**
+     * Destroy the pagination.
+     * Be aware that node.remove() is not supported by IE.
+     */
+    destroy: function destroy() {
+      dom_remove(data.list);
+
+      if (data.items) {
+        data.items.forEach(function (item) {
+          Splide.off('click', item.button);
+        });
+      } // Do not remove UPDATE_EVENT to recreate pagination if needed.
+
+
+      Splide.off(ATTRIBUTES_UPDATE_EVENT);
+      data = {};
+    },
+
+    /**
+     * Return an item by index.
+     *
+     * @param {number} index - A slide index.
+     *
+     * @return {Object|undefined} - An item object on success or undefined on failure.
+     */
+    getItem: function getItem(index) {
+      return data.items[Components.Controller.toPage(index)];
+    },
+
+    /**
+     * Return object containing pagination data.
+     *
+     * @return {Object} - Pagination data including list and items.
+     */
+    get data() {
+      return data;
+    }
+
+  };
+  /**
+   * Update attributes.
+   *
+   * @param {number} index     - Active index.
+   * @param {number} prevIndex - Prev index.
+   */
+
+  function updateAttributes(index, prevIndex) {
+    var prev = Pagination.getItem(prevIndex);
+    var curr = Pagination.getItem(index);
+    var active = STATUS_CLASSES.active;
+
+    if (prev) {
+      removeClass(prev.button, active);
+    }
+
+    if (curr) {
+      addClass(curr.button, active);
+    }
+
+    Splide.emit(name + ":updated", data, prev, curr);
+  }
+  /**
+   * Create a wrapper and button elements.
+   *
+   * @return {Object} - An object contains all data.
+   */
+
+
+  function createPagination() {
+    var options = Splide.options;
+    var classes = Splide.classes;
+    var list = create('ul', {
+      "class": classes.pagination
+    });
+    var items = Elements.getSlides(false).filter(function (Slide) {
+      return options.focus !== false || Slide.index % options.perPage === 0;
+    }).map(function (Slide, page) {
+      var li = create('li', {});
+      var button = create('button', {
+        "class": classes.page,
+        type: 'button'
+      });
+      append(li, button);
+      append(list, li);
+      Splide.on('click', function () {
+        Splide.go(">" + page);
+      }, button);
+      return {
+        li: li,
+        button: button,
+        page: page,
+        Slides: Elements.getSlidesByPage(page)
+      };
+    });
+    return {
+      list: list,
+      items: items
+    };
+  }
+
+  return Pagination;
+});
+;// CONCATENATED MODULE: ./src/js/components/lazyload/index.js
+/**
+ * The component for loading slider images lazily.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+/**
+ * The name for a data attribute of src.
+ *
+ * @type {string}
+ */
+
+var SRC_DATA_NAME = 'data-splide-lazy';
+/**
+ * The name for a data attribute of srcset.
+ *
+ * @type {string}
+ */
+
+var SRCSET_DATA_NAME = 'data-splide-lazy-srcset';
+/**
+ * The component for loading slider images lazily.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ * @param {string} name       - A component name as a lowercase string.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const lazyload = (function (Splide, Components, name) {
+  /**
+   * Next index for sequential loading.
+   *
+   * @type {number}
+   */
+  var nextIndex;
+  /**
+   * Store objects containing an img element and a Slide object.
+   *
+   * @type {Object[]}
+   */
+
+  var images;
+  /**
+   * Store the options.
+   *
+   * @type {Object}
+   */
+
+  var options = Splide.options;
+  /**
+   * Whether to load images sequentially or not.
+   *
+   * @type {boolean}
+   */
+
+  var isSequential = options.lazyLoad === 'sequential';
+  /**
+   * Lazyload component object.
+   *
+   * @type {Object}
+   */
+
+  var Lazyload = {
+    /**
+     * Mount only when the lazyload option is provided.
+     *
+     * @type {boolean}
+     */
+    required: options.lazyLoad,
+
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      Splide.on('mounted refresh', function () {
+        init();
+        Components.Elements.each(function (Slide) {
+          each(Slide.slide.querySelectorAll("[" + SRC_DATA_NAME + "], [" + SRCSET_DATA_NAME + "]"), function (img) {
+            if (!img.src && !img.srcset) {
+              images.push({
+                img: img,
+                Slide: Slide
+              });
+              applyStyle(img, {
+                display: 'none'
+              });
+            }
+          });
+        });
+
+        if (isSequential) {
+          loadNext();
+        }
+      });
+
+      if (!isSequential) {
+        Splide.on("mounted refresh moved." + name, check);
+      }
+    },
+
+    /**
+     * Destroy.
+     */
+    destroy: init
+  };
+  /**
+   * Initialize parameters.
+   */
+
+  function init() {
+    images = [];
+    nextIndex = 0;
+  }
+  /**
+   * Check how close each image is from the active slide and
+   * determine whether to start loading or not, according to the distance.
+   *
+   * @param {number} index - Current index.
+   */
+
+
+  function check(index) {
+    index = isNaN(index) ? Splide.index : index;
+    images = images.filter(function (image) {
+      if (image.Slide.isWithin(index, options.perPage * (options.preloadPages + 1))) {
+        load(image.img, image.Slide);
+        return false;
+      }
+
+      return true;
+    }); // Unbind if all images are loaded.
+
+    if (!images[0]) {
+      Splide.off("moved." + name);
+    }
+  }
+  /**
+   * Start loading an image.
+   * Creating a clone of the image element since setting src attribute directly to it
+   * often occurs 'hitch', blocking some other processes of a browser.
+   *
+   * @param {Element} img   - An image element.
+   * @param {Object}  Slide - A Slide object.
+   */
+
+
+  function load(img, Slide) {
+    addClass(Slide.slide, STATUS_CLASSES.loading);
+    var spinner = create('span', {
+      "class": Splide.classes.spinner
+    });
+    append(img.parentElement, spinner);
+
+    img.onload = function () {
+      loaded(img, spinner, Slide, false);
+    };
+
+    img.onerror = function () {
+      loaded(img, spinner, Slide, true);
+    };
+
+    setAttribute(img, 'srcset', getAttribute(img, SRCSET_DATA_NAME) || '');
+    setAttribute(img, 'src', getAttribute(img, SRC_DATA_NAME) || '');
+  }
+  /**
+   * Start loading a next image in images array.
+   */
+
+
+  function loadNext() {
+    if (nextIndex < images.length) {
+      var image = images[nextIndex];
+      load(image.img, image.Slide);
+    }
+
+    nextIndex++;
+  }
+  /**
+   * Called just after the image was loaded or loading was aborted by some error.
+   *
+   * @param {Element} img     - An image element.
+   * @param {Element} spinner - A spinner element.
+   * @param {Object}  Slide   - A Slide object.
+   * @param {boolean} error   - True if the image was loaded successfully or false on error.
+   */
+
+
+  function loaded(img, spinner, Slide, error) {
+    removeClass(Slide.slide, STATUS_CLASSES.loading);
+
+    if (!error) {
+      dom_remove(spinner);
+      applyStyle(img, {
+        display: ''
+      });
+      Splide.emit(name + ":loaded", img).emit('resize');
+    }
+
+    if (isSequential) {
+      loadNext();
+    }
+  }
+
+  return Lazyload;
+});
+;// CONCATENATED MODULE: ./src/js/constants/a11y.js
+/**
+ * Export aria attribute names.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+/**
+ * Attribute name for aria-current.
+ *
+ * @type {string}
+ */
+var ARIA_CURRENRT = 'aria-current';
+/**
+ * Attribute name for aria-control.
+ *
+ * @type {string}
+ */
+
+var ARIA_CONTROLS = 'aria-controls';
+/**
+ * Attribute name for aria-control.
+ *
+ * @type {string}
+ */
+
+var ARIA_LABEL = 'aria-label';
+/**
+ * Attribute name for aria-labelledby.
+ *
+ * @type {string}
+ */
+
+var ARIA_LABELLEDBY = 'aria-labelledby';
+/**
+ * Attribute name for aria-hidden.
+ *
+ * @type {string}
+ */
+
+var ARIA_HIDDEN = 'aria-hidden';
+/**
+ * Attribute name for tab-index.
+ *
+ * @type {string}
+ */
+
+var TAB_INDEX = 'tabindex';
+;// CONCATENATED MODULE: ./src/js/components/keyboard/index.js
+/**
+ * The component for controlling slides via keyboard.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+/**
+ * Map a key to a slide control.
+ *
+ * @type {Object}
+ */
+
+var KEY_MAP = {
+  ltr: {
+    ArrowLeft: '<',
+    ArrowRight: '>',
+    // For IE.
+    Left: '<',
+    Right: '>'
+  },
+  rtl: {
+    ArrowLeft: '>',
+    ArrowRight: '<',
+    // For IE.
+    Left: '>',
+    Right: '<'
+  },
+  ttb: {
+    ArrowUp: '<',
+    ArrowDown: '>',
+    // For IE.
+    Up: '<',
+    Down: '>'
+  }
+};
+/**
+ * The component for controlling slides via keyboard.
+ *
+ * @param {Splide} Splide - A Splide instance.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const keyboard = (function (Splide) {
+  /**
+   * Hold the target element.
+   *
+   * @type {Element|Document|undefined}
+   */
+  var target;
+  return {
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      Splide.on('mounted updated', function () {
+        var options = Splide.options;
+        var root = Splide.root;
+        var map = KEY_MAP[options.direction];
+        var keyboard = options.keyboard;
+
+        if (target) {
+          Splide.off('keydown', target);
+          removeAttribute(root, TAB_INDEX);
+        }
+
+        if (keyboard) {
+          if (keyboard === 'focused') {
+            target = root;
+            setAttribute(root, TAB_INDEX, 0);
+          } else {
+            target = document;
+          }
+
+          Splide.on('keydown', function (e) {
+            if (map[e.key]) {
+              Splide.go(map[e.key]);
+            }
+          }, target);
+        }
+      });
+    }
+  };
+});
+;// CONCATENATED MODULE: ./src/js/components/a11y/index.js
+/**
+ * The component for enhancing accessibility.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+/**
+ * The component for enhancing accessibility.
+ *
+ * @param {Splide} Splide     - A Splide instance.
+ * @param {Object} Components - An object containing components.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const a11y = (function (Splide, Components) {
+  /**
+   * Hold a i18n object.
+   *
+   * @type {Object}
+   */
+  var i18n = Splide.i18n;
+  /**
+   * Hold the Elements component.
+   *
+   * @type {Object}
+   */
+
+  var Elements = Components.Elements;
+  /**
+   * All attributes related with A11y.
+   *
+   * @type {string[]}
+   */
+
+  var allAttributes = [ARIA_HIDDEN, TAB_INDEX, ARIA_CONTROLS, ARIA_LABEL, ARIA_CURRENRT, 'role'];
+  /**
+   * A11y component object.
+   *
+   * @type {Object}
+   */
+
+  var A11y = {
+    /**
+     * Required only when the accessibility option is true.
+     *
+     * @type {boolean}
+     */
+    required: Splide.options.accessibility,
+
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      Splide.on('visible', function (Slide) {
+        updateSlide(Slide.slide, true);
+      }).on('hidden', function (Slide) {
+        updateSlide(Slide.slide, false);
+      }).on('arrows:mounted', initArrows).on('arrows:updated', updateArrows).on('pagination:mounted', initPagination).on('pagination:updated', updatePagination).on('refresh', function () {
+        removeAttribute(Components.Clones.clones, allAttributes);
+      });
+
+      if (Splide.options.isNavigation) {
+        Splide.on('navigation:mounted navigation:updated', initNavigation).on('active', function (Slide) {
+          updateNavigation(Slide, true);
+        }).on('inactive', function (Slide) {
+          updateNavigation(Slide, false);
+        });
+      }
+
+      initAutoplay();
+    },
+
+    /**
+     * Destroy.
+     */
+    destroy: function destroy() {
+      var Arrows = Components.Arrows;
+      var arrows = Arrows ? Arrows.arrows : {};
+      removeAttribute(Elements.slides.concat([arrows.prev, arrows.next, Elements.play, Elements.pause]), allAttributes);
+    }
+  };
+  /**
+   * Update slide attributes when it gets visible or hidden.
+   *
+   * @param {Element} slide   - A slide element.
+   * @param {Boolean} visible - True when the slide gets visible, or false when hidden.
+   */
+
+  function updateSlide(slide, visible) {
+    setAttribute(slide, ARIA_HIDDEN, !visible);
+
+    if (Splide.options.slideFocus) {
+      setAttribute(slide, TAB_INDEX, visible ? 0 : -1);
+    }
+  }
+  /**
+   * Initialize arrows if they are available.
+   * Append screen reader elements and add aria-controls attribute.
+   *
+   * @param {Element} prev - Previous arrow element.
+   * @param {Element} next - Next arrow element.
+   */
+
+
+  function initArrows(prev, next) {
+    var controls = Elements.track.id;
+    setAttribute(prev, ARIA_CONTROLS, controls);
+    setAttribute(next, ARIA_CONTROLS, controls);
+  }
+  /**
+   * Update arrow attributes.
+   *
+   * @param {Element} prev      - Previous arrow element.
+   * @param {Element} next      - Next arrow element.
+   * @param {number}  prevIndex - Previous slide index or -1 when there is no precede slide.
+   * @param {number}  nextIndex - Next slide index or -1 when there is no next slide.
+   */
+
+
+  function updateArrows(prev, next, prevIndex, nextIndex) {
+    var index = Splide.index;
+    var prevLabel = prevIndex > -1 && index < prevIndex ? i18n.last : i18n.prev;
+    var nextLabel = nextIndex > -1 && index > nextIndex ? i18n.first : i18n.next;
+    setAttribute(prev, ARIA_LABEL, prevLabel);
+    setAttribute(next, ARIA_LABEL, nextLabel);
+  }
+  /**
+   * Initialize pagination if it's available.
+   * Append a screen reader element and add aria-controls/label attribute to each item.
+   *
+   * @param {Object} data       - Data object containing all items.
+   * @param {Object} activeItem - An initial active item.
+   */
+
+
+  function initPagination(data, activeItem) {
+    if (activeItem) {
+      setAttribute(activeItem.button, ARIA_CURRENRT, true);
+    }
+
+    data.items.forEach(function (item) {
+      var options = Splide.options;
+      var text = options.focus === false && options.perPage > 1 ? i18n.pageX : i18n.slideX;
+      var label = sprintf(text, item.page + 1);
+      var button = item.button;
+      var controls = item.Slides.map(function (Slide) {
+        return Slide.slide.id;
+      });
+      setAttribute(button, ARIA_CONTROLS, controls.join(' '));
+      setAttribute(button, ARIA_LABEL, label);
+    });
+  }
+  /**
+   * Update pagination attributes.
+   *
+   * @param {Object}  data - Data object containing all items.
+   * @param {Element} prev - A previous active element.
+   * @param {Element} curr - A current active element.
+   */
+
+
+  function updatePagination(data, prev, curr) {
+    if (prev) {
+      removeAttribute(prev.button, ARIA_CURRENRT);
+    }
+
+    if (curr) {
+      setAttribute(curr.button, ARIA_CURRENRT, true);
+    }
+  }
+  /**
+   * Initialize autoplay buttons.
+   */
+
+
+  function initAutoplay() {
+    ['play', 'pause'].forEach(function (name) {
+      var elm = Elements[name];
+
+      if (elm) {
+        if (!isButton(elm)) {
+          setAttribute(elm, 'role', 'button');
+        }
+
+        setAttribute(elm, ARIA_CONTROLS, Elements.track.id);
+        setAttribute(elm, ARIA_LABEL, i18n[name]);
+      }
+    });
+  }
+  /**
+   * Initialize navigation slider.
+   * Add button role, aria-label, aria-controls to slide elements and append screen reader text to them.
+   *
+   * @param {Splide} main - A main Splide instance.
+   */
+
+
+  function initNavigation(main) {
+    Elements.each(function (Slide) {
+      var slide = Slide.slide;
+      var realIndex = Slide.realIndex;
+
+      if (!isButton(slide)) {
+        setAttribute(slide, 'role', 'button');
+      }
+
+      var slideIndex = realIndex > -1 ? realIndex : Slide.index;
+      var label = sprintf(i18n.slideX, slideIndex + 1);
+      var mainSlide = main.Components.Elements.getSlide(slideIndex);
+      setAttribute(slide, ARIA_LABEL, label);
+
+      if (mainSlide) {
+        setAttribute(slide, ARIA_CONTROLS, mainSlide.slide.id);
+      }
+    });
+  }
+  /**
+   * Update navigation attributes.
+   *
+   * @param {Object}  Slide  - A target Slide object.
+   * @param {boolean} active - True if the slide is active or false if inactive.
+   */
+
+
+  function updateNavigation(_ref, active) {
+    var slide = _ref.slide;
+
+    if (active) {
+      setAttribute(slide, ARIA_CURRENRT, true);
+    } else {
+      removeAttribute(slide, ARIA_CURRENRT);
+    }
+  }
+  /**
+   * Check if the given element is button or not.
+   *
+   * @param {Element} elm - An element to be checked.
+   *
+   * @return {boolean} - True if the given element is button.
+   */
+
+
+  function isButton(elm) {
+    return elm.tagName === 'BUTTON';
+  }
+
+  return A11y;
+});
+;// CONCATENATED MODULE: ./src/js/components/sync/index.js
+/**
+ * The component for synchronizing a slider with another.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+/**
+ * The event name for sync.
+ *
+ * @type {string}
+ */
+
+var SYNC_EVENT = 'move.sync';
+/**
+ * The event names for click navigation.
+ * @type {string}
+ */
+
+var CLICK_EVENTS = 'mouseup touchend';
+/**
+ * The keys for triggering the navigation button.
+ *
+ * @type {String[]}
+ */
+
+var TRIGGER_KEYS = [' ', 'Enter', 'Spacebar'];
+/**
+ * The component for synchronizing a slider with another.
+ *
+ * @param {Splide} Splide - A Splide instance.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const sync = (function (Splide) {
+  /**
+   * Keep the sibling Splide instance.
+   *
+   * @type {Splide}
+   */
+  var sibling = Splide.sibling;
+  /**
+   * Whether the sibling slider is navigation or not.
+   *
+   * @type {Splide|boolean}
+   */
+
+  var isNavigation = sibling && sibling.options.isNavigation;
+  /**
+   * Layout component object.
+   *
+   * @type {Object}
+   */
+
+  var Sync = {
+    /**
+     * Required only when the sub slider is available.
+     *
+     * @type {boolean}
+     */
+    required: !!sibling,
+
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      syncMain();
+      syncSibling();
+
+      if (isNavigation) {
+        bind();
+        Splide.on('refresh', function () {
+          setTimeout(function () {
+            bind();
+            sibling.emit('navigation:updated', Splide);
+          });
+        });
+      }
+    },
+
+    /**
+     * Called after all components are mounted.
+     */
+    mounted: function mounted() {
+      if (isNavigation) {
+        sibling.emit('navigation:mounted', Splide);
+      }
+    }
+  };
+  /**
+   * Listen the primary slider event to move secondary one.
+   * Must unbind a handler at first to avoid infinite loop.
+   */
+
+  function syncMain() {
+    Splide.on(SYNC_EVENT, function (newIndex, prevIndex, destIndex) {
+      sibling.off(SYNC_EVENT).go(sibling.is(LOOP) ? destIndex : newIndex, false);
+      syncSibling();
+    });
+  }
+  /**
+   * Listen the secondary slider event to move primary one.
+   * Must unbind a handler at first to avoid infinite loop.
+   */
+
+
+  function syncSibling() {
+    sibling.on(SYNC_EVENT, function (newIndex, prevIndex, destIndex) {
+      Splide.off(SYNC_EVENT).go(Splide.is(LOOP) ? destIndex : newIndex, false);
+      syncMain();
+    });
+  }
+  /**
+   * Listen some events on each slide.
+   */
+
+
+  function bind() {
+    sibling.Components.Elements.each(function (_ref) {
+      var slide = _ref.slide,
+          index = _ref.index;
+
+      /*
+       * Listen mouseup and touchend events to handle click.
+       */
+      Splide.off(CLICK_EVENTS, slide).on(CLICK_EVENTS, function (e) {
+        // Ignore a middle or right click.
+        if (!e.button || e.button === 0) {
+          moveSibling(index);
+        }
+      }, slide);
+      /*
+       * Subscribe keyup to handle Enter and Space key.
+       * Note that Array.includes is not supported by IE.
+       */
+
+      Splide.off('keyup', slide).on('keyup', function (e) {
+        if (TRIGGER_KEYS.indexOf(e.key) > -1) {
+          e.preventDefault();
+          moveSibling(index);
+        }
+      }, slide, {
+        passive: false
+      });
+    });
+  }
+  /**
+   * Move the sibling to the given index.
+   * Need to check "IDLE" status because slides can be moving by Drag component.
+   *
+   * @param {number} index - Target index.
+   */
+
+
+  function moveSibling(index) {
+    if (Splide.State.is(IDLE)) {
+      sibling.go(index);
+    }
+  }
+
+  return Sync;
+});
+;// CONCATENATED MODULE: ./src/js/components/breakpoints/index.js
+/**
+ * The component for updating options according to a current window width.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+/**
+ * Interval time for throttle.
+ *
+ * @type {number}
+ */
+
+var THROTTLE = 50;
+/**
+ * The component for updating options according to a current window width.
+ *
+ * @param {Splide} Splide - A Splide instance.
+ *
+ * @return {Object} - The component object.
+ */
+
+/* harmony default export */ const breakpoints = (function (Splide) {
+  /**
+   * Store breakpoints.
+   *
+   * @type {Object|boolean}
+   */
+  var breakpoints = Splide.options.breakpoints;
+  /**
+   * The check function whose frequency of call is reduced.
+   *
+   * @type {Function}
+   */
+
+  var throttledCheck = throttle(check, THROTTLE);
+  /**
+   * Keep initial options.
+   *
+   * @type {Object}
+   */
+
+  var initialOptions;
+  /**
+   * An array containing objects of point and MediaQueryList.
+   *
+   * @type {Object[]}
+   */
+
+  var map = [];
+  /**
+   * Hold the previous breakpoint.
+   *
+   * @type {number|undefined}
+   */
+
+  var prevPoint;
+  /**
+   * Breakpoints component object.
+   *
+   * @type {Object}
+   */
+
+  var Breakpoints = {
+    /**
+     * Required only when the breakpoints definition is provided and browser supports matchMedia.
+     *
+     * @type {boolean}
+     */
+    required: breakpoints && matchMedia,
+
+    /**
+     * Called when the component is mounted.
+     */
+    mount: function mount() {
+      map = Object.keys(breakpoints).sort(function (n, m) {
+        return +n - +m;
+      }).map(function (point) {
+        return {
+          point: point,
+          mql: matchMedia("(max-width:" + point + "px)")
+        };
+      });
+      /*
+       * To keep monitoring resize event after destruction without "completely",
+       * use native addEventListener instead of Splide.on.
+       */
+
+      this.destroy(true);
+      addEventListener('resize', throttledCheck); // Keep initial options to apply them when no breakpoint matches.
+
+      initialOptions = Splide.options;
+      check();
+    },
+
+    /**
+     * Destroy.
+     *
+     * @param {boolean} completely - Whether to destroy Splide completely.
+     */
+    destroy: function destroy(completely) {
+      if (completely) {
+        removeEventListener('resize', throttledCheck);
+      }
+    }
+  };
+  /**
+   * Check the breakpoint.
+   */
+
+  function check() {
+    var point = getPoint();
+
+    if (point !== prevPoint) {
+      prevPoint = point;
+      var State = Splide.State;
+      var options = breakpoints[point] || initialOptions;
+      var destroy = options.destroy;
+
+      if (destroy) {
+        Splide.options = initialOptions;
+        Splide.destroy(destroy === 'completely');
+      } else {
+        if (State.is(DESTROYED)) {
+          Splide.mount();
+        }
+
+        Splide.options = options;
+      }
+    }
+  }
+  /**
+   * Return the breakpoint matching current window width.
+   * Note that Array.prototype.find is not supported by IE.
+   *
+   * @return {number|string} - A breakpoint as number or string. -1 if no point matches.
+   */
+
+
+  function getPoint() {
+    var item = map.filter(function (item) {
+      return item.mql.matches;
+    })[0];
+    return item ? item.point : -1;
+  }
+
+  return Breakpoints;
+});
+;// CONCATENATED MODULE: ./src/js/components/index.js
+/**
+ * Export components.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var COMPLETE = {
+  Options: options,
+  Breakpoints: breakpoints,
+  Controller: controller,
+  Elements: components_elements,
+  Track: track,
+  Clones: clones,
+  Layout: layout,
+  Drag: drag,
+  Click: click,
+  Autoplay: autoplay,
+  Cover: cover,
+  Arrows: arrows,
+  Pagination: pagination,
+  LazyLoad: lazyload,
+  Keyboard: keyboard,
+  Sync: sync,
+  A11y: a11y
+};
+var LIGHT = {
+  Options: options,
+  Controller: controller,
+  Elements: components_elements,
+  Track: track,
+  Clones: clones,
+  Layout: layout,
+  Drag: drag,
+  Click: click,
+  Arrows: arrows,
+  Pagination: pagination,
+  A11y: a11y
+};
+;// CONCATENATED MODULE: ./build/module/module.js
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+/**
+ * Export Splide class for import.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+/**
+ * Export Splide class for import from other projects.
+ */
+
+var module_Splide = /*#__PURE__*/function (_Core) {
+  _inheritsLoose(Splide, _Core);
+
+  function Splide(root, options) {
+    return _Core.call(this, root, options, COMPLETE) || this;
+  }
+
+  return Splide;
+}(Splide);
+
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	// module exports must be returned from runtime so entry inlining is disabled
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(311);
+/******/ })()
+;
+});
+
+/***/ }),
+
+/***/ "./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue":
+/*!************************************************************************!*\
+  !*** ./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Splide_vue_vue_type_template_id_69d27764___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Splide.vue?vue&type=template&id=69d27764& */ "./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue?vue&type=template&id=69d27764&");
+/* harmony import */ var _Splide_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Splide.vue?vue&type=script&lang=js& */ "./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Splide_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Splide_vue_vue_type_template_id_69d27764___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Splide_vue_vue_type_template_id_69d27764___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "node_modules/@splidejs/vue-splide/src/js/components/Splide.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _vue_loader_lib_index_js_vue_loader_options_Splide_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../vue-loader/lib??vue-loader-options!./Splide.vue?vue&type=script&lang=js& */ "./node_modules/vue-loader/lib/index.js?!./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_vue_loader_lib_index_js_vue_loader_options_Splide_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue?vue&type=template&id=69d27764&":
+/*!*******************************************************************************************************!*\
+  !*** ./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue?vue&type=template&id=69d27764& ***!
+  \*******************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_Splide_vue_vue_type_template_id_69d27764___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../vue-loader/lib??vue-loader-options!./Splide.vue?vue&type=template&id=69d27764& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue?vue&type=template&id=69d27764&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_Splide_vue_vue_type_template_id_69d27764___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_Splide_vue_vue_type_template_id_69d27764___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SplideSlide_vue_vue_type_template_id_e5f9ab46___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SplideSlide.vue?vue&type=template&id=e5f9ab46& */ "./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue?vue&type=template&id=e5f9ab46&");
+/* harmony import */ var _SplideSlide_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SplideSlide.vue?vue&type=script&lang=js& */ "./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SplideSlide_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SplideSlide_vue_vue_type_template_id_e5f9ab46___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SplideSlide_vue_vue_type_template_id_e5f9ab46___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************!*\
+  !*** ./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _vue_loader_lib_index_js_vue_loader_options_SplideSlide_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../vue-loader/lib??vue-loader-options!./SplideSlide.vue?vue&type=script&lang=js& */ "./node_modules/vue-loader/lib/index.js?!./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_vue_loader_lib_index_js_vue_loader_options_SplideSlide_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue?vue&type=template&id=e5f9ab46&":
+/*!************************************************************************************************************!*\
+  !*** ./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue?vue&type=template&id=e5f9ab46& ***!
+  \************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_SplideSlide_vue_vue_type_template_id_e5f9ab46___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../vue-loader/lib??vue-loader-options!./SplideSlide.vue?vue&type=template&id=e5f9ab46& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue?vue&type=template&id=e5f9ab46&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_SplideSlide_vue_vue_type_template_id_e5f9ab46___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_SplideSlide_vue_vue_type_template_id_e5f9ab46___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@splidejs/vue-splide/src/js/constants/events.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@splidejs/vue-splide/src/js/constants/events.js ***!
+  \**********************************************************************/
+/*! exports provided: EVENTS */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EVENTS", function() { return EVENTS; });
+/**
+ * Export event list.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+const EVENTS = [
+	'mounted',
+	'updated',
+	'move',
+	'moved',
+	'drag',
+	'dragged',
+	'visible',
+	'hidden',
+	'active',
+	'inactive',
+	'click',
+	'arrows:mounted',
+	'arrows:updated',
+	'pagination:mounted',
+	'pagination:updated',
+	'navigation:mounted',
+	'autoplay:play',
+	'autoplay:pause',
+	'autoplay:playing',
+	'lazyload:loaded',
+];
+
+/***/ }),
+
+/***/ "./node_modules/@splidejs/vue-splide/src/js/index.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@splidejs/vue-splide/src/js/index.js ***!
+  \***********************************************************/
+/*! exports provided: default, Splide, SplideSlide */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_Splide__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Splide */ "./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Splide", function() { return _components_Splide__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _components_SplideSlide__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/SplideSlide */ "./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SplideSlide", function() { return _components_SplideSlide__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/**
+ * The Splide Vue plugin.
+ *
+ * @author    Naotoshi Fujita
+ * @copyright Naotoshi Fujita. All rights reserved.
+ */
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	install( Vue, options ) {
+		Vue.component( _components_Splide__WEBPACK_IMPORTED_MODULE_0__["default"].name, _components_Splide__WEBPACK_IMPORTED_MODULE_0__["default"] );
+		Vue.component( _components_SplideSlide__WEBPACK_IMPORTED_MODULE_1__["default"].name, _components_SplideSlide__WEBPACK_IMPORTED_MODULE_1__["default"] );
+	}
+});
+
+
+
+/***/ }),
+
 /***/ "./node_modules/animate.css/animate.css":
 /*!**********************************************!*\
   !*** ./node_modules/animate.css/animate.css ***!
@@ -3360,6 +9520,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _mixins_collection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixins/collection */ "./resources/js/mixins/collection.js");
+/* harmony import */ var _splidejs_vue_splide__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @splidejs/vue-splide */ "./node_modules/@splidejs/vue-splide/src/js/index.js");
+/* harmony import */ var _splidejs_splide_dist_css_themes_splide_default_min_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @splidejs/splide/dist/css/themes/splide-default.min.css */ "./node_modules/@splidejs/splide/dist/css/themes/splide-default.min.css");
+/* harmony import */ var _splidejs_splide_dist_css_themes_splide_default_min_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_splidejs_splide_dist_css_themes_splide_default_min_css__WEBPACK_IMPORTED_MODULE_5__);
 //
 //
 //
@@ -3472,6 +9635,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
+
 
 
 
@@ -3483,7 +9650,9 @@ __webpack_require__.r(__webpack_exports__);
   mixins: [_mixins_collection__WEBPACK_IMPORTED_MODULE_3__["default"]],
   components: {
     Favorite: _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    highlight: _Highlight_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    highlight: _Highlight_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Splide: _splidejs_vue_splide__WEBPACK_IMPORTED_MODULE_4__["Splide"],
+    SplideSlide: _splidejs_vue_splide__WEBPACK_IMPORTED_MODULE_4__["SplideSlide"]
   },
   data: function data() {
     return {
@@ -3493,7 +9662,12 @@ __webpack_require__.r(__webpack_exports__);
       replyClick: false,
       child: false,
       loading: false,
-      see: "See more replies" // items: []
+      see: "See more replies",
+      options: {
+        rewind: true,
+        width: 800,
+        gap: '1em'
+      } // items: []
 
     };
   },
@@ -3914,55 +10088,6 @@ __webpack_require__.r(__webpack_exports__);
 
         document.location.replace(data.link);
       });
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wysiwyg.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Wysiwyg.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var trix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! trix */ "./node_modules/trix/dist/trix.js");
-/* harmony import */ var trix__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(trix__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['name', 'value', 'placeholder'],
-  methods: {
-    change: function change(_ref) {
-      var target = _ref.target;
-      this.$emit('input', target.value);
-    }
-  },
-  watch: {
-    value: function value(val) {
-      if (val === '') {
-        this.$refs.trix.value = '';
-      }
     }
   }
 });
@@ -8500,25 +14625,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/trix/dist/trix.css":
-/*!*******************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/trix/dist/trix.css ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/*\nTrix 0.11.4\nCopyright © 2018 Basecamp, LLC\nhttp://trix-editor.org/*/\ntrix-editor {\n  border: 1px solid #bbb;\n  border-radius: 3px;\n  margin: 0;\n  padding: 0.4em 0.6em;\n  min-height: 5em;\n  outline: none; }\ntrix-toolbar * {\n  box-sizing: border-box; }\ntrix-toolbar .trix-button-row {\n  display: flex;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\ntrix-toolbar .trix-button-group {\n  display: flex;\n  margin-bottom: 10px;\n  border: 1px solid #bbb;\n  border-top-color: #ccc;\n  border-bottom-color: #888;\n  border-radius: 3px; }\ntrix-toolbar .trix-button {\n  position: relative;\n  float: left;\n  color: rgba(0, 0, 0, 0.6);\n  font-size: 0.75em;\n  font-weight: 600;\n  white-space: nowrap;\n  padding: 0 0.5em;\n  margin: 0;\n  outline: none;\n  border: none;\n  border-bottom: 1px solid #ddd;\n  border-radius: 0;\n  background: transparent; }\n  trix-toolbar .trix-button:not(:first-child) {\n    border-left: 1px solid #ccc; }\n  trix-toolbar .trix-button.trix-active {\n    background: #cbeefa;\n    color: black; }\n  trix-toolbar .trix-button:not(:disabled) {\n    cursor: pointer; }\n  trix-toolbar .trix-button:disabled {\n    color: rgba(0, 0, 0, 0.125); }\n  @media (max-device-width: 768px) {\n    trix-toolbar .trix-button {\n      letter-spacing: -0.01em;\n      padding: 0 0.3em; } }\ntrix-toolbar .trix-button--icon {\n  font-size: inherit;\n  width: 2.6em;\n  height: 1.6em;\n  max-width: calc(0.8em + 4vw);\n  text-indent: -9999px; }\n  @media (max-device-width: 768px) {\n    trix-toolbar .trix-button--icon {\n      height: 2em;\n      max-width: calc(0.8em + 3.5vw); } }\n  trix-toolbar .trix-button--icon::before {\n    display: inline-block;\n    position: absolute;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    left: 0;\n    opacity: 0.6;\n    content: \"\";\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: contain; }\n    @media (max-device-width: 768px) {\n      trix-toolbar .trix-button--icon::before {\n        right: 6%;\n        left: 6%; } }\n  trix-toolbar .trix-button--icon.trix-active::before {\n    opacity: 1; }\n  trix-toolbar .trix-button--icon:disabled::before {\n    opacity: 0.125; }\ntrix-toolbar .trix-button--icon-bold::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M15.6%2011.8c1-.7%201.6-1.8%201.6-2.8a4%204%200%200%200-4-4H7v14h7c2.1%200%203.7-1.7%203.7-3.8%200-1.5-.8-2.8-2.1-3.4zM10%207.5h3a1.5%201.5%200%201%201%200%203h-3v-3zm3.5%209H10v-3h3.5a1.5%201.5%200%201%201%200%203z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-button--icon-italic::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M10%205v3h2.2l-3.4%208H6v3h8v-3h-2.2l3.4-8H18V5h-8z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-button--icon-link::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M9.88%2013.7a4.3%204.3%200%200%201%200-6.07l3.37-3.37a4.26%204.26%200%200%201%206.07%200%204.3%204.3%200%200%201%200%206.06l-1.96%201.72a.91.91%200%201%201-1.3-1.3l1.97-1.71a2.46%202.46%200%200%200-3.48-3.48l-3.38%203.37a2.46%202.46%200%200%200%200%203.48.91.91%200%201%201-1.3%201.3z%22%2F%3E%3Cpath%20d%3D%22M4.25%2019.46a4.3%204.3%200%200%201%200-6.07l1.93-1.9a.91.91%200%201%201%201.3%201.3l-1.93%201.9a2.46%202.46%200%200%200%203.48%203.48l3.37-3.38c.96-.96.96-2.52%200-3.48a.91.91%200%201%201%201.3-1.3%204.3%204.3%200%200%201%200%206.07l-3.38%203.38a4.26%204.26%200%200%201-6.07%200z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-button--icon-strike::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M12.73%2014l.28.14c.26.15.45.3.57.44.12.14.18.3.18.5%200%20.3-.15.56-.44.75-.3.2-.76.3-1.39.3A13.52%2013.52%200%200%201%207%2014.95v3.37a10.64%2010.64%200%200%200%204.84.88c1.26%200%202.35-.19%203.28-.56.93-.37%201.64-.9%202.14-1.57s.74-1.45.74-2.32c0-.26-.02-.51-.06-.75h-5.21zm-5.5-4c-.08-.34-.12-.7-.12-1.1%200-1.29.52-2.3%201.58-3.02%201.05-.72%202.5-1.08%204.34-1.08%201.62%200%203.28.34%204.97%201l-1.3%202.93c-1.47-.6-2.73-.9-3.8-.9-.55%200-.96.08-1.2.26-.26.17-.38.38-.38.64%200%20.27.16.52.48.74.17.12.53.3%201.05.53H7.23zM3%2013h18v-2H3v2z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-button--icon-quote::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20version%3D%221%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M6%2017h3l2-4V7H5v6h3zm8%200h3l2-4V7h-6v6h3z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-button--icon-heading-1::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20version%3D%221%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M12%209v3H9v7H6v-7H3V9h9zM8%204h14v3h-6v12h-3V7H8V4z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-button--icon-code::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M18.2%2012L15%2015.2l1.4%201.4L21%2012l-4.6-4.6L15%208.8l3.2%203.2zM5.8%2012L9%208.8%207.6%207.4%203%2012l4.6%204.6L9%2015.2%205.8%2012z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-button--icon-bullet-list::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20version%3D%221%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M4%204a2%202%200%201%200%200%204%202%202%200%200%200%200-4zm0%206a2%202%200%201%200%200%204%202%202%200%200%200%200-4zm0%206a2%202%200%201%200%200%204%202%202%200%200%200%200-4zm4%203h14v-2H8v2zm0-6h14v-2H8v2zm0-8v2h14V5H8z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-button--icon-number-list::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M2%2017h2v.5H3v1h1v.5H2v1h3v-4H2v1zm1-9h1V4H2v1h1v3zm-1%203h1.8L2%2013.1v.9h3v-1H3.2L5%2010.9V10H2v1zm5-6v2h14V5H7zm0%2014h14v-2H7v2zm0-6h14v-2H7v2z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-button--icon-undo::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M12.5%208c-2.6%200-5%201-6.9%202.6L2%207v9h9l-3.6-3.6A8%208%200%200%201%2020%2016l2.4-.8a10.5%2010.5%200%200%200-10-7.2z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-button--icon-redo::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M18.4%2010.6a10.5%2010.5%200%200%200-16.9%204.6L4%2016a8%208%200%200%201%2012.7-3.6L13%2016h9V7l-3.6%203.6z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-button--icon-decrease-nesting-level::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M3%2019h19v-2H3v2zm7-6h12v-2H10v2zm-8.3-.3l2.8%202.9L6%2014.2%204%2012l2-2-1.4-1.5L1%2012l.7.7zM3%205v2h19V5H3z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-button--icon-increase-nesting-level::before {\n  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M3%2019h19v-2H3v2zm7-6h12v-2H10v2zm-6.9-1L1%2014.2l1.4%201.4L6%2012l-.7-.7-2.8-2.8L1%209.9%203.1%2012zM3%205v2h19V5H3z%22%2F%3E%3C%2Fsvg%3E); }\ntrix-toolbar .trix-dialogs {\n  position: relative; }\ntrix-toolbar .trix-dialog {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  font-size: 0.75em;\n  padding: 15px 10px;\n  background: #fff;\n  box-shadow: 0 0.3em 1em #ccc;\n  border-top: 2px solid #888;\n  border-radius: 5px;\n  z-index: 5; }\ntrix-toolbar .trix-input--dialog {\n  font-size: inherit;\n  font-weight: normal;\n  padding: 0.5em 0.8em;\n  margin: 0 10px 0 0;\n  border-radius: 3px;\n  border: 1px solid #bbb;\n  background-color: #fff;\n  box-shadow: none;\n  outline: none;\n  -webkit-appearance: none;\n  -moz-appearance: none; }\n  trix-toolbar .trix-input--dialog.validate:invalid {\n    box-shadow: #F00 0px 0px 1.5px 1px; }\ntrix-toolbar .trix-button--dialog {\n  font-size: inherit;\n  padding: 0.5em;\n  border-bottom: none; }\ntrix-toolbar .trix-dialog--link {\n  max-width: 600px; }\ntrix-toolbar .trix-dialog__link-fields {\n  display: flex;\n  align-items: baseline; }\n  trix-toolbar .trix-dialog__link-fields .trix-input {\n    flex: 1; }\n  trix-toolbar .trix-dialog__link-fields .trix-button-group {\n    flex: 0 0 content;\n    margin: 0; }\ntrix-editor [data-trix-mutable=true] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n  trix-editor [data-trix-mutable=true] img {\n    box-shadow: 0 0 0 2px highlight; }\n  trix-editor [data-trix-mutable=true].attachment.attachment--file {\n    box-shadow: 0 0 0 2px highlight;\n    border-color: transparent; }\ntrix-editor [data-trix-mutable=true]::-moz-selection,\ntrix-editor [data-trix-cursor-target]::-moz-selection {\n  background: none; }\ntrix-editor [data-trix-mutable=true]::selection,\ntrix-editor [data-trix-cursor-target]::selection {\n  background: none; }\ntrix-editor .attachment {\n  position: relative; }\n  trix-editor .attachment:hover {\n    cursor: default; }\ntrix-editor .attachment--preview .attachment__caption:hover {\n  cursor: text; }\ntrix-editor .attachment__progress {\n  position: absolute;\n  z-index: 1;\n  height: 20px;\n  top: calc(50% - 10px);\n  left: 5%;\n  width: 90%;\n  opacity: 0.9;\n  transition: opacity 200ms ease-in; }\n  trix-editor .attachment__progress[value=\"100\"] {\n    opacity: 0; }\ntrix-editor .attachment__caption-editor {\n  display: inline-block;\n  width: 100%;\n  margin: 0;\n  padding: 0;\n  font-size: inherit;\n  font-family: inherit;\n  line-height: inherit;\n  color: inherit;\n  text-align: center;\n  vertical-align: top;\n  border: none;\n  outline: none;\n  -webkit-appearance: none;\n  -moz-appearance: none; }\ntrix-editor .attachment__remove {\n  cursor: pointer; }\ntrix-editor .attachment__remove--icon {\n  text-indent: -9999px;\n  display: block;\n  position: absolute;\n  z-index: 1;\n  padding: 0;\n  margin: 0;\n  top: -1.1em;\n  left: calc(50% - 0.8em);\n  width: 1.8em;\n  height: 1.8em;\n  line-height: 1.8em;\n  border-radius: 50%;\n  background-color: #fff;\n  border: 2px solid highlight;\n  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25); }\n  trix-editor .attachment__remove--icon::before {\n    display: inline-block;\n    position: absolute;\n    top: 0.1em;\n    right: 0.1em;\n    bottom: 0.1em;\n    left: 0.1em;\n    opacity: 0.75;\n    content: \"\";\n    background-image: url(data:image/svg+xml,%3Csvg%20height%3D%2224%22%20width%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M19%206.4L17.6%205%2012%2010.6%206.4%205%205%206.4l5.6%205.6L5%2017.6%206.4%2019l5.6-5.6%205.6%205.6%201.4-1.4-5.6-5.6z%22%2F%3E%3Cpath%20d%3D%22M0%200h24v24H0z%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E);\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: contain; }\n  trix-editor .attachment__remove--icon:hover {\n    border-color: #333; }\n    trix-editor .attachment__remove--icon:hover::before {\n      opacity: 1; }\n@charset \"UTF-8\";\n.trix-content {\n  line-height: 1.5; }\n  .trix-content * {\n    box-sizing: border-box; }\n  .trix-content h1 {\n    font-size: 1.2em;\n    line-height: 1.2;\n    margin: 0; }\n  .trix-content blockquote {\n    margin: 0 0 0 0.3em;\n    padding: 0 0 0 0.6em;\n    border-left: 0.3em solid #ccc; }\n  .trix-content pre {\n    display: inline-block;\n    width: 100%;\n    vertical-align: top;\n    font-family: monospace;\n    font-size: 0.9em;\n    margin: 0;\n    padding: 0.5em;\n    white-space: pre;\n    background-color: #eee;\n    overflow-x: auto; }\n  .trix-content ul, .trix-content ol, .trix-content li {\n    margin: 0;\n    padding: 0; }\n    .trix-content ul li, .trix-content ol li, .trix-content li li {\n      margin-left: 1em; }\n  .trix-content img {\n    max-width: 100%;\n    height: auto; }\n  .trix-content a[data-trix-attachment] {\n    color: inherit;\n    text-decoration: none; }\n    .trix-content a[data-trix-attachment]:hover, .trix-content a[data-trix-attachment]:visited:hover {\n      color: inherit; }\n  .trix-content .attachment {\n    display: inline-block;\n    position: relative;\n    max-width: 100%;\n    margin: 0;\n    padding: 0; }\n  .trix-content .attachment__caption {\n    padding: 0;\n    text-align: center; }\n    .trix-content .attachment__caption .attachment__name + .attachment__size::before {\n      content: ' \\B7   '; }\n  .trix-content .attachment--preview {\n    width: 100%;\n    text-align: center; }\n    .trix-content .attachment--preview .attachment__caption {\n      color: #666;\n      font-size: 0.9em;\n      line-height: 1.2; }\n  .trix-content .attachment--file {\n    color: #333;\n    line-height: 1;\n    margin: 0 2px 2px 0;\n    padding: 0.4em 1em;\n    border: 1px solid #bbb;\n    border-radius: 5px; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelDropdown.vue?vue&type=style&index=0&lang=scss&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChannelDropdown.vue?vue&type=style&index=0&lang=scss& ***!
@@ -8538,19 +14644,19 @@ exports.push([module.i, ".channel-dropdown {\n  padding: 0;\n}\n.input-wrapper {
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wysiwyg.vue?vue&type=style&index=0&lang=scss&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Wysiwyg.vue?vue&type=style&index=0&lang=scss& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/@splidejs/splide/dist/css/themes/splide-default.min.css":
+/*!**************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/@splidejs/splide/dist/css/themes/splide-default.min.css ***!
+  \**************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+exports = module.exports = __webpack_require__(/*! ../../../../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
 // imports
-exports.i(__webpack_require__(/*! -!../../../node_modules/css-loader!trix/dist/trix.css */ "./node_modules/css-loader/index.js!./node_modules/trix/dist/trix.css"), "");
+
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "@-webkit-keyframes splide-loading{\n  0%{\n    transform:rotate(0)\n  }\n\n  to{\n    transform:rotate(1turn)\n  }\n}\n\n@keyframes splide-loading{\n  0%{\n    transform:rotate(0)\n  }\n\n  to{\n    transform:rotate(1turn)\n  }\n}\n\n.splide__container{\n  position:relative;\n  box-sizing:border-box\n}\n\n.splide__list{\n  margin:0!important;\n  padding:0!important;\n  width:-webkit-max-content;\n  width:-moz-max-content;\n  width:max-content;\n  will-change:transform\n}\n\n.splide.is-active .splide__list{\n  display:flex\n}\n\n.splide__pagination{\n  display:inline-flex;\n  align-items:center;\n  width:95%;\n  flex-wrap:wrap;\n  justify-content:center;\n  margin:0\n}\n\n.splide__pagination li{\n  list-style-type:none;\n  display:inline-block;\n  line-height:1;\n  margin:0\n}\n\n.splide{\n  visibility:hidden\n}\n\n.splide,.splide__slide{\n  position:relative;\n  outline:none\n}\n\n.splide__slide{\n  box-sizing:border-box;\n  list-style-type:none!important;\n  margin:0;\n  flex-shrink:0\n}\n\n.splide__slide img{\n  vertical-align:bottom\n}\n\n.splide__slider{\n  position:relative\n}\n\n.splide__spinner{\n  position:absolute;\n  top:0;\n  left:0;\n  right:0;\n  bottom:0;\n  margin:auto;\n  display:inline-block;\n  width:20px;\n  height:20px;\n  border-radius:50%;\n  border:2px solid #999;\n  border-left-color:transparent;\n  -webkit-animation:splide-loading 1s linear infinite;\n          animation:splide-loading 1s linear infinite\n}\n\n.splide__track{\n  position:relative;\n  z-index:0;\n  overflow:hidden\n}\n\n.splide--draggable>.splide__track>.splide__list>.splide__slide{\n  -webkit-user-select:none;\n  -moz-user-select:none;\n   -ms-user-select:none;\n       user-select:none\n}\n\n.splide--fade>.splide__track>.splide__list{\n  display:block\n}\n\n.splide--fade>.splide__track>.splide__list>.splide__slide{\n  position:absolute;\n  top:0;\n  left:0;\n  z-index:0;\n  opacity:0\n}\n\n.splide--fade>.splide__track>.splide__list>.splide__slide.is-active{\n  position:relative;\n  z-index:1;\n  opacity:1\n}\n\n.splide--rtl{\n  direction:rtl\n}\n\n.splide--ttb>.splide__track>.splide__list{\n  display:block\n}\n\n.splide--ttb>.splide__pagination{\n  width:auto\n}\n\n.splide__arrow{\n  position:absolute;\n  z-index:1;\n  top:50%;\n  transform:translateY(-50%);\n  width:2em;\n  height:2em;\n  border-radius:50%;\n  display:flex;\n  align-items:center;\n  justify-content:center;\n  border:none;\n  padding:0;\n  opacity:.7;\n  background:#ccc\n}\n\n.splide__arrow svg{\n  width:1.2em;\n  height:1.2em\n}\n\n.splide__arrow:hover{\n  cursor:pointer;\n  opacity:.9\n}\n\n.splide__arrow:focus{\n  outline:none\n}\n\n.splide__arrow--prev{\n  left:1em\n}\n\n.splide__arrow--prev svg{\n  transform:scaleX(-1)\n}\n\n.splide__arrow--next{\n  right:1em\n}\n\n.splide__pagination{\n  position:absolute;\n  z-index:1;\n  bottom:.5em;\n  left:50%;\n  transform:translateX(-50%);\n  padding:0\n}\n\n.splide__pagination__page{\n  display:inline-block;\n  width:8px;\n  height:8px;\n  background:#ccc;\n  border-radius:50%;\n  margin:3px;\n  padding:0;\n  transition:transform .2s linear;\n  border:none;\n  opacity:.7\n}\n\n.splide__pagination__page.is-active{\n  transform:scale(1.4);\n  background:#fff\n}\n\n.splide__pagination__page:hover{\n  cursor:pointer;\n  opacity:.9\n}\n\n.splide__pagination__page:focus{\n  outline:none\n}\n\n.splide__progress__bar{\n  width:0;\n  height:3px;\n  background:#ccc\n}\n\n.splide--nav>.splide__track>.splide__list>.splide__slide{\n  border:3px solid transparent\n}\n\n.splide--nav>.splide__track>.splide__list>.splide__slide.is-active{\n  border-color:#000\n}\n\n.splide--nav>.splide__track>.splide__list>.splide__slide:focus{\n  outline:none\n}\n\n.splide--rtl>.splide__arrows .splide__arrow--prev,.splide--rtl>.splide__track>.splide__arrows .splide__arrow--prev{\n  right:1em;\n  left:auto\n}\n\n.splide--rtl>.splide__arrows .splide__arrow--prev svg,.splide--rtl>.splide__track>.splide__arrows .splide__arrow--prev svg{\n  transform:scaleX(1)\n}\n\n.splide--rtl>.splide__arrows .splide__arrow--next,.splide--rtl>.splide__track>.splide__arrows .splide__arrow--next{\n  left:1em;\n  right:auto\n}\n\n.splide--rtl>.splide__arrows .splide__arrow--next svg,.splide--rtl>.splide__track>.splide__arrows .splide__arrow--next svg{\n  transform:scaleX(-1)\n}\n\n.splide--ttb>.splide__arrows .splide__arrow,.splide--ttb>.splide__track>.splide__arrows .splide__arrow{\n  left:50%;\n  transform:translate(-50%)\n}\n\n.splide--ttb>.splide__arrows .splide__arrow--prev,.splide--ttb>.splide__track>.splide__arrows .splide__arrow--prev{\n  top:1em\n}\n\n.splide--ttb>.splide__arrows .splide__arrow--prev svg,.splide--ttb>.splide__track>.splide__arrows .splide__arrow--prev svg{\n  transform:rotate(-90deg)\n}\n\n.splide--ttb>.splide__arrows .splide__arrow--next,.splide--ttb>.splide__track>.splide__arrows .splide__arrow--next{\n  top:auto;\n  bottom:1em\n}\n\n.splide--ttb>.splide__arrows .splide__arrow--next svg,.splide--ttb>.splide__track>.splide__arrows .splide__arrow--next svg{\n  transform:rotate(90deg)\n}\n\n.splide--ttb>.splide__pagination{\n  display:flex;\n  flex-direction:column;\n  bottom:50%;\n  left:auto;\n  right:.5em;\n  transform:translateY(50%)\n}", ""]);
 
 // exports
 
@@ -8627,25 +14733,6 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, ".chld[data-v-8f05f2e2]{\n  overflow: hidden;\n  width: 100%;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wysiwyg.vue?vue&type=style&index=1&id=25ef60f2&scoped=true&lang=css&":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Wysiwyg.vue?vue&type=style&index=1&id=25ef60f2&scoped=true&lang=css& ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "trix-editor[data-v-25ef60f2] {\n  min-height: 100px;\n}\n", ""]);
 
 // exports
 
@@ -81911,36 +87998,6 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wysiwyg.vue?vue&type=style&index=0&lang=scss&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Wysiwyg.vue?vue&type=style&index=0&lang=scss& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./Wysiwyg.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wysiwyg.vue?vue&type=style&index=0&lang=scss&");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Login.vue?vue&type=style&index=0&lang=css&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Login.vue?vue&type=style&index=0&lang=css& ***!
@@ -82010,36 +88067,6 @@ if(false) {}
 
 
 var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Reply.vue?vue&type=style&index=0&id=8f05f2e2&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Reply.vue?vue&type=style&index=0&id=8f05f2e2&scoped=true&lang=css&");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wysiwyg.vue?vue&type=style&index=1&id=25ef60f2&scoped=true&lang=css&":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Wysiwyg.vue?vue&type=style&index=1&id=25ef60f2&scoped=true&lang=css& ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Wysiwyg.vue?vue&type=style&index=1&id=25ef60f2&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wysiwyg.vue?vue&type=style&index=1&id=25ef60f2&scoped=true&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -82794,42 +88821,6 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/trix/dist/trix.js":
-/*!****************************************!*\
-  !*** ./node_modules/trix/dist/trix.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(setImmediate) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
-Trix 0.11.4
-Copyright © 2018 Basecamp, LLC
-http://trix-editor.org/
- */
-(function(){}).call(this),function(){var t;null==window.Set&&(window.Set=t=function(){function t(){this.clear()}return t.prototype.clear=function(){return this.values=[]},t.prototype.has=function(t){return-1!==this.values.indexOf(t)},t.prototype.add=function(t){return this.has(t)||this.values.push(t),this},t.prototype["delete"]=function(t){var e;return-1===(e=this.values.indexOf(t))?!1:(this.values.splice(e,1),!0)},t.prototype.forEach=function(){var t;return(t=this.values).forEach.apply(t,arguments)},t}())}.call(this),function(t){function e(){}function n(t,e){return function(){t.apply(e,arguments)}}function i(t){if("object"!=typeof this)throw new TypeError("Promises must be constructed via new");if("function"!=typeof t)throw new TypeError("not a function");this._state=0,this._handled=!1,this._value=void 0,this._deferreds=[],c(t,this)}function o(t,e){for(;3===t._state;)t=t._value;return 0===t._state?void t._deferreds.push(e):(t._handled=!0,void h(function(){var n=1===t._state?e.onFulfilled:e.onRejected;if(null===n)return void(1===t._state?r:s)(e.promise,t._value);var i;try{i=n(t._value)}catch(o){return void s(e.promise,o)}r(e.promise,i)}))}function r(t,e){try{if(e===t)throw new TypeError("A promise cannot be resolved with itself.");if(e&&("object"==typeof e||"function"==typeof e)){var o=e.then;if(e instanceof i)return t._state=3,t._value=e,void a(t);if("function"==typeof o)return void c(n(o,e),t)}t._state=1,t._value=e,a(t)}catch(r){s(t,r)}}function s(t,e){t._state=2,t._value=e,a(t)}function a(t){2===t._state&&0===t._deferreds.length&&setTimeout(function(){t._handled||p(t._value)},1);for(var e=0,n=t._deferreds.length;n>e;e++)o(t,t._deferreds[e]);t._deferreds=null}function u(t,e,n){this.onFulfilled="function"==typeof t?t:null,this.onRejected="function"==typeof e?e:null,this.promise=n}function c(t,e){var n=!1;try{t(function(t){n||(n=!0,r(e,t))},function(t){n||(n=!0,s(e,t))})}catch(i){if(n)return;n=!0,s(e,i)}}var l=setTimeout,h="function"==typeof setImmediate&&setImmediate||function(t){l(t,1)},p=function(t){"undefined"!=typeof console&&console&&console.warn("Possible Unhandled Promise Rejection:",t)};i.prototype["catch"]=function(t){return this.then(null,t)},i.prototype.then=function(t,n){var r=new i(e);return o(this,new u(t,n,r)),r},i.all=function(t){var e=Array.prototype.slice.call(t);return new i(function(t,n){function i(r,s){try{if(s&&("object"==typeof s||"function"==typeof s)){var a=s.then;if("function"==typeof a)return void a.call(s,function(t){i(r,t)},n)}e[r]=s,0===--o&&t(e)}catch(u){n(u)}}if(0===e.length)return t([]);for(var o=e.length,r=0;r<e.length;r++)i(r,e[r])})},i.resolve=function(t){return t&&"object"==typeof t&&t.constructor===i?t:new i(function(e){e(t)})},i.reject=function(t){return new i(function(e,n){n(t)})},i.race=function(t){return new i(function(e,n){for(var i=0,o=t.length;o>i;i++)t[i].then(e,n)})},i._setImmediateFn=function(t){h=t},i._setUnhandledRejectionFn=function(t){p=t}, true&&module.exports?module.exports=i:t.Promise||(t.Promise=i)}(this),/**
- * @license
- * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
-"undefined"==typeof WeakMap&&!function(){var t=Object.defineProperty,e=Date.now()%1e9,n=function(){this.name="__st"+(1e9*Math.random()>>>0)+(e++ +"__")};n.prototype={set:function(e,n){var i=e[this.name];return i&&i[0]===e?i[1]=n:t(e,this.name,{value:[e,n],writable:!0}),this},get:function(t){var e;return(e=t[this.name])&&e[0]===t?e[1]:void 0},"delete":function(t){var e=t[this.name];return e&&e[0]===t?(e[0]=e[1]=void 0,!0):!1},has:function(t){var e=t[this.name];return e?e[0]===t:!1}},window.WeakMap=n}(),function(t){function e(t){A.push(t),b||(b=!0,g(i))}function n(t){return window.ShadowDOMPolyfill&&window.ShadowDOMPolyfill.wrapIfNeeded(t)||t}function i(){b=!1;var t=A;A=[],t.sort(function(t,e){return t.uid_-e.uid_});var e=!1;t.forEach(function(t){var n=t.takeRecords();o(t),n.length&&(t.callback_(n,t),e=!0)}),e&&i()}function o(t){t.nodes_.forEach(function(e){var n=m.get(e);n&&n.forEach(function(e){e.observer===t&&e.removeTransientObservers()})})}function r(t,e){for(var n=t;n;n=n.parentNode){var i=m.get(n);if(i)for(var o=0;o<i.length;o++){var r=i[o],s=r.options;if(n===t||s.subtree){var a=e(s);a&&r.enqueue(a)}}}}function s(t){this.callback_=t,this.nodes_=[],this.records_=[],this.uid_=++C}function a(t,e){this.type=t,this.target=e,this.addedNodes=[],this.removedNodes=[],this.previousSibling=null,this.nextSibling=null,this.attributeName=null,this.attributeNamespace=null,this.oldValue=null}function u(t){var e=new a(t.type,t.target);return e.addedNodes=t.addedNodes.slice(),e.removedNodes=t.removedNodes.slice(),e.previousSibling=t.previousSibling,e.nextSibling=t.nextSibling,e.attributeName=t.attributeName,e.attributeNamespace=t.attributeNamespace,e.oldValue=t.oldValue,e}function c(t,e){return x=new a(t,e)}function l(t){return w?w:(w=u(x),w.oldValue=t,w)}function h(){x=w=void 0}function p(t){return t===w||t===x}function d(t,e){return t===e?t:w&&p(t)?w:null}function f(t,e,n){this.observer=t,this.target=e,this.options=n,this.transientObservedNodes=[]}if(!t.JsMutationObserver){var g,m=new WeakMap;if(/Trident|Edge/.test(navigator.userAgent))g=setTimeout;else if(window.setImmediate)g=window.setImmediate;else{var y=[],v=String(Math.random());window.addEventListener("message",function(t){if(t.data===v){var e=y;y=[],e.forEach(function(t){t()})}}),g=function(t){y.push(t),window.postMessage(v,"*")}}var b=!1,A=[],C=0;s.prototype={observe:function(t,e){if(t=n(t),!e.childList&&!e.attributes&&!e.characterData||e.attributeOldValue&&!e.attributes||e.attributeFilter&&e.attributeFilter.length&&!e.attributes||e.characterDataOldValue&&!e.characterData)throw new SyntaxError;var i=m.get(t);i||m.set(t,i=[]);for(var o,r=0;r<i.length;r++)if(i[r].observer===this){o=i[r],o.removeListeners(),o.options=e;break}o||(o=new f(this,t,e),i.push(o),this.nodes_.push(t)),o.addListeners()},disconnect:function(){this.nodes_.forEach(function(t){for(var e=m.get(t),n=0;n<e.length;n++){var i=e[n];if(i.observer===this){i.removeListeners(),e.splice(n,1);break}}},this),this.records_=[]},takeRecords:function(){var t=this.records_;return this.records_=[],t}};var x,w;f.prototype={enqueue:function(t){var n=this.observer.records_,i=n.length;if(n.length>0){var o=n[i-1],r=d(o,t);if(r)return void(n[i-1]=r)}else e(this.observer);n[i]=t},addListeners:function(){this.addListeners_(this.target)},addListeners_:function(t){var e=this.options;e.attributes&&t.addEventListener("DOMAttrModified",this,!0),e.characterData&&t.addEventListener("DOMCharacterDataModified",this,!0),e.childList&&t.addEventListener("DOMNodeInserted",this,!0),(e.childList||e.subtree)&&t.addEventListener("DOMNodeRemoved",this,!0)},removeListeners:function(){this.removeListeners_(this.target)},removeListeners_:function(t){var e=this.options;e.attributes&&t.removeEventListener("DOMAttrModified",this,!0),e.characterData&&t.removeEventListener("DOMCharacterDataModified",this,!0),e.childList&&t.removeEventListener("DOMNodeInserted",this,!0),(e.childList||e.subtree)&&t.removeEventListener("DOMNodeRemoved",this,!0)},addTransientObserver:function(t){if(t!==this.target){this.addListeners_(t),this.transientObservedNodes.push(t);var e=m.get(t);e||m.set(t,e=[]),e.push(this)}},removeTransientObservers:function(){var t=this.transientObservedNodes;this.transientObservedNodes=[],t.forEach(function(t){this.removeListeners_(t);for(var e=m.get(t),n=0;n<e.length;n++)if(e[n]===this){e.splice(n,1);break}},this)},handleEvent:function(t){switch(t.stopImmediatePropagation(),t.type){case"DOMAttrModified":var e=t.attrName,n=t.relatedNode.namespaceURI,i=t.target,o=new c("attributes",i);o.attributeName=e,o.attributeNamespace=n;var s=t.attrChange===MutationEvent.ADDITION?null:t.prevValue;r(i,function(t){return!t.attributes||t.attributeFilter&&t.attributeFilter.length&&-1===t.attributeFilter.indexOf(e)&&-1===t.attributeFilter.indexOf(n)?void 0:t.attributeOldValue?l(s):o});break;case"DOMCharacterDataModified":var i=t.target,o=c("characterData",i),s=t.prevValue;r(i,function(t){return t.characterData?t.characterDataOldValue?l(s):o:void 0});break;case"DOMNodeRemoved":this.addTransientObserver(t.target);case"DOMNodeInserted":var a,u,p=t.target;"DOMNodeInserted"===t.type?(a=[p],u=[]):(a=[],u=[p]);var d=p.previousSibling,f=p.nextSibling,o=c("childList",t.target.parentNode);o.addedNodes=a,o.removedNodes=u,o.previousSibling=d,o.nextSibling=f,r(t.relatedNode,function(t){return t.childList?o:void 0})}h()}},t.JsMutationObserver=s,t.MutationObserver||(t.MutationObserver=s,s._isPolyfilled=!0)}}(self),function(){"use strict";if(!window.performance){var t=Date.now();window.performance={now:function(){return Date.now()-t}}}window.requestAnimationFrame||(window.requestAnimationFrame=function(){var t=window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame;return t?function(e){return t(function(){e(performance.now())})}:function(t){return window.setTimeout(t,1e3/60)}}()),window.cancelAnimationFrame||(window.cancelAnimationFrame=function(){return window.webkitCancelAnimationFrame||window.mozCancelAnimationFrame||function(t){clearTimeout(t)}}());var e=function(){var t=document.createEvent("Event");return t.initEvent("foo",!0,!0),t.preventDefault(),t.defaultPrevented}();if(!e){var n=Event.prototype.preventDefault;Event.prototype.preventDefault=function(){this.cancelable&&(n.call(this),Object.defineProperty(this,"defaultPrevented",{get:function(){return!0},configurable:!0}))}}var i=/Trident/.test(navigator.userAgent);if((!window.CustomEvent||i&&"function"!=typeof window.CustomEvent)&&(window.CustomEvent=function(t,e){e=e||{};var n=document.createEvent("CustomEvent");return n.initCustomEvent(t,Boolean(e.bubbles),Boolean(e.cancelable),e.detail),n},window.CustomEvent.prototype=window.Event.prototype),!window.Event||i&&"function"!=typeof window.Event){var o=window.Event;window.Event=function(t,e){e=e||{};var n=document.createEvent("Event");return n.initEvent(t,Boolean(e.bubbles),Boolean(e.cancelable)),n},window.Event.prototype=o.prototype}}(window.WebComponents),window.CustomElements=window.CustomElements||{flags:{}},function(t){var e=t.flags,n=[],i=function(t){n.push(t)},o=function(){n.forEach(function(e){e(t)})};t.addModule=i,t.initializeModules=o,t.hasNative=Boolean(document.registerElement),t.isIE=/Trident/.test(navigator.userAgent),t.useNative=!e.register&&t.hasNative&&!window.ShadowDOMPolyfill&&(!window.HTMLImports||window.HTMLImports.useNative)}(window.CustomElements),window.CustomElements.addModule(function(t){function e(t,e){n(t,function(t){return e(t)?!0:void i(t,e)}),i(t,e)}function n(t,e,i){var o=t.firstElementChild;if(!o)for(o=t.firstChild;o&&o.nodeType!==Node.ELEMENT_NODE;)o=o.nextSibling;for(;o;)e(o,i)!==!0&&n(o,e,i),o=o.nextElementSibling;return null}function i(t,n){for(var i=t.shadowRoot;i;)e(i,n),i=i.olderShadowRoot}function o(t,e){r(t,e,[])}function r(t,e,n){if(t=window.wrap(t),!(n.indexOf(t)>=0)){n.push(t);for(var i,o=t.querySelectorAll("link[rel="+s+"]"),a=0,u=o.length;u>a&&(i=o[a]);a++)i.import&&r(i.import,e,n);e(t)}}var s=window.HTMLImports?window.HTMLImports.IMPORT_LINK_TYPE:"none";t.forDocumentTree=o,t.forSubtree=e}),window.CustomElements.addModule(function(t){function e(t,e){return n(t,e)||i(t,e)}function n(e,n){return t.upgrade(e,n)?!0:void(n&&s(e))}function i(t,e){b(t,function(t){return n(t,e)?!0:void 0})}function o(t){w.push(t),x||(x=!0,setTimeout(r))}function r(){x=!1;for(var t,e=w,n=0,i=e.length;i>n&&(t=e[n]);n++)t();w=[]}function s(t){C?o(function(){a(t)}):a(t)}function a(t){t.__upgraded__&&!t.__attached&&(t.__attached=!0,t.attachedCallback&&t.attachedCallback())}function u(t){c(t),b(t,function(t){c(t)})}function c(t){C?o(function(){l(t)}):l(t)}function l(t){t.__upgraded__&&t.__attached&&(t.__attached=!1,t.detachedCallback&&t.detachedCallback())}function h(t){for(var e=t,n=window.wrap(document);e;){if(e==n)return!0;e=e.parentNode||e.nodeType===Node.DOCUMENT_FRAGMENT_NODE&&e.host}}function p(t){if(t.shadowRoot&&!t.shadowRoot.__watched){v.dom&&console.log("watching shadow-root for: ",t.localName);for(var e=t.shadowRoot;e;)g(e),e=e.olderShadowRoot}}function d(t,n){if(v.dom){var i=n[0];if(i&&"childList"===i.type&&i.addedNodes&&i.addedNodes){for(var o=i.addedNodes[0];o&&o!==document&&!o.host;)o=o.parentNode;var r=o&&(o.URL||o._URL||o.host&&o.host.localName)||"";r=r.split("/?").shift().split("/").pop()}console.group("mutations (%d) [%s]",n.length,r||"")}var s=h(t);n.forEach(function(t){"childList"===t.type&&(E(t.addedNodes,function(t){t.localName&&e(t,s)}),E(t.removedNodes,function(t){t.localName&&u(t)}))}),v.dom&&console.groupEnd()}function f(t){for(t=window.wrap(t),t||(t=window.wrap(document));t.parentNode;)t=t.parentNode;var e=t.__observer;e&&(d(t,e.takeRecords()),r())}function g(t){if(!t.__observer){var e=new MutationObserver(d.bind(this,t));e.observe(t,{childList:!0,subtree:!0}),t.__observer=e}}function m(t){t=window.wrap(t),v.dom&&console.group("upgradeDocument: ",t.baseURI.split("/").pop());var n=t===window.wrap(document);e(t,n),g(t),v.dom&&console.groupEnd()}function y(t){A(t,m)}var v=t.flags,b=t.forSubtree,A=t.forDocumentTree,C=window.MutationObserver._isPolyfilled&&v["throttle-attached"];t.hasPolyfillMutations=C,t.hasThrottledAttached=C;var x=!1,w=[],E=Array.prototype.forEach.call.bind(Array.prototype.forEach),S=Element.prototype.createShadowRoot;S&&(Element.prototype.createShadowRoot=function(){var t=S.call(this);return window.CustomElements.watchShadow(this),t}),t.watchShadow=p,t.upgradeDocumentTree=y,t.upgradeDocument=m,t.upgradeSubtree=i,t.upgradeAll=e,t.attached=s,t.takeRecords=f}),window.CustomElements.addModule(function(t){function e(e,i){if("template"===e.localName&&window.HTMLTemplateElement&&HTMLTemplateElement.decorate&&HTMLTemplateElement.decorate(e),!e.__upgraded__&&e.nodeType===Node.ELEMENT_NODE){var o=e.getAttribute("is"),r=t.getRegisteredDefinition(e.localName)||t.getRegisteredDefinition(o);if(r&&(o&&r.tag==e.localName||!o&&!r.extends))return n(e,r,i)}}function n(e,n,o){return s.upgrade&&console.group("upgrade:",e.localName),n.is&&e.setAttribute("is",n.is),i(e,n),e.__upgraded__=!0,r(e),o&&t.attached(e),t.upgradeSubtree(e,o),s.upgrade&&console.groupEnd(),e}function i(t,e){Object.__proto__?t.__proto__=e.prototype:(o(t,e.prototype,e.native),t.__proto__=e.prototype)}function o(t,e,n){for(var i={},o=e;o!==n&&o!==HTMLElement.prototype;){for(var r,s=Object.getOwnPropertyNames(o),a=0;r=s[a];a++)i[r]||(Object.defineProperty(t,r,Object.getOwnPropertyDescriptor(o,r)),i[r]=1);o=Object.getPrototypeOf(o)}}function r(t){t.createdCallback&&t.createdCallback()}var s=t.flags;t.upgrade=e,t.upgradeWithDefinition=n,t.implementPrototype=i}),window.CustomElements.addModule(function(t){function e(e,i){var u=i||{};if(!e)throw new Error("document.registerElement: first argument `name` must not be empty");if(e.indexOf("-")<0)throw new Error("document.registerElement: first argument ('name') must contain a dash ('-'). Argument provided was '"+String(e)+"'.");if(o(e))throw new Error("Failed to execute 'registerElement' on 'Document': Registration failed for type '"+String(e)+"'. The type name is invalid.");if(c(e))throw new Error("DuplicateDefinitionError: a type with name '"+String(e)+"' is already registered");return u.prototype||(u.prototype=Object.create(HTMLElement.prototype)),u.__name=e.toLowerCase(),u.extends&&(u.extends=u.extends.toLowerCase()),u.lifecycle=u.lifecycle||{},u.ancestry=r(u.extends),s(u),a(u),n(u.prototype),l(u.__name,u),u.ctor=h(u),u.ctor.prototype=u.prototype,u.prototype.constructor=u.ctor,t.ready&&m(document),u.ctor}function n(t){if(!t.setAttribute._polyfilled){var e=t.setAttribute;t.setAttribute=function(t,n){i.call(this,t,n,e)};var n=t.removeAttribute;t.removeAttribute=function(t){i.call(this,t,null,n)},t.setAttribute._polyfilled=!0}}function i(t,e,n){t=t.toLowerCase();var i=this.getAttribute(t);n.apply(this,arguments);var o=this.getAttribute(t);this.attributeChangedCallback&&o!==i&&this.attributeChangedCallback(t,i,o)}function o(t){for(var e=0;e<C.length;e++)if(t===C[e])return!0}function r(t){var e=c(t);return e?r(e.extends).concat([e]):[]}function s(t){for(var e,n=t.extends,i=0;e=t.ancestry[i];i++)n=e.is&&e.tag;t.tag=n||t.__name,n&&(t.is=t.__name)}function a(t){if(!Object.__proto__){var e=HTMLElement.prototype;if(t.is){var n=document.createElement(t.tag);e=Object.getPrototypeOf(n)}for(var i,o=t.prototype,r=!1;o;)o==e&&(r=!0),i=Object.getPrototypeOf(o),i&&(o.__proto__=i),o=i;r||console.warn(t.tag+" prototype not found in prototype chain for "+t.is),t.native=e}}function u(t){return v(E(t.tag),t)}function c(t){return t?x[t.toLowerCase()]:void 0}function l(t,e){x[t]=e}function h(t){return function(){return u(t)}}function p(t,e,n){return t===w?d(e,n):S(t,e)}function d(t,e){t&&(t=t.toLowerCase()),e&&(e=e.toLowerCase());var n=c(e||t);if(n){if(t==n.tag&&e==n.is)return new n.ctor;if(!e&&!n.is)return new n.ctor}var i;return e?(i=d(t),i.setAttribute("is",e),i):(i=E(t),t.indexOf("-")>=0&&b(i,HTMLElement),i)}function f(t,e){var n=t[e];t[e]=function(){var t=n.apply(this,arguments);return y(t),t}}var g,m=(t.isIE,t.upgradeDocumentTree),y=t.upgradeAll,v=t.upgradeWithDefinition,b=t.implementPrototype,A=t.useNative,C=["annotation-xml","color-profile","font-face","font-face-src","font-face-uri","font-face-format","font-face-name","missing-glyph"],x={},w="http://www.w3.org/1999/xhtml",E=document.createElement.bind(document),S=document.createElementNS.bind(document);g=Object.__proto__||A?function(t,e){return t instanceof e}:function(t,e){if(t instanceof e)return!0;for(var n=t;n;){if(n===e.prototype)return!0;n=n.__proto__}return!1},f(Node.prototype,"cloneNode"),f(document,"importNode"),document.registerElement=e,document.createElement=d,document.createElementNS=p,t.registry=x,t.instanceof=g,t.reservedTagList=C,t.getRegisteredDefinition=c,document.register=document.registerElement}),function(t){function e(){r(window.wrap(document)),window.CustomElements.ready=!0;var t=window.requestAnimationFrame||function(t){setTimeout(t,16)};t(function(){setTimeout(function(){window.CustomElements.readyTime=Date.now(),window.HTMLImports&&(window.CustomElements.elapsed=window.CustomElements.readyTime-window.HTMLImports.readyTime),document.dispatchEvent(new CustomEvent("WebComponentsReady",{bubbles:!0}))})})}{var n=t.useNative,i=t.initializeModules;t.isIE}if(n){var o=function(){};t.watchShadow=o,t.upgrade=o,t.upgradeAll=o,t.upgradeDocumentTree=o,t.upgradeSubtree=o,t.takeRecords=o,t.instanceof=function(t,e){return t instanceof e}}else i();var r=t.upgradeDocumentTree,s=t.upgradeDocument;if(window.wrap||(window.ShadowDOMPolyfill?(window.wrap=window.ShadowDOMPolyfill.wrapIfNeeded,window.unwrap=window.ShadowDOMPolyfill.unwrapIfNeeded):window.wrap=window.unwrap=function(t){return t}),window.HTMLImports&&(window.HTMLImports.__importsParsingHook=function(t){t.import&&s(wrap(t.import))}),"complete"===document.readyState||t.flags.eager)e();else if("interactive"!==document.readyState||window.attachEvent||window.HTMLImports&&!window.HTMLImports.ready){var a=window.HTMLImports&&!window.HTMLImports.ready?"HTMLImportsLoaded":"DOMContentLoaded";window.addEventListener(a,e)}else e()}(window.CustomElements),function(){}.call(this),function(){var t=this;(function(){(function(){this.Trix={VERSION:"0.11.4",ZERO_WIDTH_SPACE:"\ufeff",NON_BREAKING_SPACE:"\xa0",OBJECT_REPLACEMENT_CHARACTER:"\ufffc",browser:{composesExistingText:/Android.*Chrome/.test(navigator.userAgent),forcesObjectResizing:/Trident.*rv:11/.test(navigator.userAgent)},config:{}}}).call(this)}).call(t);var e=t.Trix;(function(){(function(){e.BasicObject=function(){function t(){}var e,n,i;return t.proxyMethod=function(t){var i,o,r,s,a;return r=n(t),i=r.name,s=r.toMethod,a=r.toProperty,o=r.optional,this.prototype[i]=function(){var t,n;return t=null!=s?o?"function"==typeof this[s]?this[s]():void 0:this[s]():null!=a?this[a]:void 0,o?(n=null!=t?t[i]:void 0,null!=n?e.call(n,t,arguments):void 0):(n=t[i],e.call(n,t,arguments))}},n=function(t){var e,n;if(!(n=t.match(i)))throw new Error("can't parse @proxyMethod expression: "+t);return e={name:n[4]},null!=n[2]?e.toMethod=n[1]:e.toProperty=n[1],null!=n[3]&&(e.optional=!0),e},e=Function.prototype.apply,i=/^(.+?)(\(\))?(\?)?\.(.+?)$/,t}()}).call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.Object=function(n){function i(){this.id=++o}var o;return t(i,n),o=0,i.fromJSONString=function(t){return this.fromJSON(JSON.parse(t))},i.prototype.hasSameConstructorAs=function(t){return this.constructor===(null!=t?t.constructor:void 0)},i.prototype.isEqualTo=function(t){return this===t},i.prototype.inspect=function(){var t,e,n;return t=function(){var t,i,o;i=null!=(t=this.contentsForInspection())?t:{},o=[];for(e in i)n=i[e],o.push(e+"="+n);return o}.call(this),"#<"+this.constructor.name+":"+this.id+(t.length?" "+t.join(", "):"")+">"},i.prototype.contentsForInspection=function(){},i.prototype.toJSONString=function(){return JSON.stringify(this)},i.prototype.toUTF16String=function(){return e.UTF16String.box(this)},i.prototype.getCacheKey=function(){return this.id.toString()},i}(e.BasicObject)}.call(this),function(){e.extend=function(t){var e,n;for(e in t)n=t[e],this[e]=n;return this}}.call(this),function(){e.extend({defer:function(t){return setTimeout(t,1)}})}.call(this),function(){var t,n;e.extend({normalizeSpaces:function(t){return t.replace(RegExp(""+e.ZERO_WIDTH_SPACE,"g"),"").replace(RegExp(""+e.NON_BREAKING_SPACE,"g")," ")},normalizeNewlines:function(t){return t.replace(/\r\n/g,"\n")},breakableWhitespacePattern:RegExp("[^\\S"+e.NON_BREAKING_SPACE+"]"),squishBreakableWhitespace:function(t){return t.replace(RegExp(""+e.breakableWhitespacePattern.source,"g")," ").replace(/\ {2,}/g," ")},summarizeStringChange:function(t,i){var o,r,s,a;return t=e.UTF16String.box(t),i=e.UTF16String.box(i),i.length<t.length?(r=n(t,i),a=r[0],o=r[1]):(s=n(i,t),o=s[0],a=s[1]),{added:o,removed:a}}}),n=function(n,i){var o,r,s,a,u;return n.isEqualTo(i)?["",""]:(r=t(n,i),a=r.utf16String.length,s=a?(u=r.offset,r,o=n.codepoints.slice(0,u).concat(n.codepoints.slice(u+a)),t(i,e.UTF16String.fromCodepoints(o))):t(i,n),[r.utf16String.toString(),s.utf16String.toString()])},t=function(t,e){var n,i,o;for(n=0,i=t.length,o=e.length;i>n&&t.charAt(n).isEqualTo(e.charAt(n));)n++;for(;i>n+1&&t.charAt(i-1).isEqualTo(e.charAt(o-1));)i--,o--;return{utf16String:t.slice(n,i),offset:n}}}.call(this),function(){e.extend({copyObject:function(t){var e,n,i;null==t&&(t={}),n={};for(e in t)i=t[e],n[e]=i;return n},objectsAreEqual:function(t,e){var n,i;if(null==t&&(t={}),null==e&&(e={}),Object.keys(t).length!==Object.keys(e).length)return!1;for(n in t)if(i=t[n],i!==e[n])return!1;return!0}})}.call(this),function(){var t=[].slice;e.extend({arraysAreEqual:function(t,e){var n,i,o,r;if(null==t&&(t=[]),null==e&&(e=[]),t.length!==e.length)return!1;for(i=n=0,o=t.length;o>n;i=++n)if(r=t[i],r!==e[i])return!1;return!0},arrayStartsWith:function(t,n){return null==t&&(t=[]),null==n&&(n=[]),e.arraysAreEqual(t.slice(0,n.length),n)},spliceArray:function(){var e,n,i;return n=arguments[0],e=2<=arguments.length?t.call(arguments,1):[],i=n.slice(0),i.splice.apply(i,e),i},summarizeArrayChange:function(t,e){var n,i,o,r,s,a,u,c,l,h,p;for(null==t&&(t=[]),null==e&&(e=[]),n=[],h=[],o=new Set,r=0,u=t.length;u>r;r++)p=t[r],o.add(p);for(i=new Set,s=0,c=e.length;c>s;s++)p=e[s],i.add(p),o.has(p)||n.push(p);for(a=0,l=t.length;l>a;a++)p=t[a],i.has(p)||h.push(p);return{added:n,removed:h}}})}.call(this),function(){var t,n,i,o;t=null,n=null,o=null,i=null,e.extend({getAllAttributeNames:function(){return null!=t?t:t=e.getTextAttributeNames().concat(e.getBlockAttributeNames())},getBlockConfig:function(t){return e.config.blockAttributes[t]},getBlockAttributeNames:function(){return null!=n?n:n=Object.keys(e.config.blockAttributes)},getTextConfig:function(t){return e.config.textAttributes[t]},getTextAttributeNames:function(){return null!=o?o:o=Object.keys(e.config.textAttributes)},getListAttributeNames:function(){var t,n;return null!=i?i:i=function(){var i,o;i=e.config.blockAttributes,o=[];for(t in i)n=i[t].listAttribute,null!=n&&o.push(n);return o}()}})}.call(this),function(){var t,n,i,o,r,s=[].indexOf||function(t){for(var e=0,n=this.length;n>e;e++)if(e in this&&this[e]===t)return e;return-1};t=document.documentElement,n=null!=(i=null!=(o=null!=(r=t.matchesSelector)?r:t.webkitMatchesSelector)?o:t.msMatchesSelector)?i:t.mozMatchesSelector,e.extend({handleEvent:function(n,i){var o,r,s,a,u,c,l,h,p,d,f,g;return h=null!=i?i:{},c=h.onElement,u=h.matchingSelector,g=h.withCallback,a=h.inPhase,l=h.preventDefault,d=h.times,r=null!=c?c:t,p=u,o=g,f="capturing"===a,s=function(t){var n;return null!=d&&0===--d&&s.destroy(),n=e.findClosestElementFromNode(t.target,{matchingSelector:p}),null!=n&&(null!=g&&g.call(n,t,n),l)?t.preventDefault():void 0},s.destroy=function(){return r.removeEventListener(n,s,f)},r.addEventListener(n,s,f),s},handleEventOnce:function(t,n){return null==n&&(n={}),n.times=1,e.handleEvent(t,n)},triggerEvent:function(n,i){var o,r,s,a,u,c,l;return l=null!=i?i:{},c=l.onElement,r=l.bubbles,s=l.cancelable,o=l.attributes,a=null!=c?c:t,r=r!==!1,s=s!==!1,u=document.createEvent("Events"),u.initEvent(n,r,s),null!=o&&e.extend.call(u,o),a.dispatchEvent(u)},elementMatchesSelector:function(t,e){return 1===(null!=t?t.nodeType:void 0)?n.call(t,e):void 0},findClosestElementFromNode:function(t,n){var i,o,r;for(o=null!=n?n:{},i=o.matchingSelector,r=o.untilNode;null!=t&&t.nodeType!==Node.ELEMENT_NODE;)t=t.parentNode;if(null!=t){if(null==i)return t;if(t.closest&&null==r)return t.closest(i);for(;t&&t!==r;){if(e.elementMatchesSelector(t,i))return t;t=t.parentNode}}},findInnerElement:function(t){for(;null!=t?t.firstElementChild:void 0;)t=t.firstElementChild;return t},innerElementIsActive:function(t){return document.activeElement!==t&&e.elementContainsNode(t,document.activeElement)},elementContainsNode:function(t,e){if(t&&e)for(;e;){if(e===t)return!0;e=e.parentNode}},findNodeFromContainerAndOffset:function(t,e){var n;if(t)return t.nodeType===Node.TEXT_NODE?t:0===e?null!=(n=t.firstChild)?n:t:t.childNodes.item(e-1)},findElementFromContainerAndOffset:function(t,n){var i;return i=e.findNodeFromContainerAndOffset(t,n),e.findClosestElementFromNode(i)},findChildIndexOfNode:function(t){var e;if(null!=t?t.parentNode:void 0){for(e=0;t=t.previousSibling;)e++;return e}},walkTree:function(t,e){var n,i,o,r,s;return o=null!=e?e:{},i=o.onlyNodesOfType,r=o.usingFilter,n=o.expandEntityReferences,s=function(){switch(i){case"element":return NodeFilter.SHOW_ELEMENT;case"text":return NodeFilter.SHOW_TEXT;case"comment":return NodeFilter.SHOW_COMMENT;default:return NodeFilter.SHOW_ALL}}(),document.createTreeWalker(t,s,null!=r?r:null,n===!0)},tagName:function(t){var e;return null!=t&&null!=(e=t.tagName)?e.toLowerCase():void 0},makeElement:function(t,e){var n,i,o,r,s,a,u,c,l,h;if(null==e&&(e={}),"object"==typeof t?(e=t,t=e.tagName):e={attributes:e},i=document.createElement(t),null!=e.editable&&(null==e.attributes&&(e.attributes={}),e.attributes.contenteditable=e.editable),e.attributes){a=e.attributes;for(r in a)h=a[r],i.setAttribute(r,h)}if(e.style){u=e.style;for(r in u)h=u[r],i.style[r]=h}if(e.data){c=e.data;for(r in c)h=c[r],i.dataset[r]=h}if(e.className)for(l=e.className.split(" "),o=0,s=l.length;s>o;o++)n=l[o],i.classList.add(n);return e.textContent&&(i.textContent=e.textContent),i},getBlockTagNames:function(){var t,n;return null!=e.blockTagNames?e.blockTagNames:e.blockTagNames=function(){var i,o;i=e.config.blockAttributes,o=[];for(t in i)n=i[t],o.push(n.tagName);return o}()},nodeIsBlockContainer:function(t){return e.nodeIsBlockStartComment(null!=t?t.firstChild:void 0)},nodeProbablyIsBlockContainer:function(t){var n,i;return n=e.tagName(t),s.call(e.getBlockTagNames(),n)>=0&&(i=e.tagName(t.firstChild),s.call(e.getBlockTagNames(),i)<0)},nodeIsBlockStart:function(t,n){var i;return i=(null!=n?n:{strict:!0}).strict,i?e.nodeIsBlockStartComment(t):e.nodeIsBlockStartComment(t)||!e.nodeIsBlockStartComment(t.firstChild)&&e.nodeProbablyIsBlockContainer(t)},nodeIsBlockStartComment:function(t){return e.nodeIsCommentNode(t)&&"block"===(null!=t?t.data:void 0)},nodeIsCommentNode:function(t){return(null!=t?t.nodeType:void 0)===Node.COMMENT_NODE},nodeIsCursorTarget:function(t){return t?e.nodeIsTextNode(t)?t.data===e.ZERO_WIDTH_SPACE:e.nodeIsCursorTarget(t.firstChild):void 0},nodeIsAttachmentElement:function(t){return e.elementMatchesSelector(t,e.AttachmentView.attachmentSelector)},nodeIsEmptyTextNode:function(t){return e.nodeIsTextNode(t)&&""===(null!=t?t.data:void 0)},nodeIsTextNode:function(t){return(null!=t?t.nodeType:void 0)===Node.TEXT_NODE}})}.call(this),function(){var t,n,i,o,r;t=e.copyObject,o=e.objectsAreEqual,e.extend({normalizeRange:i=function(t){var e;if(null!=t)return Array.isArray(t)||(t=[t,t]),[n(t[0]),n(null!=(e=t[1])?e:t[0])]},rangeIsCollapsed:function(t){var e,n,o;if(null!=t)return n=i(t),o=n[0],e=n[1],r(o,e)},rangesAreEqual:function(t,e){var n,o,s,a,u,c;if(null!=t&&null!=e)return s=i(t),o=s[0],n=s[1],a=i(e),c=a[0],u=a[1],r(o,c)&&r(n,u)}}),n=function(e){return"number"==typeof e?e:t(e)},r=function(t,e){return"number"==typeof t?t===e:o(t,e)}}.call(this),function(){var t,n,i,o;t={extendsTagName:"div",css:"%t { display: block; }"},e.registerElement=function(e,n){var r,s,a,u,c,l,h;return null==n&&(n={}),e=e.toLowerCase(),c=o(n),u=null!=(h=c.extendsTagName)?h:t.extendsTagName,delete c.extendsTagName,s=c.defaultCSS,delete c.defaultCSS,null!=s&&u===t.extendsTagName?s+="\n"+t.css:s=t.css,i(s,e),a=Object.getPrototypeOf(document.createElement(u)),a.__super__=a,l=Object.create(a,c),r=document.registerElement(e,{prototype:l}),Object.defineProperty(l,"constructor",{value:r}),r},i=function(t,e){var i;return i=n(e),i.textContent=t.replace(/%t/g,e)},n=function(t){var e;return e=document.createElement("style"),e.setAttribute("type","text/css"),e.setAttribute("data-tag-name",t.toLowerCase()),document.head.insertBefore(e,document.head.firstChild),e},o=function(t){var e,n,i;n={};for(e in t)i=t[e],n[e]="function"==typeof i?{value:i}:i;return n}}.call(this),function(){var t,n;e.extend({getDOMSelection:function(){var t;return t=window.getSelection(),t.rangeCount>0?t:void 0},getDOMRange:function(){var n,i;return(n=null!=(i=e.getDOMSelection())?i.getRangeAt(0):void 0)&&!t(n)?n:void 0},setDOMRange:function(t){var n;return n=window.getSelection(),n.removeAllRanges(),n.addRange(t),e.selectionChangeObserver.update()}}),t=function(t){return n(t.startContainer)||n(t.endContainer)},n=function(t){return!Object.getPrototypeOf(t)}}.call(this),function(){}.call(this),function(){var t,n=function(t,e){function n(){this.constructor=t}for(var o in e)i.call(e,o)&&(t[o]=e[o]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},i={}.hasOwnProperty;t=e.arraysAreEqual,e.Hash=function(i){function o(t){null==t&&(t={}),this.values=s(t),o.__super__.constructor.apply(this,arguments)}var r,s,a,u,c;return n(o,i),o.fromCommonAttributesOfObjects=function(t){var e,n,i,o,s,a;if(null==t&&(t=[]),!t.length)return new this;for(e=r(t[0]),i=e.getKeys(),a=t.slice(1),n=0,o=a.length;o>n;n++)s=a[n],i=e.getKeysCommonToHash(r(s)),e=e.slice(i);return e},o.box=function(t){return r(t)},o.prototype.add=function(t,e){return this.merge(u(t,e))},o.prototype.remove=function(t){return new e.Hash(s(this.values,t))},o.prototype.get=function(t){return this.values[t]},o.prototype.has=function(t){return t in this.values},o.prototype.merge=function(t){return new e.Hash(a(this.values,c(t)))},o.prototype.slice=function(t){var n,i,o,r;for(r={},n=0,o=t.length;o>n;n++)i=t[n],this.has(i)&&(r[i]=this.values[i]);return new e.Hash(r)},o.prototype.getKeys=function(){return Object.keys(this.values)},o.prototype.getKeysCommonToHash=function(t){var e,n,i,o,s;for(t=r(t),o=this.getKeys(),s=[],e=0,i=o.length;i>e;e++)n=o[e],this.values[n]===t.values[n]&&s.push(n);return s},o.prototype.isEqualTo=function(e){return t(this.toArray(),r(e).toArray())},o.prototype.isEmpty=function(){return 0===this.getKeys().length},o.prototype.toArray=function(){var t,e,n;return(null!=this.array?this.array:this.array=function(){var i;e=[],i=this.values;for(t in i)n=i[t],e.push(t,n);return e}.call(this)).slice(0)},o.prototype.toObject=function(){return s(this.values)},o.prototype.toJSON=function(){return this.toObject()},o.prototype.contentsForInspection=function(){return{values:JSON.stringify(this.values)}},u=function(t,e){var n;return n={},n[t]=e,n},a=function(t,e){var n,i,o;i=s(t);for(n in e)o=e[n],i[n]=o;return i},s=function(t,e){var n,i,o,r,s;for(r={},s=Object.keys(t).sort(),n=0,o=s.length;o>n;n++)i=s[n],i!==e&&(r[i]=t[i]);return r},r=function(t){return t instanceof e.Hash?t:new e.Hash(t)},c=function(t){return t instanceof e.Hash?t.values:t},o}(e.Object)}.call(this),function(){e.ObjectGroup=function(){function t(t,e){var n,i;this.objects=null!=t?t:[],i=e.depth,n=e.asTree,n&&(this.depth=i,this.objects=this.constructor.groupObjects(this.objects,{asTree:n,depth:this.depth+1}))}return t.groupObjects=function(t,e){var n,i,o,r,s,a,u,c,l;for(null==t&&(t=[]),l=null!=e?e:{},o=l.depth,n=l.asTree,n&&null==o&&(o=0),c=[],s=0,a=t.length;a>s;s++){if(u=t[s],r){if(("function"==typeof u.canBeGrouped?u.canBeGrouped(o):void 0)&&("function"==typeof(i=r[r.length-1]).canBeGroupedWith?i.canBeGroupedWith(u,o):void 0)){r.push(u);continue}c.push(new this(r,{depth:o,asTree:n})),r=null}("function"==typeof u.canBeGrouped?u.canBeGrouped(o):void 0)?r=[u]:c.push(u)}return r&&c.push(new this(r,{depth:o,asTree:n})),c},t.prototype.getObjects=function(){return this.objects},t.prototype.getDepth=function(){return this.depth},t.prototype.getCacheKey=function(){var t,e,n,i,o;for(e=["objectGroup"],o=this.getObjects(),t=0,n=o.length;n>t;t++)i=o[t],e.push(i.getCacheKey());return e.join("/")},t}()}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.ObjectMap=function(e){function n(t){var e,n,i,o,r;for(null==t&&(t=[]),this.objects={},i=0,o=t.length;o>i;i++)r=t[i],n=JSON.stringify(r),null==(e=this.objects)[n]&&(e[n]=r)}return t(n,e),n.prototype.find=function(t){var e;return e=JSON.stringify(t),this.objects[e]},n}(e.BasicObject)}.call(this),function(){e.ElementStore=function(){function t(t){this.reset(t)}var e;return t.prototype.add=function(t){var n;return n=e(t),this.elements[n]=t},t.prototype.remove=function(t){var n,i;return n=e(t),(i=this.elements[n])?(delete this.elements[n],i):void 0},t.prototype.reset=function(t){var e,n,i;for(null==t&&(t=[]),this.elements={},n=0,i=t.length;i>n;n++)e=t[n],this.add(e);return t},e=function(t){return t.dataset.trixStoreKey},t}()}.call(this),function(){}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.Operation=function(e){function n(){return n.__super__.constructor.apply(this,arguments)}return t(n,e),n.prototype.isPerforming=function(){return this.performing===!0},n.prototype.hasPerformed=function(){return this.performed===!0},n.prototype.hasSucceeded=function(){return this.performed&&this.succeeded},n.prototype.hasFailed=function(){return this.performed&&!this.succeeded},n.prototype.getPromise=function(){return null!=this.promise?this.promise:this.promise=new Promise(function(t){return function(e,n){return t.performing=!0,t.perform(function(i,o){return t.succeeded=i,t.performing=!1,t.performed=!0,t.succeeded?e(o):n(o)})}}(this))},n.prototype.perform=function(t){return t(!1)},n.prototype.release=function(){var t;return null!=(t=this.promise)&&"function"==typeof t.cancel&&t.cancel(),this.promise=null,this.performing=null,this.performed=null,this.succeeded=null
-},n.proxyMethod("getPromise().then"),n.proxyMethod("getPromise().catch"),n}(e.BasicObject)}.call(this),function(){var t,n,i,o,r,s=function(t,e){function n(){this.constructor=t}for(var i in e)a.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},a={}.hasOwnProperty;e.UTF16String=function(t){function e(t,e){this.ucs2String=t,this.codepoints=e,this.length=this.codepoints.length,this.ucs2Length=this.ucs2String.length}return s(e,t),e.box=function(t){return null==t&&(t=""),t instanceof this?t:this.fromUCS2String(null!=t?t.toString():void 0)},e.fromUCS2String=function(t){return new this(t,o(t))},e.fromCodepoints=function(t){return new this(r(t),t)},e.prototype.offsetToUCS2Offset=function(t){return r(this.codepoints.slice(0,Math.max(0,t))).length},e.prototype.offsetFromUCS2Offset=function(t){return o(this.ucs2String.slice(0,Math.max(0,t))).length},e.prototype.slice=function(){var t;return this.constructor.fromCodepoints((t=this.codepoints).slice.apply(t,arguments))},e.prototype.charAt=function(t){return this.slice(t,t+1)},e.prototype.isEqualTo=function(t){return this.constructor.box(t).ucs2String===this.ucs2String},e.prototype.toJSON=function(){return this.ucs2String},e.prototype.getCacheKey=function(){return this.ucs2String},e.prototype.toString=function(){return this.ucs2String},e}(e.BasicObject),t=1===("function"==typeof Array.from?Array.from("\ud83d\udc7c").length:void 0),n=null!=("function"==typeof" ".codePointAt?" ".codePointAt(0):void 0),i=" \ud83d\udc7c"===("function"==typeof String.fromCodePoint?String.fromCodePoint(32,128124):void 0),o=t&&n?function(t){return Array.from(t).map(function(t){return t.codePointAt(0)})}:function(t){var e,n,i,o,r;for(o=[],e=0,i=t.length;i>e;)r=t.charCodeAt(e++),r>=55296&&56319>=r&&i>e&&(n=t.charCodeAt(e++),56320===(64512&n)?r=((1023&r)<<10)+(1023&n)+65536:e--),o.push(r);return o},r=i?function(t){return String.fromCodePoint.apply(String,t)}:function(t){var e,n,i;return e=function(){var e,o,r;for(r=[],e=0,o=t.length;o>e;e++)i=t[e],n="",i>65535&&(i-=65536,n+=String.fromCharCode(i>>>10&1023|55296),i=56320|1023&i),r.push(n+String.fromCharCode(i));return r}(),e.join("")}}.call(this),function(){}.call(this),function(){}.call(this),function(){e.config.lang={bold:"Bold",bullets:"Bullets","byte":"Byte",bytes:"Bytes",captionPlaceholder:"Add a caption\u2026",code:"Code",heading1:"Heading",indent:"Increase Level",italic:"Italic",link:"Link",numbers:"Numbers",outdent:"Decrease Level",quote:"Quote",redo:"Redo",remove:"Remove",strike:"Strikethrough",undo:"Undo",unlink:"Unlink",urlPlaceholder:"Enter a URL\u2026",GB:"GB",KB:"KB",MB:"MB",PB:"PB",TB:"TB"}}.call(this),function(){e.config.css={attachment:"attachment",attachmentProgress:"attachment__progress",attachmentName:"attachment__name",attachmentSize:"attachment__size",attachmentRemove:"attachment__remove",attachmentCaption:"attachment__caption",attachmentCaptionEditor:"attachment__caption-editor"}}.call(this),function(){var t;e.config.blockAttributes=t={"default":{tagName:"div",parse:!1},quote:{tagName:"blockquote",nestable:!0},heading1:{tagName:"h1",terminal:!0,breakOnReturn:!0,group:!1},code:{tagName:"pre",terminal:!0,text:{plaintext:!0}},bulletList:{tagName:"ul",parse:!1},bullet:{tagName:"li",listAttribute:"bulletList",group:!1,nestable:!0,test:function(n){return e.tagName(n.parentNode)===t[this.listAttribute].tagName}},numberList:{tagName:"ol",parse:!1},number:{tagName:"li",listAttribute:"numberList",group:!1,nestable:!0,test:function(n){return e.tagName(n.parentNode)===t[this.listAttribute].tagName}}}}.call(this),function(){var t,n;t=e.config.lang,n=[t.bytes,t.KB,t.MB,t.GB,t.TB,t.PB],e.config.fileSize={prefix:"IEC",precision:2,formatter:function(e){var i,o,r,s,a;switch(e){case 0:return"0 "+t.bytes;case 1:return"1 "+t.byte;default:return i=function(){switch(this.prefix){case"SI":return 1e3;case"IEC":return 1024}}.call(this),o=Math.floor(Math.log(e)/Math.log(i)),r=e/Math.pow(i,o),s=r.toFixed(this.precision),a=s.replace(/0*$/,"").replace(/\.$/,""),a+" "+n[o]}}}}.call(this),function(){e.config.textAttributes={bold:{tagName:"strong",inheritable:!0,parser:function(t){var e;return e=window.getComputedStyle(t),"bold"===e.fontWeight||e.fontWeight>=600}},italic:{tagName:"em",inheritable:!0,parser:function(t){var e;return e=window.getComputedStyle(t),"italic"===e.fontStyle}},href:{groupTagName:"a",parser:function(t){var n,i,o;return n=e.AttachmentView.attachmentSelector,o="a:not("+n+")",(i=e.findClosestElementFromNode(t,{matchingSelector:o}))?i.getAttribute("href"):void 0}},strike:{tagName:"del",inheritable:!0},frozen:{style:{backgroundColor:"highlight"}}}}.call(this),function(){var t,n,i,o,r;r="[data-trix-serialize=false]",o=["contenteditable","data-trix-id","data-trix-store-key","data-trix-mutable","data-trix-placeholder","tabindex"],n="data-trix-serialized-attributes",i="["+n+"]",t=new RegExp("<!--block-->","g"),e.extend({serializers:{"application/json":function(t){var n;if(t instanceof e.Document)n=t;else{if(!(t instanceof HTMLElement))throw new Error("unserializable object");n=e.Document.fromHTML(t.innerHTML)}return n.toSerializableDocument().toJSONString()},"text/html":function(s){var a,u,c,l,h,p,d,f,g,m,y,v,b,A,C,x,w;if(s instanceof e.Document)l=e.DocumentView.render(s);else{if(!(s instanceof HTMLElement))throw new Error("unserializable object");l=s.cloneNode(!0)}for(A=l.querySelectorAll(r),h=0,g=A.length;g>h;h++)c=A[h],c.parentNode.removeChild(c);for(p=0,m=o.length;m>p;p++)for(a=o[p],C=l.querySelectorAll("["+a+"]"),d=0,y=C.length;y>d;d++)c=C[d],c.removeAttribute(a);for(x=l.querySelectorAll(i),f=0,v=x.length;v>f;f++){c=x[f];try{u=JSON.parse(c.getAttribute(n)),c.removeAttribute(n);for(b in u)w=u[b],c.setAttribute(b,w)}catch(E){}}return l.innerHTML.replace(t,"")}},deserializers:{"application/json":function(t){return e.Document.fromJSONString(t)},"text/html":function(t){return e.Document.fromHTML(t)}},serializeToContentType:function(t,n){var i;if(i=e.serializers[n])return i(t);throw new Error("unknown content type: "+n)},deserializeFromContentType:function(t,n){var i;if(i=e.deserializers[n])return i(t);throw new Error("unknown content type: "+n)}})}.call(this),function(){var t;t=e.config.lang,e.config.toolbar={getDefaultHTML:function(){return'<div class="trix-button-row">\n  <span class="trix-button-group trix-button-group--text-tools" data-trix-button-group="text-tools">\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-bold" data-trix-attribute="bold" data-trix-key="b" title="'+t.bold+'" tabindex="-1">'+t.bold+'</button>\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-italic" data-trix-attribute="italic" data-trix-key="i" title="'+t.italic+'" tabindex="-1">'+t.italic+'</button>\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-strike" data-trix-attribute="strike" title="'+t.strike+'" tabindex="-1">'+t.strike+'</button>\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-link" data-trix-attribute="href" data-trix-action="link" data-trix-key="k" title="'+t.link+'" tabindex="-1">'+t.link+'</button>\n  </span>\n\n  <span class="trix-button-group trix-button-group--block-tools" data-trix-button-group="block-tools">\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-heading-1" data-trix-attribute="heading1" title="'+t.heading1+'" tabindex="-1">'+t.heading1+'</button>\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-quote" data-trix-attribute="quote" title="'+t.quote+'" tabindex="-1">'+t.quote+'</button>\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-code" data-trix-attribute="code" title="'+t.code+'" tabindex="-1">'+t.code+'</button>\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-bullet-list" data-trix-attribute="bullet" title="'+t.bullets+'" tabindex="-1">'+t.bullets+'</button>\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-number-list" data-trix-attribute="number" title="'+t.numbers+'" tabindex="-1">'+t.numbers+'</button>\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-decrease-nesting-level" data-trix-action="decreaseNestingLevel" title="'+t.outdent+'" tabindex="-1">'+t.outdent+'</button>\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-increase-nesting-level" data-trix-action="increaseNestingLevel" title="'+t.indent+'" tabindex="-1">'+t.indent+'</button>\n  </span>\n\n  <span class="trix-button-group trix-button-group--history-tools" data-trix-button-group="history-tools">\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-undo" data-trix-action="undo" data-trix-key="z" title="'+t.undo+'" tabindex="-1">'+t.undo+'</button>\n    <button type="button" class="trix-button trix-button--icon trix-button--icon-redo" data-trix-action="redo" data-trix-key="shift+z" title="'+t.redo+'" tabindex="-1">'+t.redo+'</button>\n  </span>\n</div>\n\n<div class="trix-dialogs" data-trix-dialogs>\n  <div class="trix-dialog trix-dialog--link" data-trix-dialog="href" data-trix-dialog-attribute="href">\n    <div class="trix-dialog__link-fields">\n      <input type="url" name="href" class="trix-input trix-input--dialog" placeholder="'+t.urlPlaceholder+'" required data-trix-input>\n      <div class="trix-button-group">\n        <input type="button" class="trix-button trix-button--dialog" value="'+t.link+'" data-trix-method="setAttribute">\n        <input type="button" class="trix-button trix-button--dialog" value="'+t.unlink+'" data-trix-method="removeAttribute">\n      </div>\n    </div>\n  </div>\n</div>'}}}.call(this),function(){e.config.undoInterval=5e3}.call(this),function(){e.config.attachments={preview:{caption:{name:!0,size:!0}},file:{caption:{size:!0}}}}.call(this),function(){}.call(this),function(){e.registerElement("trix-toolbar",{defaultCSS:"%t {\n  white-space: nowrap;\n}\n\n%t [data-trix-dialog] {\n  display: none;\n}\n\n%t [data-trix-dialog][data-trix-active] {\n  display: block;\n}\n\n%t [data-trix-dialog] [data-trix-validate]:invalid {\n  background-color: #ffdddd;\n}",createdCallback:function(){return""===this.innerHTML?this.innerHTML=e.config.toolbar.getDefaultHTML():void 0}})}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty,i=[].indexOf||function(t){for(var e=0,n=this.length;n>e;e++)if(e in this&&this[e]===t)return e;return-1};e.ObjectView=function(n){function o(t,e){this.object=t,this.options=null!=e?e:{},this.childViews=[],this.rootView=this}return t(o,n),o.prototype.getNodes=function(){var t,e,n,i,o;for(null==this.nodes&&(this.nodes=this.createNodes()),i=this.nodes,o=[],t=0,e=i.length;e>t;t++)n=i[t],o.push(n.cloneNode(!0));return o},o.prototype.invalidate=function(){var t;return this.nodes=null,null!=(t=this.parentView)?t.invalidate():void 0},o.prototype.invalidateViewForObject=function(t){var e;return null!=(e=this.findViewForObject(t))?e.invalidate():void 0},o.prototype.findOrCreateCachedChildView=function(t,e){var n;return(n=this.getCachedViewForObject(e))?this.recordChildView(n):(n=this.createChildView.apply(this,arguments),this.cacheViewForObject(n,e)),n},o.prototype.createChildView=function(t,n,i){var o;return null==i&&(i={}),n instanceof e.ObjectGroup&&(i.viewClass=t,t=e.ObjectGroupView),o=new t(n,i),this.recordChildView(o)},o.prototype.recordChildView=function(t){return t.parentView=this,t.rootView=this.rootView,i.call(this.childViews,t)<0&&this.childViews.push(t),t},o.prototype.getAllChildViews=function(){var t,e,n,i,o;for(o=[],i=this.childViews,e=0,n=i.length;n>e;e++)t=i[e],o.push(t),o=o.concat(t.getAllChildViews());return o},o.prototype.findElement=function(){return this.findElementForObject(this.object)},o.prototype.findElementForObject=function(t){var e;return(e=null!=t?t.id:void 0)?this.rootView.element.querySelector("[data-trix-id='"+e+"']"):void 0},o.prototype.findViewForObject=function(t){var e,n,i,o;for(i=this.getAllChildViews(),e=0,n=i.length;n>e;e++)if(o=i[e],o.object===t)return o},o.prototype.getViewCache=function(){return this.rootView!==this?this.rootView.getViewCache():this.isViewCachingEnabled()?null!=this.viewCache?this.viewCache:this.viewCache={}:void 0},o.prototype.isViewCachingEnabled=function(){return this.shouldCacheViews!==!1},o.prototype.enableViewCaching=function(){return this.shouldCacheViews=!0},o.prototype.disableViewCaching=function(){return this.shouldCacheViews=!1},o.prototype.getCachedViewForObject=function(t){var e;return null!=(e=this.getViewCache())?e[t.getCacheKey()]:void 0},o.prototype.cacheViewForObject=function(t,e){var n;return null!=(n=this.getViewCache())?n[e.getCacheKey()]=t:void 0},o.prototype.garbageCollectCachedViews=function(){var t,e,n,o,r,s;if(t=this.getViewCache()){s=this.getAllChildViews().concat(this),n=function(){var t,e,n;for(n=[],t=0,e=s.length;e>t;t++)r=s[t],n.push(r.object.getCacheKey());return n}(),o=[];for(e in t)i.call(n,e)<0&&o.push(delete t[e]);return o}},o}(e.BasicObject)}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.ObjectGroupView=function(e){function n(){n.__super__.constructor.apply(this,arguments),this.objectGroup=this.object,this.viewClass=this.options.viewClass,delete this.options.viewClass}return t(n,e),n.prototype.getChildViews=function(){var t,e,n,i;if(!this.childViews.length)for(i=this.objectGroup.getObjects(),t=0,e=i.length;e>t;t++)n=i[t],this.findOrCreateCachedChildView(this.viewClass,n,this.options);return this.childViews},n.prototype.createNodes=function(){var t,e,n,i,o,r,s,a,u;for(t=this.createContainerElement(),s=this.getChildViews(),e=0,i=s.length;i>e;e++)for(u=s[e],a=u.getNodes(),n=0,o=a.length;o>n;n++)r=a[n],t.appendChild(r);return[t]},n.prototype.createContainerElement=function(t){return null==t&&(t=this.objectGroup.getDepth()),this.getChildViews()[0].createContainerElement(t)},n}(e.ObjectView)}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.Controller=function(e){function n(){return n.__super__.constructor.apply(this,arguments)}return t(n,e),n}(e.BasicObject)}.call(this),function(){var t,n,i,o,r,s,a=function(t,e){return function(){return t.apply(e,arguments)}},u=function(t,e){function n(){this.constructor=t}for(var i in e)c.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},c={}.hasOwnProperty,l=[].indexOf||function(t){for(var e=0,n=this.length;n>e;e++)if(e in this&&this[e]===t)return e;return-1};t=e.findClosestElementFromNode,i=e.nodeIsEmptyTextNode,n=e.nodeIsBlockStartComment,o=e.normalizeSpaces,r=e.summarizeStringChange,s=e.tagName,e.MutationObserver=function(e){function c(t){this.element=t,this.didMutate=a(this.didMutate,this),this.observer=new window.MutationObserver(this.didMutate),this.start()}var h,p,d,f;return u(c,e),p="data-trix-mutable",d="["+p+"]",f={attributes:!0,childList:!0,characterData:!0,characterDataOldValue:!0,subtree:!0},c.prototype.start=function(){return this.reset(),this.observer.observe(this.element,f)},c.prototype.stop=function(){return this.observer.disconnect()},c.prototype.didMutate=function(t){var e,n;return(e=this.mutations).push.apply(e,this.findSignificantMutations(t)),this.mutations.length?(null!=(n=this.delegate)&&"function"==typeof n.elementDidMutate&&n.elementDidMutate(this.getMutationSummary()),this.reset()):void 0},c.prototype.reset=function(){return this.mutations=[]},c.prototype.findSignificantMutations=function(t){var e,n,i,o;for(o=[],e=0,n=t.length;n>e;e++)i=t[e],this.mutationIsSignificant(i)&&o.push(i);return o},c.prototype.mutationIsSignificant=function(t){var e,n,i,o;for(o=this.nodesModifiedByMutation(t),e=0,n=o.length;n>e;e++)if(i=o[e],this.nodeIsSignificant(i))return!0;return!1},c.prototype.nodeIsSignificant=function(t){return t!==this.element&&!this.nodeIsMutable(t)&&!i(t)},c.prototype.nodeIsMutable=function(e){return t(e,{matchingSelector:d})},c.prototype.nodesModifiedByMutation=function(t){var e;switch(e=[],t.type){case"attributes":t.attributeName!==p&&e.push(t.target);break;case"characterData":e.push(t.target.parentNode),e.push(t.target);break;case"childList":e.push.apply(e,t.addedNodes),e.push.apply(e,t.removedNodes)}return e},c.prototype.getMutationSummary=function(){return this.getTextMutationSummary()},c.prototype.getTextMutationSummary=function(){var t,e,n,i,o,r,s,a,u,c,h;for(a=this.getTextChangesFromCharacterData(),n=a.additions,o=a.deletions,h=this.getTextChangesFromChildList(),u=h.additions,r=0,s=u.length;s>r;r++)e=u[r],l.call(n,e)<0&&n.push(e);return o.push.apply(o,h.deletions),c={},(t=n.join(""))&&(c.textAdded=t),(i=o.join(""))&&(c.textDeleted=i),c},c.prototype.getMutationsByType=function(t){var e,n,i,o,r;for(o=this.mutations,r=[],e=0,n=o.length;n>e;e++)i=o[e],i.type===t&&r.push(i);return r},c.prototype.getTextChangesFromChildList=function(){var t,e,i,r,s,a,u,c,l,p,d;for(t=[],u=[],a=this.getMutationsByType("childList"),e=0,r=a.length;r>e;e++)s=a[e],t.push.apply(t,s.addedNodes),u.push.apply(u,s.removedNodes);return c=0===t.length&&1===u.length&&n(u[0]),c?(p=[],d=["\n"]):(p=h(t),d=h(u)),{additions:function(){var t,e,n;for(n=[],i=t=0,e=p.length;e>t;i=++t)l=p[i],l!==d[i]&&n.push(o(l));return n}(),deletions:function(){var t,e,n;for(n=[],i=t=0,e=d.length;e>t;i=++t)l=d[i],l!==p[i]&&n.push(o(l));return n}()}},c.prototype.getTextChangesFromCharacterData=function(){var t,e,n,i,s,a,u,c;return e=this.getMutationsByType("characterData"),e.length&&(c=e[0],n=e[e.length-1],s=o(c.oldValue),i=o(n.target.data),a=r(s,i),t=a.added,u=a.removed),{additions:t?[t]:[],deletions:u?[u]:[]}},h=function(t){var e,n,i,o;for(null==t&&(t=[]),o=[],e=0,n=t.length;n>e;e++)switch(i=t[e],i.nodeType){case Node.TEXT_NODE:o.push(i.data);break;case Node.ELEMENT_NODE:"br"===s(i)?o.push("\n"):o.push.apply(o,h(i.childNodes))}return o},c}(e.BasicObject)}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.FileVerificationOperation=function(e){function n(t){this.file=t}return t(n,e),n.prototype.perform=function(t){var e;return e=new FileReader,e.onerror=function(){return t(!1)},e.onload=function(n){return function(){e.onerror=null;try{e.abort()}catch(i){}return t(!0,n.file)}}(this),e.readAsArrayBuffer(this.file)},n}(e.Operation)}.call(this),function(){var t,n=function(t,e){function n(){this.constructor=t}for(var o in e)i.call(e,o)&&(t[o]=e[o]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},i={}.hasOwnProperty;t=e.browser,e.CompositionInput=function(e){function i(t){var e;this.inputController=t,e=this.inputController,this.responder=e.responder,this.delegate=e.delegate,this.inputSummary=e.inputSummary,this.data={}}return n(i,e),i.prototype.start=function(t){var e,n;return this.data.start=t,this.isSignificant()?("keypress"===this.inputSummary.eventName&&this.inputSummary.textAdded&&null!=(e=this.responder)&&e.deleteInDirection("left"),this.selectionIsExpanded()||(this.insertPlaceholder(),this.requestRender()),this.range=null!=(n=this.responder)?n.getSelectedRange():void 0):void 0},i.prototype.update=function(t){var e;return this.data.update=t,this.isSignificant()&&(e=this.selectPlaceholder())?(this.forgetPlaceholder(),this.range=e):void 0},i.prototype.end=function(t){var e,n,i,o;return this.data.end=t,this.isSignificant()?(this.forgetPlaceholder(),this.canApplyToDocument()?(this.setInputSummary({preferDocument:!0,didInput:!1}),null!=(e=this.delegate)&&e.inputControllerWillPerformTyping(),null!=(n=this.responder)&&n.setSelectedRange(this.range),null!=(i=this.responder)&&i.insertString(this.data.end),null!=(o=this.responder)?o.setSelectedRange(this.range[0]+this.data.end.length):void 0):null!=this.data.start||null!=this.data.update?(this.requestReparse(),this.inputController.reset()):void 0):this.inputController.reset()},i.prototype.getEndData=function(){return this.data.end},i.prototype.isEnded=function(){return null!=this.getEndData()},i.prototype.isSignificant=function(){return t.composesExistingText?this.inputSummary.didInput:!0},i.prototype.canApplyToDocument=function(){var t,e;return 0===(null!=(t=this.data.start)?t.length:void 0)&&(null!=(e=this.data.end)?e.length:void 0)>0&&null!=this.range},i.proxyMethod("inputController.setInputSummary"),i.proxyMethod("inputController.requestRender"),i.proxyMethod("inputController.requestReparse"),i.proxyMethod("responder?.selectionIsExpanded"),i.proxyMethod("responder?.insertPlaceholder"),i.proxyMethod("responder?.selectPlaceholder"),i.proxyMethod("responder?.forgetPlaceholder"),i}(e.BasicObject)}.call(this),function(){var t,n,i,o,r,s,a,u,c,l,h,p,d,f,g,m,y=function(t,e){function n(){this.constructor=t}for(var i in e)v.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},v={}.hasOwnProperty,b=[].indexOf||function(t){for(var e=0,n=this.length;n>e;e++)if(e in this&&this[e]===t)return e;return-1};o=e.handleEvent,h=e.makeElement,s=e.innerElementIsActive,p=e.objectsAreEqual,g=e.tagName,l={8:"backspace",9:"tab",13:"return",27:"escape",37:"left",39:"right",46:"delete",68:"d",72:"h",79:"o"},e.InputController=function(r){function g(t){var n;this.element=t,this.resetInputSummary(),this.mutationObserver=new e.MutationObserver(this.element),this.mutationObserver.delegate=this;for(n in this.events)o(n,{onElement:this.element,withCallback:this.handlerFor(n),inPhase:"capturing"})}var m;return y(g,r),m=0,g.keyNames=l,g.prototype.handlerFor=function(t){return function(e){return function(n){return e.handleInput(function(){return s(this.element)?void 0:(this.eventName=t,this.events[t].call(this,n))})}}(this)},g.prototype.setInputSummary=function(t){var e,n;null==t&&(t={}),this.inputSummary.eventName=this.eventName;for(e in t)n=t[e],this.inputSummary[e]=n;return this.inputSummary},g.prototype.resetInputSummary=function(){return this.inputSummary={}},g.prototype.reset=function(){return this.resetInputSummary(),e.selectionChangeObserver.reset()},g.prototype.editorWillSyncDocumentView=function(){return this.mutationObserver.stop()},g.prototype.editorDidSyncDocumentView=function(){return this.mutationObserver.start()},g.prototype.requestRender=function(){var t;return null!=(t=this.delegate)&&"function"==typeof t.inputControllerDidRequestRender?t.inputControllerDidRequestRender():void 0},g.prototype.requestReparse=function(){var t;return null!=(t=this.delegate)&&"function"==typeof t.inputControllerDidRequestReparse&&t.inputControllerDidRequestReparse(),this.requestRender()},g.prototype.elementDidMutate=function(t){var e;return this.isComposing()?null!=(e=this.delegate)&&"function"==typeof e.inputControllerDidAllowUnhandledInput?e.inputControllerDidAllowUnhandledInput():void 0:this.handleInput(function(){return this.mutationIsSignificant(t)&&(this.mutationIsExpected(t)?this.requestRender():this.requestReparse()),this.reset()})},g.prototype.mutationIsExpected=function(t){var e,n,i,o,r,s,a,u,c,l;return a=t.textAdded,u=t.textDeleted,this.inputSummary.preferDocument?!0:(e=null!=a?a===this.inputSummary.textAdded:!this.inputSummary.textAdded,n=null!=u?this.inputSummary.didDelete:!this.inputSummary.didDelete,c=("\n"===a||" \n"===a)&&!e,l="\n"===u&&!n,s=c&&!l||l&&!c,s&&(o=this.getSelectedRange())&&(i=c?a.replace(/\n$/,"").length||-1:(null!=a?a.length:void 0)||1,null!=(r=this.responder)?r.positionIsBlockBreak(o[1]+i):void 0)?!0:e&&n)},g.prototype.mutationIsSignificant=function(t){var e,n,i;return i=Object.keys(t).length>0,e=""===(null!=(n=this.compositionInput)?n.getEndData():void 0),i||!e},g.prototype.attachFiles=function(t){var n,i;return i=function(){var i,o,r;for(r=[],i=0,o=t.length;o>i;i++)n=t[i],r.push(new e.FileVerificationOperation(n));return r}(),Promise.all(i).then(function(t){return function(e){return t.handleInput(function(){var t,n;return null!=(t=this.delegate)&&t.inputControllerWillAttachFiles(),null!=(n=this.responder)&&n.insertFiles(e),this.requestRender()})}}(this))},g.prototype.events={keydown:function(t){var n,i,o,r,s,u,c,l,h;if(this.isComposing()||this.resetInputSummary(),this.inputSummary.didInput=!0,r=this.constructor.keyNames[t.keyCode]){for(i=this.keys,l=["ctrl","alt","shift","meta"],o=0,u=l.length;u>o;o++)c=l[o],t[c+"Key"]&&("ctrl"===c&&(c="control"),i=null!=i?i[c]:void 0);null!=(null!=i?i[r]:void 0)&&(this.setInputSummary({keyName:r}),e.selectionChangeObserver.reset(),i[r].call(this,t))}return a(t)&&(n=String.fromCharCode(t.keyCode).toLowerCase())&&(s=function(){var e,n,i,o;for(i=["alt","shift"],o=[],e=0,n=i.length;n>e;e++)c=i[e],t[c+"Key"]&&o.push(c);return o}(),s.push(n),null!=(h=this.delegate)?h.inputControllerDidReceiveKeyboardCommand(s):void 0)?t.preventDefault():void 0},keypress:function(t){var e,n,i;if(null==this.inputSummary.eventName&&(!t.metaKey&&!t.ctrlKey||t.altKey)&&!c(t)&&!u(t))return(i=f(t))?(null!=(e=this.delegate)&&e.inputControllerWillPerformTyping(),null!=(n=this.responder)&&n.insertString(i),this.setInputSummary({textAdded:i,didDelete:this.selectionIsExpanded()})):void 0},textInput:function(t){var e,n,i,o;return e=t.data,o=this.inputSummary.textAdded,o&&o!==e&&o.toUpperCase()===e?(n=this.getSelectedRange(),this.setSelectedRange([n[0],n[1]+o.length]),null!=(i=this.responder)&&i.insertString(e),this.setInputSummary({textAdded:e}),this.setSelectedRange(n)):void 0},dragenter:function(t){return t.preventDefault()},dragstart:function(t){var e,n;return n=t.target,this.serializeSelectionToDataTransfer(t.dataTransfer),this.draggedRange=this.getSelectedRange(),null!=(e=this.delegate)&&"function"==typeof e.inputControllerDidStartDrag?e.inputControllerDidStartDrag():void 0},dragover:function(t){var e,n;return!this.draggedRange&&!this.canAcceptDataTransfer(t.dataTransfer)||(t.preventDefault(),e={x:t.clientX,y:t.clientY},p(e,this.draggingPoint))?void 0:(this.draggingPoint=e,null!=(n=this.delegate)&&"function"==typeof n.inputControllerDidReceiveDragOverPoint?n.inputControllerDidReceiveDragOverPoint(this.draggingPoint):void 0)},dragend:function(){var t;return null!=(t=this.delegate)&&"function"==typeof t.inputControllerDidCancelDrag&&t.inputControllerDidCancelDrag(),this.draggedRange=null,this.draggingPoint=null},drop:function(t){var n,i,o,r,s,a,u,c,l;return t.preventDefault(),o=null!=(s=t.dataTransfer)?s.files:void 0,r={x:t.clientX,y:t.clientY},null!=(a=this.responder)&&a.setLocationRangeFromPointRange(r),(null!=o?o.length:void 0)?this.attachFiles(o):this.draggedRange?(null!=(u=this.delegate)&&u.inputControllerWillMoveText(),null!=(c=this.responder)&&c.moveTextFromRange(this.draggedRange),this.draggedRange=null,this.requestRender()):(i=t.dataTransfer.getData("application/x-trix-document"))&&(n=e.Document.fromJSONString(i),null!=(l=this.responder)&&l.insertDocument(n),this.requestRender()),this.draggedRange=null,this.draggingPoint=null},cut:function(t){var e,n;return(null!=(e=this.responder)?e.selectionIsExpanded():void 0)&&(this.serializeSelectionToDataTransfer(t.clipboardData)&&t.preventDefault(),null!=(n=this.delegate)&&n.inputControllerWillCutText(),this.deleteInDirection("backward"),t.defaultPrevented)?this.requestRender():void 0},copy:function(t){var e;return(null!=(e=this.responder)?e.selectionIsExpanded():void 0)&&this.serializeSelectionToDataTransfer(t.clipboardData)?t.preventDefault():void 0},paste:function(n){var o,r,s,a,u,c,l,h,p,f,g,y,v,A,C,x,w,E,S,k,R,L;return o=null!=(h=n.clipboardData)?h:n.testClipboardData,l={clipboard:o},null==o||d(n)?void this.getPastedHTMLUsingHiddenElement(function(t){return function(e){var n,i,o;return l.type="text/html",l.html=e,null!=(n=t.delegate)&&n.inputControllerWillPaste(l),null!=(i=t.responder)&&i.insertHTML(l.html),t.requestRender(),null!=(o=t.delegate)?o.inputControllerDidPaste(l):void 0}}(this)):((a=o.getData("URL"))?(l.type="URL",l.href=a,l.string=(c=o.getData("public.url-name"))?e.squishBreakableWhitespace(c).trim():a,null!=(p=this.delegate)&&p.inputControllerWillPaste(l),this.setInputSummary({textAdded:l.string,didDelete:this.selectionIsExpanded()}),null!=(C=this.responder)&&C.insertText(e.Text.textForStringWithAttributes(l.string,{href:l.href})),this.requestRender(),null!=(x=this.delegate)&&x.inputControllerDidPaste(l)):t(o)?(l.type="text/plain",l.string=o.getData("text/plain"),null!=(w=this.delegate)&&w.inputControllerWillPaste(l),this.setInputSummary({textAdded:l.string,didDelete:this.selectionIsExpanded()}),null!=(E=this.responder)&&E.insertString(l.string),this.requestRender(),null!=(S=this.delegate)&&S.inputControllerDidPaste(l)):(u=o.getData("text/html"))?(l.type="text/html",l.html=u,null!=(k=this.delegate)&&k.inputControllerWillPaste(l),null!=(R=this.responder)&&R.insertHTML(l.html),this.requestRender(),null!=(L=this.delegate)&&L.inputControllerDidPaste(l)):b.call(o.types,"Files")>=0&&(s=null!=(f=o.items)&&null!=(g=f[0])&&"function"==typeof g.getAsFile?g.getAsFile():void 0)&&(!s.name&&(r=i(s))&&(s.name="pasted-file-"+ ++m+"."+r),l.type="File",l.file=s,null!=(y=this.delegate)&&y.inputControllerWillAttachFiles(),null!=(v=this.responder)&&v.insertFile(l.file),this.requestRender(),null!=(A=this.delegate)&&A.inputControllerDidPaste(l)),n.preventDefault())},compositionstart:function(t){return this.getCompositionInput().start(t.data)},compositionupdate:function(t){return this.getCompositionInput().update(t.data)},compositionend:function(t){return this.getCompositionInput().end(t.data)},beforeinput:function(){return this.inputSummary.didInput=!0},input:function(t){return this.inputSummary.didInput=!0,t.stopPropagation()}},g.prototype.keys={backspace:function(t){var e;return null!=(e=this.delegate)&&e.inputControllerWillPerformTyping(),this.deleteInDirection("backward",t)},"delete":function(t){var e;return null!=(e=this.delegate)&&e.inputControllerWillPerformTyping(),this.deleteInDirection("forward",t)},"return":function(){var t,e;return this.setInputSummary({preferDocument:!0}),null!=(t=this.delegate)&&t.inputControllerWillPerformTyping(),null!=(e=this.responder)?e.insertLineBreak():void 0},tab:function(t){var e,n;return(null!=(e=this.responder)?e.canIncreaseNestingLevel():void 0)?(null!=(n=this.responder)&&n.increaseNestingLevel(),this.requestRender(),t.preventDefault()):void 0},left:function(t){var e;return this.selectionIsInCursorTarget()?(t.preventDefault(),null!=(e=this.responder)?e.moveCursorInDirection("backward"):void 0):void 0},right:function(t){var e;return this.selectionIsInCursorTarget()?(t.preventDefault(),null!=(e=this.responder)?e.moveCursorInDirection("forward"):void 0):void 0},control:{d:function(t){var e;return null!=(e=this.delegate)&&e.inputControllerWillPerformTyping(),this.deleteInDirection("forward",t)},h:function(t){var e;return null!=(e=this.delegate)&&e.inputControllerWillPerformTyping(),this.deleteInDirection("backward",t)},o:function(t){var e,n;return t.preventDefault(),null!=(e=this.delegate)&&e.inputControllerWillPerformTyping(),null!=(n=this.responder)&&n.insertString("\n",{updatePosition:!1}),this.requestRender()}},shift:{"return":function(t){var e,n;return null!=(e=this.delegate)&&e.inputControllerWillPerformTyping(),null!=(n=this.responder)&&n.insertString("\n"),this.requestRender(),t.preventDefault()},tab:function(t){var e,n;return(null!=(e=this.responder)?e.canDecreaseNestingLevel():void 0)?(null!=(n=this.responder)&&n.decreaseNestingLevel(),this.requestRender(),t.preventDefault()):void 0},left:function(t){return this.selectionIsInCursorTarget()?(t.preventDefault(),this.expandSelectionInDirection("backward")):void 0},right:function(t){return this.selectionIsInCursorTarget()?(t.preventDefault(),this.expandSelectionInDirection("forward")):void 0}},alt:{backspace:function(){var t;return this.setInputSummary({preferDocument:!1}),null!=(t=this.delegate)?t.inputControllerWillPerformTyping():void 0}},meta:{backspace:function(){var t;return this.setInputSummary({preferDocument:!1}),null!=(t=this.delegate)?t.inputControllerWillPerformTyping():void 0}}},g.prototype.handleInput=function(t){var e,n;try{return null!=(e=this.delegate)&&e.inputControllerWillHandleInput(),t.call(this)}finally{null!=(n=this.delegate)&&n.inputControllerDidHandleInput()}},g.prototype.getCompositionInput=function(){return this.isComposing()?this.compositionInput:this.compositionInput=new e.CompositionInput(this)
-},g.prototype.isComposing=function(){return null!=this.compositionInput&&!this.compositionInput.isEnded()},g.prototype.deleteInDirection=function(t,e){var n;return(null!=(n=this.responder)?n.deleteInDirection(t):void 0)!==!1?this.setInputSummary({didDelete:!0}):e?(e.preventDefault(),this.requestRender()):void 0},g.prototype.serializeSelectionToDataTransfer=function(t){var i,o;if(n(t))return i=null!=(o=this.responder)?o.getSelectedDocument().toSerializableDocument():void 0,t.setData("application/x-trix-document",JSON.stringify(i)),t.setData("text/html",e.DocumentView.render(i).innerHTML),t.setData("text/plain",i.toString().replace(/\n$/,"")),!0},g.prototype.canAcceptDataTransfer=function(t){var e,n,i,o,r,s;for(s={},o=null!=(i=null!=t?t.types:void 0)?i:[],e=0,n=o.length;n>e;e++)r=o[e],s[r]=!0;return s.Files||s["application/x-trix-document"]||s["text/html"]||s["text/plain"]},g.prototype.getPastedHTMLUsingHiddenElement=function(t){var e,n,i;return n=this.getSelectedRange(),i={position:"absolute",left:window.pageXOffset+"px",top:window.pageYOffset+"px",opacity:0},e=h({style:i,tagName:"div",editable:!0}),document.body.appendChild(e),e.focus(),requestAnimationFrame(function(i){return function(){var o;return o=e.innerHTML,document.body.removeChild(e),i.setSelectedRange(n),t(o)}}(this))},g.proxyMethod("responder?.getSelectedRange"),g.proxyMethod("responder?.setSelectedRange"),g.proxyMethod("responder?.expandSelectionInDirection"),g.proxyMethod("responder?.selectionIsInCursorTarget"),g.proxyMethod("responder?.selectionIsExpanded"),g}(e.BasicObject),i=function(t){var e,n;return null!=(e=t.type)&&null!=(n=e.match(/\/(\w+)$/))?n[1]:void 0},r=null!=("function"==typeof" ".codePointAt?" ".codePointAt(0):void 0),f=function(t){var n;return t.key&&r&&t.key.codePointAt(0)===t.keyCode?t.key:(null===t.which?n=t.keyCode:0!==t.which&&0!==t.charCode&&(n=t.charCode),null!=n&&"escape"!==l[n]?e.UTF16String.fromCodepoints([n]).toString():void 0)},c=function(t){return t.metaKey&&t.altKey&&!t.shiftKey&&94===t.keyCode},u=function(t){return t.metaKey&&t.altKey&&t.shiftKey&&9674===t.keyCode},a=function(t){return/Mac|^iP/.test(navigator.platform)?t.metaKey:t.ctrlKey},d=function(t){var e,n,i,o,r,s,a,u,c,l;if(u=t.clipboardData){if(b.call(u.types,"text/html")>=0){for(c=u.types,i=0,s=c.length;s>i;i++)if(l=c[i],e=/^CorePasteboardFlavorType/.test(l),n=/^dyn\./.test(l)&&u.getData(l),a=e||n)return!0;return!1}return o=b.call(u.types,"com.apple.webarchive")>=0,r=b.call(u.types,"com.apple.flat-rtfd")>=0,o||r}},t=function(t){var e,n,i;return i=t.getData("text/plain"),n=t.getData("text/html"),i&&n?(e=h("div"),e.innerHTML=n,e.textContent===i?!e.querySelector(":not(meta)"):void 0):null!=i?i.length:void 0},m={"application/x-trix-feature-detection":"test"},n=function(t){var e,n;if(null!=(null!=t?t.setData:void 0)){for(e in m)if(n=m[e],!function(){try{return t.setData(e,n),t.getData(e)===n}catch(i){}}())return;return!0}}}.call(this),function(){var t,n,i,o,r,s,a,u=function(t,e){return function(){return t.apply(e,arguments)}},c=function(t,e){function n(){this.constructor=t}for(var i in e)l.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},l={}.hasOwnProperty;n=e.handleEvent,r=e.makeElement,a=e.tagName,i=e.InputController.keyNames,s=e.config,o=s.lang,t=s.css,e.AttachmentEditorController=function(e){function s(t,e,n){this.attachmentPiece=t,this.element=e,this.container=n,this.didBlurCaption=u(this.didBlurCaption,this),this.didChangeCaption=u(this.didChangeCaption,this),this.didInputCaption=u(this.didInputCaption,this),this.didKeyDownCaption=u(this.didKeyDownCaption,this),this.didClickCaption=u(this.didClickCaption,this),this.didClickRemoveButton=u(this.didClickRemoveButton,this),this.attachment=this.attachmentPiece.attachment,"a"===a(this.element)&&(this.element=this.element.firstChild),this.install()}var l;return c(s,e),l=function(t){return function(){var e;return e=t.apply(this,arguments),e["do"](),null==this.undos&&(this.undos=[]),this.undos.push(e.undo)}},s.prototype.install=function(){return this.makeElementMutable(),this.attachment.isPreviewable()&&this.makeCaptionEditable(),this.addRemoveButton()},s.prototype.uninstall=function(){var t,e;for(this.savePendingCaption();e=this.undos.pop();)e();return null!=(t=this.delegate)?t.didUninstallAttachmentEditor(this):void 0},s.prototype.savePendingCaption=function(){var t,e,n;return null!=this.pendingCaption?(t=this.pendingCaption,this.pendingCaption=null,t?null!=(e=this.delegate)&&"function"==typeof e.attachmentEditorDidRequestUpdatingAttributesForAttachment?e.attachmentEditorDidRequestUpdatingAttributesForAttachment({caption:t},this.attachment):void 0:null!=(n=this.delegate)&&"function"==typeof n.attachmentEditorDidRequestRemovingAttributeForAttachment?n.attachmentEditorDidRequestRemovingAttributeForAttachment("caption",this.attachment):void 0):void 0},s.prototype.makeElementMutable=l(function(){return{"do":function(t){return function(){return t.element.dataset.trixMutable=!0}}(this),undo:function(t){return function(){return delete t.element.dataset.trixMutable}}(this)}}),s.prototype.makeCaptionEditable=l(function(){var t,e;return t=this.element.querySelector("figcaption"),e=null,{"do":function(i){return function(){return e=n("click",{onElement:t,withCallback:i.didClickCaption,inPhase:"capturing"})}}(this),undo:function(){return function(){return e.destroy()}}(this)}}),s.prototype.addRemoveButton=l(function(){var e;return e=r({tagName:"button",textContent:o.remove,className:t.attachmentRemove+" "+t.attachmentRemove+"--icon",attributes:{type:"button",title:o.remove},data:{trixMutable:!0}}),n("click",{onElement:e,withCallback:this.didClickRemoveButton}),{"do":function(t){return function(){return t.element.appendChild(e)}}(this),undo:function(t){return function(){return t.element.removeChild(e)}}(this)}}),s.prototype.editCaption=l(function(){var e,i,s,a,u;return a=r({tagName:"textarea",className:t.attachmentCaptionEditor,attributes:{placeholder:o.captionPlaceholder}}),a.value=this.attachmentPiece.getCaption(),u=a.cloneNode(),u.classList.add("trix-autoresize-clone"),e=function(){return u.value=a.value,a.style.height=u.scrollHeight+"px"},n("keydown",{onElement:a,withCallback:this.didKeyDownCaption}),n("input",{onElement:a,withCallback:this.didInputCaption}),n("change",{onElement:a,withCallback:this.didChangeCaption}),n("blur",{onElement:a,withCallback:this.didBlurCaption}),s=this.element.querySelector("figcaption"),i=s.cloneNode(),{"do":function(){return s.style.display="none",i.appendChild(a),i.appendChild(u),i.classList.add(t.attachmentCaption+"--editing"),s.parentElement.insertBefore(i,s),e(),a.focus()},undo:function(){return i.parentNode.removeChild(i),s.style.display=null}}}),s.prototype.didClickRemoveButton=function(t){var e;return t.preventDefault(),t.stopPropagation(),null!=(e=this.delegate)?e.attachmentEditorDidRequestRemovalOfAttachment(this.attachment):void 0},s.prototype.didClickCaption=function(t){return t.preventDefault(),this.editCaption()},s.prototype.didKeyDownCaption=function(t){var e;return"return"===i[t.keyCode]?(t.preventDefault(),this.savePendingCaption(),null!=(e=this.delegate)&&"function"==typeof e.attachmentEditorDidRequestDeselectingAttachment?e.attachmentEditorDidRequestDeselectingAttachment(this.attachment):void 0):void 0},s.prototype.didInputCaption=function(t){return this.pendingCaption=t.target.value.replace(/\s/g," ").trim()},s.prototype.didChangeCaption=function(){return this.savePendingCaption()},s.prototype.didBlurCaption=function(){return this.savePendingCaption()},s}(e.BasicObject)}.call(this),function(){var t,n,i,o=function(t,e){function n(){this.constructor=t}for(var i in e)r.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},r={}.hasOwnProperty;i=e.makeElement,t=e.config.css,e.AttachmentView=function(r){function s(){s.__super__.constructor.apply(this,arguments),this.attachment=this.object,this.attachment.uploadProgressDelegate=this,this.attachmentPiece=this.options.piece}var a;return o(s,r),s.attachmentSelector="[data-trix-attachment]",s.prototype.createContentNodes=function(){return[]},s.prototype.createNodes=function(){var e,n,o,r,s,u,c,l,h,p,d;if(r=i({tagName:"figure",className:this.getClassName()}),this.attachment.hasContent())r.innerHTML=this.attachment.getContent();else for(p=this.createContentNodes(),u=0,l=p.length;l>u;u++)h=p[u],r.appendChild(h);r.appendChild(this.createCaptionElement()),n={trixAttachment:JSON.stringify(this.attachment),trixContentType:this.attachment.getContentType(),trixId:this.attachment.id},e=this.attachmentPiece.getAttributesForAttachment(),e.isEmpty()||(n.trixAttributes=JSON.stringify(e)),this.attachment.isPending()&&(this.progressElement=i({tagName:"progress",attributes:{"class":t.attachmentProgress,value:this.attachment.getUploadProgress(),max:100},data:{trixMutable:!0,trixStoreKey:["progressElement",this.attachment.id].join("/")}}),r.appendChild(this.progressElement),n.trixSerialize=!1),(s=this.getHref())?(o=i("a",{href:s,tabindex:-1}),o.appendChild(r)):o=r;for(c in n)d=n[c],o.dataset[c]=d;return o.setAttribute("contenteditable",!1),[a("left"),o,a("right")]},s.prototype.createCaptionElement=function(){var e,n,o,r,s,a,u;return o=i({tagName:"figcaption",className:t.attachmentCaption}),(e=this.attachmentPiece.getCaption())?(o.classList.add(t.attachmentCaption+"--edited"),o.textContent=e):(n=this.getCaptionConfig(),n.name&&(r=this.attachment.getFilename()),n.size&&(a=this.attachment.getFormattedFilesize()),r&&(s=i({tagName:"span",className:t.attachmentName,textContent:r}),o.appendChild(s)),a&&(r&&o.appendChild(document.createTextNode(" ")),u=i({tagName:"span",className:t.attachmentSize,textContent:a}),o.appendChild(u))),o},s.prototype.getClassName=function(){var e,n;return n=[t.attachment,t.attachment+"--"+this.attachment.getType()],(e=this.attachment.getExtension())&&n.push(t.attachment+"--"+e),n.join(" ")},s.prototype.getHref=function(){return n(this.attachment.getContent(),"a")?void 0:this.attachment.getHref()},s.prototype.getCaptionConfig=function(){var t,n,i;return i=this.attachment.getType(),t=e.copyObject(null!=(n=e.config.attachments[i])?n.caption:void 0),"file"===i&&(t.name=!0),t},s.prototype.findProgressElement=function(){var t;return null!=(t=this.findElement())?t.querySelector("progress"):void 0},a=function(t){return i({tagName:"span",textContent:e.ZERO_WIDTH_SPACE,data:{trixCursorTarget:t,trixSerialize:!1}})},s.prototype.attachmentDidChangeUploadProgress=function(){var t,e;return e=this.attachment.getUploadProgress(),null!=(t=this.findProgressElement())?t.value=e:void 0},s}(e.ObjectView),n=function(t,e){var n;return n=i("div"),n.innerHTML=null!=t?t:"",n.querySelector(e)}}.call(this),function(){var t,n=function(t,e){function n(){this.constructor=t}for(var o in e)i.call(e,o)&&(t[o]=e[o]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},i={}.hasOwnProperty;t=e.makeElement,e.PreviewableAttachmentView=function(i){function o(){o.__super__.constructor.apply(this,arguments),this.attachment.previewDelegate=this}return n(o,i),o.prototype.createContentNodes=function(){return this.image=t({tagName:"img",attributes:{src:""},data:{trixMutable:!0}}),this.refresh(this.image),[this.image]},o.prototype.createCaptionElement=function(){var t;return t=o.__super__.createCaptionElement.apply(this,arguments),t.textContent||t.setAttribute("data-trix-placeholder",e.config.lang.captionPlaceholder),t},o.prototype.refresh=function(t){var e;return null==t&&(t=null!=(e=this.findElement())?e.querySelector("img"):void 0),t?this.updateAttributesForImage(t):void 0},o.prototype.updateAttributesForImage=function(t){var e,n,i,o,r,s;return r=this.attachment.getURL(),n=this.attachment.getPreviewURL(),t.src=n||r,n===r?t.removeAttribute("data-trix-serialized-attributes"):(i=JSON.stringify({src:r}),t.setAttribute("data-trix-serialized-attributes",i)),s=this.attachment.getWidth(),e=this.attachment.getHeight(),null!=s&&(t.width=s),null!=e&&(t.height=e),o=["imageElement",this.attachment.id,t.src,t.width,t.height].join("/"),t.dataset.trixStoreKey=o},o.prototype.attachmentDidChangeAttributes=function(){return this.refresh(this.image),this.refresh()},o}(e.AttachmentView)}.call(this),function(){var t,n,i,o=function(t,e){function n(){this.constructor=t}for(var i in e)r.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},r={}.hasOwnProperty;i=e.makeElement,t=e.findInnerElement,n=e.getTextConfig,e.PieceView=function(r){function s(){var t;s.__super__.constructor.apply(this,arguments),this.piece=this.object,this.attributes=this.piece.getAttributes(),t=this.options,this.textConfig=t.textConfig,this.context=t.context,this.piece.attachment?this.attachment=this.piece.attachment:this.string=this.piece.toString()}var a;return o(s,r),s.prototype.createNodes=function(){var e,n,i,o,r,s;if(s=this.attachment?this.createAttachmentNodes():this.createStringNodes(),e=this.createElement()){for(i=t(e),n=0,o=s.length;o>n;n++)r=s[n],i.appendChild(r);s=[e]}return s},s.prototype.createAttachmentNodes=function(){var t,n;return t=this.attachment.isPreviewable()?e.PreviewableAttachmentView:e.AttachmentView,n=this.createChildView(t,this.piece.attachment,{piece:this.piece}),n.getNodes()},s.prototype.createStringNodes=function(){var t,e,n,o,r,s,a,u,c,l;if(null!=(u=this.textConfig)?u.plaintext:void 0)return[document.createTextNode(this.string)];for(a=[],c=this.string.split("\n"),n=e=0,o=c.length;o>e;n=++e)l=c[n],n>0&&(t=i("br"),a.push(t)),(r=l.length)&&(s=document.createTextNode(this.preserveSpaces(l)),a.push(s));return a},s.prototype.createElement=function(){var t,e,o,r,s,a,u,c,l;c={},a=this.attributes;for(r in a)if(l=a[r],(t=n(r))&&(t.tagName&&(s=i(t.tagName),o?(o.appendChild(s),o=s):e=o=s),t.styleProperty&&(c[t.styleProperty]=l),t.style)){u=t.style;for(r in u)l=u[r],c[r]=l}if(Object.keys(c).length){null==e&&(e=i("span"));for(r in c)l=c[r],e.style[r]=l}return e},s.prototype.createContainerElement=function(){var t,e,o,r,s;r=this.attributes;for(o in r)if(s=r[o],(e=n(o))&&e.groupTagName)return t={},t[o]=s,i(e.groupTagName,t)},a=e.NON_BREAKING_SPACE,s.prototype.preserveSpaces=function(t){return this.context.isLast&&(t=t.replace(/\ $/,a)),t=t.replace(/(\S)\ {3}(\S)/g,"$1 "+a+" $2").replace(/\ {2}/g,a+" ").replace(/\ {2}/g," "+a),(this.context.isFirst||this.context.followsWhitespace)&&(t=t.replace(/^\ /,a)),t},s}(e.ObjectView)}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.TextView=function(n){function i(){i.__super__.constructor.apply(this,arguments),this.text=this.object,this.textConfig=this.options.textConfig}var o;return t(i,n),i.prototype.createNodes=function(){var t,n,i,r,s,a,u,c,l,h;for(a=[],c=e.ObjectGroup.groupObjects(this.getPieces()),r=c.length-1,i=n=0,s=c.length;s>n;i=++n)u=c[i],t={},0===i&&(t.isFirst=!0),i===r&&(t.isLast=!0),o(l)&&(t.followsWhitespace=!0),h=this.findOrCreateCachedChildView(e.PieceView,u,{textConfig:this.textConfig,context:t}),a.push.apply(a,h.getNodes()),l=u;return a},i.prototype.getPieces=function(){var t,e,n,i,o;for(i=this.text.getPieces(),o=[],t=0,e=i.length;e>t;t++)n=i[t],n.hasAttribute("blockBreak")||o.push(n);return o},o=function(t){return/\s$/.test(null!=t?t.toString():void 0)},i}(e.ObjectView)}.call(this),function(){var t,n,i=function(t,e){function n(){this.constructor=t}for(var i in e)o.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},o={}.hasOwnProperty;n=e.makeElement,t=e.getBlockConfig,e.BlockView=function(o){function r(){r.__super__.constructor.apply(this,arguments),this.block=this.object,this.attributes=this.block.getAttributes()}return i(r,o),r.prototype.createNodes=function(){var i,o,r,s,a,u,c,l,h;if(i=document.createComment("block"),u=[i],this.block.isEmpty()?u.push(n("br")):(l=null!=(c=t(this.block.getLastAttribute()))?c.text:void 0,h=this.findOrCreateCachedChildView(e.TextView,this.block.text,{textConfig:l}),u.push.apply(u,h.getNodes()),this.shouldAddExtraNewlineElement()&&u.push(n("br"))),this.attributes.length)return u;for(o=n(e.config.blockAttributes["default"].tagName),r=0,s=u.length;s>r;r++)a=u[r],o.appendChild(a);return[o]},r.prototype.createContainerElement=function(e){var i,o;return i=this.attributes[e],o=t(i),n(o.tagName)},r.prototype.shouldAddExtraNewlineElement=function(){return/\n\n$/.test(this.block.toString())},r}(e.ObjectView)}.call(this),function(){var t,n,i=function(t,e){function n(){this.constructor=t}for(var i in e)o.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},o={}.hasOwnProperty;t=e.defer,n=e.makeElement,e.DocumentView=function(o){function r(){r.__super__.constructor.apply(this,arguments),this.element=this.options.element,this.elementStore=new e.ElementStore,this.setDocument(this.object)}var s,a,u;return i(r,o),r.render=function(t){var e,i;return e=n("div"),i=new this(t,{element:e}),i.render(),i.sync(),e},r.prototype.setDocument=function(t){return t.isEqualTo(this.document)?void 0:this.document=this.object=t},r.prototype.render=function(){var t,i,o,r,s,a,u;if(this.childViews=[],this.shadowElement=n("div"),!this.document.isEmpty()){for(s=e.ObjectGroup.groupObjects(this.document.getBlocks(),{asTree:!0}),a=[],t=0,i=s.length;i>t;t++)r=s[t],u=this.findOrCreateCachedChildView(e.BlockView,r),a.push(function(){var t,e,n,i;for(n=u.getNodes(),i=[],t=0,e=n.length;e>t;t++)o=n[t],i.push(this.shadowElement.appendChild(o));return i}.call(this));return a}},r.prototype.isSynced=function(){return s(this.shadowElement,this.element)},r.prototype.sync=function(){var t;for(t=this.createDocumentFragmentForSync();this.element.lastChild;)this.element.removeChild(this.element.lastChild);return this.element.appendChild(t),this.didSync()},r.prototype.didSync=function(){return this.elementStore.reset(a(this.element)),t(function(t){return function(){return t.garbageCollectCachedViews()}}(this))},r.prototype.createDocumentFragmentForSync=function(){var t,e,n,i,o,r,s,u,c,l;for(e=document.createDocumentFragment(),u=this.shadowElement.childNodes,n=0,o=u.length;o>n;n++)s=u[n],e.appendChild(s.cloneNode(!0));for(c=a(e),i=0,r=c.length;r>i;i++)t=c[i],(l=this.elementStore.remove(t))&&t.parentNode.replaceChild(l,t);return e},a=function(t){return t.querySelectorAll("[data-trix-store-key]")},s=function(t,e){return u(t.innerHTML)===u(e.innerHTML)},u=function(t){return t.replace(/&nbsp;/g," ")},r}(e.ObjectView)}.call(this),function(){var t,n,i,o,r=function(t,e){return function(){return t.apply(e,arguments)}},s=function(t,e){function n(){this.constructor=t}for(var i in e)a.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},a={}.hasOwnProperty;i=e.handleEvent,o=e.innerElementIsActive,n=e.defer,t=e.AttachmentView.attachmentSelector,e.CompositionController=function(a){function u(n,o){this.element=n,this.composition=o,this.didClickAttachment=r(this.didClickAttachment,this),this.didBlur=r(this.didBlur,this),this.didFocus=r(this.didFocus,this),this.documentView=new e.DocumentView(this.composition.document,{element:this.element}),i("focus",{onElement:this.element,withCallback:this.didFocus}),i("blur",{onElement:this.element,withCallback:this.didBlur}),i("click",{onElement:this.element,matchingSelector:"a[contenteditable=false]",preventDefault:!0}),i("mousedown",{onElement:this.element,matchingSelector:t,withCallback:this.didClickAttachment}),i("click",{onElement:this.element,matchingSelector:"a"+t,preventDefault:!0})}return s(u,a),u.prototype.didFocus=function(){var t,e,n;return t=function(t){return function(){var e;return t.focused?void 0:(t.focused=!0,null!=(e=t.delegate)&&"function"==typeof e.compositionControllerDidFocus?e.compositionControllerDidFocus():void 0)}}(this),null!=(e=null!=(n=this.blurPromise)?n.then(t):void 0)?e:t()},u.prototype.didBlur=function(){return this.blurPromise=new Promise(function(t){return function(e){return n(function(){var n;return o(t.element)||(t.focused=null,null!=(n=t.delegate)&&"function"==typeof n.compositionControllerDidBlur&&n.compositionControllerDidBlur()),t.blurPromise=null,e()})}}(this))},u.prototype.didClickAttachment=function(t,e){var n,i;return n=this.findAttachmentForElement(e),null!=(i=this.delegate)&&"function"==typeof i.compositionControllerDidSelectAttachment?i.compositionControllerDidSelectAttachment(n):void 0},u.prototype.getSerializableElement=function(){return this.isEditingAttachment()?this.documentView.shadowElement:this.element},u.prototype.render=function(){var t,e,n;return this.revision!==this.composition.revision&&(this.documentView.setDocument(this.composition.document),this.documentView.render(),this.revision=this.composition.revision),this.canSyncDocumentView()&&!this.documentView.isSynced()&&(null!=(t=this.delegate)&&"function"==typeof t.compositionControllerWillSyncDocumentView&&t.compositionControllerWillSyncDocumentView(),this.documentView.sync(),null!=(e=this.delegate)&&"function"==typeof e.compositionControllerDidSyncDocumentView&&e.compositionControllerDidSyncDocumentView()),null!=(n=this.delegate)&&"function"==typeof n.compositionControllerDidRender?n.compositionControllerDidRender():void 0},u.prototype.rerenderViewForObject=function(t){return this.invalidateViewForObject(t),this.render()},u.prototype.invalidateViewForObject=function(t){return this.documentView.invalidateViewForObject(t)},u.prototype.isViewCachingEnabled=function(){return this.documentView.isViewCachingEnabled()},u.prototype.enableViewCaching=function(){return this.documentView.enableViewCaching()},u.prototype.disableViewCaching=function(){return this.documentView.disableViewCaching()},u.prototype.refreshViewCache=function(){return this.documentView.garbageCollectCachedViews()},u.prototype.isEditingAttachment=function(){return null!=this.attachmentEditor},u.prototype.installAttachmentEditorForAttachment=function(t){var n,i,o;if((null!=(o=this.attachmentEditor)?o.attachment:void 0)!==t&&(i=this.documentView.findElementForObject(t)))return this.uninstallAttachmentEditor(),n=this.composition.document.getAttachmentPieceForAttachment(t),this.attachmentEditor=new e.AttachmentEditorController(n,i,this.element),this.attachmentEditor.delegate=this},u.prototype.uninstallAttachmentEditor=function(){var t;return null!=(t=this.attachmentEditor)?t.uninstall():void 0},u.prototype.editAttachmentCaption=function(){var t;return null!=(t=this.attachmentEditor)?t.editCaption():void 0},u.prototype.didUninstallAttachmentEditor=function(){return this.attachmentEditor=null,this.render()},u.prototype.attachmentEditorDidRequestUpdatingAttributesForAttachment=function(t,e){var n;return null!=(n=this.delegate)&&"function"==typeof n.compositionControllerWillUpdateAttachment&&n.compositionControllerWillUpdateAttachment(e),this.composition.updateAttributesForAttachment(t,e)},u.prototype.attachmentEditorDidRequestRemovingAttributeForAttachment=function(t,e){var n;return null!=(n=this.delegate)&&"function"==typeof n.compositionControllerWillUpdateAttachment&&n.compositionControllerWillUpdateAttachment(e),this.composition.removeAttributeForAttachment(t,e)},u.prototype.attachmentEditorDidRequestRemovalOfAttachment=function(t){var e;return null!=(e=this.delegate)&&"function"==typeof e.compositionControllerDidRequestRemovalOfAttachment?e.compositionControllerDidRequestRemovalOfAttachment(t):void 0},u.prototype.attachmentEditorDidRequestDeselectingAttachment=function(t){var e;return null!=(e=this.delegate)&&"function"==typeof e.compositionControllerDidRequestDeselectingAttachment?e.compositionControllerDidRequestDeselectingAttachment(t):void 0},u.prototype.canSyncDocumentView=function(){return!this.isEditingAttachment()},u.prototype.findAttachmentForElement=function(t){return this.composition.document.getAttachmentById(parseInt(t.dataset.trixId,10))},u}(e.BasicObject)}.call(this),function(){var t,n,i,o=function(t,e){return function(){return t.apply(e,arguments)}},r=function(t,e){function n(){this.constructor=t}for(var i in e)s.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},s={}.hasOwnProperty;n=e.handleEvent,i=e.triggerEvent,t=e.findClosestElementFromNode,e.ToolbarController=function(e){function s(t){this.element=t,this.didKeyDownDialogInput=o(this.didKeyDownDialogInput,this),this.didClickDialogButton=o(this.didClickDialogButton,this),this.didClickAttributeButton=o(this.didClickAttributeButton,this),this.didClickActionButton=o(this.didClickActionButton,this),this.attributes={},this.actions={},this.resetDialogInputs(),n("mousedown",{onElement:this.element,matchingSelector:a,withCallback:this.didClickActionButton}),n("mousedown",{onElement:this.element,matchingSelector:c,withCallback:this.didClickAttributeButton}),n("click",{onElement:this.element,matchingSelector:y,preventDefault:!0}),n("click",{onElement:this.element,matchingSelector:l,withCallback:this.didClickDialogButton}),n("keydown",{onElement:this.element,matchingSelector:h,withCallback:this.didKeyDownDialogInput})}var a,u,c,l,h,p,d,f,g,m,y;return r(s,e),c="[data-trix-attribute]",a="[data-trix-action]",y=c+", "+a,p="[data-trix-dialog]",u=p+"[data-trix-active]",l=p+" [data-trix-method]",h=p+" [data-trix-input]",s.prototype.didClickActionButton=function(t,e){var n,i,o;return null!=(i=this.delegate)&&i.toolbarDidClickButton(),t.preventDefault(),n=d(e),this.getDialog(n)?this.toggleDialog(n):null!=(o=this.delegate)?o.toolbarDidInvokeAction(n):void 0},s.prototype.didClickAttributeButton=function(t,e){var n,i,o;return null!=(i=this.delegate)&&i.toolbarDidClickButton(),t.preventDefault(),n=f(e),this.getDialog(n)?this.toggleDialog(n):null!=(o=this.delegate)&&o.toolbarDidToggleAttribute(n),this.refreshAttributeButtons()},s.prototype.didClickDialogButton=function(e,n){var i,o;return i=t(n,{matchingSelector:p}),o=n.getAttribute("data-trix-method"),this[o].call(this,i)},s.prototype.didKeyDownDialogInput=function(t,e){var n,i;return 13===t.keyCode&&(t.preventDefault(),n=e.getAttribute("name"),i=this.getDialog(n),this.setAttribute(i)),27===t.keyCode?(t.preventDefault(),this.hideDialog()):void 0},s.prototype.updateActions=function(t){return this.actions=t,this.refreshActionButtons()},s.prototype.refreshActionButtons=function(){return this.eachActionButton(function(t){return function(e,n){return e.disabled=t.actions[n]===!1}}(this))},s.prototype.eachActionButton=function(t){var e,n,i,o,r;for(o=this.element.querySelectorAll(a),r=[],n=0,i=o.length;i>n;n++)e=o[n],r.push(t(e,d(e)));return r},s.prototype.updateAttributes=function(t){return this.attributes=t,this.refreshAttributeButtons()},s.prototype.refreshAttributeButtons=function(){return this.eachAttributeButton(function(t){return function(e,n){return e.disabled=t.attributes[n]===!1,t.attributes[n]||t.dialogIsVisible(n)?(e.setAttribute("data-trix-active",""),e.classList.add("trix-active")):(e.removeAttribute("data-trix-active"),e.classList.remove("trix-active"))}}(this))},s.prototype.eachAttributeButton=function(t){var e,n,i,o,r;for(o=this.element.querySelectorAll(c),r=[],n=0,i=o.length;i>n;n++)e=o[n],r.push(t(e,f(e)));return r},s.prototype.applyKeyboardCommand=function(t){var e,n,o,r,s,a,u;for(s=JSON.stringify(t.sort()),u=this.element.querySelectorAll("[data-trix-key]"),r=0,a=u.length;a>r;r++)if(e=u[r],o=e.getAttribute("data-trix-key").split("+"),n=JSON.stringify(o.sort()),n===s)return i("mousedown",{onElement:e}),!0;return!1},s.prototype.dialogIsVisible=function(t){var e;return(e=this.getDialog(t))?e.hasAttribute("data-trix-active"):void 0},s.prototype.toggleDialog=function(t){return this.dialogIsVisible(t)?this.hideDialog():this.showDialog(t)},s.prototype.showDialog=function(t){var e,n,i,o,r,s,a,u,c,l;for(this.hideDialog(),null!=(a=this.delegate)&&a.toolbarWillShowDialog(),i=this.getDialog(t),i.setAttribute("data-trix-active",""),i.classList.add("trix-active"),u=i.querySelectorAll("input[disabled]"),o=0,s=u.length;s>o;o++)n=u[o],n.removeAttribute("disabled");return(e=f(i))&&(r=m(i,t))&&(r.value=null!=(c=this.attributes[e])?c:"",r.select()),null!=(l=this.delegate)?l.toolbarDidShowDialog(t):void 0},s.prototype.setAttribute=function(t){var e,n,i;return e=f(t),n=m(t,e),n.willValidate&&!n.checkValidity()?(n.setAttribute("data-trix-validate",""),n.classList.add("trix-validate"),n.focus()):(null!=(i=this.delegate)&&i.toolbarDidUpdateAttribute(e,n.value),this.hideDialog())},s.prototype.removeAttribute=function(t){var e,n;return e=f(t),null!=(n=this.delegate)&&n.toolbarDidRemoveAttribute(e),this.hideDialog()},s.prototype.hideDialog=function(){var t,e;return(t=this.element.querySelector(u))?(t.removeAttribute("data-trix-active"),t.classList.remove("trix-active"),this.resetDialogInputs(),null!=(e=this.delegate)?e.toolbarDidHideDialog(g(t)):void 0):void 0},s.prototype.resetDialogInputs=function(){var t,e,n,i,o;for(i=this.element.querySelectorAll(h),o=[],t=0,n=i.length;n>t;t++)e=i[t],e.setAttribute("disabled","disabled"),e.removeAttribute("data-trix-validate"),o.push(e.classList.remove("trix-validate"));return o},s.prototype.getDialog=function(t){return this.element.querySelector("[data-trix-dialog="+t+"]")},m=function(t,e){return null==e&&(e=f(t)),t.querySelector("[data-trix-input][name='"+e+"']")},d=function(t){return t.getAttribute("data-trix-action")},f=function(t){var e;return null!=(e=t.getAttribute("data-trix-attribute"))?e:t.getAttribute("data-trix-dialog-attribute")},g=function(t){return t.getAttribute("data-trix-dialog")},s}(e.BasicObject)}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.ImagePreloadOperation=function(e){function n(t){this.url=t}return t(n,e),n.prototype.perform=function(t){var e;return e=new Image,e.onload=function(n){return function(){return e.width=n.width=e.naturalWidth,e.height=n.height=e.naturalHeight,t(!0,e)}}(this),e.onerror=function(){return t(!1)},e.src=this.url},n}(e.Operation)}.call(this),function(){var t=function(t,e){return function(){return t.apply(e,arguments)}},n=function(t,e){function n(){this.constructor=t}for(var o in e)i.call(e,o)&&(t[o]=e[o]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},i={}.hasOwnProperty;e.Attachment=function(i){function o(n){null==n&&(n={}),this.releaseFile=t(this.releaseFile,this),o.__super__.constructor.apply(this,arguments),this.attributes=e.Hash.box(n),this.didChangeAttributes()}return n(o,i),o.previewablePattern=/^image(\/(gif|png|jpe?g)|$)/,o.attachmentForFile=function(t){var e,n;return n=this.attributesForFile(t),e=new this(n),e.setFile(t),e},o.attributesForFile=function(t){return new e.Hash({filename:t.name,filesize:t.size,contentType:t.type})},o.fromJSON=function(t){return new this(t)},o.prototype.getAttribute=function(t){return this.attributes.get(t)},o.prototype.hasAttribute=function(t){return this.attributes.has(t)},o.prototype.getAttributes=function(){return this.attributes.toObject()},o.prototype.setAttributes=function(t){var e,n,i;return null==t&&(t={}),e=this.attributes.merge(t),this.attributes.isEqualTo(e)?void 0:(this.attributes=e,this.didChangeAttributes(),null!=(n=this.previewDelegate)&&"function"==typeof n.attachmentDidChangeAttributes&&n.attachmentDidChangeAttributes(this),null!=(i=this.delegate)&&"function"==typeof i.attachmentDidChangeAttributes?i.attachmentDidChangeAttributes(this):void 0)},o.prototype.didChangeAttributes=function(){return this.isPreviewable()?this.preloadURL():void 0},o.prototype.isPending=function(){return null!=this.file&&!(this.getURL()||this.getHref())},o.prototype.isPreviewable=function(){return this.attributes.has("previewable")?this.attributes.get("previewable"):this.constructor.previewablePattern.test(this.getContentType())},o.prototype.getType=function(){return this.hasContent()?"content":this.isPreviewable()?"preview":"file"},o.prototype.getURL=function(){return this.attributes.get("url")},o.prototype.getHref=function(){return this.attributes.get("href")},o.prototype.getFilename=function(){var t;return null!=(t=this.attributes.get("filename"))?t:""},o.prototype.getFilesize=function(){return this.attributes.get("filesize")},o.prototype.getFormattedFilesize=function(){var t;return t=this.attributes.get("filesize"),"number"==typeof t?e.config.fileSize.formatter(t):""},o.prototype.getExtension=function(){var t;return null!=(t=this.getFilename().match(/\.(\w+)$/))?t[1].toLowerCase():void 0},o.prototype.getContentType=function(){return this.attributes.get("contentType")},o.prototype.hasContent=function(){return this.attributes.has("content")
-},o.prototype.getContent=function(){return this.attributes.get("content")},o.prototype.getWidth=function(){return this.attributes.get("width")},o.prototype.getHeight=function(){return this.attributes.get("height")},o.prototype.getFile=function(){return this.file},o.prototype.setFile=function(t){return this.file=t,this.isPreviewable()?this.preloadFile():void 0},o.prototype.releaseFile=function(){return this.releasePreloadedFile(),this.file=null},o.prototype.getUploadProgress=function(){var t;return null!=(t=this.uploadProgress)?t:0},o.prototype.setUploadProgress=function(t){var e;return this.uploadProgress!==t?(this.uploadProgress=t,null!=(e=this.uploadProgressDelegate)&&"function"==typeof e.attachmentDidChangeUploadProgress?e.attachmentDidChangeUploadProgress(this):void 0):void 0},o.prototype.toJSON=function(){return this.getAttributes()},o.prototype.getCacheKey=function(){return[o.__super__.getCacheKey.apply(this,arguments),this.attributes.getCacheKey(),this.getPreviewURL()].join("/")},o.prototype.getPreviewURL=function(){return this.previewURL||this.preloadingURL},o.prototype.setPreviewURL=function(t){var e,n;return t!==this.getPreviewURL()?(this.previewURL=t,null!=(e=this.previewDelegate)&&"function"==typeof e.attachmentDidChangeAttributes&&e.attachmentDidChangeAttributes(this),null!=(n=this.delegate)&&"function"==typeof n.attachmentDidChangePreviewURL?n.attachmentDidChangePreviewURL(this):void 0):void 0},o.prototype.preloadURL=function(){return this.preload(this.getURL(),this.releaseFile)},o.prototype.preloadFile=function(){return this.file?(this.fileObjectURL=URL.createObjectURL(this.file),this.preload(this.fileObjectURL)):void 0},o.prototype.releasePreloadedFile=function(){return this.fileObjectURL?(URL.revokeObjectURL(this.fileObjectURL),this.fileObjectURL=null):void 0},o.prototype.preload=function(t,n){var i;return t&&t!==this.getPreviewURL()?(this.preloadingURL=t,i=new e.ImagePreloadOperation(t),i.then(function(e){return function(i){var o,r;return r=i.width,o=i.height,e.setAttributes({width:r,height:o}),e.preloadingURL=null,e.setPreviewURL(t),"function"==typeof n?n():void 0}}(this))):void 0},o}(e.Object)}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.Piece=function(n){function i(t,n){null==n&&(n={}),i.__super__.constructor.apply(this,arguments),this.attributes=e.Hash.box(n)}return t(i,n),i.types={},i.registerType=function(t,e){return e.type=t,this.types[t]=e},i.fromJSON=function(t){var e;return(e=this.types[t.type])?e.fromJSON(t):void 0},i.prototype.copyWithAttributes=function(t){return new this.constructor(this.getValue(),t)},i.prototype.copyWithAdditionalAttributes=function(t){return this.copyWithAttributes(this.attributes.merge(t))},i.prototype.copyWithoutAttribute=function(t){return this.copyWithAttributes(this.attributes.remove(t))},i.prototype.copy=function(){return this.copyWithAttributes(this.attributes)},i.prototype.getAttribute=function(t){return this.attributes.get(t)},i.prototype.getAttributesHash=function(){return this.attributes},i.prototype.getAttributes=function(){return this.attributes.toObject()},i.prototype.getCommonAttributes=function(){var t,e,n;return(n=pieceList.getPieceAtIndex(0))?(t=n.attributes,e=t.getKeys(),pieceList.eachPiece(function(n){return e=t.getKeysCommonToHash(n.attributes),t=t.slice(e)}),t.toObject()):{}},i.prototype.hasAttribute=function(t){return this.attributes.has(t)},i.prototype.hasSameStringValueAsPiece=function(t){return null!=t&&this.toString()===t.toString()},i.prototype.hasSameAttributesAsPiece=function(t){return null!=t&&(this.attributes===t.attributes||this.attributes.isEqualTo(t.attributes))},i.prototype.isBlockBreak=function(){return!1},i.prototype.isEqualTo=function(t){return i.__super__.isEqualTo.apply(this,arguments)||this.hasSameConstructorAs(t)&&this.hasSameStringValueAsPiece(t)&&this.hasSameAttributesAsPiece(t)},i.prototype.isEmpty=function(){return 0===this.length},i.prototype.isSerializable=function(){return!0},i.prototype.toJSON=function(){return{type:this.constructor.type,attributes:this.getAttributes()}},i.prototype.contentsForInspection=function(){return{type:this.constructor.type,attributes:this.attributes.inspect()}},i.prototype.canBeGrouped=function(){return this.hasAttribute("href")},i.prototype.canBeGroupedWith=function(t){return this.getAttribute("href")===t.getAttribute("href")},i.prototype.getLength=function(){return this.length},i.prototype.canBeConsolidatedWith=function(){return!1},i}(e.Object)}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.Piece.registerType("attachment",e.AttachmentPiece=function(n){function i(t){this.attachment=t,i.__super__.constructor.apply(this,arguments),this.length=1,this.ensureAttachmentExclusivelyHasAttribute("href")}return t(i,n),i.fromJSON=function(t){return new this(e.Attachment.fromJSON(t.attachment),t.attributes)},i.prototype.ensureAttachmentExclusivelyHasAttribute=function(t){return this.hasAttribute(t)&&this.attachment.hasAttribute(t)?this.attributes=this.attributes.remove(t):void 0},i.prototype.getValue=function(){return this.attachment},i.prototype.isSerializable=function(){return!this.attachment.isPending()},i.prototype.getCaption=function(){var t;return null!=(t=this.attributes.get("caption"))?t:""},i.prototype.getAttributesForAttachment=function(){return this.attributes.slice(["caption"])},i.prototype.canBeGrouped=function(){return i.__super__.canBeGrouped.apply(this,arguments)&&!this.attachment.hasAttribute("href")},i.prototype.isEqualTo=function(t){var e;return i.__super__.isEqualTo.apply(this,arguments)&&this.attachment.id===(null!=t&&null!=(e=t.attachment)?e.id:void 0)},i.prototype.toString=function(){return e.OBJECT_REPLACEMENT_CHARACTER},i.prototype.toJSON=function(){var t;return t=i.__super__.toJSON.apply(this,arguments),t.attachment=this.attachment,t},i.prototype.getCacheKey=function(){return[i.__super__.getCacheKey.apply(this,arguments),this.attachment.getCacheKey()].join("/")},i.prototype.toConsole=function(){return JSON.stringify(this.toString())},i}(e.Piece))}.call(this),function(){var t,n=function(t,e){function n(){this.constructor=t}for(var o in e)i.call(e,o)&&(t[o]=e[o]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},i={}.hasOwnProperty;t=e.normalizeNewlines,e.Piece.registerType("string",e.StringPiece=function(e){function i(e){i.__super__.constructor.apply(this,arguments),this.string=t(e),this.length=this.string.length}return n(i,e),i.fromJSON=function(t){return new this(t.string,t.attributes)},i.prototype.getValue=function(){return this.string},i.prototype.toString=function(){return this.string.toString()},i.prototype.isBlockBreak=function(){return"\n"===this.toString()&&this.getAttribute("blockBreak")===!0},i.prototype.toJSON=function(){var t;return t=i.__super__.toJSON.apply(this,arguments),t.string=this.string,t},i.prototype.canBeConsolidatedWith=function(t){return null!=t&&this.hasSameConstructorAs(t)&&this.hasSameAttributesAsPiece(t)},i.prototype.consolidateWith=function(t){return new this.constructor(this.toString()+t.toString(),this.attributes)},i.prototype.splitAtOffset=function(t){var e,n;return 0===t?(e=null,n=this):t===this.length?(e=this,n=null):(e=new this.constructor(this.string.slice(0,t),this.attributes),n=new this.constructor(this.string.slice(t),this.attributes)),[e,n]},i.prototype.toConsole=function(){var t;return t=this.string,t.length>15&&(t=t.slice(0,14)+"\u2026"),JSON.stringify(t.toString())},i}(e.Piece))}.call(this),function(){var t,n=function(t,e){function n(){this.constructor=t}for(var o in e)i.call(e,o)&&(t[o]=e[o]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},i={}.hasOwnProperty,o=[].slice;t=e.spliceArray,e.SplittableList=function(e){function i(t){null==t&&(t=[]),i.__super__.constructor.apply(this,arguments),this.objects=t.slice(0),this.length=this.objects.length}var r,s,a;return n(i,e),i.box=function(t){return t instanceof this?t:new this(t)},i.prototype.indexOf=function(t){return this.objects.indexOf(t)},i.prototype.splice=function(){var e;return e=1<=arguments.length?o.call(arguments,0):[],new this.constructor(t.apply(null,[this.objects].concat(o.call(e))))},i.prototype.eachObject=function(t){var e,n,i,o,r,s;for(r=this.objects,s=[],n=e=0,i=r.length;i>e;n=++e)o=r[n],s.push(t(o,n));return s},i.prototype.insertObjectAtIndex=function(t,e){return this.splice(e,0,t)},i.prototype.insertSplittableListAtIndex=function(t,e){return this.splice.apply(this,[e,0].concat(o.call(t.objects)))},i.prototype.insertSplittableListAtPosition=function(t,e){var n,i,o;return o=this.splitObjectAtPosition(e),i=o[0],n=o[1],new this.constructor(i).insertSplittableListAtIndex(t,n)},i.prototype.editObjectAtIndex=function(t,e){return this.replaceObjectAtIndex(e(this.objects[t]),t)},i.prototype.replaceObjectAtIndex=function(t,e){return this.splice(e,1,t)},i.prototype.removeObjectAtIndex=function(t){return this.splice(t,1)},i.prototype.getObjectAtIndex=function(t){return this.objects[t]},i.prototype.getSplittableListInRange=function(t){var e,n,i,o;return i=this.splitObjectsAtRange(t),n=i[0],e=i[1],o=i[2],new this.constructor(n.slice(e,o+1))},i.prototype.selectSplittableList=function(t){var e,n;return n=function(){var n,i,o,r;for(o=this.objects,r=[],n=0,i=o.length;i>n;n++)e=o[n],t(e)&&r.push(e);return r}.call(this),new this.constructor(n)},i.prototype.removeObjectsInRange=function(t){var e,n,i,o;return i=this.splitObjectsAtRange(t),n=i[0],e=i[1],o=i[2],new this.constructor(n).splice(e,o-e+1)},i.prototype.transformObjectsInRange=function(t,e){var n,i,o,r,s,a,u;return s=this.splitObjectsAtRange(t),r=s[0],i=s[1],a=s[2],u=function(){var t,s,u;for(u=[],n=t=0,s=r.length;s>t;n=++t)o=r[n],u.push(n>=i&&a>=n?e(o):o);return u}(),new this.constructor(u)},i.prototype.splitObjectsAtRange=function(t){var e,n,i,o,s,u;return o=this.splitObjectAtPosition(a(t)),n=o[0],e=o[1],i=o[2],s=new this.constructor(n).splitObjectAtPosition(r(t)+i),n=s[0],u=s[1],[n,e,u-1]},i.prototype.getObjectAtPosition=function(t){var e,n,i;return i=this.findIndexAndOffsetAtPosition(t),e=i.index,n=i.offset,this.objects[e]},i.prototype.splitObjectAtPosition=function(t){var e,n,i,o,r,s,a,u,c,l;return s=this.findIndexAndOffsetAtPosition(t),e=s.index,r=s.offset,o=this.objects.slice(0),null!=e?0===r?(c=e,l=0):(i=this.getObjectAtIndex(e),a=i.splitAtOffset(r),n=a[0],u=a[1],o.splice(e,1,n,u),c=e+1,l=n.getLength()-r):(c=o.length,l=0),[o,c,l]},i.prototype.consolidate=function(){var t,e,n,i,o,r;for(i=[],o=this.objects[0],r=this.objects.slice(1),t=0,e=r.length;e>t;t++)n=r[t],("function"==typeof o.canBeConsolidatedWith?o.canBeConsolidatedWith(n):void 0)?o=o.consolidateWith(n):(i.push(o),o=n);return null!=o&&i.push(o),new this.constructor(i)},i.prototype.consolidateFromIndexToIndex=function(t,e){var n,i,r;return i=this.objects.slice(0),r=i.slice(t,e+1),n=new this.constructor(r).consolidate().toArray(),this.splice.apply(this,[t,r.length].concat(o.call(n)))},i.prototype.findIndexAndOffsetAtPosition=function(t){var e,n,i,o,r,s,a;for(e=0,a=this.objects,i=n=0,o=a.length;o>n;i=++n){if(s=a[i],r=e+s.getLength(),t>=e&&r>t)return{index:i,offset:t-e};e=r}return{index:null,offset:null}},i.prototype.findPositionAtIndexAndOffset=function(t,e){var n,i,o,r,s,a;for(s=0,a=this.objects,n=i=0,o=a.length;o>i;n=++i)if(r=a[n],t>n)s+=r.getLength();else if(n===t){s+=e;break}return s},i.prototype.getEndPosition=function(){var t,e;return null!=this.endPosition?this.endPosition:this.endPosition=function(){var n,i,o;for(e=0,o=this.objects,n=0,i=o.length;i>n;n++)t=o[n],e+=t.getLength();return e}.call(this)},i.prototype.toString=function(){return this.objects.join("")},i.prototype.toArray=function(){return this.objects.slice(0)},i.prototype.toJSON=function(){return this.toArray()},i.prototype.isEqualTo=function(t){return i.__super__.isEqualTo.apply(this,arguments)||s(this.objects,null!=t?t.objects:void 0)},s=function(t,e){var n,i,o,r,s;if(null==e&&(e=[]),t.length!==e.length)return!1;for(s=!0,i=n=0,o=t.length;o>n;i=++n)r=t[i],s&&!r.isEqualTo(e[i])&&(s=!1);return s},i.prototype.contentsForInspection=function(){var t;return{objects:"["+function(){var e,n,i,o;for(i=this.objects,o=[],e=0,n=i.length;n>e;e++)t=i[e],o.push(t.inspect());return o}.call(this).join(", ")+"]"}},a=function(t){return t[0]},r=function(t){return t[1]},i}(e.Object)}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.Text=function(n){function i(t){var n;null==t&&(t=[]),i.__super__.constructor.apply(this,arguments),this.pieceList=new e.SplittableList(function(){var e,i,o;for(o=[],e=0,i=t.length;i>e;e++)n=t[e],n.isEmpty()||o.push(n);return o}())}return t(i,n),i.textForAttachmentWithAttributes=function(t,n){var i;return i=new e.AttachmentPiece(t,n),new this([i])},i.textForStringWithAttributes=function(t,n){var i;return i=new e.StringPiece(t,n),new this([i])},i.fromJSON=function(t){var n,i;return i=function(){var i,o,r;for(r=[],i=0,o=t.length;o>i;i++)n=t[i],r.push(e.Piece.fromJSON(n));return r}(),new this(i)},i.prototype.copy=function(){return this.copyWithPieceList(this.pieceList)},i.prototype.copyWithPieceList=function(t){return new this.constructor(t.consolidate().toArray())},i.prototype.copyUsingObjectMap=function(t){var e,n;return n=function(){var n,i,o,r,s;for(o=this.getPieces(),s=[],n=0,i=o.length;i>n;n++)e=o[n],s.push(null!=(r=t.find(e))?r:e);return s}.call(this),new this.constructor(n)},i.prototype.appendText=function(t){return this.insertTextAtPosition(t,this.getLength())},i.prototype.insertTextAtPosition=function(t,e){return this.copyWithPieceList(this.pieceList.insertSplittableListAtPosition(t.pieceList,e))},i.prototype.removeTextAtRange=function(t){return this.copyWithPieceList(this.pieceList.removeObjectsInRange(t))},i.prototype.replaceTextAtRange=function(t,e){return this.removeTextAtRange(e).insertTextAtPosition(t,e[0])},i.prototype.moveTextFromRangeToPosition=function(t,e){var n,i;if(!(t[0]<=e&&e<=t[1]))return i=this.getTextAtRange(t),n=i.getLength(),t[0]<e&&(e-=n),this.removeTextAtRange(t).insertTextAtPosition(i,e)},i.prototype.addAttributeAtRange=function(t,e,n){var i;return i={},i[t]=e,this.addAttributesAtRange(i,n)},i.prototype.addAttributesAtRange=function(t,e){return this.copyWithPieceList(this.pieceList.transformObjectsInRange(e,function(e){return e.copyWithAdditionalAttributes(t)}))},i.prototype.removeAttributeAtRange=function(t,e){return this.copyWithPieceList(this.pieceList.transformObjectsInRange(e,function(e){return e.copyWithoutAttribute(t)}))},i.prototype.setAttributesAtRange=function(t,e){return this.copyWithPieceList(this.pieceList.transformObjectsInRange(e,function(e){return e.copyWithAttributes(t)}))},i.prototype.getAttributesAtPosition=function(t){var e,n;return null!=(e=null!=(n=this.pieceList.getObjectAtPosition(t))?n.getAttributes():void 0)?e:{}},i.prototype.getCommonAttributes=function(){var t,n;return t=function(){var t,e,i,o;for(i=this.pieceList.toArray(),o=[],t=0,e=i.length;e>t;t++)n=i[t],o.push(n.getAttributes());return o}.call(this),e.Hash.fromCommonAttributesOfObjects(t).toObject()},i.prototype.getCommonAttributesAtRange=function(t){var e;return null!=(e=this.getTextAtRange(t).getCommonAttributes())?e:{}},i.prototype.getExpandedRangeForAttributeAtOffset=function(t,e){var n,i,o;for(n=o=e,i=this.getLength();n>0&&this.getCommonAttributesAtRange([n-1,o])[t];)n--;for(;i>o&&this.getCommonAttributesAtRange([e,o+1])[t];)o++;return[n,o]},i.prototype.getTextAtRange=function(t){return this.copyWithPieceList(this.pieceList.getSplittableListInRange(t))},i.prototype.getStringAtRange=function(t){return this.pieceList.getSplittableListInRange(t).toString()},i.prototype.getStringAtPosition=function(t){return this.getStringAtRange([t,t+1])},i.prototype.startsWithString=function(t){return this.getStringAtRange([0,t.length])===t},i.prototype.endsWithString=function(t){var e;return e=this.getLength(),this.getStringAtRange([e-t.length,e])===t},i.prototype.getAttachmentPieces=function(){var t,e,n,i,o;for(i=this.pieceList.toArray(),o=[],t=0,e=i.length;e>t;t++)n=i[t],null!=n.attachment&&o.push(n);return o},i.prototype.getAttachments=function(){var t,e,n,i,o;for(i=this.getAttachmentPieces(),o=[],t=0,e=i.length;e>t;t++)n=i[t],o.push(n.attachment);return o},i.prototype.getAttachmentAndPositionById=function(t){var e,n,i,o,r,s;for(o=0,r=this.pieceList.toArray(),e=0,n=r.length;n>e;e++){if(i=r[e],(null!=(s=i.attachment)?s.id:void 0)===t)return{attachment:i.attachment,position:o};o+=i.length}return{attachment:null,position:null}},i.prototype.getAttachmentById=function(t){var e,n,i;return i=this.getAttachmentAndPositionById(t),e=i.attachment,n=i.position,e},i.prototype.getRangeOfAttachment=function(t){var e,n;return n=this.getAttachmentAndPositionById(t.id),t=n.attachment,e=n.position,null!=t?[e,e+1]:void 0},i.prototype.updateAttributesForAttachment=function(t,e){var n;return(n=this.getRangeOfAttachment(e))?this.addAttributesAtRange(t,n):this},i.prototype.getLength=function(){return this.pieceList.getEndPosition()},i.prototype.isEmpty=function(){return 0===this.getLength()},i.prototype.isEqualTo=function(t){var e;return i.__super__.isEqualTo.apply(this,arguments)||(null!=t&&null!=(e=t.pieceList)?e.isEqualTo(this.pieceList):void 0)},i.prototype.isBlockBreak=function(){return 1===this.getLength()&&this.pieceList.getObjectAtIndex(0).isBlockBreak()},i.prototype.eachPiece=function(t){return this.pieceList.eachObject(t)},i.prototype.getPieces=function(){return this.pieceList.toArray()},i.prototype.getPieceAtPosition=function(t){return this.pieceList.getObjectAtPosition(t)},i.prototype.contentsForInspection=function(){return{pieceList:this.pieceList.inspect()}},i.prototype.toSerializableText=function(){var t;return t=this.pieceList.selectSplittableList(function(t){return t.isSerializable()}),this.copyWithPieceList(t)},i.prototype.toString=function(){return this.pieceList.toString()},i.prototype.toJSON=function(){return this.pieceList.toJSON()},i.prototype.toConsole=function(){var t;return JSON.stringify(function(){var e,n,i,o;for(i=this.pieceList.toArray(),o=[],e=0,n=i.length;n>e;e++)t=i[e],o.push(JSON.parse(t.toConsole()));return o}.call(this))},i}(e.Object)}.call(this),function(){var t,n,i,o,r,s=function(t,e){function n(){this.constructor=t}for(var i in e)a.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},a={}.hasOwnProperty,u=[].slice,c=[].indexOf||function(t){for(var e=0,n=this.length;n>e;e++)if(e in this&&this[e]===t)return e;return-1};t=e.arraysAreEqual,r=e.spliceArray,i=e.getBlockConfig,n=e.getBlockAttributeNames,o=e.getListAttributeNames,e.Block=function(n){function a(t,n){null==t&&(t=new e.Text),null==n&&(n=[]),a.__super__.constructor.apply(this,arguments),this.text=h(t),this.attributes=n}var l,h,p,d,f,g,m,y,v;return s(a,n),a.fromJSON=function(t){var n;return n=e.Text.fromJSON(t.text),new this(n,t.attributes)},a.prototype.isEmpty=function(){return this.text.isBlockBreak()},a.prototype.isEqualTo=function(e){return a.__super__.isEqualTo.apply(this,arguments)||this.text.isEqualTo(null!=e?e.text:void 0)&&t(this.attributes,null!=e?e.attributes:void 0)},a.prototype.copyWithText=function(t){return new this.constructor(t,this.attributes)},a.prototype.copyWithoutText=function(){return this.copyWithText(null)},a.prototype.copyWithAttributes=function(t){return new this.constructor(this.text,t)},a.prototype.copyUsingObjectMap=function(t){var e;return this.copyWithText((e=t.find(this.text))?e:this.text.copyUsingObjectMap(t))},a.prototype.addAttribute=function(t){var e;return e=this.attributes.concat(d(t)),this.copyWithAttributes(e)},a.prototype.removeAttribute=function(t){var e,n;return n=i(t).listAttribute,e=g(g(this.attributes,t),n),this.copyWithAttributes(e)},a.prototype.removeLastAttribute=function(){return this.removeAttribute(this.getLastAttribute())},a.prototype.getLastAttribute=function(){return f(this.attributes)},a.prototype.getAttributes=function(){return this.attributes.slice(0)},a.prototype.getAttributeLevel=function(){return this.attributes.length},a.prototype.getAttributeAtLevel=function(t){return this.attributes[t-1]},a.prototype.hasAttributes=function(){return this.getAttributeLevel()>0},a.prototype.getLastNestableAttribute=function(){return f(this.getNestableAttributes())},a.prototype.getNestableAttributes=function(){var t,e,n,o,r;for(o=this.attributes,r=[],e=0,n=o.length;n>e;e++)t=o[e],i(t).nestable&&r.push(t);return r},a.prototype.getNestingLevel=function(){return this.getNestableAttributes().length},a.prototype.decreaseNestingLevel=function(){var t;return(t=this.getLastNestableAttribute())?this.removeAttribute(t):this},a.prototype.increaseNestingLevel=function(){var t,e,n;return(t=this.getLastNestableAttribute())?(n=this.attributes.lastIndexOf(t),e=r.apply(null,[this.attributes,n+1,0].concat(u.call(d(t)))),this.copyWithAttributes(e)):this},a.prototype.getListItemAttributes=function(){var t,e,n,o,r;for(o=this.attributes,r=[],e=0,n=o.length;n>e;e++)t=o[e],i(t).listAttribute&&r.push(t);return r},a.prototype.isListItem=function(){var t;return null!=(t=i(this.getLastAttribute()))?t.listAttribute:void 0},a.prototype.isTerminalBlock=function(){var t;return null!=(t=i(this.getLastAttribute()))?t.terminal:void 0},a.prototype.breaksOnReturn=function(){var t;return null!=(t=i(this.getLastAttribute()))?t.breakOnReturn:void 0},a.prototype.findLineBreakInDirectionFromPosition=function(t,e){var n,i;return i=this.toString(),n=function(){switch(t){case"forward":return i.indexOf("\n",e);case"backward":return i.slice(0,e).lastIndexOf("\n")}}(),-1!==n?n:void 0},a.prototype.contentsForInspection=function(){return{text:this.text.inspect(),attributes:this.attributes}},a.prototype.toString=function(){return this.text.toString()},a.prototype.toJSON=function(){return{text:this.text,attributes:this.attributes}},a.prototype.getLength=function(){return this.text.getLength()},a.prototype.canBeConsolidatedWith=function(t){return!this.hasAttributes()&&!t.hasAttributes()},a.prototype.consolidateWith=function(t){var n,i;return n=e.Text.textForStringWithAttributes("\n"),i=this.getTextWithoutBlockBreak().appendText(n),this.copyWithText(i.appendText(t.text))},a.prototype.splitAtOffset=function(t){var e,n;return 0===t?(e=null,n=this):t===this.getLength()?(e=this,n=null):(e=this.copyWithText(this.text.getTextAtRange([0,t])),n=this.copyWithText(this.text.getTextAtRange([t,this.getLength()]))),[e,n]},a.prototype.getBlockBreakPosition=function(){return this.text.getLength()-1},a.prototype.getTextWithoutBlockBreak=function(){return m(this.text)?this.text.getTextAtRange([0,this.getBlockBreakPosition()]):this.text.copy()},a.prototype.canBeGrouped=function(t){return this.attributes[t]},a.prototype.canBeGroupedWith=function(t,e){var n,r,s,a;return s=t.getAttributes(),r=s[e],n=this.attributes[e],n===r&&!(i(n).group===!1&&(a=s[e+1],c.call(o(),a)<0))},h=function(t){return t=v(t),t=l(t)},v=function(t){var n,i,o,r,s,a;return r=!1,a=t.getPieces(),i=2<=a.length?u.call(a,0,n=a.length-1):(n=0,[]),o=a[n++],null==o?t:(i=function(){var t,e,n;for(n=[],t=0,e=i.length;e>t;t++)s=i[t],s.isBlockBreak()?(r=!0,n.push(y(s))):n.push(s);return n}(),r?new e.Text(u.call(i).concat([o])):t)},p=e.Text.textForStringWithAttributes("\n",{blockBreak:!0}),l=function(t){return m(t)?t:t.appendText(p)},m=function(t){var e,n;return n=t.getLength(),0===n?!1:(e=t.getTextAtRange([n-1,n]),e.isBlockBreak())},y=function(t){return t.copyWithoutAttribute("blockBreak")},d=function(t){var e;return e=i(t).listAttribute,null!=e?[e,t]:[t]},f=function(t){return t.slice(-1)[0]},g=function(t,e){var n;return n=t.lastIndexOf(e),-1===n?t:r(t,n,1)},a}(e.Object)}.call(this),function(){var t,n,i,o=function(t,e){function n(){this.constructor=t}for(var i in e)r.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},r={}.hasOwnProperty,s=[].slice,a=[].indexOf||function(t){for(var e=0,n=this.length;n>e;e++)if(e in this&&this[e]===t)return e;return-1};n=e.tagName,i=e.walkTree,t=e.nodeIsAttachmentElement,e.HTMLSanitizer=function(e){function r(t,e){this.allowedAttributes=(null!=e?e:{}).allowedAttributes,null==this.allowedAttributes&&(this.allowedAttributes=u),this.body=c(t)}var u,c,l;return o(r,e),u="style href src width height class".split(" "),r.sanitize=function(t,e){var n;return n=new this(t,e),n.sanitize(),n},r.prototype.sanitize=function(){return this.sanitizeElements()},r.prototype.getHTML=function(){return this.body.innerHTML},r.prototype.getBody=function(){return this.body},r.prototype.sanitizeElements=function(){var t,e,n,o,r;for(r=i(this.body),o=[];r.nextNode();)switch(n=r.currentNode,n.nodeType){case Node.ELEMENT_NODE:l(n)?o.push(n):this.sanitizeElement(n);break;case Node.COMMENT_NODE:o.push(n)}for(t=0,e=o.length;e>t;t++)n=o[t],n.parentNode.removeChild(n);return this.body},r.prototype.sanitizeElement=function(t){var e,n,i,o;for(o=s.call(t.attributes),e=0,n=o.length;n>e;e++)i=o[e].name,a.call(this.allowedAttributes,i)>=0||0===i.indexOf("data-trix")||t.removeAttribute(i);return t},l=function(e){return(null!=e?e.nodeType:void 0)!==Node.ELEMENT_NODE||t(e)?void 0:"script"===n(e)||"false"===e.getAttribute("data-trix-serialize")},c=function(t){var e,n,i,o,r;for(null==t&&(t=""),t=t.replace(/<\/html[^>]*>[^]*$/i,"</html>"),e=document.implementation.createHTMLDocument(""),e.documentElement.innerHTML=t,r=e.head.querySelectorAll("style"),i=0,o=r.length;o>i;i++)n=r[i],e.body.appendChild(n);return e.body},r}(e.BasicObject)}.call(this),function(){var t,n,i,o,r,s,a,u,c,l,h,p=function(t,e){function n(){this.constructor=t}for(var i in e)d.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},d={}.hasOwnProperty,f=[].indexOf||function(t){for(var e=0,n=this.length;n>e;e++)if(e in this&&this[e]===t)return e;return-1};t=e.arraysAreEqual,s=e.makeElement,l=e.tagName,r=e.getBlockTagNames,h=e.walkTree,o=e.findClosestElementFromNode,i=e.elementContainsNode,a=e.nodeIsAttachmentElement,u=e.normalizeSpaces,n=e.breakableWhitespacePattern,c=e.squishBreakableWhitespace,e.HTMLParser=function(d){function g(t,e){this.html=t,this.referenceElement=(null!=e?e:{}).referenceElement,this.blocks=[],this.blockElements=[],this.processedElements=[]}var m,y,v,b,A,C,x,w,E,S,k,R;return p(g,d),g.parse=function(t,e){var n;return n=new this(t,e),n.parse(),n},g.prototype.getDocument=function(){return e.Document.fromJSON(this.blocks)},g.prototype.parse=function(){var t,n;try{for(this.createHiddenContainer(),t=e.HTMLSanitizer.sanitize(this.html).getHTML(),this.containerElement.innerHTML=t,n=h(this.containerElement,{usingFilter:w});n.nextNode();)this.processNode(n.currentNode);return this.translateBlockElementMarginsToNewlines()}finally{this.removeHiddenContainer()}},g.prototype.createHiddenContainer=function(){return this.referenceElement?(this.containerElement=this.referenceElement.cloneNode(!1),this.containerElement.removeAttribute("id"),this.containerElement.setAttribute("data-trix-internal",""),this.containerElement.style.display="none",this.referenceElement.parentNode.insertBefore(this.containerElement,this.referenceElement.nextSibling)):(this.containerElement=s({tagName:"div",style:{display:"none"}}),document.body.appendChild(this.containerElement))},g.prototype.removeHiddenContainer=function(){return this.containerElement.parentNode.removeChild(this.containerElement)},w=function(t){return"style"===l(t)?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT},g.prototype.processNode=function(t){switch(t.nodeType){case Node.TEXT_NODE:return this.processTextNode(t);case Node.ELEMENT_NODE:return this.appendBlockForElement(t),this.processElement(t)}},g.prototype.appendBlockForElement=function(e){var n,o,r,s;if(r=this.isBlockElement(e),o=i(this.currentBlockElement,e),r&&!this.isBlockElement(e.firstChild)){if(!(this.isInsignificantTextNode(e.firstChild)&&this.isBlockElement(e.firstElementChild)||(n=this.getBlockAttributes(e),o&&t(n,this.currentBlock.attributes))))return this.currentBlock=this.appendBlockForAttributesWithElement(n,e),this.currentBlockElement=e}else if(this.currentBlockElement&&!o&&!r)return(s=this.findParentBlockElement(e))?this.appendBlockForElement(s):(this.currentBlock=this.appendEmptyBlock(),this.currentBlockElement=null)},g.prototype.findParentBlockElement=function(t){var e;for(e=t.parentElement;e&&e!==this.containerElement;){if(this.isBlockElement(e)&&f.call(this.blockElements,e)>=0)return e;e=e.parentElement}return null},g.prototype.processTextNode=function(t){var e,n;return this.isInsignificantTextNode(t)?void 0:(n=t.data,y(t.parentNode)||(n=c(n),k(null!=(e=t.previousSibling)?e.textContent:void 0)&&(n=C(n))),this.appendStringWithAttributes(n,this.getTextAttributes(t.parentNode)))},g.prototype.processElement=function(t){var e,n,i,o,r;if(a(t))return e=v(t),Object.keys(e).length&&(o=this.getTextAttributes(t),this.appendAttachmentWithAttributes(e,o),t.innerHTML=""),this.processedElements.push(t);switch(l(t)){case"br":return this.isExtraBR(t)||this.isBlockElement(t.nextSibling)||this.appendStringWithAttributes("\n",this.getTextAttributes(t)),this.processedElements.push(t);case"img":e={url:t.getAttribute("src"),contentType:"image"},i=A(t);for(n in i)r=i[n],e[n]=r;return this.appendAttachmentWithAttributes(e,this.getTextAttributes(t)),this.processedElements.push(t);case"tr":if(t.parentNode.firstChild!==t)return this.appendStringWithAttributes("\n");break;case"td":if(t.parentNode.firstChild!==t)return this.appendStringWithAttributes(" | ")}},g.prototype.appendBlockForAttributesWithElement=function(t,e){var n;return this.blockElements.push(e),n=m(t),this.blocks.push(n),n},g.prototype.appendEmptyBlock=function(){return this.appendBlockForAttributesWithElement([],null)},g.prototype.appendStringWithAttributes=function(t,e){return this.appendPiece(S(t,e))},g.prototype.appendAttachmentWithAttributes=function(t,e){return this.appendPiece(E(t,e))},g.prototype.appendPiece=function(t){return 0===this.blocks.length&&this.appendEmptyBlock(),this.blocks[this.blocks.length-1].text.push(t)},g.prototype.appendStringToTextAtIndex=function(t,e){var n,i;return i=this.blocks[e].text,n=i[i.length-1],"string"===(null!=n?n.type:void 0)?n.string+=t:i.push(S(t))},g.prototype.prependStringToTextAtIndex=function(t,e){var n,i;return i=this.blocks[e].text,n=i[0],"string"===(null!=n?n.type:void 0)?n.string=t+n.string:i.unshift(S(t))},S=function(t,e){var n;return null==e&&(e={}),n="string",t=u(t),{string:t,attributes:e,type:n}},E=function(t,e){var n;return null==e&&(e={}),n="attachment",{attachment:t,attributes:e,type:n}},m=function(t){var e;return null==t&&(t={}),e=[],{text:e,attributes:t}},g.prototype.getTextAttributes=function(t){var n,i,r,s,u,c,l,h,p,d,f,g,m;r={},d=e.config.textAttributes;for(n in d)if(u=d[n],u.tagName&&o(t,{matchingSelector:u.tagName,untilNode:this.containerElement}))r[n]=!0;else if(u.parser){if(m=u.parser(t)){for(i=!1,f=this.findBlockElementAncestors(t),c=0,p=f.length;p>c;c++)if(s=f[c],u.parser(s)===m){i=!0;break}i||(r[n]=m)}}else u.styleProperty&&(m=t.style[u.styleProperty])&&(r[n]=m);if(a(t)&&(l=t.getAttribute("data-trix-attributes"))){g=JSON.parse(l);for(h in g)m=g[h],r[h]=m}return r},g.prototype.getBlockAttributes=function(t){var n,i,o,r;for(i=[];t&&t!==this.containerElement;){r=e.config.blockAttributes;for(n in r)o=r[n],o.parse!==!1&&l(t)===o.tagName&&(("function"==typeof o.test?o.test(t):void 0)||!o.test)&&(i.push(n),o.listAttribute&&i.push(o.listAttribute));t=t.parentNode}return i.reverse()},g.prototype.findBlockElementAncestors=function(t){var e,n;for(e=[];t&&t!==this.containerElement;)n=l(t),f.call(r(),n)>=0&&e.push(t),t=t.parentNode;return e},v=function(t){return JSON.parse(t.getAttribute("data-trix-attachment"))},A=function(t){var e,n,i;return i=t.getAttribute("width"),n=t.getAttribute("height"),e={},i&&(e.width=parseInt(i,10)),n&&(e.height=parseInt(n,10)),e},g.prototype.isBlockElement=function(t){var e;if((null!=t?t.nodeType:void 0)===Node.ELEMENT_NODE&&!a(t)&&!o(t,{matchingSelector:"td",untilNode:this.containerElement}))return e=l(t),f.call(r(),e)>=0||"block"===window.getComputedStyle(t).display},g.prototype.isInsignificantTextNode=function(t){var e,n,i;if((null!=t?t.nodeType:void 0)===Node.TEXT_NODE&&R(t.data)&&(n=t.parentNode,i=t.previousSibling,e=t.nextSibling,(!x(n.previousSibling)||this.isBlockElement(n.previousSibling))&&!y(n)))return!i||this.isBlockElement(i)||!e||this.isBlockElement(e)
-},g.prototype.isExtraBR=function(t){return"br"===l(t)&&this.isBlockElement(t.parentNode)&&t.parentNode.lastChild===t},y=function(t){var e;return e=window.getComputedStyle(t).whiteSpace,"pre"===e||"pre-wrap"===e||"pre-line"===e},x=function(t){return t&&!k(t.textContent)},g.prototype.translateBlockElementMarginsToNewlines=function(){var t,e,n,i,o,r,s,a;for(e=this.getMarginOfDefaultBlockElement(),s=this.blocks,a=[],i=n=0,o=s.length;o>n;i=++n)t=s[i],(r=this.getMarginOfBlockElementAtIndex(i))&&(r.top>2*e.top&&this.prependStringToTextAtIndex("\n",i),a.push(r.bottom>2*e.bottom?this.appendStringToTextAtIndex("\n",i):void 0));return a},g.prototype.getMarginOfBlockElementAtIndex=function(t){var e,n;return!(e=this.blockElements[t])||!e.textContent||(n=l(e),f.call(r(),n)>=0||f.call(this.processedElements,e)>=0)?void 0:b(e)},g.prototype.getMarginOfDefaultBlockElement=function(){var t;return t=s(e.config.blockAttributes["default"].tagName),this.containerElement.appendChild(t),b(t)},b=function(t){var e;return e=window.getComputedStyle(t),"block"===e.display?{top:parseInt(e.marginTop),bottom:parseInt(e.marginBottom)}:void 0},C=function(t){return t.replace(RegExp("^"+n.source+"+"),"")},R=function(t){return RegExp("^"+n.source+"*$").test(t)},k=function(t){return/\s$/.test(t)},g}(e.BasicObject)}.call(this),function(){var t,n,i,o,r=function(t,e){function n(){this.constructor=t}for(var i in e)s.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},s={}.hasOwnProperty,a=[].slice,u=[].indexOf||function(t){for(var e=0,n=this.length;n>e;e++)if(e in this&&this[e]===t)return e;return-1};t=e.arraysAreEqual,i=e.normalizeRange,o=e.rangeIsCollapsed,n=e.getBlockConfig,e.Document=function(s){function c(t){null==t&&(t=[]),c.__super__.constructor.apply(this,arguments),0===t.length&&(t=[new e.Block]),this.blockList=e.SplittableList.box(t)}var l;return r(c,s),c.fromJSON=function(t){var n,i;return i=function(){var i,o,r;for(r=[],i=0,o=t.length;o>i;i++)n=t[i],r.push(e.Block.fromJSON(n));return r}(),new this(i)},c.fromHTML=function(t,n){return e.HTMLParser.parse(t,n).getDocument()},c.fromString=function(t,n){var i;return i=e.Text.textForStringWithAttributes(t,n),new this([new e.Block(i)])},c.prototype.isEmpty=function(){var t;return 1===this.blockList.length&&(t=this.getBlockAtIndex(0),t.isEmpty()&&!t.hasAttributes())},c.prototype.copy=function(t){var e;return null==t&&(t={}),e=t.consolidateBlocks?this.blockList.consolidate().toArray():this.blockList.toArray(),new this.constructor(e)},c.prototype.copyUsingObjectsFromDocument=function(t){var n;return n=new e.ObjectMap(t.getObjects()),this.copyUsingObjectMap(n)},c.prototype.copyUsingObjectMap=function(t){var e,n,i;return n=function(){var n,o,r,s;for(r=this.getBlocks(),s=[],n=0,o=r.length;o>n;n++)e=r[n],s.push((i=t.find(e))?i:e.copyUsingObjectMap(t));return s}.call(this),new this.constructor(n)},c.prototype.copyWithBaseBlockAttributes=function(t){var e,n,i;return null==t&&(t=[]),i=function(){var i,o,r,s;for(r=this.getBlocks(),s=[],i=0,o=r.length;o>i;i++)n=r[i],e=t.concat(n.getAttributes()),s.push(n.copyWithAttributes(e));return s}.call(this),new this.constructor(i)},c.prototype.replaceBlock=function(t,e){var n;return n=this.blockList.indexOf(t),-1===n?this:new this.constructor(this.blockList.replaceObjectAtIndex(e,n))},c.prototype.insertDocumentAtRange=function(t,e){var n,r,s,a,u,c,l;return r=t.blockList,u=(e=i(e))[0],c=this.locationFromPosition(u),s=c.index,a=c.offset,l=this,n=this.getBlockAtPosition(u),o(e)&&n.isEmpty()&&!n.hasAttributes()?l=new this.constructor(l.blockList.removeObjectAtIndex(s)):n.getBlockBreakPosition()===a&&u++,l=l.removeTextAtRange(e),new this.constructor(l.blockList.insertSplittableListAtPosition(r,u))},c.prototype.mergeDocumentAtRange=function(e,n){var o,r,s,a,u,c,l,h,p,d,f,g;return f=(n=i(n))[0],d=this.locationFromPosition(f),r=this.getBlockAtIndex(d.index).getAttributes(),o=e.getBaseBlockAttributes(),g=r.slice(-o.length),t(o,g)?(l=r.slice(0,-o.length),c=e.copyWithBaseBlockAttributes(l)):c=e.copy({consolidateBlocks:!0}).copyWithBaseBlockAttributes(r),s=c.getBlockCount(),a=c.getBlockAtIndex(0),t(r,a.getAttributes())?(u=a.getTextWithoutBlockBreak(),p=this.insertTextAtRange(u,n),s>1&&(c=new this.constructor(c.getBlocks().slice(1)),h=f+u.getLength(),p=p.insertDocumentAtRange(c,h))):p=this.insertDocumentAtRange(c,n),p},c.prototype.insertTextAtRange=function(t,e){var n,o,r,s,a;return a=(e=i(e))[0],s=this.locationFromPosition(a),o=s.index,r=s.offset,n=this.removeTextAtRange(e),new this.constructor(n.blockList.editObjectAtIndex(o,function(e){return e.copyWithText(e.text.insertTextAtPosition(t,r))}))},c.prototype.removeTextAtRange=function(t){var e,n,r,s,a,u,c,l,h,p,d,f,g,m,y,v,b,A,C,x,w;return p=t=i(t),l=p[0],A=p[1],o(t)?this:(d=this.locationRangeFromRange(t),u=d[0],v=d[1],a=u.index,c=u.offset,s=this.getBlockAtIndex(a),y=v.index,b=v.offset,m=this.getBlockAtIndex(y),f=A-l===1&&s.getBlockBreakPosition()===c&&m.getBlockBreakPosition()!==b&&"\n"===m.text.getStringAtPosition(b),f?r=this.blockList.editObjectAtIndex(y,function(t){return t.copyWithText(t.text.removeTextAtRange([b,b+1]))}):(h=s.text.getTextAtRange([0,c]),C=m.text.getTextAtRange([b,m.getLength()]),x=h.appendText(C),g=a!==y&&0===c,w=g&&s.getAttributeLevel()>=m.getAttributeLevel(),n=w?m.copyWithText(x):s.copyWithText(x),e=y+1-a,r=this.blockList.splice(a,e,n)),new this.constructor(r))},c.prototype.moveTextFromRangeToPosition=function(t,e){var n,o,r,s,u,c,l,h,p,d;if(c=t=i(t),p=c[0],r=c[1],e>=p&&r>=e)return this;if(o=this.getDocumentAtRange(t),h=this.removeTextAtRange(t),u=e>p,u&&(e-=o.getLength()),!h.firstBlockInRangeIsEntirelySelected(t)){if(l=o.getBlocks(),s=l[0],n=2<=l.length?a.call(l,1):[],0===n.length?(d=s.getTextWithoutBlockBreak(),u&&(e+=1)):d=s.text,h=h.insertTextAtRange(d,e),0===n.length)return h;o=new this.constructor(n),e+=d.getLength()}return h.insertDocumentAtRange(o,e)},c.prototype.addAttributeAtRange=function(t,e,i){var o;return o=this.blockList,this.eachBlockAtRange(i,function(i,r,s){return o=o.editObjectAtIndex(s,function(){return n(t)?i.addAttribute(t,e):r[0]===r[1]?i:i.copyWithText(i.text.addAttributeAtRange(t,e,r))})}),new this.constructor(o)},c.prototype.addAttribute=function(t,e){var n;return n=this.blockList,this.eachBlock(function(i,o){return n=n.editObjectAtIndex(o,function(){return i.addAttribute(t,e)})}),new this.constructor(n)},c.prototype.removeAttributeAtRange=function(t,e){var i;return i=this.blockList,this.eachBlockAtRange(e,function(e,o,r){return n(t)?i=i.editObjectAtIndex(r,function(){return e.removeAttribute(t)}):o[0]!==o[1]?i=i.editObjectAtIndex(r,function(){return e.copyWithText(e.text.removeAttributeAtRange(t,o))}):void 0}),new this.constructor(i)},c.prototype.updateAttributesForAttachment=function(t,e){var n,i,o,r;return o=(i=this.getRangeOfAttachment(e))[0],n=this.locationFromPosition(o).index,r=this.getTextAtIndex(n),new this.constructor(this.blockList.editObjectAtIndex(n,function(n){return n.copyWithText(r.updateAttributesForAttachment(t,e))}))},c.prototype.removeAttributeForAttachment=function(t,e){var n;return n=this.getRangeOfAttachment(e),this.removeAttributeAtRange(t,n)},c.prototype.insertBlockBreakAtRange=function(t){var n,o,r,s;return s=(t=i(t))[0],r=this.locationFromPosition(s).offset,o=this.removeTextAtRange(t),0===r&&(n=[new e.Block]),new this.constructor(o.blockList.insertSplittableListAtPosition(new e.SplittableList(n),s))},c.prototype.applyBlockAttributeAtRange=function(t,e,i){var o,r,s,a;return s=this.expandRangeToLineBreaksAndSplitBlocks(i),r=s.document,i=s.range,o=n(t),o.listAttribute?(r=r.removeLastListAttributeAtRange(i,{exceptAttributeName:t}),a=r.convertLineBreaksToBlockBreaksInRange(i),r=a.document,i=a.range):r=o.terminal?r.removeLastTerminalAttributeAtRange(i):r.consolidateBlocksAtRange(i),r.addAttributeAtRange(t,e,i)},c.prototype.removeLastListAttributeAtRange=function(t,e){var i;return null==e&&(e={}),i=this.blockList,this.eachBlockAtRange(t,function(t,o,r){var s;if((s=t.getLastAttribute())&&n(s).listAttribute&&s!==e.exceptAttributeName)return i=i.editObjectAtIndex(r,function(){return t.removeAttribute(s)})}),new this.constructor(i)},c.prototype.removeLastTerminalAttributeAtRange=function(t){var e;return e=this.blockList,this.eachBlockAtRange(t,function(t,i,o){var r;if((r=t.getLastAttribute())&&n(r).terminal)return e=e.editObjectAtIndex(o,function(){return t.removeAttribute(r)})}),new this.constructor(e)},c.prototype.firstBlockInRangeIsEntirelySelected=function(t){var e,n,o,r,s,a;return r=t=i(t),a=r[0],e=r[1],n=this.locationFromPosition(a),s=this.locationFromPosition(e),0===n.offset&&n.index<s.index?!0:n.index===s.index?(o=this.getBlockAtIndex(n.index).getLength(),0===n.offset&&s.offset===o):!1},c.prototype.expandRangeToLineBreaksAndSplitBlocks=function(t){var e,n,o,r,s,a,u,c,l;return a=t=i(t),l=a[0],r=a[1],c=this.locationFromPosition(l),o=this.locationFromPosition(r),e=this,u=e.getBlockAtIndex(c.index),null!=(c.offset=u.findLineBreakInDirectionFromPosition("backward",c.offset))&&(s=e.positionFromLocation(c),e=e.insertBlockBreakAtRange([s,s+1]),o.index+=1,o.offset-=e.getBlockAtIndex(c.index).getLength(),c.index+=1),c.offset=0,0===o.offset&&o.index>c.index?(o.index-=1,o.offset=e.getBlockAtIndex(o.index).getBlockBreakPosition()):(n=e.getBlockAtIndex(o.index),"\n"===n.text.getStringAtRange([o.offset-1,o.offset])?o.offset-=1:o.offset=n.findLineBreakInDirectionFromPosition("forward",o.offset),o.offset!==n.getBlockBreakPosition()&&(s=e.positionFromLocation(o),e=e.insertBlockBreakAtRange([s,s+1]))),l=e.positionFromLocation(c),r=e.positionFromLocation(o),t=i([l,r]),{document:e,range:t}},c.prototype.convertLineBreaksToBlockBreaksInRange=function(t){var e,n,o;return n=(t=i(t))[0],o=this.getStringAtRange(t).slice(0,-1),e=this,o.replace(/.*?\n/g,function(t){return n+=t.length,e=e.insertBlockBreakAtRange([n-1,n])}),{document:e,range:t}},c.prototype.consolidateBlocksAtRange=function(t){var e,n,o,r,s;return o=t=i(t),s=o[0],n=o[1],r=this.locationFromPosition(s).index,e=this.locationFromPosition(n).index,new this.constructor(this.blockList.consolidateFromIndexToIndex(r,e))},c.prototype.getDocumentAtRange=function(t){var e;return t=i(t),e=this.blockList.getSplittableListInRange(t).toArray(),new this.constructor(e)},c.prototype.getStringAtRange=function(t){var e,n,o;return o=t=i(t),n=o[o.length-1],n!==this.getLength()&&(e=-1),this.getDocumentAtRange(t).toString().slice(0,e)},c.prototype.getBlockAtIndex=function(t){return this.blockList.getObjectAtIndex(t)},c.prototype.getBlockAtPosition=function(t){var e;return e=this.locationFromPosition(t).index,this.getBlockAtIndex(e)},c.prototype.getTextAtIndex=function(t){var e;return null!=(e=this.getBlockAtIndex(t))?e.text:void 0},c.prototype.getTextAtPosition=function(t){var e;return e=this.locationFromPosition(t).index,this.getTextAtIndex(e)},c.prototype.getPieceAtPosition=function(t){var e,n,i;return i=this.locationFromPosition(t),e=i.index,n=i.offset,this.getTextAtIndex(e).getPieceAtPosition(n)},c.prototype.getCharacterAtPosition=function(t){var e,n,i;return i=this.locationFromPosition(t),e=i.index,n=i.offset,this.getTextAtIndex(e).getStringAtRange([n,n+1])},c.prototype.getLength=function(){return this.blockList.getEndPosition()},c.prototype.getBlocks=function(){return this.blockList.toArray()},c.prototype.getBlockCount=function(){return this.blockList.length},c.prototype.getEditCount=function(){return this.editCount},c.prototype.eachBlock=function(t){return this.blockList.eachObject(t)},c.prototype.eachBlockAtRange=function(t,e){var n,o,r,s,a,u,c,l,h,p,d,f;if(u=t=i(t),d=u[0],r=u[1],p=this.locationFromPosition(d),o=this.locationFromPosition(r),p.index===o.index)return n=this.getBlockAtIndex(p.index),f=[p.offset,o.offset],e(n,f,p.index);for(h=[],a=s=c=p.index,l=o.index;l>=c?l>=s:s>=l;a=l>=c?++s:--s)(n=this.getBlockAtIndex(a))?(f=function(){switch(a){case p.index:return[p.offset,n.text.getLength()];case o.index:return[0,o.offset];default:return[0,n.text.getLength()]}}(),h.push(e(n,f,a))):h.push(void 0);return h},c.prototype.getCommonAttributesAtRange=function(t){var n,r,s;return r=(t=i(t))[0],o(t)?this.getCommonAttributesAtPosition(r):(s=[],n=[],this.eachBlockAtRange(t,function(t,e){return e[0]!==e[1]?(s.push(t.text.getCommonAttributesAtRange(e)),n.push(l(t))):void 0}),e.Hash.fromCommonAttributesOfObjects(s).merge(e.Hash.fromCommonAttributesOfObjects(n)).toObject())},c.prototype.getCommonAttributesAtPosition=function(t){var n,i,o,r,s,a,c,h,p,d;if(p=this.locationFromPosition(t),s=p.index,h=p.offset,o=this.getBlockAtIndex(s),!o)return{};r=l(o),n=o.text.getAttributesAtPosition(h),i=o.text.getAttributesAtPosition(h-1),a=function(){var t,n;t=e.config.textAttributes,n=[];for(c in t)d=t[c],d.inheritable&&n.push(c);return n}();for(c in i)d=i[c],(d===n[c]||u.call(a,c)>=0)&&(r[c]=d);return r},c.prototype.getRangeOfCommonAttributeAtPosition=function(t,e){var n,o,r,s,a,u,c,l,h;return a=this.locationFromPosition(e),r=a.index,s=a.offset,h=this.getTextAtIndex(r),u=h.getExpandedRangeForAttributeAtOffset(t,s),l=u[0],o=u[1],c=this.positionFromLocation({index:r,offset:l}),n=this.positionFromLocation({index:r,offset:o}),i([c,n])},c.prototype.getBaseBlockAttributes=function(){var t,e,n,i,o,r,s;for(t=this.getBlockAtIndex(0).getAttributes(),n=i=1,s=this.getBlockCount();s>=1?s>i:i>s;n=s>=1?++i:--i)e=this.getBlockAtIndex(n).getAttributes(),r=Math.min(t.length,e.length),t=function(){var n,i,s;for(s=[],o=n=0,i=r;(i>=0?i>n:n>i)&&e[o]===t[o];o=i>=0?++n:--n)s.push(e[o]);return s}();return t},l=function(t){var e,n;return n={},(e=t.getLastAttribute())&&(n[e]=!0),n},c.prototype.getAttachmentById=function(t){var e,n,i,o;for(o=this.getAttachments(),n=0,i=o.length;i>n;n++)if(e=o[n],e.id===t)return e},c.prototype.getAttachmentPieces=function(){var t;return t=[],this.blockList.eachObject(function(e){var n;return n=e.text,t=t.concat(n.getAttachmentPieces())}),t},c.prototype.getAttachments=function(){var t,e,n,i,o;for(i=this.getAttachmentPieces(),o=[],t=0,e=i.length;e>t;t++)n=i[t],o.push(n.attachment);return o},c.prototype.getRangeOfAttachment=function(t){var e,n,o,r,s,a,u;for(r=0,s=this.blockList.toArray(),n=e=0,o=s.length;o>e;n=++e){if(a=s[n].text,u=a.getRangeOfAttachment(t))return i([r+u[0],r+u[1]]);r+=a.getLength()}},c.prototype.getLocationRangeOfAttachment=function(t){var e;return e=this.getRangeOfAttachment(t),this.locationRangeFromRange(e)},c.prototype.getAttachmentPieceForAttachment=function(t){var e,n,i,o;for(o=this.getAttachmentPieces(),e=0,n=o.length;n>e;e++)if(i=o[e],i.attachment===t)return i},c.prototype.findRangesForTextAttribute=function(t,e){var n,i,o,r,s,a,u,c,l,h;for(h=(null!=e?e:{}).withValue,a=0,u=[],c=[],r=function(e){return null!=h?e.getAttribute(t)===h:e.hasAttribute(t)},l=this.getPieces(),n=0,i=l.length;i>n;n++)s=l[n],o=s.getLength(),r(s)&&(u[1]===a?u[1]=a+o:c.push(u=[a,a+o])),a+=o;return c},c.prototype.locationFromPosition=function(t){var e,n;return n=this.blockList.findIndexAndOffsetAtPosition(Math.max(0,t)),null!=n.index?n:(e=this.getBlocks(),{index:e.length-1,offset:e[e.length-1].getLength()})},c.prototype.positionFromLocation=function(t){return this.blockList.findPositionAtIndexAndOffset(t.index,t.offset)},c.prototype.locationRangeFromPosition=function(t){return i(this.locationFromPosition(t))},c.prototype.locationRangeFromRange=function(t){var e,n,o,r;if(t=i(t))return r=t[0],n=t[1],o=this.locationFromPosition(r),e=this.locationFromPosition(n),i([o,e])},c.prototype.rangeFromLocationRange=function(t){var e,n;return t=i(t),e=this.positionFromLocation(t[0]),o(t)||(n=this.positionFromLocation(t[1])),i([e,n])},c.prototype.isEqualTo=function(t){return this.blockList.isEqualTo(null!=t?t.blockList:void 0)},c.prototype.getTexts=function(){var t,e,n,i,o;for(i=this.getBlocks(),o=[],e=0,n=i.length;n>e;e++)t=i[e],o.push(t.text);return o},c.prototype.getPieces=function(){var t,e,n,i,o;for(n=[],i=this.getTexts(),t=0,e=i.length;e>t;t++)o=i[t],n.push.apply(n,o.getPieces());return n},c.prototype.getObjects=function(){return this.getBlocks().concat(this.getTexts()).concat(this.getPieces())},c.prototype.toSerializableDocument=function(){var t;return t=[],this.blockList.eachObject(function(e){return t.push(e.copyWithText(e.text.toSerializableText()))}),new this.constructor(t)},c.prototype.toString=function(){return this.blockList.toString()},c.prototype.toJSON=function(){return this.blockList.toJSON()},c.prototype.toConsole=function(){var t;return JSON.stringify(function(){var e,n,i,o;for(i=this.blockList.toArray(),o=[],e=0,n=i.length;n>e;e++)t=i[e],o.push(JSON.parse(t.text.toConsole()));return o}.call(this))},c}(e.Object)}.call(this),function(){e.LineBreakInsertion=function(){function t(t){var e;this.composition=t,this.document=this.composition.document,e=this.composition.getSelectedRange(),this.startPosition=e[0],this.endPosition=e[1],this.startLocation=this.document.locationFromPosition(this.startPosition),this.endLocation=this.document.locationFromPosition(this.endPosition),this.block=this.document.getBlockAtIndex(this.endLocation.index),this.breaksOnReturn=this.block.breaksOnReturn(),this.previousCharacter=this.block.text.getStringAtPosition(this.endLocation.offset-1),this.nextCharacter=this.block.text.getStringAtPosition(this.endLocation.offset)}return t.prototype.shouldInsertBlockBreak=function(){return this.block.hasAttributes()&&this.block.isListItem()&&!this.block.isEmpty()?0!==this.startLocation.offset:this.breaksOnReturn&&"\n"!==this.nextCharacter},t.prototype.shouldBreakFormattedBlock=function(){return this.block.hasAttributes()&&!this.block.isListItem()&&(this.breaksOnReturn&&"\n"===this.nextCharacter||"\n"===this.previousCharacter)},t.prototype.shouldDecreaseListLevel=function(){return this.block.hasAttributes()&&this.block.isListItem()&&this.block.isEmpty()},t.prototype.shouldPrependListItem=function(){return this.block.isListItem()&&0===this.startLocation.offset&&!this.block.isEmpty()},t.prototype.shouldRemoveLastBlockAttribute=function(){return this.block.hasAttributes()&&!this.block.isListItem()&&this.block.isEmpty()},t}()}.call(this),function(){var t,n,i,o,r,s,a,u,c,l,h=function(t,e){function n(){this.constructor=t}for(var i in e)p.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},p={}.hasOwnProperty;s=e.normalizeRange,c=e.rangesAreEqual,u=e.rangeIsCollapsed,a=e.objectsAreEqual,t=e.arrayStartsWith,l=e.summarizeArrayChange,i=e.getAllAttributeNames,o=e.getBlockConfig,r=e.getTextConfig,n=e.extend,e.Composition=function(p){function d(){this.document=new e.Document,this.attachments=[],this.currentAttributes={},this.revision=0}var f;return h(d,p),d.prototype.setDocument=function(t){var e;return t.isEqualTo(this.document)?void 0:(this.document=t,this.refreshAttachments(),this.revision++,null!=(e=this.delegate)&&"function"==typeof e.compositionDidChangeDocument?e.compositionDidChangeDocument(t):void 0)},d.prototype.getSnapshot=function(){return{document:this.document,selectedRange:this.getSelectedRange()}},d.prototype.loadSnapshot=function(t){var n,i,o,r;return n=t.document,r=t.selectedRange,null!=(i=this.delegate)&&"function"==typeof i.compositionWillLoadSnapshot&&i.compositionWillLoadSnapshot(),this.setDocument(null!=n?n:new e.Document),this.setSelection(null!=r?r:[0,0]),null!=(o=this.delegate)&&"function"==typeof o.compositionDidLoadSnapshot?o.compositionDidLoadSnapshot():void 0},d.prototype.insertText=function(t,e){var n,i,o,r;return r=(null!=e?e:{updatePosition:!0}).updatePosition,i=this.getSelectedRange(),this.setDocument(this.document.insertTextAtRange(t,i)),o=i[0],n=o+t.getLength(),r&&this.setSelection(n),this.notifyDelegateOfInsertionAtRange([o,n])},d.prototype.insertBlock=function(t){var n;return null==t&&(t=new e.Block),n=new e.Document([t]),this.insertDocument(n)},d.prototype.insertDocument=function(t){var n,i,o;return null==t&&(t=new e.Document),i=this.getSelectedRange(),this.setDocument(this.document.insertDocumentAtRange(t,i)),o=i[0],n=o+t.getLength(),this.setSelection(n),this.notifyDelegateOfInsertionAtRange([o,n])},d.prototype.insertString=function(t,n){var i,o;return i=this.getCurrentTextAttributes(),o=e.Text.textForStringWithAttributes(t,i),this.insertText(o,n)},d.prototype.insertBlockBreak=function(){var t,e,n;return e=this.getSelectedRange(),this.setDocument(this.document.insertBlockBreakAtRange(e)),n=e[0],t=n+1,this.setSelection(t),this.notifyDelegateOfInsertionAtRange([n,t])},d.prototype.insertLineBreak=function(){var t,n;return n=new e.LineBreakInsertion(this),n.shouldDecreaseListLevel()?(this.decreaseListLevel(),this.setSelection(n.startPosition)):n.shouldPrependListItem()?(t=new e.Document([n.block.copyWithoutText()]),this.insertDocument(t)):n.shouldInsertBlockBreak()?this.insertBlockBreak():n.shouldRemoveLastBlockAttribute()?this.removeLastBlockAttribute():n.shouldBreakFormattedBlock()?this.breakFormattedBlock(n):this.insertString("\n")},d.prototype.insertHTML=function(t){var n,i,o,r;return n=e.Document.fromHTML(t),o=this.getSelectedRange(),this.setDocument(this.document.mergeDocumentAtRange(n,o)),r=o[0],i=r+n.getLength()-1,this.setSelection(i),this.notifyDelegateOfInsertionAtRange([r,i])},d.prototype.replaceHTML=function(t){var n,i,o;return n=e.Document.fromHTML(t).copyUsingObjectsFromDocument(this.document),i=this.getLocationRange({strict:!1}),o=this.document.rangeFromLocationRange(i),this.setDocument(n),this.setSelection(o)},d.prototype.insertFile=function(t){var n,i;return(null!=(i=this.delegate)?i.compositionShouldAcceptFile(t):void 0)?(n=e.Attachment.attachmentForFile(t),this.insertAttachment(n)):void 0},d.prototype.insertFiles=function(t){var n,i,o,r,s,a,u,c;for(o=this.getCurrentTextAttributes(),c=new e.Text,s=0,a=t.length;a>s;s++)r=t[s],(null!=(u=this.delegate)?u.compositionShouldAcceptFile(r):void 0)&&(n=e.Attachment.attachmentForFile(r),i=e.Text.textForAttachmentWithAttributes(n,o),c=c.appendText(i));return this.insertText(c)},d.prototype.insertAttachment=function(t){var n,i;return n=this.getCurrentTextAttributes(),i=e.Text.textForAttachmentWithAttributes(t,n),this.insertText(i)},d.prototype.deleteInDirection=function(t){var e,n,i,o,r,s,a;return o=this.getLocationRange(),r=this.getSelectedRange(),s=u(r),s?i="backward"===t&&0===o[0].offset:a=o[0].index!==o[1].index,i&&this.canDecreaseBlockAttributeLevel()&&(n=this.getBlock(),n.isListItem()?this.decreaseListLevel():this.decreaseBlockAttributeLevel(),this.setSelection(r[0]),n.isEmpty())?!1:(s&&(r=this.getExpandedRangeInDirection(t),"backward"===t&&(e=this.getAttachmentAtRange(r))),e?(this.editAttachment(e),!1):(this.setDocument(this.document.removeTextAtRange(r)),this.setSelection(r[0]),i||a?!1:void 0))},d.prototype.moveTextFromRange=function(t){var e;return e=this.getSelectedRange()[0],this.setDocument(this.document.moveTextFromRangeToPosition(t,e)),this.setSelection(e)},d.prototype.removeAttachment=function(t){var e;return(e=this.document.getRangeOfAttachment(t))?(this.stopEditingAttachment(),this.setDocument(this.document.removeTextAtRange(e)),this.setSelection(e[0])):void 0},d.prototype.removeLastBlockAttribute=function(){var t,e,n,i;return n=this.getSelectedRange(),i=n[0],e=n[1],t=this.document.getBlockAtPosition(e),this.removeCurrentAttribute(t.getLastAttribute()),this.setSelection(i)},f=" ",d.prototype.insertPlaceholder=function(){return this.placeholderPosition=this.getPosition(),this.insertString(f)},d.prototype.selectPlaceholder=function(){return null!=this.placeholderPosition?(this.setSelectedRange([this.placeholderPosition,this.placeholderPosition+f.length]),this.getSelectedRange()):void 0},d.prototype.forgetPlaceholder=function(){return this.placeholderPosition=null},d.prototype.hasCurrentAttribute=function(t){var e;return e=this.currentAttributes[t],null!=e&&e!==!1},d.prototype.toggleCurrentAttribute=function(t){var e;return(e=!this.currentAttributes[t])?this.setCurrentAttribute(t,e):this.removeCurrentAttribute(t)},d.prototype.canSetCurrentAttribute=function(t){return o(t)?this.canSetCurrentBlockAttribute(t):this.canSetCurrentTextAttribute(t)},d.prototype.canSetCurrentTextAttribute=function(t){switch(t){case"href":return!this.selectionContainsAttachmentWithAttribute(t);default:return!0}},d.prototype.canSetCurrentBlockAttribute=function(){var t;if(t=this.getBlock())return!t.isTerminalBlock()},d.prototype.setCurrentAttribute=function(t,e){return o(t)?this.setBlockAttribute(t,e):(this.setTextAttribute(t,e),this.currentAttributes[t]=e,this.notifyDelegateOfCurrentAttributesChange())},d.prototype.setTextAttribute=function(t,n){var i,o,r,s;if(o=this.getSelectedRange())return r=o[0],i=o[1],r!==i?this.setDocument(this.document.addAttributeAtRange(t,n,o)):"href"===t?(s=e.Text.textForStringWithAttributes(n,{href:n}),this.insertText(s)):void 0},d.prototype.setBlockAttribute=function(t,e){var n,i;if(i=this.getSelectedRange())return this.canSetCurrentAttribute(t)?(n=this.getBlock(),this.setDocument(this.document.applyBlockAttributeAtRange(t,e,i)),this.setSelection(i)):void 0},d.prototype.removeCurrentAttribute=function(t){return o(t)?(this.removeBlockAttribute(t),this.updateCurrentAttributes()):(this.removeTextAttribute(t),delete this.currentAttributes[t],this.notifyDelegateOfCurrentAttributesChange())},d.prototype.removeTextAttribute=function(t){var e;if(e=this.getSelectedRange())return this.setDocument(this.document.removeAttributeAtRange(t,e))},d.prototype.removeBlockAttribute=function(t){var e;if(e=this.getSelectedRange())return this.setDocument(this.document.removeAttributeAtRange(t,e))},d.prototype.canDecreaseNestingLevel=function(){var t;return(null!=(t=this.getBlock())?t.getNestingLevel():void 0)>0},d.prototype.canIncreaseNestingLevel=function(){var e,n,i;if(e=this.getBlock())return(null!=(i=o(e.getLastNestableAttribute()))?i.listAttribute:0)?(n=this.getPreviousBlock())?t(n.getListItemAttributes(),e.getListItemAttributes()):void 0:e.getNestingLevel()>0},d.prototype.decreaseNestingLevel=function(){var t;if(t=this.getBlock())return this.setDocument(this.document.replaceBlock(t,t.decreaseNestingLevel()))},d.prototype.increaseNestingLevel=function(){var t;if(t=this.getBlock())return this.setDocument(this.document.replaceBlock(t,t.increaseNestingLevel()))},d.prototype.canDecreaseBlockAttributeLevel=function(){var t;return(null!=(t=this.getBlock())?t.getAttributeLevel():void 0)>0},d.prototype.decreaseBlockAttributeLevel=function(){var t,e;return(t=null!=(e=this.getBlock())?e.getLastAttribute():void 0)?this.removeCurrentAttribute(t):void 0},d.prototype.decreaseListLevel=function(){var t,e,n,i,o,r;for(r=this.getSelectedRange()[0],o=this.document.locationFromPosition(r).index,n=o,t=this.getBlock().getAttributeLevel();(e=this.document.getBlockAtIndex(n+1))&&e.isListItem()&&e.getAttributeLevel()>t;)n++;return r=this.document.positionFromLocation({index:o,offset:0}),i=this.document.positionFromLocation({index:n,offset:0}),this.setDocument(this.document.removeLastListAttributeAtRange([r,i]))},d.prototype.updateCurrentAttributes=function(){var t,e,n,o,r,s;if(s=this.getSelectedRange({ignoreLock:!0})){for(e=this.document.getCommonAttributesAtRange(s),r=i(),n=0,o=r.length;o>n;n++)t=r[n],e[t]||this.canSetCurrentAttribute(t)||(e[t]=!1);if(!a(e,this.currentAttributes))return this.currentAttributes=e,this.notifyDelegateOfCurrentAttributesChange()}},d.prototype.getCurrentAttributes=function(){return n.call({},this.currentAttributes)},d.prototype.getCurrentTextAttributes=function(){var t,e,n,i;t={},n=this.currentAttributes;for(e in n)i=n[e],r(e)&&(t[e]=i);return t},d.prototype.freezeSelection=function(){return this.setCurrentAttribute("frozen",!0)},d.prototype.thawSelection=function(){return this.removeCurrentAttribute("frozen")},d.prototype.hasFrozenSelection=function(){return this.hasCurrentAttribute("frozen")},d.proxyMethod("getSelectionManager().getPointRange"),d.proxyMethod("getSelectionManager().setLocationRangeFromPointRange"),d.proxyMethod("getSelectionManager().locationIsCursorTarget"),d.proxyMethod("getSelectionManager().selectionIsExpanded"),d.proxyMethod("delegate?.getSelectionManager"),d.prototype.setSelection=function(t){var e,n;return e=this.document.locationRangeFromRange(t),null!=(n=this.delegate)?n.compositionDidRequestChangingSelectionToLocationRange(e):void 0},d.prototype.getSelectedRange=function(){var t;return(t=this.getLocationRange())?this.document.rangeFromLocationRange(t):void 0},d.prototype.setSelectedRange=function(t){var e;return e=this.document.locationRangeFromRange(t),this.getSelectionManager().setLocationRange(e)},d.prototype.getPosition=function(){var t;return(t=this.getLocationRange())?this.document.positionFromLocation(t[0]):void 0},d.prototype.getLocationRange=function(t){var e;return null!=(e=this.getSelectionManager().getLocationRange(t))?e:s({index:0,offset:0})},d.prototype.getExpandedRangeInDirection=function(t){var e,n,i;return n=this.getSelectedRange(),i=n[0],e=n[1],"backward"===t?i=this.translateUTF16PositionFromOffset(i,-1):e=this.translateUTF16PositionFromOffset(e,1),s([i,e])},d.prototype.moveCursorInDirection=function(t){var e,n,i,o;return this.editingAttachment?i=this.document.getRangeOfAttachment(this.editingAttachment):(o=this.getSelectedRange(),i=this.getExpandedRangeInDirection(t),n=!c(o,i)),this.setSelectedRange("backward"===t?i[0]:i[1]),n&&(e=this.getAttachmentAtRange(i))?this.editAttachment(e):void 0},d.prototype.expandSelectionInDirection=function(t){var e;return e=this.getExpandedRangeInDirection(t),this.setSelectedRange(e)},d.prototype.expandSelectionForEditing=function(){return this.hasCurrentAttribute("href")?this.expandSelectionAroundCommonAttribute("href"):void 0},d.prototype.expandSelectionAroundCommonAttribute=function(t){var e,n;return e=this.getPosition(),n=this.document.getRangeOfCommonAttributeAtPosition(t,e),this.setSelectedRange(n)},d.prototype.selectionContainsAttachmentWithAttribute=function(t){var e,n,i,o,r;if(r=this.getSelectedRange()){for(o=this.document.getDocumentAtRange(r).getAttachments(),n=0,i=o.length;i>n;n++)if(e=o[n],e.hasAttribute(t))return!0;return!1}},d.prototype.selectionIsInCursorTarget=function(){return this.editingAttachment||this.positionIsCursorTarget(this.getPosition())},d.prototype.positionIsCursorTarget=function(t){var e;return(e=this.document.locationFromPosition(t))?this.locationIsCursorTarget(e):void 0},d.prototype.positionIsBlockBreak=function(t){var e;return null!=(e=this.document.getPieceAtPosition(t))?e.isBlockBreak():void 0},d.prototype.getSelectedDocument=function(){var t;return(t=this.getSelectedRange())?this.document.getDocumentAtRange(t):void 0},d.prototype.getAttachments=function(){return this.attachments.slice(0)},d.prototype.refreshAttachments=function(){var t,e,n,i,o,r,s,a,u,c,h,p;for(n=this.document.getAttachments(),a=l(this.attachments,n),t=a.added,h=a.removed,this.attachments=n,i=0,r=h.length;r>i;i++)e=h[i],e.delegate=null,null!=(u=this.delegate)&&"function"==typeof u.compositionDidRemoveAttachment&&u.compositionDidRemoveAttachment(e);for(p=[],o=0,s=t.length;s>o;o++)e=t[o],e.delegate=this,p.push(null!=(c=this.delegate)&&"function"==typeof c.compositionDidAddAttachment?c.compositionDidAddAttachment(e):void 0);return p},d.prototype.attachmentDidChangeAttributes=function(t){var e;return this.revision++,null!=(e=this.delegate)&&"function"==typeof e.compositionDidEditAttachment?e.compositionDidEditAttachment(t):void 0},d.prototype.attachmentDidChangePreviewURL=function(t){var e;return this.revision++,null!=(e=this.delegate)&&"function"==typeof e.compositionDidChangeAttachmentPreviewURL?e.compositionDidChangeAttachmentPreviewURL(t):void 0},d.prototype.editAttachment=function(t){var e;if(t!==this.editingAttachment)return this.stopEditingAttachment(),this.editingAttachment=t,null!=(e=this.delegate)&&"function"==typeof e.compositionDidStartEditingAttachment?e.compositionDidStartEditingAttachment(this.editingAttachment):void 0},d.prototype.stopEditingAttachment=function(){var t;if(this.editingAttachment)return null!=(t=this.delegate)&&"function"==typeof t.compositionDidStopEditingAttachment&&t.compositionDidStopEditingAttachment(this.editingAttachment),this.editingAttachment=null},d.prototype.canEditAttachmentCaption=function(){var t;return null!=(t=this.editingAttachment)?t.isPreviewable():void 0},d.prototype.updateAttributesForAttachment=function(t,e){return this.setDocument(this.document.updateAttributesForAttachment(t,e))},d.prototype.removeAttributeForAttachment=function(t,e){return this.setDocument(this.document.removeAttributeForAttachment(t,e))},d.prototype.breakFormattedBlock=function(t){var n,i,o,r,s;return i=t.document,n=t.block,r=t.startPosition,s=[r-1,r],n.getBlockBreakPosition()===t.startLocation.offset?(n.breaksOnReturn()&&"\n"===t.nextCharacter?r+=1:i=i.removeTextAtRange(s),s=[r,r]):"\n"===t.nextCharacter?"\n"===t.previousCharacter?s=[r-1,r+1]:(s=[r,r+1],r+=1):t.startLocation.offset-1!==0&&(r+=1),o=new e.Document([n.removeLastAttribute().copyWithoutText()]),this.setDocument(i.insertDocumentAtRange(o,s)),this.setSelection(r)
-},d.prototype.getPreviousBlock=function(){var t,e;return(e=this.getLocationRange())&&(t=e[0].index,t>0)?this.document.getBlockAtIndex(t-1):void 0},d.prototype.getBlock=function(){var t;return(t=this.getLocationRange())?this.document.getBlockAtIndex(t[0].index):void 0},d.prototype.getAttachmentAtRange=function(t){var n;return n=this.document.getDocumentAtRange(t),n.toString()===e.OBJECT_REPLACEMENT_CHARACTER+"\n"?n.getAttachments()[0]:void 0},d.prototype.notifyDelegateOfCurrentAttributesChange=function(){var t;return null!=(t=this.delegate)&&"function"==typeof t.compositionDidChangeCurrentAttributes?t.compositionDidChangeCurrentAttributes(this.currentAttributes):void 0},d.prototype.notifyDelegateOfInsertionAtRange=function(t){var e;return null!=(e=this.delegate)&&"function"==typeof e.compositionDidPerformInsertionAtRange?e.compositionDidPerformInsertionAtRange(t):void 0},d.prototype.translateUTF16PositionFromOffset=function(t,e){var n,i;return i=this.document.toUTF16String(),n=i.offsetFromUCS2Offset(t),i.offsetToUCS2Offset(n+e)},d}(e.BasicObject)}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.UndoManager=function(e){function n(t){this.composition=t,this.undoEntries=[],this.redoEntries=[]}var i;return t(n,e),n.prototype.recordUndoEntry=function(t,e){var n,o,r,s,a;return s=null!=e?e:{},o=s.context,n=s.consolidatable,r=this.undoEntries.slice(-1)[0],n&&i(r,t,o)?void 0:(a=this.createEntry({description:t,context:o}),this.undoEntries.push(a),this.redoEntries=[])},n.prototype.undo=function(){var t,e;return(e=this.undoEntries.pop())?(t=this.createEntry(e),this.redoEntries.push(t),this.composition.loadSnapshot(e.snapshot)):void 0},n.prototype.redo=function(){var t,e;return(t=this.redoEntries.pop())?(e=this.createEntry(t),this.undoEntries.push(e),this.composition.loadSnapshot(t.snapshot)):void 0},n.prototype.canUndo=function(){return this.undoEntries.length>0},n.prototype.canRedo=function(){return this.redoEntries.length>0},n.prototype.createEntry=function(t){var e,n,i;return i=null!=t?t:{},n=i.description,e=i.context,{description:null!=n?n.toString():void 0,context:JSON.stringify(e),snapshot:this.composition.getSnapshot()}},i=function(t,e,n){return(null!=t?t.description:void 0)===(null!=e?e.toString():void 0)&&(null!=t?t.context:void 0)===JSON.stringify(n)},n}(e.BasicObject)}.call(this),function(){e.Editor=function(){function t(t,n,i){this.composition=t,this.selectionManager=n,this.element=i,this.undoManager=new e.UndoManager(this.composition)}return t.prototype.loadDocument=function(t){return this.loadSnapshot({document:t,selectedRange:[0,0]})},t.prototype.loadHTML=function(t){return null==t&&(t=""),this.loadDocument(e.Document.fromHTML(t,{referenceElement:this.element}))},t.prototype.loadJSON=function(t){var n,i;return n=t.document,i=t.selectedRange,n=e.Document.fromJSON(n),this.loadSnapshot({document:n,selectedRange:i})},t.prototype.loadSnapshot=function(t){return this.undoManager=new e.UndoManager(this.composition),this.composition.loadSnapshot(t)},t.prototype.getDocument=function(){return this.composition.document},t.prototype.getSelectedDocument=function(){return this.composition.getSelectedDocument()},t.prototype.getSnapshot=function(){return this.composition.getSnapshot()},t.prototype.toJSON=function(){return this.getSnapshot()},t.prototype.deleteInDirection=function(t){return this.composition.deleteInDirection(t)},t.prototype.insertAttachment=function(t){return this.composition.insertAttachment(t)},t.prototype.insertDocument=function(t){return this.composition.insertDocument(t)},t.prototype.insertFile=function(t){return this.composition.insertFile(t)},t.prototype.insertHTML=function(t){return this.composition.insertHTML(t)},t.prototype.insertString=function(t){return this.composition.insertString(t)},t.prototype.insertText=function(t){return this.composition.insertText(t)},t.prototype.insertLineBreak=function(){return this.composition.insertLineBreak()},t.prototype.getSelectedRange=function(){return this.composition.getSelectedRange()},t.prototype.getPosition=function(){return this.composition.getPosition()},t.prototype.getClientRectAtPosition=function(t){var e;return e=this.getDocument().locationRangeFromRange([t,t+1]),this.selectionManager.getClientRectAtLocationRange(e)},t.prototype.expandSelectionInDirection=function(t){return this.composition.expandSelectionInDirection(t)},t.prototype.moveCursorInDirection=function(t){return this.composition.moveCursorInDirection(t)},t.prototype.setSelectedRange=function(t){return this.composition.setSelectedRange(t)},t.prototype.activateAttribute=function(t,e){return null==e&&(e=!0),this.composition.setCurrentAttribute(t,e)},t.prototype.attributeIsActive=function(t){return this.composition.hasCurrentAttribute(t)},t.prototype.canActivateAttribute=function(t){return this.composition.canSetCurrentAttribute(t)},t.prototype.deactivateAttribute=function(t){return this.composition.removeCurrentAttribute(t)},t.prototype.canDecreaseNestingLevel=function(){return this.composition.canDecreaseNestingLevel()},t.prototype.canIncreaseNestingLevel=function(){return this.composition.canIncreaseNestingLevel()},t.prototype.decreaseNestingLevel=function(){return this.canDecreaseNestingLevel()?this.composition.decreaseNestingLevel():void 0},t.prototype.increaseNestingLevel=function(){return this.canIncreaseNestingLevel()?this.composition.increaseNestingLevel():void 0},t.prototype.canDecreaseIndentationLevel=function(){return this.canDecreaseNestingLevel()},t.prototype.canIncreaseIndentationLevel=function(){return this.canIncreaseNestingLevel()},t.prototype.decreaseIndentationLevel=function(){return this.decreaseNestingLevel()},t.prototype.increaseIndentationLevel=function(){return this.increaseNestingLevel()},t.prototype.canRedo=function(){return this.undoManager.canRedo()},t.prototype.canUndo=function(){return this.undoManager.canUndo()},t.prototype.recordUndoEntry=function(t,e){var n,i,o;return o=null!=e?e:{},i=o.context,n=o.consolidatable,this.undoManager.recordUndoEntry(t,{context:i,consolidatable:n})},t.prototype.redo=function(){return this.canRedo()?this.undoManager.redo():void 0},t.prototype.undo=function(){return this.canUndo()?this.undoManager.undo():void 0},t}()}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.ManagedAttachment=function(e){function n(t,e){var n;this.attachmentManager=t,this.attachment=e,n=this.attachment,this.id=n.id,this.file=n.file}return t(n,e),n.prototype.remove=function(){return this.attachmentManager.requestRemovalOfAttachment(this.attachment)},n.proxyMethod("attachment.getAttribute"),n.proxyMethod("attachment.hasAttribute"),n.proxyMethod("attachment.setAttribute"),n.proxyMethod("attachment.getAttributes"),n.proxyMethod("attachment.setAttributes"),n.proxyMethod("attachment.isPending"),n.proxyMethod("attachment.isPreviewable"),n.proxyMethod("attachment.getURL"),n.proxyMethod("attachment.getHref"),n.proxyMethod("attachment.getFilename"),n.proxyMethod("attachment.getFilesize"),n.proxyMethod("attachment.getFormattedFilesize"),n.proxyMethod("attachment.getExtension"),n.proxyMethod("attachment.getContentType"),n.proxyMethod("attachment.getFile"),n.proxyMethod("attachment.setFile"),n.proxyMethod("attachment.releaseFile"),n.proxyMethod("attachment.getUploadProgress"),n.proxyMethod("attachment.setUploadProgress"),n}(e.BasicObject)}.call(this),function(){var t=function(t,e){function i(){this.constructor=t}for(var o in e)n.call(e,o)&&(t[o]=e[o]);return i.prototype=e.prototype,t.prototype=new i,t.__super__=e.prototype,t},n={}.hasOwnProperty;e.AttachmentManager=function(n){function i(t){var e,n,i;for(null==t&&(t=[]),this.managedAttachments={},n=0,i=t.length;i>n;n++)e=t[n],this.manageAttachment(e)}return t(i,n),i.prototype.getAttachments=function(){var t,e,n,i;n=this.managedAttachments,i=[];for(e in n)t=n[e],i.push(t);return i},i.prototype.manageAttachment=function(t){var n,i;return null!=(n=this.managedAttachments)[i=t.id]?n[i]:n[i]=new e.ManagedAttachment(this,t)},i.prototype.attachmentIsManaged=function(t){return t.id in this.managedAttachments},i.prototype.requestRemovalOfAttachment=function(t){var e;return this.attachmentIsManaged(t)&&null!=(e=this.delegate)&&"function"==typeof e.attachmentManagerDidRequestRemovalOfAttachment?e.attachmentManagerDidRequestRemovalOfAttachment(t):void 0},i.prototype.unmanageAttachment=function(t){var e;return e=this.managedAttachments[t.id],delete this.managedAttachments[t.id],e},i}(e.BasicObject)}.call(this),function(){var t,n,i,o,r,s,a,u,c,l,h;t=e.elementContainsNode,n=e.findChildIndexOfNode,r=e.nodeIsBlockStart,s=e.nodeIsBlockStartComment,o=e.nodeIsBlockContainer,a=e.nodeIsCursorTarget,u=e.nodeIsEmptyTextNode,c=e.nodeIsTextNode,i=e.nodeIsAttachmentElement,l=e.tagName,h=e.walkTree,e.LocationMapper=function(){function e(t){this.element=t}var p,d,f,g;return e.prototype.findLocationFromContainerAndOffset=function(e,i,o){var s,u,l,p,g,m,y;for(m=(null!=o?o:{strict:!0}).strict,u=0,l=!1,p={index:0,offset:0},(s=this.findAttachmentElementParentForNode(e))&&(e=s.parentNode,i=n(s)),y=h(this.element,{usingFilter:f});y.nextNode();){if(g=y.currentNode,g===e&&c(e)){a(g)||(p.offset+=i);break}if(g.parentNode===e){if(u++===i)break}else if(!t(e,g)&&u>0)break;r(g,{strict:m})?(l&&p.index++,p.offset=0,l=!0):p.offset+=d(g)}return p},e.prototype.findContainerAndOffsetFromLocation=function(t){var e,i,s,a,u,l;if(0===t.index&&0===t.offset){for(e=this.element,a=0;e.firstChild;)if(e=e.firstChild,o(e)){a=1;break}return[e,a]}if(u=this.findNodeAndOffsetFromLocation(t),i=u[0],s=u[1],i){if(c(i))e=i,l=i.textContent,a=t.offset-s;else{if(e=i.parentNode,!r(i.previousSibling)&&!o(e))for(;i===e.lastChild&&(i=e,e=e.parentNode,!o(e)););a=n(i),0!==t.offset&&a++}return[e,a]}},e.prototype.findNodeAndOffsetFromLocation=function(t){var e,n,i,o,r,s,u,l;for(u=0,l=this.getSignificantNodesForIndex(t.index),n=0,i=l.length;i>n;n++){if(e=l[n],o=d(e),t.offset<=u+o)if(c(e)){if(r=e,s=u,t.offset===s&&a(r))break}else r||(r=e,s=u);if(u+=o,u>t.offset)break}return[r,s]},e.prototype.findAttachmentElementParentForNode=function(t){for(;t&&t!==this.element;){if(i(t))return t;t=t.parentNode}},e.prototype.getSignificantNodesForIndex=function(t){var e,n,i,o,r;for(i=[],r=h(this.element,{usingFilter:p}),o=!1;r.nextNode();)if(n=r.currentNode,s(n)){if("undefined"!=typeof e&&null!==e?e++:e=0,e===t)o=!0;else if(o)break}else o&&i.push(n);return i},d=function(t){var e;return t.nodeType===Node.TEXT_NODE?a(t)?0:(e=t.textContent,e.length):"br"===l(t)||i(t)?1:0},p=function(t){return g(t)===NodeFilter.FILTER_ACCEPT?f(t):NodeFilter.FILTER_REJECT},g=function(t){return u(t)?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT},f=function(t){return i(t.parentNode)?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT},e}()}.call(this),function(){var t,n,i=[].slice;t=e.getDOMRange,n=e.setDOMRange,e.PointMapper=function(){function e(){}return e.prototype.createDOMRangeFromPoint=function(e){var i,o,r,s,a,u,c,l;if(c=e.x,l=e.y,document.caretPositionFromPoint)return a=document.caretPositionFromPoint(c,l),r=a.offsetNode,o=a.offset,i=document.createRange(),i.setStart(r,o),i;if(document.caretRangeFromPoint)return document.caretRangeFromPoint(c,l);if(document.body.createTextRange){s=t();try{u=document.body.createTextRange(),u.moveToPoint(c,l),u.select()}catch(h){}return i=t(),n(s),i}},e.prototype.getClientRectsForDOMRange=function(t){var e,n,o;return n=i.call(t.getClientRects()),o=n[0],e=n[n.length-1],[o,e]},e}()}.call(this),function(){var t,n=function(t,e){return function(){return t.apply(e,arguments)}},i=function(t,e){function n(){this.constructor=t}for(var i in e)o.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},o={}.hasOwnProperty,r=[].indexOf||function(t){for(var e=0,n=this.length;n>e;e++)if(e in this&&this[e]===t)return e;return-1};t=e.getDOMRange,e.SelectionChangeObserver=function(e){function o(){this.run=n(this.run,this),this.update=n(this.update,this),this.selectionManagers=[]}var s;return i(o,e),o.prototype.start=function(){return this.started?void 0:(this.started=!0,"onselectionchange"in document?document.addEventListener("selectionchange",this.update,!0):this.run())},o.prototype.stop=function(){return this.started?(this.started=!1,document.removeEventListener("selectionchange",this.update,!0)):void 0},o.prototype.registerSelectionManager=function(t){return r.call(this.selectionManagers,t)<0?(this.selectionManagers.push(t),this.start()):void 0},o.prototype.unregisterSelectionManager=function(t){var e;return this.selectionManagers=function(){var n,i,o,r;for(o=this.selectionManagers,r=[],n=0,i=o.length;i>n;n++)e=o[n],e!==t&&r.push(e);return r}.call(this),0===this.selectionManagers.length?this.stop():void 0},o.prototype.notifySelectionManagersOfSelectionChange=function(){var t,e,n,i,o;for(n=this.selectionManagers,i=[],t=0,e=n.length;e>t;t++)o=n[t],i.push(o.selectionDidChange());return i},o.prototype.update=function(){var e;return e=t(),s(e,this.domRange)?void 0:(this.domRange=e,this.notifySelectionManagersOfSelectionChange())},o.prototype.reset=function(){return this.domRange=null,this.update()},o.prototype.run=function(){return this.started?(this.update(),requestAnimationFrame(this.run)):void 0},s=function(t,e){return(null!=t?t.startContainer:void 0)===(null!=e?e.startContainer:void 0)&&(null!=t?t.startOffset:void 0)===(null!=e?e.startOffset:void 0)&&(null!=t?t.endContainer:void 0)===(null!=e?e.endContainer:void 0)&&(null!=t?t.endOffset:void 0)===(null!=e?e.endOffset:void 0)},o}(e.BasicObject),null==e.selectionChangeObserver&&(e.selectionChangeObserver=new e.SelectionChangeObserver)}.call(this),function(){var t,n,i,o,r,s,a,u,c,l,h=function(t,e){return function(){return t.apply(e,arguments)}},p=function(t,e){function n(){this.constructor=t}for(var i in e)d.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},d={}.hasOwnProperty;i=e.getDOMSelection,n=e.getDOMRange,l=e.setDOMRange,t=e.elementContainsNode,s=e.nodeIsCursorTarget,r=e.innerElementIsActive,o=e.handleEvent,a=e.normalizeRange,u=e.rangeIsCollapsed,c=e.rangesAreEqual,e.SelectionManager=function(d){function f(t){this.element=t,this.selectionDidChange=h(this.selectionDidChange,this),this.didMouseDown=h(this.didMouseDown,this),this.locationMapper=new e.LocationMapper(this.element),this.pointMapper=new e.PointMapper,this.lockCount=0,o("mousedown",{onElement:this.element,withCallback:this.didMouseDown})}return p(f,d),f.prototype.getLocationRange=function(t){var e,i;return null==t&&(t={}),e=t.strict===!1?this.createLocationRangeFromDOMRange(n(),{strict:!1}):t.ignoreLock?this.currentLocationRange:null!=(i=this.lockedLocationRange)?i:this.currentLocationRange},f.prototype.setLocationRange=function(t){var e;if(!this.lockedLocationRange)return t=a(t),(e=this.createDOMRangeFromLocationRange(t))?(l(e),this.updateCurrentLocationRange(t)):void 0},f.prototype.setLocationRangeFromPointRange=function(t){var e,n;return t=a(t),n=this.getLocationAtPoint(t[0]),e=this.getLocationAtPoint(t[1]),this.setLocationRange([n,e])},f.prototype.getClientRectAtLocationRange=function(t){var e;return(e=this.createDOMRangeFromLocationRange(t))?this.getClientRectsForDOMRange(e)[1]:void 0},f.prototype.locationIsCursorTarget=function(t){var e,n,i;return i=this.findNodeAndOffsetFromLocation(t),e=i[0],n=i[1],s(e)},f.prototype.lock=function(){return 0===this.lockCount++?(this.updateCurrentLocationRange(),this.lockedLocationRange=this.getLocationRange()):void 0},f.prototype.unlock=function(){var t;return 0===--this.lockCount&&(t=this.lockedLocationRange,this.lockedLocationRange=null,null!=t)?this.setLocationRange(t):void 0},f.prototype.clearSelection=function(){var t;return null!=(t=i())?t.removeAllRanges():void 0},f.prototype.selectionIsCollapsed=function(){var t;return(null!=(t=n())?t.collapsed:void 0)===!0},f.prototype.selectionIsExpanded=function(){return!this.selectionIsCollapsed()},f.proxyMethod("locationMapper.findLocationFromContainerAndOffset"),f.proxyMethod("locationMapper.findContainerAndOffsetFromLocation"),f.proxyMethod("locationMapper.findNodeAndOffsetFromLocation"),f.proxyMethod("pointMapper.createDOMRangeFromPoint"),f.proxyMethod("pointMapper.getClientRectsForDOMRange"),f.prototype.didMouseDown=function(){return this.pauseTemporarily()},f.prototype.pauseTemporarily=function(){var e,n,i,r;return this.paused=!0,n=function(e){return function(){var n,o,s;for(e.paused=!1,clearTimeout(r),o=0,s=i.length;s>o;o++)n=i[o],n.destroy();return t(document,e.element)?e.selectionDidChange():void 0}}(this),r=setTimeout(n,200),i=function(){var t,i,r,s;for(r=["mousemove","keydown"],s=[],t=0,i=r.length;i>t;t++)e=r[t],s.push(o(e,{onElement:document,withCallback:n}));return s}()},f.prototype.selectionDidChange=function(){return this.paused||r(this.element)?void 0:this.updateCurrentLocationRange()},f.prototype.updateCurrentLocationRange=function(t){var e;return(null!=t?t:t=this.createLocationRangeFromDOMRange(n()))&&!c(t,this.currentLocationRange)?(this.currentLocationRange=t,null!=(e=this.delegate)&&"function"==typeof e.locationRangeDidChange?e.locationRangeDidChange(this.currentLocationRange.slice(0)):void 0):void 0},f.prototype.createDOMRangeFromLocationRange=function(t){var e,n,i,o;return i=this.findContainerAndOffsetFromLocation(t[0]),n=u(t)?i:null!=(o=this.findContainerAndOffsetFromLocation(t[1]))?o:i,null!=i&&null!=n?(e=document.createRange(),e.setStart.apply(e,i),e.setEnd.apply(e,n),e):void 0},f.prototype.createLocationRangeFromDOMRange=function(t,e){var n,i;if(null!=t&&this.domRangeWithinElement(t)&&(i=this.findLocationFromContainerAndOffset(t.startContainer,t.startOffset,e)))return t.collapsed||(n=this.findLocationFromContainerAndOffset(t.endContainer,t.endOffset,e)),a([i,n])},f.prototype.getLocationAtPoint=function(t){var e,n;return(e=this.createDOMRangeFromPoint(t))&&null!=(n=this.createLocationRangeFromDOMRange(e))?n[0]:void 0},f.prototype.domRangeWithinElement=function(e){return e.collapsed?t(this.element,e.startContainer):t(this.element,e.startContainer)&&t(this.element,e.endContainer)},f}(e.BasicObject)}.call(this),function(){var t,n,i,o=function(t,e){function n(){this.constructor=t}for(var i in e)r.call(e,i)&&(t[i]=e[i]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},r={}.hasOwnProperty,s=[].slice;n=e.rangeIsCollapsed,i=e.rangesAreEqual,t=e.objectsAreEqual,e.EditorController=function(r){function a(t){var n,i;this.editorElement=t.editorElement,n=t.document,i=t.html,this.selectionManager=new e.SelectionManager(this.editorElement),this.selectionManager.delegate=this,this.composition=new e.Composition,this.composition.delegate=this,this.attachmentManager=new e.AttachmentManager(this.composition.getAttachments()),this.attachmentManager.delegate=this,this.inputController=new e.InputController(this.editorElement),this.inputController.delegate=this,this.inputController.responder=this.composition,this.compositionController=new e.CompositionController(this.editorElement,this.composition),this.compositionController.delegate=this,this.toolbarController=new e.ToolbarController(this.editorElement.toolbarElement),this.toolbarController.delegate=this,this.editor=new e.Editor(this.composition,this.selectionManager,this.editorElement),null!=n?this.editor.loadDocument(n):this.editor.loadHTML(i)}return o(a,r),a.prototype.registerSelectionManager=function(){return e.selectionChangeObserver.registerSelectionManager(this.selectionManager)},a.prototype.unregisterSelectionManager=function(){return e.selectionChangeObserver.unregisterSelectionManager(this.selectionManager)},a.prototype.compositionDidChangeDocument=function(){return this.notifyEditorElement("document-change"),this.handlingInput?void 0:this.render()},a.prototype.compositionDidChangeCurrentAttributes=function(t){return this.currentAttributes=t,this.toolbarController.updateAttributes(this.currentAttributes),this.updateCurrentActions(),this.notifyEditorElement("attributes-change",{attributes:this.currentAttributes})},a.prototype.compositionDidPerformInsertionAtRange=function(t){return this.pasting?this.pastedRange=t:void 0},a.prototype.compositionShouldAcceptFile=function(t){return this.notifyEditorElement("file-accept",{file:t})},a.prototype.compositionDidAddAttachment=function(t){var e;return e=this.attachmentManager.manageAttachment(t),this.notifyEditorElement("attachment-add",{attachment:e})},a.prototype.compositionDidEditAttachment=function(t){var e;return this.compositionController.rerenderViewForObject(t),e=this.attachmentManager.manageAttachment(t),this.notifyEditorElement("attachment-edit",{attachment:e}),this.notifyEditorElement("change")},a.prototype.compositionDidChangeAttachmentPreviewURL=function(t){return this.compositionController.invalidateViewForObject(t),this.notifyEditorElement("change")},a.prototype.compositionDidRemoveAttachment=function(t){var e;return e=this.attachmentManager.unmanageAttachment(t),this.notifyEditorElement("attachment-remove",{attachment:e})},a.prototype.compositionDidStartEditingAttachment=function(t){return this.attachmentLocationRange=this.composition.document.getLocationRangeOfAttachment(t),this.compositionController.installAttachmentEditorForAttachment(t),this.selectionManager.setLocationRange(this.attachmentLocationRange)},a.prototype.compositionDidStopEditingAttachment=function(){return this.compositionController.uninstallAttachmentEditor(),this.attachmentLocationRange=null},a.prototype.compositionDidRequestChangingSelectionToLocationRange=function(t){return!this.loadingSnapshot||this.isFocused()?(this.requestedLocationRange=t,this.compositionRevisionWhenLocationRangeRequested=this.composition.revision,this.handlingInput?void 0:this.render()):void 0},a.prototype.compositionWillLoadSnapshot=function(){return this.loadingSnapshot=!0},a.prototype.compositionDidLoadSnapshot=function(){return this.compositionController.refreshViewCache(),this.render(),this.loadingSnapshot=!1},a.prototype.getSelectionManager=function(){return this.selectionManager},a.proxyMethod("getSelectionManager().setLocationRange"),a.proxyMethod("getSelectionManager().getLocationRange"),a.prototype.attachmentManagerDidRequestRemovalOfAttachment=function(t){return this.removeAttachment(t)},a.prototype.compositionControllerWillSyncDocumentView=function(){return this.inputController.editorWillSyncDocumentView(),this.selectionManager.lock(),this.selectionManager.clearSelection()},a.prototype.compositionControllerDidSyncDocumentView=function(){return this.inputController.editorDidSyncDocumentView(),this.selectionManager.unlock(),this.updateCurrentActions(),this.notifyEditorElement("sync")},a.prototype.compositionControllerDidRender=function(){return null!=this.requestedLocationRange&&(this.compositionRevisionWhenLocationRangeRequested===this.composition.revision&&this.selectionManager.setLocationRange(this.requestedLocationRange),this.requestedLocationRange=null,this.compositionRevisionWhenLocationRangeRequested=null),this.renderedCompositionRevision!==this.composition.revision&&(this.composition.updateCurrentAttributes(),this.notifyEditorElement("render")),this.renderedCompositionRevision=this.composition.revision},a.prototype.compositionControllerDidFocus=function(){return this.toolbarController.hideDialog(),this.notifyEditorElement("focus")},a.prototype.compositionControllerDidBlur=function(){return this.notifyEditorElement("blur")},a.prototype.compositionControllerDidSelectAttachment=function(t){return this.composition.editAttachment(t)},a.prototype.compositionControllerDidRequestDeselectingAttachment=function(t){var e,n;return e=null!=(n=this.attachmentLocationRange)?n:this.composition.document.getLocationRangeOfAttachment(t),this.selectionManager.setLocationRange(e[1])},a.prototype.compositionControllerWillUpdateAttachment=function(t){return this.editor.recordUndoEntry("Edit Attachment",{context:t.id,consolidatable:!0})},a.prototype.compositionControllerDidRequestRemovalOfAttachment=function(t){return this.removeAttachment(t)},a.prototype.inputControllerWillHandleInput=function(){return this.handlingInput=!0,this.requestedRender=!1},a.prototype.inputControllerDidRequestRender=function(){return this.requestedRender=!0},a.prototype.inputControllerDidHandleInput=function(){return this.handlingInput=!1,this.requestedRender?(this.requestedRender=!1,this.render()):void 0},a.prototype.inputControllerDidAllowUnhandledInput=function(){return this.notifyEditorElement("change")},a.prototype.inputControllerDidRequestReparse=function(){return this.reparse()},a.prototype.inputControllerWillPerformTyping=function(){return this.recordTypingUndoEntry()},a.prototype.inputControllerWillCutText=function(){return this.editor.recordUndoEntry("Cut")},a.prototype.inputControllerWillPaste=function(t){return this.editor.recordUndoEntry("Paste"),this.pasting=!0,this.notifyEditorElement("before-paste",{paste:t})},a.prototype.inputControllerDidPaste=function(t){return t.range=this.pastedRange,this.pastedRange=null,this.pasting=null,this.notifyEditorElement("paste",{paste:t})},a.prototype.inputControllerWillMoveText=function(){return this.editor.recordUndoEntry("Move")},a.prototype.inputControllerWillAttachFiles=function(){return this.editor.recordUndoEntry("Drop Files")},a.prototype.inputControllerDidReceiveKeyboardCommand=function(t){return this.toolbarController.applyKeyboardCommand(t)},a.prototype.inputControllerDidStartDrag=function(){return this.locationRangeBeforeDrag=this.selectionManager.getLocationRange()},a.prototype.inputControllerDidReceiveDragOverPoint=function(t){return this.selectionManager.setLocationRangeFromPointRange(t)},a.prototype.inputControllerDidCancelDrag=function(){return this.selectionManager.setLocationRange(this.locationRangeBeforeDrag),this.locationRangeBeforeDrag=null},a.prototype.locationRangeDidChange=function(t){return this.composition.updateCurrentAttributes(),this.updateCurrentActions(),this.attachmentLocationRange&&!i(this.attachmentLocationRange,t)&&this.composition.stopEditingAttachment(),this.notifyEditorElement("selection-change")},a.prototype.toolbarDidClickButton=function(){return this.getLocationRange()?void 0:this.setLocationRange({index:0,offset:0})},a.prototype.toolbarDidInvokeAction=function(t){return this.invokeAction(t)},a.prototype.toolbarDidToggleAttribute=function(t){return this.recordFormattingUndoEntry(),this.composition.toggleCurrentAttribute(t),this.render(),this.selectionFrozen?void 0:this.editorElement.focus()},a.prototype.toolbarDidUpdateAttribute=function(t,e){return this.recordFormattingUndoEntry(),this.composition.setCurrentAttribute(t,e),this.render(),this.selectionFrozen?void 0:this.editorElement.focus()},a.prototype.toolbarDidRemoveAttribute=function(t){return this.recordFormattingUndoEntry(),this.composition.removeCurrentAttribute(t),this.render(),this.selectionFrozen?void 0:this.editorElement.focus()},a.prototype.toolbarWillShowDialog=function(){return this.composition.expandSelectionForEditing(),this.freezeSelection()},a.prototype.toolbarDidShowDialog=function(t){return this.notifyEditorElement("toolbar-dialog-show",{dialogName:t})},a.prototype.toolbarDidHideDialog=function(t){return this.thawSelection(),this.editorElement.focus(),this.notifyEditorElement("toolbar-dialog-hide",{dialogName:t})},a.prototype.freezeSelection=function(){return this.selectionFrozen?void 0:(this.selectionManager.lock(),this.composition.freezeSelection(),this.selectionFrozen=!0,this.render())},a.prototype.thawSelection=function(){return this.selectionFrozen?(this.composition.thawSelection(),this.selectionManager.unlock(),this.selectionFrozen=!1,this.render()):void 0},a.prototype.actions={undo:{test:function(){return this.editor.canUndo()},perform:function(){return this.editor.undo()}},redo:{test:function(){return this.editor.canRedo()},perform:function(){return this.editor.redo()}},link:{test:function(){return this.editor.canActivateAttribute("href")}},increaseNestingLevel:{test:function(){return this.editor.canIncreaseNestingLevel()},perform:function(){return this.editor.increaseNestingLevel()&&this.render()}},decreaseNestingLevel:{test:function(){return this.editor.canDecreaseNestingLevel()},perform:function(){return this.editor.decreaseNestingLevel()&&this.render()}},increaseBlockLevel:{test:function(){return this.editor.canIncreaseNestingLevel()},perform:function(){return this.editor.increaseNestingLevel()&&this.render()}},decreaseBlockLevel:{test:function(){return this.editor.canDecreaseNestingLevel()},perform:function(){return this.editor.decreaseNestingLevel()&&this.render()}}},a.prototype.canInvokeAction=function(t){var e,n;return this.actionIsExternal(t)?!0:!!(null!=(e=this.actions[t])&&null!=(n=e.test)?n.call(this):void 0)},a.prototype.invokeAction=function(t){var e,n;return this.actionIsExternal(t)?this.notifyEditorElement("action-invoke",{actionName:t}):null!=(e=this.actions[t])&&null!=(n=e.perform)?n.call(this):void 0},a.prototype.actionIsExternal=function(t){return/^x-./.test(t)},a.prototype.getCurrentActions=function(){var t,e;e={};for(t in this.actions)e[t]=this.canInvokeAction(t);return e},a.prototype.updateCurrentActions=function(){var e;return e=this.getCurrentActions(),t(e,this.currentActions)?void 0:(this.currentActions=e,this.toolbarController.updateActions(this.currentActions),this.notifyEditorElement("actions-change",{actions:this.currentActions}))},a.prototype.reparse=function(){return this.composition.replaceHTML(this.editorElement.innerHTML)},a.prototype.render=function(){return this.compositionController.render()},a.prototype.updateInputElement=function(){var t,n;return t=this.compositionController.getSerializableElement(),n=e.serializeToContentType(t,"text/html"),this.editorElement.setInputElementValue(n)},a.prototype.notifyEditorElement=function(t,e){switch(t){case"document-change":this.documentChangedSinceLastRender=!0;break;case"render":this.documentChangedSinceLastRender&&(this.documentChangedSinceLastRender=!1,this.notifyEditorElement("change"));break;case"change":case"attachment-add":case"attachment-edit":case"attachment-remove":this.updateInputElement()}return this.editorElement.notify(t,e)},a.prototype.removeAttachment=function(t){return this.editor.recordUndoEntry("Delete Attachment"),this.composition.removeAttachment(t),this.render()},a.prototype.recordFormattingUndoEntry=function(){var t;return t=this.selectionManager.getLocationRange(),n(t)?void 0:this.editor.recordUndoEntry("Formatting",{context:this.getUndoContext(),consolidatable:!0})},a.prototype.recordTypingUndoEntry=function(){return this.editor.recordUndoEntry("Typing",{context:this.getUndoContext(this.currentAttributes),consolidatable:!0})},a.prototype.getUndoContext=function(){var t;return t=1<=arguments.length?s.call(arguments,0):[],[this.getLocationContext(),this.getTimeContext()].concat(s.call(t))},a.prototype.getLocationContext=function(){var t;return t=this.selectionManager.getLocationRange(),n(t)?t[0].index:t},a.prototype.getTimeContext=function(){return e.config.undoInterval>0?Math.floor((new Date).getTime()/e.config.undoInterval):0},a.prototype.isFocused=function(){var t;return this.editorElement===(null!=(t=this.editorElement.ownerDocument)?t.activeElement:void 0)},a}(e.Controller)}.call(this),function(){var t,n,i,o,r,s;n=e.browser,r=e.makeElement,s=e.triggerEvent,i=e.handleEvent,o=e.handleEventOnce,t=e.AttachmentView.attachmentSelector,e.registerElement("trix-editor",function(){var a,u,c,l,h,p,d,f;return p=0,u=function(t){return!document.querySelector(":focus")&&t.hasAttribute("autofocus")&&document.querySelector("[autofocus]")===t?t.focus():void 0},d=function(t){return t.hasAttribute("contenteditable")?void 0:(t.setAttribute("contenteditable",""),o("focus",{onElement:t,withCallback:function(){return c(t)}}))},a=function(t){return t.hasAttribute("role")?void 0:t.setAttribute("role","textbox")},c=function(t){return h(t),f(t)},h=function(t){return("function"==typeof document.queryCommandSupported?document.queryCommandSupported("enableObjectResizing"):void 0)?(document.execCommand("enableObjectResizing",!1,!1),i("mscontrolselect",{onElement:t,preventDefault:!0})):void 0},f=function(){var t;return("function"==typeof document.queryCommandSupported?document.queryCommandSupported("DefaultParagraphSeparator"):void 0)&&(t=e.config.blockAttributes["default"].tagName,"div"===t||"p"===t)?document.execCommand("DefaultParagraphSeparator",!1,t):void 0},l=function(){return n.forcesObjectResizing?{display:"inline",width:"auto"}:{display:"inline-block",width:"1px"}
-}(),{defaultCSS:"%t:empty:not(:focus)::before {\n  content: attr(placeholder);\n  color: graytext;\n  cursor: text;\n}\n\n%t a[contenteditable=false] {\n  cursor: text;\n}\n\n%t img {\n  max-width: 100%;\n  height: auto;\n}\n\n%t "+t+" figcaption textarea {\n  resize: none;\n}\n\n%t "+t+" figcaption textarea.trix-autoresize-clone {\n  position: absolute;\n  left: -9999px;\n  max-height: 0px;\n}\n\n%t "+t+" figcaption[data-trix-placeholder]:empty::before {\n  content: attr(data-trix-placeholder);\n  color: graytext;\n}\n\n%t [data-trix-cursor-target] {\n  display: "+l.display+" !important;\n  width: "+l.width+" !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  border: none !important;\n}\n\n%t [data-trix-cursor-target=left] {\n  vertical-align: top !important;\n  margin-left: -1px !important;\n}\n\n%t [data-trix-cursor-target=right] {\n  vertical-align: bottom !important;\n  margin-right: -1px !important;\n}",trixId:{get:function(){return this.hasAttribute("trix-id")?this.getAttribute("trix-id"):(this.setAttribute("trix-id",++p),this.trixId)}},toolbarElement:{get:function(){var t,e,n;return this.hasAttribute("toolbar")?null!=(e=this.ownerDocument)?e.getElementById(this.getAttribute("toolbar")):void 0:this.parentNode?(n="trix-toolbar-"+this.trixId,this.setAttribute("toolbar",n),t=r("trix-toolbar",{id:n}),this.parentNode.insertBefore(t,this),t):void 0}},inputElement:{get:function(){var t,e,n;return this.hasAttribute("input")?null!=(n=this.ownerDocument)?n.getElementById(this.getAttribute("input")):void 0:this.parentNode?(e="trix-input-"+this.trixId,this.setAttribute("input",e),t=r("input",{type:"hidden",id:e}),this.parentNode.insertBefore(t,this.nextElementSibling),t):void 0}},editor:{get:function(){var t;return null!=(t=this.editorController)?t.editor:void 0}},name:{get:function(){var t;return null!=(t=this.inputElement)?t.name:void 0}},value:{get:function(){var t;return null!=(t=this.inputElement)?t.value:void 0},set:function(t){var e;return this.defaultValue=t,null!=(e=this.editor)?e.loadHTML(this.defaultValue):void 0}},notify:function(t,e){return this.editorController?s("trix-"+t,{onElement:this,attributes:e}):void 0},setInputElementValue:function(t){var e;return null!=(e=this.inputElement)?e.value=t:void 0},createdCallback:function(){return d(this),a(this)},attachedCallback:function(){return this.hasAttribute("data-trix-internal")?void 0:(null==this.editorController&&(this.editorController=new e.EditorController({editorElement:this,html:this.defaultValue=this.value})),this.editorController.registerSelectionManager(),this.registerResetListener(),u(this),requestAnimationFrame(function(t){return function(){return t.notify("initialize")}}(this)))},detachedCallback:function(){var t;return null!=(t=this.editorController)&&t.unregisterSelectionManager(),this.unregisterResetListener()},registerResetListener:function(){return this.resetListener=this.resetBubbled.bind(this),window.addEventListener("reset",this.resetListener,!1)},unregisterResetListener:function(){return window.removeEventListener("reset",this.resetListener,!1)},resetBubbled:function(t){var e;return t.target!==(null!=(e=this.inputElement)?e.form:void 0)||t.defaultPrevented?void 0:this.reset()},reset:function(){return this.value=this.defaultValue}}}())}.call(this),function(){}.call(this)}).call(this), true&&module.exports?module.exports=e: true&&!(__WEBPACK_AMD_DEFINE_FACTORY__ = (e),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))}.call(this);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../timers-browserify/main.js */ "./node_modules/timers-browserify/main.js").setImmediate))
-
-/***/ }),
-
 /***/ "./node_modules/vue-at/dist/vue-at-textarea.js":
 /*!*****************************************************!*\
   !*** ./node_modules/vue-at/dist/vue-at-textarea.js ***!
@@ -82850,6 +88841,239 @@ module.exports=function(t){var e={};function n(i){if(e[i])return e[i].exports;va
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(e,t){ true?module.exports=t():undefined}(window,function(){return function(n){var o={};function i(e){if(o[e])return o[e].exports;var t=o[e]={i:e,l:!1,exports:{}};return n[e].call(t.exports,t,t.exports,i),t.l=!0,t.exports}return i.m=n,i.c=o,i.d=function(e,t,n){i.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},i.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},i.t=function(t,e){if(1&e&&(t=i(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(i.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var o in t)i.d(n,o,function(e){return t[e]}.bind(null,o));return n},i.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return i.d(t,"a",t),t},i.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},i.p="/dist/",i(i.s=11)}([function(e,t,n){var o=n(6);"string"==typeof o&&(o=[[e.i,o,""]]),o.locals&&(e.exports=o.locals);(0,n(4).default)("27d83796",o,!1,{})},function(e,t,n){var o=n(8);"string"==typeof o&&(o=[[e.i,o,""]]),o.locals&&(e.exports=o.locals);(0,n(4).default)("0e783494",o,!1,{})},function(e,t,n){var o=n(10);"string"==typeof o&&(o=[[e.i,o,""]]),o.locals&&(e.exports=o.locals);(0,n(4).default)("17757f60",o,!1,{})},function(e,t){e.exports=function(n){var a=[];return a.toString=function(){return this.map(function(e){var t=function(e,t){var n=e[1]||"",o=e[3];if(!o)return n;if(t&&"function"==typeof btoa){var i=(a=o,"/*# sourceMappingURL=data:application/json;charset=utf-8;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(a))))+" */"),r=o.sources.map(function(e){return"/*# sourceURL="+o.sourceRoot+e+" */"});return[n].concat(r).concat([i]).join("\n")}var a;return[n].join("\n")}(e,n);return e[2]?"@media "+e[2]+"{"+t+"}":t}).join("")},a.i=function(e,t){"string"==typeof e&&(e=[[null,e,""]]);for(var n={},o=0;o<this.length;o++){var i=this[o][0];"number"==typeof i&&(n[i]=!0)}for(o=0;o<e.length;o++){var r=e[o];"number"==typeof r[0]&&n[r[0]]||(t&&!r[2]?r[2]=t:t&&(r[2]="("+r[2]+") and ("+t+")"),a.push(r))}},a}},function(e,t,n){"use strict";function l(e,t){for(var n=[],o={},i=0;i<t.length;i++){var r=t[i],a=r[0],s={id:e+":"+i,css:r[1],media:r[2],sourceMap:r[3]};o[a]?o[a].parts.push(s):n.push(o[a]={id:a,parts:[s]})}return n}n.r(t),n.d(t,"default",function(){return p});var o="undefined"!=typeof document;if("undefined"!=typeof DEBUG&&DEBUG&&!o)throw new Error("vue-style-loader cannot be used in a non-browser environment. Use { target: 'node' } in your Webpack config to indicate a server-rendering environment.");var d={},i=o&&(document.head||document.getElementsByTagName("head")[0]),r=null,a=0,u=!1,s=function(){},c=null,h="data-vue-ssr-id",f="undefined"!=typeof navigator&&/msie [6-9]\b/.test(navigator.userAgent.toLowerCase());function p(a,e,t,n){u=t,c=n||{};var s=l(a,e);return v(s),function(e){for(var t=[],n=0;n<s.length;n++){var o=s[n];(i=d[o.id]).refs--,t.push(i)}e?v(s=l(a,e)):s=[];for(n=0;n<t.length;n++){var i;if(0===(i=t[n]).refs){for(var r=0;r<i.parts.length;r++)i.parts[r]();delete d[i.id]}}}}function v(e){for(var t=0;t<e.length;t++){var n=e[t],o=d[n.id];if(o){o.refs++;for(var i=0;i<o.parts.length;i++)o.parts[i](n.parts[i]);for(;i<n.parts.length;i++)o.parts.push(g(n.parts[i]));o.parts.length>n.parts.length&&(o.parts.length=n.parts.length)}else{var r=[];for(i=0;i<n.parts.length;i++)r.push(g(n.parts[i]));d[n.id]={id:n.id,refs:1,parts:r}}}}function m(){var e=document.createElement("style");return e.type="text/css",i.appendChild(e),e}function g(t){var n,o,e=document.querySelector("style["+h+'~="'+t.id+'"]');if(e){if(u)return s;e.parentNode.removeChild(e)}if(f){var i=a++;e=r||(r=m()),n=w.bind(null,e,i,!1),o=w.bind(null,e,i,!0)}else e=m(),n=function(e,t){var n=t.css,o=t.media,i=t.sourceMap;o&&e.setAttribute("media",o);c.ssrId&&e.setAttribute(h,t.id);i&&(n+="\n/*# sourceURL="+i.sources[0]+" */",n+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(i))))+" */");if(e.styleSheet)e.styleSheet.cssText=n;else{for(;e.firstChild;)e.removeChild(e.firstChild);e.appendChild(document.createTextNode(n))}}.bind(null,e),o=function(){e.parentNode.removeChild(e)};return n(t),function(e){if(e){if(e.css===t.css&&e.media===t.media&&e.sourceMap===t.sourceMap)return;n(t=e)}else o()}}var b,y=(b=[],function(e,t){return b[e]=t,b.filter(Boolean).join("\n")});function w(e,t,n,o){var i=n?"":o.css;if(e.styleSheet)e.styleSheet.cssText=y(t,i);else{var r=document.createTextNode(i),a=e.childNodes;a[t]&&e.removeChild(a[t]),a.length?e.insertBefore(r,a[t]):e.appendChild(r)}}},function(e,t,n){"use strict";var o=n(0);n.n(o).a},function(e,t,n){(e.exports=n(3)(!1)).push([e.i,"\n.vue-modal-resizer {\r\n  display: block;\r\n  overflow: hidden;\r\n  position: absolute;\r\n  width: 12px;\r\n  height: 12px;\r\n  right: 0;\r\n  bottom: 0;\r\n  z-index: 9999999;\r\n  background: transparent;\r\n  cursor: se-resize;\n}\n.vue-modal-resizer::after {\r\n  display: block;\r\n  position: absolute;\r\n  content: '';\r\n  background: transparent;\r\n  left: 0;\r\n  top: 0;\r\n  width: 0;\r\n  height: 0;\r\n  border-bottom: 10px solid #ddd;\r\n  border-left: 10px solid transparent;\n}\n.vue-modal-resizer.clicked::after {\r\n  border-bottom: 10px solid #369be9;\n}\r\n",""])},function(e,t,n){"use strict";var o=n(1);n.n(o).a},function(e,t,n){(e.exports=n(3)(!1)).push([e.i,"\n.v--modal-block-scroll {\r\n  overflow: hidden;\r\n  width: 100vw;\n}\n.v--modal-overlay {\r\n  position: fixed;\r\n  box-sizing: border-box;\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%;\r\n  height: 100vh;\r\n  background: rgba(0, 0, 0, 0.2);\r\n  z-index: 999;\r\n  opacity: 1;\n}\n.v--modal-overlay.scrollable {\r\n  height: 100%;\r\n  min-height: 100vh;\r\n  overflow-y: auto;\r\n  -webkit-overflow-scrolling: touch;\n}\n.v--modal-overlay .v--modal-background-click {\r\n  width: 100%;\r\n  min-height: 100%;\r\n  height: auto;\n}\n.v--modal-overlay .v--modal-box {\r\n  position: relative;\r\n  overflow: hidden;\r\n  box-sizing: border-box;\n}\n.v--modal-overlay.scrollable .v--modal-box {\r\n  margin-bottom: 2px;\n}\n.v--modal {\r\n  background-color: white;\r\n  text-align: left;\r\n  border-radius: 3px;\r\n  box-shadow: 0 20px 60px -2px rgba(27, 33, 58, 0.4);\r\n  padding: 0;\n}\n.v--modal.v--modal-fullscreen {\r\n  width: 100vw;\r\n  height: 100vh;\r\n  margin: 0;\r\n  left: 0;\r\n  top: 0;\n}\n.v--modal-top-right {\r\n  display: block;\r\n  position: absolute;\r\n  right: 0;\r\n  top: 0;\n}\n.overlay-fade-enter-active,\r\n.overlay-fade-leave-active {\r\n  transition: all 0.2s;\n}\n.overlay-fade-enter,\r\n.overlay-fade-leave-active {\r\n  opacity: 0;\n}\n.nice-modal-fade-enter-active,\r\n.nice-modal-fade-leave-active {\r\n  transition: all 0.4s;\n}\n.nice-modal-fade-enter,\r\n.nice-modal-fade-leave-active {\r\n  opacity: 0;\r\n  transform: translateY(-20px);\n}\r\n",""])},function(e,t,n){"use strict";var o=n(2);n.n(o).a},function(e,t,n){(e.exports=n(3)(!1)).push([e.i,"\n.vue-dialog div {\r\n  box-sizing: border-box;\n}\n.vue-dialog .dialog-flex {\r\n  width: 100%;\r\n  height: 100%;\n}\n.vue-dialog .dialog-content {\r\n  flex: 1 0 auto;\r\n  width: 100%;\r\n  padding: 15px;\r\n  font-size: 14px;\n}\n.vue-dialog .dialog-c-title {\r\n  font-weight: 600;\r\n  padding-bottom: 15px;\n}\n.vue-dialog .dialog-c-text {\n}\n.vue-dialog .vue-dialog-buttons {\r\n  display: flex;\r\n  flex: 0 1 auto;\r\n  width: 100%;\r\n  border-top: 1px solid #eee;\n}\n.vue-dialog .vue-dialog-buttons-none {\r\n  width: 100%;\r\n  padding-bottom: 15px;\n}\n.vue-dialog-button {\r\n  font-size: 12px !important;\r\n  background: transparent;\r\n  padding: 0;\r\n  margin: 0;\r\n  border: 0;\r\n  cursor: pointer;\r\n  box-sizing: border-box;\r\n  line-height: 40px;\r\n  height: 40px;\r\n  color: inherit;\r\n  font: inherit;\r\n  outline: none;\n}\n.vue-dialog-button:hover {\r\n  background: rgba(0, 0, 0, 0.01);\n}\n.vue-dialog-button:active {\r\n  background: rgba(0, 0, 0, 0.025);\n}\n.vue-dialog-button:not(:first-of-type) {\r\n  border-left: 1px solid #eee;\n}\r\n",""])},function(e,t,n){"use strict";n.r(t);var o=function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("transition",{attrs:{name:t.overlayTransition}},[t.visibility.overlay?n("div",{ref:"overlay",class:t.overlayClass,attrs:{"aria-expanded":t.visibility.overlay.toString(),"data-modal":t.name}},[n("div",{staticClass:"v--modal-background-click",on:{mousedown:function(e){return e.target!==e.currentTarget?null:t.handleBackgroundClick(e)},touchstart:function(e){return e.target!==e.currentTarget?null:t.handleBackgroundClick(e)}}},[n("div",{staticClass:"v--modal-top-right"},[t._t("top-right")],2),t._v(" "),n("transition",{attrs:{name:t.transition},on:{"before-enter":t.beforeTransitionEnter,"after-enter":t.afterTransitionEnter,"after-leave":t.afterTransitionLeave}},[t.visibility.modal?n("div",{ref:"modal",class:t.modalClass,style:t.modalStyle},[t._t("default"),t._v(" "),t.resizable&&!t.isAutoHeight?n("resizer",{attrs:{"min-width":t.minWidth,"min-height":t.minHeight},on:{resize:t.handleModalResize}}):t._e()],2):t._e()])],1)]):t._e()])},i=function(){var e=this.$createElement;return(this._self._c||e)("div",{class:this.className})};i._withStripped=o._withStripped=!0;var s=function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:0;return function(){return(e++).toString()}}(),u=function(e,t,n){return n<e?e:t<n?t:n},r=function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:{};return function(i){for(var e=1;e<arguments.length;e++){var r=null!=arguments[e]?arguments[e]:{},t=Object.keys(r);"function"==typeof Object.getOwnPropertySymbols&&(t=t.concat(Object.getOwnPropertySymbols(r).filter(function(e){return Object.getOwnPropertyDescriptor(r,e).enumerable}))),t.forEach(function(e){var t,n,o;t=i,o=r[n=e],n in t?Object.defineProperty(t,n,{value:o,enumerable:!0,configurable:!0,writable:!0}):t[n]=o})}return i}({id:s(),timestamp:Date.now(),canceled:!1},e)},a={name:"VueJsModalResizer",props:{minHeight:{type:Number,default:0},minWidth:{type:Number,default:0}},data:function(){return{clicked:!1,size:{}}},mounted:function(){this.$el.addEventListener("mousedown",this.start,!1)},computed:{className:function(){return{"vue-modal-resizer":!0,clicked:this.clicked}}},methods:{start:function(e){this.clicked=!0,window.addEventListener("mousemove",this.mousemove,!1),window.addEventListener("mouseup",this.stop,!1),e.stopPropagation(),e.preventDefault()},stop:function(){this.clicked=!1,window.removeEventListener("mousemove",this.mousemove,!1),window.removeEventListener("mouseup",this.stop,!1),this.$emit("resize-stop",{element:this.$el.parentElement,size:this.size})},mousemove:function(e){this.resize(e)},resize:function(e){var t=this.$el.parentElement;if(t){var n=e.clientX-t.offsetLeft,o=e.clientY-t.offsetTop;n=u(this.minWidth,window.innerWidth,n),o=u(this.minHeight,window.innerHeight,o),this.size={width:n,height:o},t.style.width=n+"px",t.style.height=o+"px",this.$emit("resize",{element:t,size:this.size})}}}};n(5);function l(e,t,n,o,i,r,a,s){var l,d="function"==typeof e?e.options:e;if(t&&(d.render=t,d.staticRenderFns=n,d._compiled=!0),o&&(d.functional=!0),r&&(d._scopeId="data-v-"+r),a?(l=function(e){(e=e||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext)||"undefined"==typeof __VUE_SSR_CONTEXT__||(e=__VUE_SSR_CONTEXT__),i&&i.call(this,e),e&&e._registeredComponents&&e._registeredComponents.add(a)},d._ssrRegister=l):i&&(l=s?function(){i.call(this,this.$root.$options.shadowRoot)}:i),l)if(d.functional){d._injectStyles=l;var u=d.render;d.render=function(e,t){return l.call(t),u(e,t)}}else{var c=d.beforeCreate;d.beforeCreate=c?[].concat(c,l):[l]}return{exports:e,options:d}}var d=l(a,i,[],!1,null,null,null);d.options.__file="src/Resizer.vue";var c=d.exports;function h(e){return(h="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var f="[-+]?[0-9]*.?[0-9]+",p=[{name:"px",regexp:new RegExp("^".concat(f,"px$"))},{name:"%",regexp:new RegExp("^".concat(f,"%$"))},{name:"px",regexp:new RegExp("^".concat(f,"$"))}],v=function(e){switch(h(e)){case"number":return{type:"px",value:e};case"string":return function(e){if("auto"===e)return{type:e,value:0};for(var t=0;t<p.length;t++){var n=p[t];if(n.regexp.test(e))return{type:n.name,value:parseFloat(e)}}return{type:"",value:e}}(e);default:return{type:"",value:e}}},m=function(e){if("string"!=typeof e)return 0<=e;var t=v(e);return("%"===t.type||"px"===t.type)&&0<t.value};var g={name:"VueJsModal",props:{name:{required:!0,type:String},delay:{type:Number,default:0},resizable:{type:Boolean,default:!1},adaptive:{type:Boolean,default:!1},draggable:{type:[Boolean,String],default:!1},scrollable:{type:Boolean,default:!1},reset:{type:Boolean,default:!1},overlayTransition:{type:String,default:"overlay-fade"},transition:{type:String},clickToClose:{type:Boolean,default:!0},classes:{type:[String,Array],default:"v--modal"},minWidth:{type:Number,default:0,validator:function(e){return 0<=e}},minHeight:{type:Number,default:0,validator:function(e){return 0<=e}},maxWidth:{type:Number,default:1/0},maxHeight:{type:Number,default:1/0},width:{type:[Number,String],default:600,validator:m},height:{type:[Number,String],default:300,validator:function(e){return"auto"===e||m(e)}},pivotX:{type:Number,default:.5,validator:function(e){return 0<=e&&e<=1}},pivotY:{type:Number,default:.5,validator:function(e){return 0<=e&&e<=1}}},components:{Resizer:c},data:function(){return{visible:!1,visibility:{modal:!1,overlay:!1},shift:{left:0,top:0},modal:{width:0,widthType:"px",height:0,heightType:"px",renderedHeight:0},window:{width:0,height:0},mutationObserver:null}},created:function(){this.setInitialSize()},beforeMount:function(){var t=this;if(z.event.$on("toggle",this.handleToggleEvent),window.addEventListener("resize",this.handleWindowResize),this.handleWindowResize(),this.scrollable&&!this.isAutoHeight&&console.warn('Modal "'.concat(this.name,'" has scrollable flag set to true ')+'but height is not "auto" ('.concat(this.height,")")),this.isAutoHeight){var e=function(){if("undefined"!=typeof window)for(var e=["","WebKit","Moz","O","Ms"],t=0;t<e.length;t++){var n=e[t]+"MutationObserver";if(n in window)return window[n]}return!1}();e&&(this.mutationObserver=new e(function(e){t.updateRenderedHeight()}))}this.clickToClose&&window.addEventListener("keyup",this.handleEscapeKeyUp)},beforeDestroy:function(){z.event.$off("toggle",this.handleToggleEvent),window.removeEventListener("resize",this.handleWindowResize),this.clickToClose&&window.removeEventListener("keyup",this.handleEscapeKeyUp),this.scrollable&&document.body.classList.remove("v--modal-block-scroll")},computed:{isAutoHeight:function(){return"auto"===this.modal.heightType},position:function(){var e=this.window,t=this.shift,n=this.pivotX,o=this.pivotY,i=this.trueModalWidth,r=this.trueModalHeight,a=e.width-i,s=e.height-r,l=t.left+n*a,d=t.top+o*s;return{left:parseInt(u(0,a,l)),top:parseInt(u(0,s,d))}},trueModalWidth:function(){var e=this.window,t=this.modal,n=this.adaptive,o=this.minWidth,i=this.maxWidth,r="%"===t.widthType?e.width/100*t.width:t.width,a=Math.min(e.width,i);return n?u(o,a,r):r},trueModalHeight:function(){var e=this.window,t=this.modal,n=this.isAutoHeight,o=this.adaptive,i=this.maxHeight,r="%"===t.heightType?e.height/100*t.height:t.height;if(n)return this.modal.renderedHeight;var a=Math.min(e.height,i);return o?u(this.minHeight,a,r):r},overlayClass:function(){return{"v--modal-overlay":!0,scrollable:this.scrollable&&this.isAutoHeight}},modalClass:function(){return["v--modal-box",this.classes]},modalStyle:function(){return{top:this.position.top+"px",left:this.position.left+"px",width:this.trueModalWidth+"px",height:this.isAutoHeight?"auto":this.trueModalHeight+"px"}}},watch:{visible:function(e){var t=this;e?(this.visibility.overlay=!0,setTimeout(function(){t.visibility.modal=!0,t.$nextTick(function(){t.addDraggableListeners(),t.callAfterEvent(!0)})},this.delay)):(this.visibility.modal=!1,setTimeout(function(){t.visibility.overlay=!1,t.$nextTick(function(){t.removeDraggableListeners(),t.callAfterEvent(!1)})},this.delay))}},methods:{handleToggleEvent:function(e,t,n){if(this.name===e){var o=void 0===t?!this.visible:t;this.toggle(o,n)}},setInitialSize:function(){var e=this.modal,t=v(this.width),n=v(this.height);e.width=t.value,e.widthType=t.type,e.height=n.value,e.heightType=n.type},handleEscapeKeyUp:function(e){27===e.which&&this.visible&&this.$modal.hide(this.name)},handleWindowResize:function(){this.window.width=window.innerWidth,this.window.height=window.innerHeight,this.ensureShiftInWindowBounds()},createModalEvent:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:{};return r(function(i){for(var e=1;e<arguments.length;e++){var r=null!=arguments[e]?arguments[e]:{},t=Object.keys(r);"function"==typeof Object.getOwnPropertySymbols&&(t=t.concat(Object.getOwnPropertySymbols(r).filter(function(e){return Object.getOwnPropertyDescriptor(r,e).enumerable}))),t.forEach(function(e){var t,n,o;t=i,o=r[n=e],n in t?Object.defineProperty(t,n,{value:o,enumerable:!0,configurable:!0,writable:!0}):t[n]=o})}return i}({name:this.name,ref:this.$refs.modal},e))},handleModalResize:function(e){this.modal.widthType="px",this.modal.width=e.size.width,this.modal.heightType="px",this.modal.height=e.size.height;var t=this.modal.size;this.$emit("resize",this.createModalEvent({size:t}))},toggle:function(e,t){var n=this.reset,o=this.scrollable,i=this.visible;if(i!==e){var r=i?"before-close":"before-open";"before-open"===r?("undefined"!=typeof document&&document.activeElement&&"BODY"!==document.activeElement.tagName&&document.activeElement.blur&&document.activeElement.blur(),n&&(this.setInitialSize(),this.shift.left=0,this.shift.top=0),o&&document.body.classList.add("v--modal-block-scroll")):o&&document.body.classList.remove("v--modal-block-scroll");var a=!1,s=this.createModalEvent({stop:function(){a=!0},state:e,params:t});this.$emit(r,s),a||(this.visible=e)}},getDraggableElement:function(){var e="string"!=typeof this.draggable?".v--modal-box":this.draggable;return e?this.$refs.overlay.querySelector(e):null},handleBackgroundClick:function(){this.clickToClose&&this.toggle(!1)},callAfterEvent:function(e){e?this.connectObserver():this.disconnectObserver();var t=e?"opened":"closed",n=this.createModalEvent({state:e});this.$emit(t,n)},addDraggableListeners:function(){var r=this;if(this.draggable){var e=this.getDraggableElement();if(e){var a=0,s=0,l=0,d=0,u=function(e){return e.touches&&0<e.touches.length?e.touches[0]:e},t=function(e){var t=e.target;if(!t||"INPUT"!==t.nodeName){var n=u(e),o=n.clientX,i=n.clientY;document.addEventListener("mousemove",c),document.addEventListener("touchmove",c),document.addEventListener("mouseup",h),document.addEventListener("touchend",h),a=o,s=i,l=r.shift.left,d=r.shift.top}},c=function(e){var t=u(e),n=t.clientX,o=t.clientY;r.shift.left=l+n-a,r.shift.top=d+o-s,e.preventDefault()},h=function e(t){r.ensureShiftInWindowBounds(),document.removeEventListener("mousemove",c),document.removeEventListener("touchmove",c),document.removeEventListener("mouseup",e),document.removeEventListener("touchend",e),t.preventDefault()};e.addEventListener("mousedown",t),e.addEventListener("touchstart",t)}}},removeDraggableListeners:function(){},updateRenderedHeight:function(){this.$refs.modal&&(this.modal.renderedHeight=this.$refs.modal.getBoundingClientRect().height)},connectObserver:function(){this.mutationObserver&&this.mutationObserver.observe(this.$refs.overlay,{childList:!0,attributes:!0,subtree:!0})},disconnectObserver:function(){this.mutationObserver&&this.mutationObserver.disconnect()},beforeTransitionEnter:function(){this.connectObserver()},afterTransitionEnter:function(){},afterTransitionLeave:function(){},ensureShiftInWindowBounds:function(){var e=this.window,t=this.shift,n=this.pivotX,o=this.pivotY,i=this.trueModalWidth,r=this.trueModalHeight,a=e.width-i,s=e.height-r,l=t.left+n*a,d=t.top+o*s;this.shift.left-=l-u(0,a,l),this.shift.top-=d-u(0,s,d)}}},b=(n(7),l(g,o,[],!1,null,null,null));b.options.__file="src/Modal.vue";var y=b.exports,w=function(){var n=this,e=n.$createElement,o=n._self._c||e;return o("modal",{attrs:{name:"dialog",height:"auto",classes:["v--modal","vue-dialog",this.params.class],width:n.width,"pivot-y":.3,adaptive:!0,clickToClose:n.clickToClose,transition:n.transition},on:{"before-open":n.beforeOpened,"before-close":n.beforeClosed,opened:function(e){n.$emit("opened",e)},closed:function(e){n.$emit("closed",e)}}},[o("div",{staticClass:"dialog-content"},[n.params.title?o("div",{staticClass:"dialog-c-title",domProps:{innerHTML:n._s(n.params.title||"")}}):n._e(),n._v(" "),n.params.component?o(n.params.component,n._b({tag:"component"},"component",n.params.props,!1)):o("div",{staticClass:"dialog-c-text",domProps:{innerHTML:n._s(n.params.text||"")}})],1),n._v(" "),n.buttons?o("div",{staticClass:"vue-dialog-buttons"},n._l(n.buttons,function(e,t){return o("button",{key:t,class:e.class||"vue-dialog-button",style:n.buttonStyle,attrs:{type:"button"},domProps:{innerHTML:n._s(e.title)},on:{click:function(e){e.stopPropagation(),n.click(t,e)}}},[n._v("\n      "+n._s(e.title)+"\n    ")])})):o("div",{staticClass:"vue-dialog-buttons-none"})])};w._withStripped=!0;var x={name:"VueJsDialog",props:{width:{type:[Number,String],default:400},clickToClose:{type:Boolean,default:!0},transition:{type:String,default:"fade"}},data:function(){return{params:{},defaultButtons:[{title:"CLOSE"}]}},computed:{buttons:function(){return this.params.buttons||this.defaultButtons},buttonStyle:function(){return{flex:"1 1 ".concat(100/this.buttons.length,"%")}}},methods:{beforeOpened:function(e){window.addEventListener("keyup",this.onKeyUp),this.params=e.params||{},this.$emit("before-opened",e)},beforeClosed:function(e){window.removeEventListener("keyup",this.onKeyUp),this.params={},this.$emit("before-closed",e)},click:function(e,t){var n=2<arguments.length&&void 0!==arguments[2]?arguments[2]:"click",o=this.buttons[e];o&&"function"==typeof o.handler?o.handler(e,t,{source:n}):this.$modal.hide("dialog")},onKeyUp:function(e){if(13===e.which&&0<this.buttons.length){var t=1===this.buttons.length?0:this.buttons.findIndex(function(e){return e.default});-1!==t&&this.click(t,e,"keypress")}}}},_=(n(9),l(x,w,[],!1,null,null,null));_.options.__file="src/Dialog.vue";var E=_.exports,S=function(){var n=this,e=n.$createElement,o=n._self._c||e;return o("div",{attrs:{id:"modals-container"}},n._l(n.modals,function(t){return o("modal",n._g(n._b({key:t.id,on:{closed:function(e){n.remove(t.id)}}},"modal",t.modalAttrs,!1),t.modalListeners),[o(t.component,n._g(n._b({tag:"component",on:{close:function(e){n.$modal.hide(t.modalAttrs.name)}}},"component",t.componentAttrs,!1),n.$listeners))],1)}))};S._withStripped=!0;var O=l({data:function(){return{modals:[]}},created:function(){this.$root._dynamicContainer=this},methods:{add:function(e){var t=this,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:{},o=2<arguments.length&&void 0!==arguments[2]?arguments[2]:{},i=3<arguments.length&&void 0!==arguments[3]?arguments[3]:{},r=s(),a=o.name||"_dynamic_modal_"+r;this.modals.push({id:r,modalAttrs:function(i){for(var e=1;e<arguments.length;e++){var r=null!=arguments[e]?arguments[e]:{},t=Object.keys(r);"function"==typeof Object.getOwnPropertySymbols&&(t=t.concat(Object.getOwnPropertySymbols(r).filter(function(e){return Object.getOwnPropertyDescriptor(r,e).enumerable}))),t.forEach(function(e){var t,n,o;t=i,o=r[n=e],n in t?Object.defineProperty(t,n,{value:o,enumerable:!0,configurable:!0,writable:!0}):t[n]=o})}return i}({},o,{name:a}),modalListeners:i,component:e,componentAttrs:n}),this.$nextTick(function(){t.$modal.show(a)})},remove:function(t){var e=this.modals.findIndex(function(e){return e.id===t});-1!==e&&this.modals.splice(e,1)}}},S,[],!1,null,null,null);O.options.__file="src/ModalsContainer.vue";var k=O.exports;function C(e){return(C="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}n.d(t,"getModalsContainer",function(){return T});var T=function(e,t,n){if(!n._dynamicContainer&&t.injectModalsContainer){var o=(i=document.createElement("div"),document.body.appendChild(i),i);new e({parent:n,render:function(e){return e(k)}}).$mount(o)}var i;return n._dynamicContainer},$={install:function(a){var s=1<arguments.length&&void 0!==arguments[1]?arguments[1]:{};if(!this.installed){this.installed=!0,this.event=new a,this.rootInstance=null;var e=s.componentName||"Modal",l=s.dynamicDefaults||{},i=function(e,t,n,o){var i=n&&n.root?n.root:$.rootInstance,r=T(a,s,i);r?r.add(e,function(i){for(var e=1;e<arguments.length;e++){var r=null!=arguments[e]?arguments[e]:{},t=Object.keys(r);"function"==typeof Object.getOwnPropertySymbols&&(t=t.concat(Object.getOwnPropertySymbols(r).filter(function(e){return Object.getOwnPropertyDescriptor(r,e).enumerable}))),t.forEach(function(e){var t,n,o;t=i,o=r[n=e],n in t?Object.defineProperty(t,n,{value:o,enumerable:!0,configurable:!0,writable:!0}):t[n]=o})}return i}({},l,t),n,o):console.warn("[vue-js-modal] In order to render dynamic modals, a <modals-container> component must be present on the page.")};a.prototype.$modal={show:function(e){for(var t=arguments.length,n=new Array(1<t?t-1:0),o=1;o<t;o++)n[o-1]=arguments[o];switch(C(e)){case"string":return function(e,t){$.event.$emit("toggle",e,!0,t)}.apply(void 0,[e].concat(n));case"object":return s.dynamic?i.apply(void 0,[e].concat(n)):console.warn("[vue-js-modal] $modal() received object as a first argument, but dynamic modals are switched off. https://github.com/euvl/vue-js-modal/#dynamic-modals")}},hide:function(e,t){$.event.$emit("toggle",e,!1,t)},toggle:function(e,t){$.event.$emit("toggle",e,void 0,t)}},a.component(e,y),s.dialog&&a.component("VDialog",E),s.dynamic&&(a.component("ModalsContainer",k),a.mixin({beforeMount:function(){null===$.rootInstance&&($.rootInstance=this.$root)}}))}}},z=t.default=$}])});
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/index.js?!./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _splidejs_splide__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @splidejs/splide */ "./node_modules/@splidejs/splide/dist/js/splide.esm.js");
+/* harmony import */ var _splidejs_splide__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_splidejs_splide__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _constants_events__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/events */ "./node_modules/@splidejs/vue-splide/src/js/constants/events.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+  
+  
+
+  /* harmony default export */ __webpack_exports__["default"] = ({
+		name: 'Splide',
+
+		props: {
+			options: {
+				type   : Object,
+				default: () => ( {} ),
+			},
+      hasSliderWrapper: Boolean,
+      extensions: {
+	      type   : Object,
+	      default: () => ( {} ),
+      },
+      transition: {
+	      type   : Function,
+	      default: null,
+      },
+			slides: Array,
+		},
+
+    data() {
+			return {
+				splide: null,
+      };
+    },
+
+    mounted() {
+			this.splide = new _splidejs_splide__WEBPACK_IMPORTED_MODULE_0___default.a( this.$el, this.options );
+			this.bind();
+	    this.splide.mount( this.extensions, this.transition );
+    },
+
+    beforeDestroy() {
+			this.splide.destroy();
+    },
+
+	  watch: {
+		  /**
+		   * If the slides prop is provided, watch it and remount Splide.
+		   */
+		  slides() {
+			  this.remount();
+		  },
+	  },
+
+    computed: {
+			/**
+       * Return the active index.
+       */
+			index() {
+				return this.splide.index;
+      },
+
+	    /**
+	     * Return the length of slides.
+	     */
+	    length() {
+		    return this.splide.length;
+	    },
+    },
+
+	  methods: {
+		  /**
+		   * Go to the slide specified by the given control.
+		   *
+		   * @param {string|number} control - A control pattern.
+		   * @param {boolean}       wait    - Optional. Whether to wait for transition.
+		   */
+      go( control, wait = true ) {
+      	this.splide.go( control, wait );
+      },
+
+		  /**
+		   * Set sync target.
+		   *
+		   * @param {Splide} splide - A Splide instance.
+		   */
+      sync( splide ) {
+      	this.splide.sync( splide );
+      	this.remount();
+      },
+
+      /**
+       * Listen to all Splide events and emit them with arguments.
+       */
+		  bind() {
+			  _constants_events__WEBPACK_IMPORTED_MODULE_1__["EVENTS"].forEach( event => {
+				  this.splide.on( event, ( ...args ) => {
+					  this.$emit( `splide:${ event }`, this.splide, ...args );
+				  } );
+			  } );
+		  },
+
+		  /**
+       * Remount the Splide.
+		   */
+		  remount() {
+      	this.$nextTick( () => {
+		      this.splide.destroy();
+		      this.splide.mount();
+		      this.bind();
+        } );
+      },
+	  },
+  });
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/index.js?!./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'SplideSlide',
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue?vue&type=template&id=69d27764&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@splidejs/vue-splide/src/js/components/Splide.vue?vue&type=template&id=69d27764& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "splide" },
+    [
+      _vm.hasSliderWrapper
+        ? _c("div", { staticClass: "splide__slider" }, [
+            _c("div", { staticClass: "splide__track" }, [
+              _c("ul", { staticClass: "splide__list" }, [_vm._t("default")], 2)
+            ])
+          ])
+        : _c("div", { staticClass: "splide__track" }, [
+            _c("ul", { staticClass: "splide__list" }, [_vm._t("default")], 2)
+          ]),
+      _vm._v(" "),
+      _vm._t("controls")
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue?vue&type=template&id=e5f9ab46&":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@splidejs/vue-splide/src/js/components/SplideSlide.vue?vue&type=template&id=e5f9ab46& ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("li", { staticClass: "splide__slide" }, [_vm._t("default")], 2)
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
 
 /***/ }),
 
@@ -85764,22 +91988,26 @@ var render = function() {
                   attrs: { content: _vm.body }
                 }),
                 _vm._v(" "),
-                _vm.reply.media
+                _vm.reply.media.length > 0
                   ? _c(
                       "div",
-                      _vm._l(_vm.reply.media, function(mdia) {
-                        return _c(
-                          "div",
-                          { key: mdia.id, staticClass: "grid gap-2 p-2 block" },
-                          [
-                            _c("img", {
-                              staticClass: "rounded-lg",
-                              attrs: { src: mdia.ImageUrl }
-                            })
-                          ]
+                      { staticClass: "mb-2" },
+                      [
+                        _c(
+                          "splide",
+                          { attrs: { options: _vm.options } },
+                          _vm._l(_vm.reply.media, function(mdia) {
+                            return _c("splide-slide", { key: mdia.id }, [
+                              _c("img", {
+                                staticClass: "rounded-lg",
+                                attrs: { src: mdia.ImageUrl }
+                              })
+                            ])
+                          }),
+                          1
                         )
-                      }),
-                      0
+                      ],
+                      1
                     )
                   : _vm._e(),
                 _vm._v(" "),
@@ -86486,58 +92714,6 @@ var render = function() {
         ]
       )
     ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wysiwyg.vue?vue&type=template&id=25ef60f2&scoped=true&":
-/*!**********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Wysiwyg.vue?vue&type=template&id=25ef60f2&scoped=true& ***!
-  \**********************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("input", {
-      attrs: { id: "trix", type: "hidden", name: _vm.name, required: "" },
-      domProps: { value: _vm.value }
-    }),
-    _vm._v(" "),
-    _c("textarea", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.name,
-          expression: "name"
-        }
-      ],
-      ref: "trix",
-      attrs: { input: "trix", placeholder: _vm.placeholder, required: "" },
-      domProps: { value: _vm.name },
-      on: {
-        "trix-change": _vm.change,
-        input: function($event) {
-          if ($event.target.composing) {
-            return
-          }
-          _vm.name = $event.target.value
-        }
-      }
-    })
   ])
 }
 var staticRenderFns = []
@@ -98803,7 +104979,6 @@ var map = {
 	"./components/SubscribeButton.vue": "./resources/js/components/SubscribeButton.vue",
 	"./components/UserFeed.vue": "./resources/js/components/UserFeed.vue",
 	"./components/UserNotifications.vue": "./resources/js/components/UserNotifications.vue",
-	"./components/Wysiwyg.vue": "./resources/js/components/Wysiwyg.vue",
 	"./components/featured.vue": "./resources/js/components/featured.vue",
 	"./components/follow.vue": "./resources/js/components/follow.vue"
 };
@@ -100853,111 +107028,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserNotifications_vue_vue_type_template_id_23249cfc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserNotifications_vue_vue_type_template_id_23249cfc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/Wysiwyg.vue":
-/*!*********************************************!*\
-  !*** ./resources/js/components/Wysiwyg.vue ***!
-  \*********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Wysiwyg_vue_vue_type_template_id_25ef60f2_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Wysiwyg.vue?vue&type=template&id=25ef60f2&scoped=true& */ "./resources/js/components/Wysiwyg.vue?vue&type=template&id=25ef60f2&scoped=true&");
-/* harmony import */ var _Wysiwyg_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Wysiwyg.vue?vue&type=script&lang=js& */ "./resources/js/components/Wysiwyg.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _Wysiwyg_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Wysiwyg.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/components/Wysiwyg.vue?vue&type=style&index=0&lang=scss&");
-/* harmony import */ var _Wysiwyg_vue_vue_type_style_index_1_id_25ef60f2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Wysiwyg.vue?vue&type=style&index=1&id=25ef60f2&scoped=true&lang=css& */ "./resources/js/components/Wysiwyg.vue?vue&type=style&index=1&id=25ef60f2&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_4__["default"])(
-  _Wysiwyg_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Wysiwyg_vue_vue_type_template_id_25ef60f2_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Wysiwyg_vue_vue_type_template_id_25ef60f2_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  "25ef60f2",
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/Wysiwyg.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/Wysiwyg.vue?vue&type=script&lang=js&":
-/*!**********************************************************************!*\
-  !*** ./resources/js/components/Wysiwyg.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Wysiwyg.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wysiwyg.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Wysiwyg.vue?vue&type=style&index=0&lang=scss&":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/components/Wysiwyg.vue?vue&type=style&index=0&lang=scss& ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./Wysiwyg.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wysiwyg.vue?vue&type=style&index=0&lang=scss&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Wysiwyg.vue?vue&type=style&index=1&id=25ef60f2&scoped=true&lang=css&":
-/*!******************************************************************************************************!*\
-  !*** ./resources/js/components/Wysiwyg.vue?vue&type=style&index=1&id=25ef60f2&scoped=true&lang=css& ***!
-  \******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_style_index_1_id_25ef60f2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Wysiwyg.vue?vue&type=style&index=1&id=25ef60f2&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wysiwyg.vue?vue&type=style&index=1&id=25ef60f2&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_style_index_1_id_25ef60f2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_style_index_1_id_25ef60f2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_style_index_1_id_25ef60f2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_style_index_1_id_25ef60f2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_style_index_1_id_25ef60f2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Wysiwyg.vue?vue&type=template&id=25ef60f2&scoped=true&":
-/*!****************************************************************************************!*\
-  !*** ./resources/js/components/Wysiwyg.vue?vue&type=template&id=25ef60f2&scoped=true& ***!
-  \****************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_template_id_25ef60f2_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Wysiwyg.vue?vue&type=template&id=25ef60f2&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wysiwyg.vue?vue&type=template&id=25ef60f2&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_template_id_25ef60f2_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Wysiwyg_vue_vue_type_template_id_25ef60f2_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -43,11 +43,13 @@
                     </div>
                     <div v-else>
                         <highlight :content="body" class="panel-body"></highlight>
-                            <div v-if="reply.media">
-                                            <div class="grid gap-2 p-2 block" v-for="mdia in reply.media" :key="mdia.id">
-                                            <img :src="mdia.ImageUrl" class="rounded-lg">
-                                            </div>
-                                         </div>
+                            <div v-if="reply.media.length > 0" class="mb-2">
+                                <splide :options="options">
+                                    <splide-slide v-for="mdia in reply.media" :key="mdia.id">
+                                        <img :src="mdia.ImageUrl" class="rounded-lg">
+                                    </splide-slide>
+                                </splide>
+                            </div>
                             <div v-if="signedIn" class="text-xs pl-2" style="padding-top:3px">
                                 <div class="d-flex justify-content-center">
                                     <favorite :comment="reply" class="mr-4"></favorite>
@@ -115,13 +117,19 @@ import Favorite from "./Favorite.vue";
 import highlight from "./Highlight.vue";
 import moment from "moment";
 import collection from "../mixins/collection";
+import { Splide, SplideSlide } from '@splidejs/vue-splide';
+import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
 export default {
     props: {
         reply: Object
     },
     mixins: [collection],
-    components: { Favorite, highlight },
+    components: { Favorite,
+                highlight,
+                Splide,
+                SplideSlide
+                },
 
     data() {
         return {
@@ -131,7 +139,13 @@ export default {
             replyClick:false,
             child: false,
             loading: false,
-            see:"See more replies"
+            see:"See more replies",
+             options: {
+                rewind : true,
+                width: 800,
+                gap: '1em'
+
+                },
             // items: []
         };
     },

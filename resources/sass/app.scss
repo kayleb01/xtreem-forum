@@ -12,26 +12,11 @@
 @import "components/btn";
 @import "components/widget";
 
-@import "timeline";
+
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-a {
-    @apply .text-grey-darkest;
-    text-decoration: none;
 
-    &.link:hover {
-        text-decoration: underline;
-    }
-}
 
-[v-cloak] {
-    display: none;
-}
-
-.ais-highlight > em {
-    font-weight: bold;
-    @apply .text-black;
-}
