@@ -4,7 +4,6 @@
             <button class=" btn btn-flat dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton">
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
                 <a href="#" class="btn btn-danger-xs btn-sm dropdown-item" @click="destroy" style="color:red !important;"  v-if="signedIn && reply.user.id == user.id || signedIn && user.role == 1"><i class="fa fa-trash"></i> Delete</a>
                 <a  class="dropdown-item" :href="'/moderation/'+ reply.user.id + '/ban'" v-if="user.role === 1 || user.role === 2">Ban User</a>
             </div>
@@ -33,7 +32,7 @@
                     <div v-if="editing">
                         <form @submit.prevent="update">
                             <div class="mb-4">
-                                <wysiwyg v-model="body" name="body"></wysiwyg>
+                                <wysiwyg v-model="body" :name="body"></wysiwyg>
                             </div>
                             <div class="flex justify-content-center">
                                     <button class="btn mr-2" @click="cancel" type="button"><i class="fa fa-power-off" style="color: red;"></i> Cancel</button>
@@ -114,6 +113,7 @@
 
 <script>
 import Favorite from "./Favorite.vue";
+import wysiwyg from './Wysiwyg.vue';
 import highlight from "./Highlight.vue";
 import moment from "moment";
 import collection from "../mixins/collection";
@@ -122,11 +122,12 @@ import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
 export default {
     props: {
-        reply: Object
+        reply: Object,
     },
     mixins: [collection],
     components: { Favorite,
                 highlight,
+                wysiwyg,
                 Splide,
                 SplideSlide
                 },

@@ -1,40 +1,44 @@
 <template>
     <div>
-        <input id="trix" type="hidden" :name="name" :value="value" required>
-
-        <textarea
-                ref="trix"
-                input="trix"
-                @trix-change="change"
-                :placeholder="placeholder"
-                required v-model="name">
-        </textarea>
+       <at-ta :members="usersat">
+            <textarea :name="name" v-model="value" placeholder="Type a reply..."
+                class="editor w-full text-md rounded mt-3 p-2 resize-none outline"
+                id="body" required>
+            </textarea>
+        </at-ta>
     </div>
 </template>
 
-<style lang="scss">
-    @import '~trix/dist/trix.css';
-</style>
-
 <script>
-    import Trix from 'trix';
+    import AtTa from 'vue-at/dist/vue-at-textarea';
 
     export default {
-        props: ['name', 'value', 'placeholder'],
 
+        props: ['name', 'value', 'placeholder'],
+        components:{
+            AtTa
+            },
+
+        data(){
+            return {
+                usersat:[]
+            }
+        },
         methods: {
             change({target}) {
                 this.$emit('input', target.value)
-            }
+            },
+            getUsers(){
+            axios.post('api/users')
+            .then( ( {data} ) => {
+                this.usersat = data
+            })
+            .catch(err => console.log(errs ))
+        }
+
         },
 
-        watch: {
-            value(val) {
-                if (val === '') {
-                    this.$refs.trix.value = '';
-                }
-            }
-        }
+
     }
 </script>
 
