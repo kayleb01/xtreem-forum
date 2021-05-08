@@ -9638,13 +9638,21 @@ __webpack_require__.r(__webpack_exports__);
       this.see = "";
       this.loading = false;
     },
-    update: function update() {
+    setEdit: function setEdit() {
       var _this = this;
+
+      this.$nextTick(function () {
+        return _this.field.focus();
+      });
+      this.editing = true;
+    },
+    update: function update() {
+      var _this2 = this;
 
       axios.patch("/commentEdit/" + this.id, {
         body: this.body
       })["catch"](function (error) {
-        _this.flashMessage.error({
+        _this2.flashMessage.error({
           error: "An Internal Error occured, please try again later"
         });
       });
@@ -9670,10 +9678,10 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit("deleted", this.id);
     },
     fetch: function fetch() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get(this.url()).then(this.refresh)["catch"](function (err) {
-        _this2.flashMessage.error({
+        _this3.flashMessage.error({
           error: "Error fetching resources"
         });
       });
@@ -91927,6 +91935,7 @@ var render = function() {
                     { staticClass: "mb-4" },
                     [
                       _c("wysiwyg", {
+                        ref: "field",
                         attrs: { name: _vm.body },
                         model: {
                           value: _vm.body,
@@ -91944,16 +91953,15 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn mr-2",
+                        staticClass: "btn-flat btn-default btn mr-2",
                         attrs: { type: "button" },
                         on: { click: _vm.cancel }
                       },
                       [
                         _c("i", {
-                          staticClass: "fa fa-power-off",
+                          staticClass: "fa fa-times",
                           staticStyle: { color: "red" }
-                        }),
-                        _vm._v(" Cancel")
+                        })
                       ]
                     ),
                     _vm._v(" "),
@@ -92021,7 +92029,7 @@ var render = function() {
                                     on: {
                                       click: function($event) {
                                         $event.preventDefault()
-                                        _vm.editing = true
+                                        return _vm.setEdit($event)
                                       }
                                     }
                                   },
@@ -92268,8 +92276,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "button",
-      { staticClass: "btn btn-outline-flat", attrs: { type: "submit" } },
-      [_c("i", { staticClass: "fa fa-check" }), _vm._v("Update")]
+      { staticClass: "btn btn-flat btn-default", attrs: { type: "submit" } },
+      [_c("i", { staticClass: "fa fa-check" })]
     )
   }
 ]
@@ -107307,7 +107315,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/postcss-loader/src/index.js):\nSyntaxError\n\n(2:1) Unknown word\n\n \u001b[90m 1 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 2 | \u001b[39mvar content = \u001b[36mrequire\u001b[39m\u001b[36m(\u001b[39m\u001b[32m\"!!../../node_modules/css-loader/index.js!../../node_modules/postcss-loader/src/index.js?{\\\"plugins\\\":[null,null]}!../../node_modules/sass-loader/lib/loader.js?{\\\"precision\\\":8,\\\"outputStyle\\\":\\\"expanded\\\",\\\"implementation\\\":{\\\"info\\\":\\\"dart-sass\\\\t1.23.3\\\\t(Sass Compiler)\\\\t[Dart]\\\\ndart2js\\\\t2.5.2\\\\t(Dart Compiler)\\\\t[Dart]\\\",\\\"types\\\":{}}}!./app.scss\"\u001b[39m\u001b[36m)\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m   | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 3 | \u001b[39m\n \u001b[90m 4 | \u001b[39m\u001b[36mif\u001b[39m\u001b[36m(\u001b[39mtypeof content === \u001b[32m'string'\u001b[39m\u001b[36m)\u001b[39m content = \u001b[33m[\u001b[39m\u001b[33m[\u001b[39mmodule.id, content, \u001b[32m''\u001b[39m\u001b[33m]\u001b[39m\u001b[33m]\u001b[39m\u001b[33m;\u001b[39m\n\n    at /var/www/xtreemforum/node_modules/webpack/lib/NormalModule.js:316:20\n    at /var/www/xtreemforum/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /var/www/xtreemforum/node_modules/loader-runner/lib/LoaderRunner.js:233:18\n    at context.callback (/var/www/xtreemforum/node_modules/loader-runner/lib/LoaderRunner.js:111:13)\n    at /var/www/xtreemforum/node_modules/postcss-loader/src/index.js:207:9\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (internal/process/task_queues.js:93:5)");
+throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/postcss-loader/src/index.js):\nSyntaxError\n\n(2:1) Unknown word\n\n \u001b[90m 1 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 2 | \u001b[39mvar content = \u001b[36mrequire\u001b[39m\u001b[36m(\u001b[39m\u001b[32m\"!!../../node_modules/css-loader/index.js!../../node_modules/postcss-loader/src/index.js?{\\\"plugins\\\":[null,null]}!../../node_modules/sass-loader/lib/loader.js?{\\\"precision\\\":8,\\\"outputStyle\\\":\\\"expanded\\\",\\\"implementation\\\":{\\\"info\\\":\\\"dart-sass\\\\t1.23.3\\\\t(Sass Compiler)\\\\t[Dart]\\\\ndart2js\\\\t2.5.2\\\\t(Dart Compiler)\\\\t[Dart]\\\",\\\"types\\\":{}}}!./app.scss\"\u001b[39m\u001b[36m)\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m   | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 3 | \u001b[39m\n \u001b[90m 4 | \u001b[39m\u001b[36mif\u001b[39m\u001b[36m(\u001b[39mtypeof content === \u001b[32m'string'\u001b[39m\u001b[36m)\u001b[39m content = \u001b[33m[\u001b[39m\u001b[33m[\u001b[39mmodule.id, content, \u001b[32m''\u001b[39m\u001b[33m]\u001b[39m\u001b[33m]\u001b[39m\u001b[33m;\u001b[39m\n\n    at /var/www/xtreemforum/node_modules/webpack/lib/NormalModule.js:316:20\n    at /var/www/xtreemforum/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /var/www/xtreemforum/node_modules/loader-runner/lib/LoaderRunner.js:233:18\n    at context.callback (/var/www/xtreemforum/node_modules/loader-runner/lib/LoaderRunner.js:111:13)\n    at /var/www/xtreemforum/node_modules/postcss-loader/src/index.js:207:9\n    at processTicksAndRejections (internal/process/task_queues.js:93:5)");
 
 /***/ }),
 

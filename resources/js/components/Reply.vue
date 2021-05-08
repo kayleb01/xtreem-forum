@@ -32,11 +32,11 @@
                     <div v-if="editing">
                         <form @submit.prevent="update">
                             <div class="mb-4">
-                                <wysiwyg v-model="body" :name="body"></wysiwyg>
+                                <wysiwyg v-model="body" :name="body" ref="field"></wysiwyg>
                             </div>
                             <div class="flex justify-content-center">
-                                    <button class="btn mr-2" @click="cancel" type="button"><i class="fa fa-power-off" style="color: red;"></i> Cancel</button>
-                                   <button type="submit" class="btn btn-outline-flat"><i class="fa fa-check"></i>Update</button>
+                                <button class="btn-flat btn-default btn mr-2" @click="cancel" type="button"><i class="fa fa-times" style="color: red;"></i></button>
+                                <button type="submit" class="btn btn-flat btn-default"><i class="fa fa-check"></i></button>
                             </div>
                         </form>
                     </div>
@@ -54,7 +54,7 @@
                                     <favorite :comment="reply" class="mr-4"></favorite>
                                         <a v-if="reply.user.id == user.id || user.role == 1"
                                             href="#"
-                                            @click.prevent="editing = true"
+                                            @click.prevent="setEdit"
                                             class="text-black text-xs link  pl-3 mr-4"
                                             >
                                                 <i class="fa fa-edit" title="Edit"></i>
@@ -175,6 +175,10 @@ export default {
             this.see ="";
             this.loading = false;
 
+        },
+        setEdit(){
+            this.$nextTick(() => this.field.focus());
+            this.editing = true;
         },
         update() {
             axios

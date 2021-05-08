@@ -56,7 +56,7 @@ class RepliesController extends Controller
         if (Auth::user()->is_banned) {
            return response('You are currently serving a ban, you cannot post a Comment', 422);
         }
-         if (config('xf.security.limit_time_between_post')) {
+         if (config('app.security.limit_time_between_post')) {
             if ($this->time_btw_threads()) {
                 return Redirect()->back()->with('error', 'Please wait for a minute before you post again')->withInput();
             }
@@ -162,10 +162,10 @@ class RepliesController extends Controller
     *
     */
     public function time_btw_threads(){
-        $user = Auth::user();
-        $time_diff = Carbon::now()->subMinutes(config('xf.spam_check.time_between_posts'));
-        $recent_post = thread::where('user_id', '=', $user->id)->where('created_at', '>=', $time_diff)->first();
-        if(isset($recent_post)){
+        $user = auth()->user();
+        $time_diff = Carbon::now()->subMinutes(config('app.spam_check.time_between_posts'));
+        $recent_post = thread::where('user_id', $user->id)->where('created_at', '>=', $time_diff)->first();
+        if(!empty($recent_post)){
             return true;
         }else{
             return false;
