@@ -7,6 +7,7 @@ require('./bootstrap');
 import FlashMessage from '@smartweb/vue-flash-message';
 import 'animate.css';
 import moment from 'moment';
+import VModal from 'vue-js-modal';
 
 
 
@@ -17,7 +18,7 @@ Vue.prototype.humanTime = timestamp => moment(timestamp).fromNow();
 
 
 Vue.use(FlashMessage);
-
+Vue.use(VModal);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
