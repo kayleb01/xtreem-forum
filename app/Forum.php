@@ -20,8 +20,8 @@ class Forum extends Model
    'last_post_id'
    ];
    protected $table = 'forums';
-   
-  
+
+
    public function comment()
    {
    	return $this->hasMany(comment::class);
@@ -29,7 +29,7 @@ class Forum extends Model
 
    public function category(){
 
-     return $this->belongsTo(Categories::class, 'categories_id');
+     return $this->belongsTo(Categories::class, 'category_id');
    }
 
    public function thread(){

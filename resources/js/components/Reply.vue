@@ -4,6 +4,7 @@
             <button class=" btn btn-flat dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton">
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
                 <a href="#" class="btn btn-danger-xs btn-sm dropdown-item" @click="destroy" style="color:red !important;"  v-if="signedIn && reply.user.id == user.id || signedIn && user.role == 1"><i class="fa fa-trash"></i> Delete</a>
                 <a  class="dropdown-item" :href="'/moderation/'+ reply.user.id + '/ban'" v-if="user.role === 1 || user.role === 2">Ban User</a>
             </div>
@@ -32,29 +33,27 @@
                     <div v-if="editing">
                         <form @submit.prevent="update">
                             <div class="mb-4">
-                                <wysiwyg v-model="body" :name="body" ref="field"></wysiwyg>
+                                <wysiwyg v-model="body" name="body"></wysiwyg>
                             </div>
                             <div class="flex justify-content-center">
-                                <button class="btn-flat btn-default btn mr-2" @click="cancel" type="button"><i class="fa fa-times" style="color: red;"></i></button>
-                                <button type="submit" class="btn btn-flat btn-default"><i class="fa fa-check"></i></button>
+                                    <button class="btn mr-2" @click="cancel" type="button"><i class="fa fa-power-off" style="color: red;"></i> Cancel</button>
+                                   <button type="submit" class="btn btn-outline-flat"><i class="fa fa-check"></i>Update</button>
                             </div>
                         </form>
                     </div>
                     <div v-else>
                         <highlight :content="body" class="panel-body"></highlight>
-                            <div v-if="reply.media.length > 0" class="mb-2">
-                                <splide :options="options">
-                                    <splide-slide v-for="mdia in reply.media" :key="mdia.id">
-                                        <img :src="mdia.ImageUrl" class="rounded-lg">
-                                    </splide-slide>
-                                </splide>
-                            </div>
+                            <div v-if="reply.media">
+                                            <div class="grid gap-2 p-2 block" v-for="mdia in reply.media" :key="mdia.id">
+                                            <img :src="mdia.ImageUrl" class="rounded-lg">
+                                            </div>
+                                         </div>
                             <div v-if="signedIn" class="text-xs pl-2" style="padding-top:3px">
                                 <div class="d-flex justify-content-center">
                                     <favorite :comment="reply" class="mr-4"></favorite>
                                         <a v-if="reply.user.id == user.id || user.role == 1"
                                             href="#"
-                                            @click.prevent="setEdit"
+                                            @click.prevent="editing = true"
                                             class="text-black text-xs link  pl-3 mr-4"
                                             >
                                                 <i class="fa fa-edit" title="Edit"></i>
@@ -113,24 +112,16 @@
 
 <script>
 import Favorite from "./Favorite.vue";
-import wysiwyg from './Wysiwyg.vue';
 import highlight from "./Highlight.vue";
 import moment from "moment";
 import collection from "../mixins/collection";
-import { Splide, SplideSlide } from '@splidejs/vue-splide';
-import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
 export default {
     props: {
-        reply: Object,
+        reply: Object
     },
     mixins: [collection],
-    components: { Favorite,
-                highlight,
-                wysiwyg,
-                Splide,
-                SplideSlide
-                },
+    components: { Favorite, highlight },
 
     data() {
         return {
@@ -140,13 +131,7 @@ export default {
             replyClick:false,
             child: false,
             loading: false,
-            see:"See more replies",
-             options: {
-                rewind : true,
-                width: 800,
-                gap: '1em'
-
-                },
+            see:"See more replies"
             // items: []
         };
     },
@@ -175,10 +160,6 @@ export default {
             this.see ="";
             this.loading = false;
 
-        },
-        setEdit(){
-            this.$nextTick(() => this.field.focus());
-            this.editing = true;
         },
         update() {
             axios

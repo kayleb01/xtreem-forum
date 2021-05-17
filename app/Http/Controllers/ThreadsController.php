@@ -6,17 +6,14 @@ use App\Events\ThreadReceivedNewReply;
 use App\filter\ThreadFilters;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\attachment;
 use App\Categories;
-use Rules\SpamFree;
 use App\NewThread;
 use Carbon\carbon;
 use App\Trending;
-use App\comment;
+use App\Reply;
 use App\thread;
 use App\Forum;
-use Linkify;
-use App\User;
+use App\Media;
 use Image;
 use Auth;
 
@@ -116,7 +113,7 @@ class ThreadsController extends Controller
         $user_id = Auth::user()->id;
         $thread = thread::create([
             'user_id'       => $user_id,
-            'cat_id'        => request('category_id'),
+            'category_id'        => request('category_id'),
             'forum_id'      => request('forum_id'),
             'slug'          => $slug,
             'title'         => request('title'),
@@ -153,7 +150,7 @@ class ThreadsController extends Controller
     public function show($slug, Trending $trending, NewThread $NewThread)
     {
 
-       $threads  = thread::where('slug', '=', $slug)->with(['user', 'attachment'])->get();
+       $threads  = thread::where('slug', '=', $slug)->with(['user', 'media'])->get();
         // if (auth()->check()) {
         //    auth()->user()->read($threads);
         //      }
@@ -163,10 +160,10 @@ class ThreadsController extends Controller
         $thread->increment('visits');
 
         $trending->push($thread);
-        $comment = comment::where('thread_id', '=', $thread->id)->with('thread')->paginate(20);
+        $reply = Reply::where('thread_id', '=', $thread->id)->with('thread')->paginate(20);
         $title = $thread->title;
         $trending = $trending->get();
-        return view('threads.show')->with(['thread' => $thread, 'comment' => $comment, 'title' => $title, 'newThread' => $newThread, 'trending' => $trending]);
+        return view('threads.show')->with(['thread' => $thread, 'reply' => $reply, 'title' => $title, 'newThread' => $newThread, 'trending' => $trending]);
         }
 
     }
@@ -188,7 +185,7 @@ class ThreadsController extends Controller
         foreach ($file as $key => $image) {
             $fulname        = $image->getClientOriginalName();
             $avatar         = Image::make($image);
-            $path           = public_path()."/storage/img/";
+            $path           = public_path()."/storage/media/";
 
             $avatar->resize(400,400, function($constraint){
             $constraint->aspectratio();
@@ -196,11 +193,13 @@ class ThreadsController extends Controller
             });
             $all = time().$fulname;
             $avatar->save($path.$all);
-            $upload   = attachment::create([
-                        'name'      => $fulname,
-                        'user_id'   => Auth::user()->id,
-                        'thread_id' => $thread->id,
-                        'filename'  => $all,
+            $upload   = Media::create([
+                        'filename'      => $all,
+                        'user_id'   => auth()->id(),
+                        'model_id' => $thread->id,
+                        'mime_type'  => $avatar->mime(),
+                        'model_type' => thread::class,
+                        'size' =>  $avatar->filesize()
 
                         ]);
             }

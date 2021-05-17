@@ -14,7 +14,7 @@
                 this.$emit('loaded', e.target.files)
             },
             browse(){
-                this.$refs.picker.click();
+                this.$refs  .picker.click();
             }
         }
     }

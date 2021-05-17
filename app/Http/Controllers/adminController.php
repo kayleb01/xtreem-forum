@@ -14,15 +14,15 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Middleware;
-use Auth; 
+use Auth;
 use DB;
 use Carbon\carbon;
 
 class adminController extends Controller
 {
- 
+
   public function __construct(){
-    
+
     $this->middleware('auth');
   }
 
@@ -31,7 +31,7 @@ class adminController extends Controller
   if(auth()->user()->role !== 1){
   	return redirect('home')->with('errors', 'Unauthorized access ');
   }
-	#.......Get all the info from ban, posts, comments, users for the 
+	#.......Get all the info from ban, posts, comments, users for the
 	#.......FOR THE DASHBOARD .....#
 	$users = user::all()->count();
 	$posts = count(thread::all());
@@ -39,7 +39,7 @@ class adminController extends Controller
 	return view('Admin.layouts.index')->with(
 		array('users' => $users,
 			  'posts' => $posts,
-			 
+
 			));
 
   }
@@ -51,21 +51,21 @@ class adminController extends Controller
   }
 
 public function search(Request $request){
-	
+
 	$data = $request->search;
 	$output = user::where('username', 'like', '%'. $data .'%')
 					->paginate(20);
 						//dd($output);
 	return view('Admin.users')->with('user', $output);
-	
+
  }
  public function edit(User $user){
  	return view('Admin.edit_user', compact('user'));
  }
 
  public function update(Request $request){
-  $this->validate($request, [ 	
-			'username'	  =>'required|min:5',
+  $this->validate($request, [
+		'username'	  =>'required|min:5',
    	   	'email'		  =>'required',
    	   	'location'	=>'required|min:2',
    	   	'dob'		    =>'required',
@@ -88,17 +88,17 @@ public function search(Request $request){
    		return back()->withInput();
    		}
  }
- 
+
 
 public function destroy(user $id){// Deleting a user
   if($id->id === Auth::user()->id && Auth::user()->role === 1){return back()->with('error', 'Cannot delete your loggedIn Account nor the Admin');}
-    $user = user::where('id', $id->id)->delete(); 
+    $user = user::where('id', $id->id)->delete();
      if($user){
         return Redirect('admin/users')->with('success', 'User Deleted!');;
      }else{
         Redirect()->back()->with('errors', 'Delete failed, please contact the Administrator');
      }
-     
+
 }
 public function store(Request $request){
       $user = new User;
@@ -133,9 +133,9 @@ public function store_forum(Request $request){
     $forum->name        = $request->name;
     $forum->description = $request->description;
     $forum->slug        = $request->name;
-    $forum->categories_id = $request->category;
+    $forum->category_id = $request->category;
     if($forum->save()){
-      return Redirect('Admin/forums')->with('success', 'Forum created!');
+      return Redirect('admin/forums')->with('success', 'Forum created!');
     }
   }
 }
@@ -148,7 +148,7 @@ public function new_forum(){
 
 public function view(){
   //Displays the forums
-  
+
 $forum = forum::paginate(15);
 return view('Admin/forums',['forum' => $forum]);
 }
@@ -168,14 +168,14 @@ if(isset($request)){
   $query = Forum::where('id', $id)->update([
     'name' => $req['name'],
     'description' => $req['description'],
-    'categories_id'    => $req['category']
+    'category_id'    => $req['category']
 
   ]);
   return Redirect('admin/forums')->with('success', ''.$req['name'].' Updated successfully');
   }
 
 }
- 
+
  public function removed_threads(){
   $threads =  thread::onlyTrashed()->paginate(10);
     return view('Admin/removed_thread', ['thread' => $threads]);
@@ -191,9 +191,8 @@ public function deleted(){
 public function restore($id){
   $user = User::withTrashed()->find($id);
  if($user->restore()){
-  return Redirect('Admin/users/deleted')->with('success', ''.$user->username.' restored successfully');
+  return Redirect('admin/users/deleted')->with('success', ''.$user->username.' restored successfully');
  }
 }
 
 }//end of the class
-    

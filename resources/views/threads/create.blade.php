@@ -11,14 +11,14 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    
+
                     <ol class="breadcrumb shadow-sm" style="margin-bottom:6px !important">
                        <li class="breadcrumb-item"><a href="/">Home</a></li>
                        <li class="breadcrumb-item"><a href="/forum/{{$forum->slug}}">{{$forum->name}}</a></li>
-                       
+
                     </ol>
-                   
-                </div> 
+
+                </div>
                         <div class="panel panel-body " style="padding: 5px">
                             <form action="{{route('xf/store')}}" method="POST" class="form-horizontal" enctype="multipart/form-data">
                                <div class="col-sm-10">
@@ -47,11 +47,11 @@
                                                 <span class="help-block">
                                                     <strong>{{ $errors->first('body') }}</strong>
                                                 </span>
-                                             @endif  
+                                             @endif
                                             <label class="col-sm-2 control-label" for="body">Body</label>
                                                 <div class="col-sm-10">
-                                                    <wysiwyg class="body" name="body" maxlength="2000">
-                                                    </wysiwyg><br>
+                                                    <textarea class="body form-control" name="body" maxlength="2000">
+                                                    </textarea><br>
                                                     <span>Image Upload -  Only Four files allowed, not more than 4mb</span>
                                                  <input type="file" name="file[]" id="file" class="form-control" multiple>
                                                   <br>
@@ -65,15 +65,15 @@
                                             <button type="submit" class=" mb-3 btn btn-secondary btn-block rounded-pill">
                                             Create
                                             </button><br>
-                                     </div> 
+                                     </div>
                                  </div>
                             </form>
                         </div>
               </div>
-            </div>          
-             
-        </div>  
-    </div>              
-</div>        
+            </div>
+
+        </div>
+    </div>
+</div>
 
 @endsection

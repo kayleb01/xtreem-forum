@@ -6,9 +6,14 @@
 require('./bootstrap');
 import FlashMessage from '@smartweb/vue-flash-message';
 import 'animate.css';
+import moment from 'moment';
 
 
 
+window.Vue = require('vue').default
+Vue.prototype.signedIn = window.App.signedIn;
+Vue.prototype.user = window.App.user;
+Vue.prototype.humanTime = timestamp => moment(timestamp).fromNow();
 
 
 Vue.use(FlashMessage);
@@ -54,8 +59,6 @@ const app = new Vue({
     		this.active = !this.active;
     	},
 
-    },
-
-
+    }
 });
 

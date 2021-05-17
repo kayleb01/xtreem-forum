@@ -6,7 +6,7 @@ use Image;
 use App\User;
 use App\Follow;
 use App\thread;
-use App\comment;
+use App\Reply;
 use App\Activity;
 use App\Trending;
 use App\NewThread;
@@ -58,12 +58,12 @@ class ProfileController extends Controller
            ])->first();
 
       $threads   = thread::where('user_id', $data->id)->orderBy('created_at', 'DESC')->paginate(20);
-      $comments  = comment::where('user_id', $data->id)->with('thread')->orderBy('created_at', 'DESC')->paginate(20);
+      $reply  = Reply::where('user_id', $data->id)->with('thread')->orderBy('created_at', 'DESC')->paginate(20);
       $newThread = $new_Thread->get();
       $trending  = $trending->get();
       $title     = 'XtreemForum - '.$data->username.'\'s Profile';
 
-     return view('frontend.profile', compact('data', 'newThread', 'title', 'trending', 'threads', 'comments'));
+     return view('frontend.profile', compact('data', 'newThread', 'title', 'trending', 'threads', 'reply'));
 
 
    }
@@ -75,9 +75,9 @@ class ProfileController extends Controller
    }
 
    public function img($file){
-       
+
         if($file){
-       
+
          $fulnameWithExt 	= $file->getClientOriginalName();
          $filenam 			=  pathinfo($fulnameWithExt, PATHINFO_FILENAME);
          $ext  				= $file->getClientOriginalExtension();

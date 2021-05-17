@@ -2,14 +2,14 @@
 
 namespace App;
 
+
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-
 use App\Filters\ThreadFilters;
 use App\Events\ThreadRecievedNewReply;
 use App\subscription;
 use App\like;
-use Purify;
 use Illuminate\Support\Str;
 use App\Events\ThreadWasPublished;
 
@@ -37,8 +37,8 @@ protected $appends = ['path'];
     {
         parent::boot();
         static::deleting(function ($thread) {
-            if($thread->comment->count() > 1){
-                $thread->comment->each->delete();}
+            if($thread->reply->count() > 1){
+                $thread->reply->each->delete();}
 
         });
 
@@ -61,17 +61,17 @@ protected $appends = ['path'];
     }
 
     /**
-     * Add a comment to the thread.
+     * Add a reply to the thread.
      *
-     * @param  array $comment
+     * @param  array $reply
      * @return Model
      */
-    public function AddComment($comment)
+    public function AddComment($reply)
     {
-        $comment = $this->comment()->create($comment);
-        event(new ThreadRecievedNewReply($comment));
+        $reply = $this->reply()->create($reply);
+        event(new ThreadRecievedNewReply($reply));
 
-        return $comment;
+        return $reply;
     }
 
 
@@ -79,10 +79,16 @@ protected $appends = ['path'];
 
 //Eloquent relationships
     //
-public function attachment()
-{
-    return $this->hasMany(attachment::class);
-}
+
+    /**
+     *
+     * A reply has many attachments i.e pictures of whatever
+     *  @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * */
+    public function media():MorphMany
+    {
+        return $this->morphMany(Media::class, 'model');
+    }
 
  public function like(){
         return $this->hasMany(like::class, 'likable_id');
@@ -102,18 +108,18 @@ public function forum(){
 
 // Belong to categories
 public function category(){
-	return $this->belongsTo(Categories::class, 'cat_id');
+	return $this->belongsTo(Categories::class, 'category_id');
 }
 
-public function comment(){
-	return $this->hasMany(comment::class, 'thread_id');
+public function reply(){
+	return $this->hasMany(Reply::class, 'thread_id');
 }
 
-public function notifyReplies($comment){
+public function notifyReplies($reply){
 	//Notify that a reply has been added...
-	event(new ThreadRecievedNewReply($comment));
+	event(new ThreadRecievedNewReply($reply));
 
-	return $comment;
+	return $reply;
 }
 
 public function subscription(){

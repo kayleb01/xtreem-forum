@@ -70,8 +70,8 @@
         </div>
         <div class="panel" v-show="select === 'Comments'">
               <span class="card card-body bg-light mb-1">
-              @if($comments)
-                @foreach($comments as $comment)
+              @if($reply)
+                @foreach($reply as $comment)
                   <div class="card card-body mb-1 font-weight-bold bg-light" style="border-bottom:1px solid #ccc"><a href="/{{$comment->thread->slug}}">RE: {{$comment->thread->title}}</a>
                   <div class="font-weight-normal p-2">
                   {!!$comment->body!!}
@@ -80,7 +80,7 @@
                   </div>
 
                 @endforeach
-                <span>{{$comments->links()}}</span>
+                <span>{{$reply->links()}}</span>
             @else
             <h4>No Activity yet!</h4>
           @endif

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Request\createPostRequest;
-use App\comment;
+use App\Reply;
 use App\thread;
 use Auth;
 use Carbon\carbon;
@@ -56,7 +56,7 @@ class RepliesController extends Controller
         if (Auth::user()->is_banned) {
            return response('You are currently serving a ban, you cannot post a Comment', 422);
         }
-         if (config('app.security.limit_time_between_post')) {
+         if (config('xf.security.limit_time_between_post')) {
             if ($this->time_btw_threads()) {
                 return Redirect()->back()->with('error', 'Please wait for a minute before you post again')->withInput();
             }
@@ -75,13 +75,13 @@ class RepliesController extends Controller
             //store media attachments
             Media::find($request->imageIds)->each->update([
                         'model_id' => $threadIn->id,
-                        'model_type' => comment::class
+                        'model_type' => Reply::class
                     ]);
 
            $rep = $thread->replies_count;
             $thread->update([
                 'last_reply_at' => Carbon::now(),
-                'reply_user'    => Auth::user()->id,
+                'reply_user'    => auth()->id(),
                 'replies_count' => ++$rep
             ]);
         return $threadIn;
@@ -94,7 +94,7 @@ class RepliesController extends Controller
      * @param string $channel
      * @param Thread $thread
      */
-    public function edir(Request $request, comment $id)
+    public function edir(Request $request, Reply $id)
     {
         $slug = $id->thread->slug;
         $this->authorize('update', $id);
@@ -112,11 +112,11 @@ class RepliesController extends Controller
      *
      * @param Reply $reply
      */
-    public function update(comment $id)
+    public function update(Reply $id)
     {
-       $comment = $id;
-        ///$this->authorize('update', $comment);
-         $comment->update(request()->validate(['body' => 'required']));
+       $reply = $id;
+        ///$this->authorize('update', $reply);
+         $reply->update(request()->validate(['body' => 'required']));
 
     }
 
@@ -126,11 +126,11 @@ class RepliesController extends Controller
      * @param  Reply $reply
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(comment $id)
+    public function destroy(Reply $id)
     {   //for readability
-        $comment =  $id;
-        //$this->authorize('update', $comment);
-        $comment->delete();
+        $reply =  $id;
+        //$this->authorize('update', $reply);
+        $reply->delete();
 
         if (request()->expectsJson()) {
             return response(['status' => 'Reply deleted']);
@@ -146,11 +146,11 @@ class RepliesController extends Controller
         $action = $request->get('action');
         switch ($action) {
             case 'like':
-                Comment::where('id', $id)->increment('likes');
+                Reply::where('id', $id)->increment('likes');
                 break;
 
             case 'unlike':
-                Comment::where('id', $id)->decrement('likes');
+                Reply::where('id', $id)->decrement('likes');
                 break;
         }
         return "";
@@ -162,10 +162,10 @@ class RepliesController extends Controller
     *
     */
     public function time_btw_threads(){
-        $user = auth()->user();
-        $time_diff = Carbon::now()->subMinutes(config('app.spam_check.time_between_posts'));
-        $recent_post = thread::where('user_id', $user->id)->where('created_at', '>=', $time_diff)->first();
-        if(!empty($recent_post)){
+        $user = Auth::user();
+        $time_diff = Carbon::now()->subMinutes(config('xf.spam_check.time_between_posts'));
+        $recent_post = thread::where('user_id', '=', $user->id)->where('created_at', '>=', $time_diff)->first();
+        if(isset($recent_post)){
             return true;
         }else{
             return false;
@@ -174,7 +174,7 @@ class RepliesController extends Controller
 
     public function replies($slug){
         $thread = thread::where('slug', '=', $slug)->first();
-        return comment::where('thread_id', $thread->id)
+        return Reply::where('thread_id', $thread->id)
                         ->with(['user','thread', 'media'])
                         ->paginate(10);
     }

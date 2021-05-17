@@ -64,7 +64,7 @@
                   @if ($featured->pinned)
                       <small class="font-weight-bold">Pinned:</small>
                     @endif
-                    {{\Carbon\Carbon::now()->subMinutes(config('app.spam.time_between_posts'))}}
+
                     <div class="d-none d-sm-block">
                     <button class="btn d-none d-sm-block btn-outline py-1 px-3 btn-sm  float-right rounded-pill mb-2" style="border-color:{{$featured->category->colour}}; color:{{$featured->category->colour}};">{{$featured->forum->name}}</button>
                     </div>

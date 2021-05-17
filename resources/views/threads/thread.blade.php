@@ -62,9 +62,9 @@
 
                             <div class="thread-body">
                               {!!$thread->body!!}
-                              @if($thread->attachment)
-                                        @foreach($thread->attachment as $attachment)
-                                        <img class="attachment" src="{{url('/storage/img')}}/{{$attachment->filename}}"/>
+                              @if($thread->media)
+                                        @foreach($thread->media as $media)
+                                        <img class="attachment" src="{{url('/storage/media')}}/{{$media->filename}}"/>
                                         @endforeach
                                       @endif
                               <div class="lks">
