@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="" style="padding:5px;">
-            <div class="thread-user bg-blue-500" style="margin-left:-63px; margin-top:-8px">
+            <div class="thread-user" style="margin-left:-63px; margin-top:-8px">
                 <table>
                     <tr>
                     <td >

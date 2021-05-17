@@ -87126,7 +87126,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "thread-user bg-blue-500",
+          staticClass: "thread-user",
           staticStyle: { "margin-left": "-63px", "margin-top": "-8px" }
         },
         [
