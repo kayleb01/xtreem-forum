@@ -2,22 +2,21 @@
     <div>
         <input id="trix" type="hidden" :name="name" :value="value" required>
 
-        <trix-editor
-                ref="trix"
-                input="trix"
-                @trix-change="change"
+        <textarea
+
+                @change="change"
                 :placeholder="placeholder"
-                required>
-        </trix-editor>
+                required v-model="name">
+        </textarea>
     </div>
 </template>
 
 <style lang="scss">
-    @import '~trix/dist/trix.css';
+
 </style>
 
 <script>
-    import Trix from 'trix';
+
 
     export default {
         props: ['name', 'value', 'placeholder'],

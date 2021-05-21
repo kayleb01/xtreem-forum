@@ -96,7 +96,7 @@
     </footer>
     </div>
    </div> <!-- end of ID-APP -->
- <script type="text/javascript" src="{{url('js/app.js')}}"></script>
+ <script type="text/javascript" src="{{mix('js/app.js')}}"></script>
 
 </body>
 </html>

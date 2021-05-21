@@ -26,6 +26,7 @@ return [
     |
     */
 
+
     'env' => env('APP_ENV', 'production'),
 
     /*
@@ -227,5 +228,14 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+
+
+    'security' => [
+        'limit_time_between_post' => 1
+    ],
+
+    'spam' => [
+        'time_between_posts' => 1 * 60
+    ]
 
 ];

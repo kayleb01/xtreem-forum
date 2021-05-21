@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Request\createPostRequest;
-use App\comment;
+use App\Reply;
 use App\thread;
 use Auth;
 use Carbon\carbon;
+use Illuminate\Validation\Rule;
 use App\Events\ThreadRecievedNewReply;
 use Linkify;
 use Illuminate\Http\Request;
 use App\attachment;
+use App\Media;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -35,11 +37,17 @@ class RepliesController extends Controller
      */
 
     public function store($slug, Request $request)
-    {    
+    {
         $url = $request->body;
-      
+    //    dd($request);
         $request->validate([
-            'body' => 'required'
+            'body' => 'required',
+            'imageIds.*' => [
+                Rule::exists('media', 'id')
+                ->where(function ($query) use ($request){
+                    $query->where('user_id', $request->user()->id);
+                })
+            ]
         ]);
         $thread = thread::where('slug', '=', $slug)->first();
         if ($thread->locked) {
@@ -52,8 +60,10 @@ class RepliesController extends Controller
             if ($this->time_btw_threads()) {
                 return Redirect()->back()->with('error', 'Please wait for a minute before you post again')->withInput();
             }
-        }   
-        return $thread->AddComment([
+        }
+
+
+        $threadIn = $thread->AddComment([
             'user_id'       => Auth::user()->id,
             'thread_id'     => $thread->id,
             'forum_id'      => $thread->forum->id,
@@ -61,15 +71,21 @@ class RepliesController extends Controller
             'body'          => $url,
             'created_at'    => now()
             ])->load('user');
-             
+
+            //store media attachments
+            Media::find($request->imageIds)->each->update([
+                        'model_id' => $threadIn->id,
+                        'model_type' => Reply::class
+                    ]);
+
            $rep = $thread->replies_count;
             $thread->update([
-                'last_reply_at' => now(),
-                'reply_user'    => Auth::user()->id,
+                'last_reply_at' => Carbon::now(),
+                'reply_user'    => auth()->id(),
                 'replies_count' => ++$rep
             ]);
-            
-            
+        return $threadIn;
+
     }
 
 /**
@@ -78,14 +94,14 @@ class RepliesController extends Controller
      * @param string $channel
      * @param Thread $thread
      */
-    public function edir(Request $request, comment $id)
+    public function edir(Request $request, Reply $id)
     {
         $slug = $id->thread->slug;
         $this->authorize('update', $id);
-        $body = $request->body;        
+        $body = $request->body;
         $id->update([
             'body' => $body
-        ]); 
+        ]);
 
         return true;
     }
@@ -96,25 +112,25 @@ class RepliesController extends Controller
      *
      * @param Reply $reply
      */
-    public function update(comment $id)
+    public function update(Reply $id)
     {
-       $comment = $id;
-        ///$this->authorize('update', $comment);
-         $comment->update(request()->validate(['body' => 'required']));
-        
+       $reply = $id;
+        ///$this->authorize('update', $reply);
+         $reply->update(request()->validate(['body' => 'required']));
+
     }
 
     /**
-     * Delete the given reply.  
+     * Delete the given reply.
      *
      * @param  Reply $reply
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(comment $id)
+    public function destroy(Reply $id)
     {   //for readability
-        $comment =  $id;
-        //$this->authorize('update', $comment);
-        $comment->delete();
+        $reply =  $id;
+        //$this->authorize('update', $reply);
+        $reply->delete();
 
         if (request()->expectsJson()) {
             return response(['status' => 'Reply deleted']);
@@ -130,17 +146,17 @@ class RepliesController extends Controller
         $action = $request->get('action');
         switch ($action) {
             case 'like':
-                Comment::where('id', $id)->increment('likes');
+                Reply::where('id', $id)->increment('likes');
                 break;
-            
+
             case 'unlike':
-                Comment::where('id', $id)->decrement('likes');
+                Reply::where('id', $id)->decrement('likes');
                 break;
         }
         return "";
     }
 
-   
+
     /**
     *Check spam by create a time limit between posts by a user;
     *
@@ -158,8 +174,8 @@ class RepliesController extends Controller
 
     public function replies($slug){
         $thread = thread::where('slug', '=', $slug)->first();
-        return comment::where('thread_id', $thread->id)
-                        ->with(['user','thread'])
+        return Reply::where('thread_id', $thread->id)
+                        ->with(['user','thread', 'media'])
                         ->paginate(10);
     }
 }

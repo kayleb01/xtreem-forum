@@ -78,7 +78,7 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
     }
 
     public function role(){
-        return $this->BelongsTo(Role::class);
+        return $this->BelongsTo(Role::class, 'role');
     }
 
     // public function follow()
@@ -122,6 +122,36 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
 
         $this->save();
     }
+
+     /*
+    * Define the Users Role
+    */
+    public function isAdmin():bool
+    {
+         return $this->role()->where('role', 'Admin')->exists();
+    }
+
+    public function moderator():bool
+    {
+        if ($this->role()->role = 'Moderator') {
+            return true;
+          }
+         return false ;
+    }
+
+    public function user():bool
+    {
+        if ($this->role()->role = 'User') {
+            return true;
+          }
+         return false ;
+    }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->isAdmin();
+    }
+
 
     /**
      * Get all activity for the user.

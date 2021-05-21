@@ -1,5 +1,5 @@
 <template>
-<div>  
+<div>
     <modal name="register" height="auto" :scrollable="true">
             <form method="POST" action="/register" style="padding: 30px; margin-top:50px;" enctype="multipart/form-data">
             <div style="text-align: center;"><h5> Register</h5></div>
@@ -14,18 +14,18 @@
                     </div>
                 </div>
                 <div class="form-group ">
-                    
+
                     <div class="">
                         <select id="sex" class="form-control" name="sex" required  placeholder="Sex" style="border-radius: 15px;">
                             <option value="">Sex...</option>
                             <option value="Female">Female</option>
                             <option value="Male">Male</option>
                         </select>
-                        
+
                     </div>
                 </div>
                 <div class="form-group ">
-                    
+
                     <div class="">
                         <input id="location" type="text" class="form-control" name="location"  placeholder="Your Location" required  style="border-radius: 15px;">
             </div>
@@ -43,7 +43,7 @@
                     <div class="form-group ">
                     <label for="dob" class="col-md-4 col-form-label text-md-right">Date of birth</label>
 
-                    <div class=""> 
+                    <div class="">
                     <select name="birthday" size="1" required style="border-radius: 15px;">
                         <option value = "" >-- Day --</option>
                         <option value = "1" >1</option>
@@ -217,22 +217,22 @@
                     </select>
                     </div>
                 </div>
-                <div class="form-group row col-lg-12 col-md-9">
+                <!-- <div class="form-group row col-lg-12 col-md-9">
                     <label for="categories" class="col-md-4 col-form-label text-md-right">Categories of interest</label>
                     <div class="col-md-6">
                         <select id="selected" name="categories" class="form-control selected"  style="border-radius: 15px;">
-                        
+
                         </select>
                     </div>
-                        
-                </div>
+
+                </div> -->
                     <div class="form-group ">
                     <label for="avatar" class="col-md-4 col-form-label text-md-right">Upload Avatar</label>
 
                     <div class="">
                         <input type="file" class="form-control" name="avatar" style="border-radius: 15px;">
                     </div>
-                    
+
                 </div>
                 <div class="form-group  mb-6">
                     <div class="">
@@ -243,9 +243,9 @@
                     </div> <br>
                     DO YOU HAVE AN ACCOUNT? <button class="btn btn-outline-secondary" @click="Login"> Login</button>
                 </div>
-            </form>  
+            </form>
     </modal>
-    </div> 
+    </div>
 </template>
 
 <script>
@@ -262,7 +262,7 @@ export default {
                 password_confirmation:"",
                 birthday:"",
                 avatar:""
-               
+
             },
             feedback: "",
             loading: false,

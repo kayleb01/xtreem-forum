@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="" style="padding:5px;">
-            <div class="thread-user bg-blue-500" style="margin-left:-63px; margin-top:-8px">
+            <div class="thread-user" style="margin-left:-63px; margin-top:-8px">
                 <table>
                     <tr>
                     <td >
@@ -43,6 +43,11 @@
                     </div>
                     <div v-else>
                         <highlight :content="body" class="panel-body"></highlight>
+                            <div v-if="reply.media">
+                                            <div class="grid gap-2 p-2 block" v-for="mdia in reply.media" :key="mdia.id">
+                                            <img :src="mdia.ImageUrl" class="rounded-lg">
+                                            </div>
+                                         </div>
                             <div v-if="signedIn" class="text-xs pl-2" style="padding-top:3px">
                                 <div class="d-flex justify-content-center">
                                     <favorite :comment="reply" class="mr-4"></favorite>
@@ -57,21 +62,16 @@
                                             <i class="fa fa-share-square"></i>
                                         </a>
                                         <ReportModal :thread="reply.thread.id" :comment="reply.id" class="ml-5 pl-3"/><br><br>
-                                         <div v-if="reply.attachment">
-                                            <span v-for="attachment in reply.attachment" :key="attachment.id">
-                                            <img :src="'/storage/img/'+ attachment.name" class="attachment">
-                                            </span>
-                                         </div>
                                 </div>
                             </div>
-                            <div  style="border-top: 1px solid #ccc;" v-if="reply.reply_children.length > 0" class="mt-2">
-                                <div class="panel-body">
+                            <div v-show="reply.reply_children.length > 0" class="mt-2">
+                                <div class="panel-body border-t">
                                     <span>
                                         <button type="button" @mouseover.once="getReply" class="text-sm btn btn-flat btn-block"  @click="childShow" :class="loading ? 'loader' : ''" :disabled="loading">
                                             <small>{{see}}</small>
                                         </button>
                                     </span>
-                                    <div v-for="(replyChildren, indexes) in items" :key="replyChildren.id" v-show="child" style="padding-bottom:2px;" class="mb-1 chld">
+                                    <div v-for="(replyChildren) in items" :key="replyChildren.id" v-show="child" style="padding-bottom:2px;" class="mb-1 chld">
                                        <div @destroyed="destroy(indexes)" >
                                             <span v-if="signedIn && replyChildren.user.id === user.id ">
                                                 <a href="#" @click.prevent="childDestroy(replyChildren.id)">
@@ -88,10 +88,10 @@
 
                                                         class="image-child responsive">
                                                             <span class=" text-black">
-                                                                <a class="font-weight-bold text-black "  :href="'/u/' + replyChildren.user.username" v-text="replyChildren.user.username"></a> &sdot;<span class="text-muted">{{humanTime(replyChildren.created_at)}}</span>
+                                                                <a class="font-weight-bold text-black"  :href="'/u/' + replyChildren.user.username" v-text="replyChildren.user.username"></a> &sdot;<small class="text-muted">{{humanTime(replyChildren.created_at)}}</small>
                                                             </span><br/>
                                                         <div class="replyChild-body">
-                                                            <highlight :content="replyChildren.body"></highlight>
+                                                            <small><highlight :content="replyChildren.body"></highlight></small>
 
                                                         </div>
                                                         </td>
@@ -117,7 +117,9 @@ import moment from "moment";
 import collection from "../mixins/collection";
 
 export default {
-    props: ["reply"],
+    props: {
+        reply: Object
+    },
     mixins: [collection],
     components: { Favorite, highlight },
 
@@ -153,7 +155,7 @@ export default {
             this.replyClick = !this.replyClick;
         },
          childShow(){
-             this.loading = true;
+            this.loading = true;
             this.child = !this.child;
             this.see ="";
             this.loading = false;
@@ -197,7 +199,11 @@ export default {
         },
 
          fetch() {
-            axios.get(this.url()).then(this.refresh);
+            axios.get(this.url())
+            .then(this.refresh)
+            .catch(err => {
+                this.flashMessage.error({error:"Error fetching resources"})
+                });
         },
 
         url() {

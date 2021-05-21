@@ -8,8 +8,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use App\thread;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class comment extends Model
+class Reply extends Model
 {
     use RecordsActivity, likableTrait;
 
@@ -43,12 +45,12 @@ class comment extends Model
     {
         parent::boot();
 
-        static::created(function ($comment) {
-            $comment->thread->increment('replies_count');
+        static::created(function ($reply) {
+            $reply->thread->increment('replies_count');
 
         });
-        static::deleted(function ($comment) {
-            $comment->thread->decrement('replies_count');
+        static::deleted(function ($reply) {
+            $reply->thread->decrement('replies_count');
         });
 
 
@@ -85,14 +87,15 @@ class comment extends Model
 
 
 
+
     /**
      *
      * A reply has many attachments i.e pictures of whatever
      *  @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      * */
-    public function attachment()
+    public function media():MorphMany
     {
-        return $this->hasMany(attachment::class);
+        return $this->morphMany(Media::class, 'model');
     }
     /**
      * A reply has many children since we can't qoute in peace
@@ -133,11 +136,11 @@ class comment extends Model
      */
     public function path()
     {
-        $replyPosition = $this->thread->comment()->pluck('id')->search($this->id) + 1;
+        $replyPosition = $this->thread->reply()->pluck('id')->search($this->id) + 1;
 
         $page = ceil($replyPosition / 25);
 
-        return $this->thread->path()."?page={$page}#comment-{$this->id}";
+        return $this->thread->path()."?page={$page}#reply-{$this->id}";
     }
 
     /**

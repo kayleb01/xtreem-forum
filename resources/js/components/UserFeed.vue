@@ -1,25 +1,24 @@
 <template>
     <div>
-        <div class="sticky top-0 items-center justify-between bg-white border-gray-400">
-            <h2>FEED</h2>
-            <div class="bg-gray-500">
-                <span v-for="feed in feeds.data" :key="feed.id">
-                    <h2>{{feed.title}}</h2>
-                </span>
-            </div>
+        <div class="top-0" v-for="feed in feeds.data" :key="feed.id">
+            <feed-thread :feed="feed"/>
+            <comment-thread :feed="feed"/>
         </div>
     </div>
 </template>
 
 <script>
+import CommentThread from './CommentThread.vue';
+import FeedThread from './FeedThread.vue';
 export default {
+  components: { FeedThread, CommentThread },
         data(){
             return {
                 feeds:''
             };
         },
 
-        created(){
+        mounted(){
             this.getFeed();
         },
 

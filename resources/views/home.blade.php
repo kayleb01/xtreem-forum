@@ -36,7 +36,7 @@
       </div>
       <div v-show="selectedTab =='Feed'">
         @if(Auth::check())
-            <feed></feed>
+            <user-feed></user-feed>
         @else
           <div class="" style="font-size: 15px;  line-height: 24px; margin: 0.5%; width: 100%;">
             <span><i class="font-weight-bold"> Ooops!...</i> Seems like you've not registered or loggedIn yet</span>
@@ -64,6 +64,7 @@
                   @if ($featured->pinned)
                       <small class="font-weight-bold">Pinned:</small>
                     @endif
+
                     <div class="d-none d-sm-block">
                     <button class="btn d-none d-sm-block btn-outline py-1 px-3 btn-sm  float-right rounded-pill mb-2" style="border-color:{{$featured->category->colour}}; color:{{$featured->category->colour}};">{{$featured->forum->name}}</button>
                     </div>

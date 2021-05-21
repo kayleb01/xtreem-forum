@@ -6,7 +6,7 @@ use Image;
 use App\User;
 use App\Follow;
 use App\thread;
-use App\comment;
+use App\Reply;
 use App\Activity;
 use App\Trending;
 use App\NewThread;
@@ -58,12 +58,12 @@ class ProfileController extends Controller
            ])->first();
 
       $threads   = thread::where('user_id', $data->id)->orderBy('created_at', 'DESC')->paginate(20);
-      $comments  = comment::where('user_id', $data->id)->with('thread')->orderBy('created_at', 'DESC')->paginate(20);
+      $reply  = Reply::where('user_id', $data->id)->with('thread')->orderBy('created_at', 'DESC')->paginate(20);
       $newThread = $new_Thread->get();
       $trending  = $trending->get();
       $title     = 'XtreemForum - '.$data->username.'\'s Profile';
 
-     return view('frontend.profile', compact('data', 'newThread', 'title', 'trending', 'threads', 'comments'));
+     return view('frontend.profile', compact('data', 'newThread', 'title', 'trending', 'threads', 'reply'));
 
 
    }
@@ -75,15 +75,14 @@ class ProfileController extends Controller
    }
 
    public function img($file){
-            if($file){
-         //Get the  filename with extension
-         //Get just the filename
-         //Just the extension
-         $fulnameWithExt = $file->getClientOriginalName();
-         $filenam =  pathinfo($fulnameWithExt, PATHINFO_FILENAME);
-         $ext  = $file->getClientOriginalExtension();
-         $filename  =  '$qwcsdiuhj'.time().'.'.$ext;
-         $path = $request->pic->storeAs("public/storage/img", $filename);
+
+        if($file){
+
+         $fulnameWithExt 	= $file->getClientOriginalName();
+         $filenam 			=  pathinfo($fulnameWithExt, PATHINFO_FILENAME);
+         $ext  				= $file->getClientOriginalExtension();
+         $filename  		=  '$qwcsdiuhj'.time().'.'.$ext;
+         $path 				= $request->pic->storeAs("public/storage/img", $filename);
 
          $upload = User::where('id', $request->id)->update(['image_url' => $filename]);
          if($upload){

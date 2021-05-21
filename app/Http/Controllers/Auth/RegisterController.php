@@ -66,7 +66,7 @@ class RegisterController extends Controller
             'location' => ['required'],
             'avatar'   => ['image', 'mimes:jpeg,jpg,png,gif,svg'],
             'birthday' => ['required'],
-            'categories'=> ['required'],
+            'categories'=> ['sometimes'],
         ]);
     }
 
@@ -77,16 +77,15 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data){
-    
+
         if(!$data){
             return redirect('/');
         }
-        //The forums for the Feed
-       $feedData =  $data['categories'];
+
         //upload the avatar using Intervention
         $originalImage  = $data['avatar'];
         $avatar         = Image::make($originalImage);
-        $path           = public_path()."/storage/storage/img/";
+        $path           = public_path()."/storage/img/";
         $avatar->resize(200,200, function($constraint){
             $constraint->aspectratio();
             $constraint->upsize();
@@ -99,28 +98,34 @@ class RegisterController extends Controller
             'dob'       => $data['birthday'],
             'sex'       => $data['sex'],
             'avatar'    => time().$originalImage->getClientOriginalName(),
-            'role'      => 3,     
+            'role'      => 3,
             'password'  => Hash::make($data['password']),
             'confirmation_token' => Str::limit(Hash::make($data['email'].Str::random()), 25, ''),
             'username'  => $data['username']
         ]);
 
         if ($userCreate) {
-            foreach ($feedData as $key => $value) {
-               $feed = Feed::create([
-                    'user_id' => $userCreate->id,
-                    'forum_id' => $value,
-               ]);
-            }
-            if ($feed) {
+            // //The forums for the Feed
+            // if ($data['categories']) {
+            //     $feedData =  $data['categories'];
+            //     foreach ($feedData as $key => $value) {
+            //     $feed = Feed::create([
+            //             'user_id' => $userCreate->id,
+            //             'forum_id' => $value,
+            //     ]);
+            //     }
+            //     if ($feed) {
+            //     return $userCreate;
+            //     }
+            // }
             return $userCreate;
-            }
+
         }
-        
+
     }
 
 public function registered(Request $request, $user)
-{ 
+{
 
     //Mail::to($user)->send(new PleaseConfirmYourEmail($user));
 }

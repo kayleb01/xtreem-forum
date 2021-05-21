@@ -7,32 +7,33 @@ use App\Categories;
 
 class CategoriesController extends Controller
 {
- 
+
  public function index(){
   	$cat = Categories::all();
-  	return view('admin/category', ['cat'=>$cat]);
-	}
+  	return view('Admin/category', ['cat'=>$cat]);
+}
 
  public function show(){
- 	return view('admin/cat_create');
+ 	return view('Admin/cat_create');
  }
+
 public function edit(Categories $id){
 	$cat = Categories::find($id->id);
-return view('admin/edit_cat', ['categories'=> $cat]);
+    return view('Admin/edit_cat', ['categories'=> $cat]);
 }
 
 public function store(Request $request){
 
-$req 	=  $request->all();
-$catr 	= Categories::create([
-'name'	=> $req['name'],
-'description' => $req['description']
-]);
- if ($catr) {
- 	# code...
- 	return Redirect('admin/categories')->with('success', 'New Category Created');
- }
- return back()->with('error', 'An internal error was encountered');
+    $req 	=  $request->all();
+    $catr 	= Categories::create([
+    'name'	=> $req['name'],
+    'description' => $req['description']
+    ]);
+    if ($catr) {
+        # code...
+        return Redirect('admin/categories')->with('success', 'New Category Created');
+    }
+    return back()->with('error', 'An internal error was encountered');
 }
 
 public function update(Request $request, $id){
@@ -45,11 +46,11 @@ public function update(Request $request, $id){
 		'name' => $req['name'],
 		'description' => $req['description']
 	]);
-if($cat){
-	return Redirect('admin/categories')->with('success', ''.$req['name'].' Updated successfully');
-}
-return back()->with('error', ''.$req['name'].' Updated failed');
-}
+    if($cat){
+        return Redirect('admin/categories')->with('success', ''.$req['name'].' Updated successfully');
+    }
+        return back()->with('error', ''.$req['name'].' Updated failed');
+    }
 
 }
 //End of the Class
