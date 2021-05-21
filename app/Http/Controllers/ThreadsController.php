@@ -153,7 +153,7 @@ class ThreadsController extends Controller
     public function show($slug, Trending $trending, NewThread $NewThread)
     {
 
-       $threads  = thread::where('slug', '=', $slug)->with(['user', 'attachment'])->get();
+       $threads  = thread::where('slug', '=', $slug)->with(['user'])->get();
         // if (auth()->check()) {
         //    auth()->user()->read($threads);
         //      }
