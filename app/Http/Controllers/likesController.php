@@ -1,14 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-use App\comment;
-use App\like;
-use Auth;
 use Illuminate\Support\Facades\Input;
-use App\Events\UserLikes;
-use App\thread;
+use App\Reply;
 
 
 class likesController extends Controller
@@ -18,11 +13,6 @@ class likesController extends Controller
 public function __construct()
 {
 	$this->middleware('auth');
-}
-public function index()
-{
-
-	return "We live baby!";
 }
 
 /**
@@ -34,7 +24,7 @@ public function index()
  public function togglelikes($id)
  {
  	$commentID = intval($id);
- 	$comment = comment::find($commentID);
+ 	$comment = Reply::find($commentID);
  	$user_id = $comment->likess()->where('user_id', '=', auth()->id())
  								->where('likable_id','=', $commentID)->first();
  	// if(!$user_id){
@@ -55,11 +45,11 @@ public function index()
  			$likes ="";
  		}
  		return response()->json(['status'=>'success', 'message'=>'Unlike', 'likes'=> $likes]);
- 		
+
  	}
  }
 
- 
+
 
 
 }

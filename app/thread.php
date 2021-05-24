@@ -2,16 +2,16 @@
 
 namespace App;
 
-
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+
 use App\Filters\ThreadFilters;
 use App\Events\ThreadRecievedNewReply;
 use App\subscription;
 use App\like;
 use Illuminate\Support\Str;
 use App\Events\ThreadWasPublished;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class thread extends Model
 {
@@ -61,17 +61,17 @@ protected $appends = ['path'];
     }
 
     /**
-     * Add a reply to the thread.
+     * Add a comment to the thread.
      *
-     * @param  array $reply
+     * @param  array $comment
      * @return Model
      */
-    public function AddComment($reply)
+    public function AddComment($comment)
     {
-        $reply = $this->reply()->create($reply);
-        event(new ThreadRecievedNewReply($reply));
+        $comment = $this->comment()->create($comment);
+        event(new ThreadRecievedNewReply($comment));
 
-        return $reply;
+        return $comment;
     }
 
 
@@ -79,16 +79,10 @@ protected $appends = ['path'];
 
 //Eloquent relationships
     //
-
-    /**
-     *
-     * A reply has many attachments i.e pictures of whatever
-     *  @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     * */
-    public function media():MorphMany
-    {
-        return $this->morphMany(Media::class, 'model');
-    }
+public function media():MorphMany
+{
+    return $this->morphMany(Media::class, 'model');
+}
 
  public function like(){
         return $this->hasMany(like::class, 'likable_id');
@@ -111,15 +105,15 @@ public function category(){
 	return $this->belongsTo(Categories::class, 'category_id');
 }
 
-public function reply(){
-	return $this->hasMany(Reply::class, 'thread_id');
+public function comment(){
+	return $this->hasMany(Reply::class);
 }
 
-public function notifyReplies($reply){
+public function notifyReplies($comment){
 	//Notify that a reply has been added...
-	event(new ThreadRecievedNewReply($reply));
+	event(new ThreadRecievedNewReply($comment));
 
-	return $reply;
+	return $comment;
 }
 
 public function subscription(){
@@ -128,9 +122,9 @@ public function subscription(){
 
 
 //apply all relevant filters to the thread
-public function addFilters($query, threadFilters $filters){
-	return $filters->apply($query);
-}
+// public function addFilters($query, threadFilters $filters){
+// 	return $filters->apply($query);
+// }
 
 
 //users subscription to threads

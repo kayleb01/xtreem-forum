@@ -7,7 +7,7 @@
 
                     <activity-reply :activity="activity" v-if="activity.type === 'created_comment'"/>
                     <activity-thread :activity="activity" v-if="activity.type === 'created_thread'"/>
-                    
+
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@ export default {
 
     props: {
         user: {
-            type: Object,
+            type: Array,
             required: true
         }
     },

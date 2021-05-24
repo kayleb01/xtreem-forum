@@ -21,7 +21,7 @@ class subscription extends Model
 
    public function comment()
    {
-   	return $this->belongsTo(comment::class);
+   	return $this->belongsTo(Reply::class);
    }
 
     public function notify($comment)

@@ -85,9 +85,6 @@ class Reply extends Model
     }
 
 
-
-
-
     /**
      *
      * A reply has many attachments i.e pictures of whatever

@@ -7,6 +7,7 @@ use App\comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Reply;
 
 class HomeController extends Controller
 {
@@ -46,7 +47,7 @@ class HomeController extends Controller
 
         ])->latest()
           ->paginate(100);
-            $comments = comment::with(['thread', 'user'])->where('user_id', auth()->user()->following->pluck('id'))->latest()->get();
+            $reply = Reply::with(['thread', 'user'])->where('user_id', auth()->user()->following->pluck('id'))->latest()->get();
 
 
         if ($request->wantsJson($feed)) {
