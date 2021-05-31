@@ -85154,7 +85154,7 @@ var render = function() {
       _c(
         "svg",
         {
-          staticClass: "fill-current",
+          staticClass: "fill-current d-inline",
           class: _vm.active ? "text-green" : "text-grey-light",
           attrs: {
             xmlns: "http://www.w3.org/2000/svg",
