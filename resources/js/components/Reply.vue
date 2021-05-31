@@ -43,10 +43,12 @@
                     </div>
                     <div v-else>
                         <highlight :content="body" class="panel-body"></highlight>
-                            <div v-if="reply.media">
-                                            <div class="grid gap-2 p-2 block" v-for="mdia in reply.media" :key="mdia.id">
-                                            <img :src="mdia.ImageUrl" class="rounded-lg">
-                                            </div>
+                            <div v-if="reply.media.length >= 0">
+                                            <splide :options="options" class="grid gap-2 p-2 block" v-for="mdia in reply.media" :key="mdia.id">
+                                                <splide-slide>
+                                                    <img :src="mdia.ImageUrl" class="rounded-lg">
+                                                </splide-slide>
+                                            </splide>
                                          </div>
                             <div v-if="signedIn" class="text-xs pl-2" style="padding-top:3px">
                                 <div class="d-flex justify-content-center">
@@ -85,7 +87,6 @@
                                                         :alt="replyChildren.user.username"
                                                         width="36"
                                                         height="37"
-
                                                         class="image-child responsive">
                                                             <span class=" text-black">
                                                                 <a class="font-weight-bold text-black"  :href="'/u/' + replyChildren.user.username" v-text="replyChildren.user.username"></a> &sdot;<small class="text-muted">{{humanTime(replyChildren.created_at)}}</small>
@@ -115,13 +116,20 @@ import Favorite from "./Favorite.vue";
 import highlight from "./Highlight.vue";
 import moment from "moment";
 import collection from "../mixins/collection";
+import { Splide, SplideSlide } from '@splidejs/vue-splide';
+import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
 export default {
     props: {
         reply: Object
     },
     mixins: [collection],
-    components: { Favorite, highlight },
+    components: {
+        Favorite,
+        highlight,
+        Splide,
+        SplideSlide,
+        },
 
     data() {
         return {
@@ -131,7 +139,12 @@ export default {
             replyClick:false,
             child: false,
             loading: false,
-            see:"See more replies"
+            see:"See more replies",
+            options: {
+                rewind : true,
+                width  : 800,
+                gap    : '1rem',
+                },
             // items: []
         };
     },
