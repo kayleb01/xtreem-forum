@@ -187,7 +187,7 @@ class ThreadsController extends Controller
             $avatar         = Image::make($image);
             $path           = public_path()."/storage/media/";
 
-            $avatar->resize(400,400, function($constraint){
+            $avatar->resize(800,800, function($constraint){
             $constraint->aspectratio();
             $constraint->upsize();
             });

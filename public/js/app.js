@@ -9310,6 +9310,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -9369,6 +9370,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _splidejs_vue_splide__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @splidejs/vue-splide */ "./node_modules/@splidejs/vue-splide/src/js/index.js");
 /* harmony import */ var _splidejs_splide_dist_css_themes_splide_default_min_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @splidejs/splide/dist/css/themes/splide-default.min.css */ "./node_modules/@splidejs/splide/dist/css/themes/splide-default.min.css");
 /* harmony import */ var _splidejs_splide_dist_css_themes_splide_default_min_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_splidejs_splide_dist_css_themes_splide_default_min_css__WEBPACK_IMPORTED_MODULE_5__);
+//
+//
 //
 //
 //
@@ -10059,7 +10062,7 @@ __webpack_require__.r(__webpack_exports__);
     follow: function follow() {
       var req;
 
-      if (this.isActive) {
+      if (this.isActive == true) {
         req = {
           follower_id: this.user.id,
           followed_id: this.follower,
@@ -10072,7 +10075,7 @@ __webpack_require__.r(__webpack_exports__);
         };
       }
 
-      axios[this.active ? 'get' : 'post']('/u/' + this.user.username + '/follow/' + this.follower + '', req);
+      axios[this.active == true ? 'delete' : 'post']('/u/' + this.user.username + '/follow/' + this.follower + '', req);
       this.isActive = !this.isActive;
 
       if (this.isActive) {
@@ -10123,7 +10126,7 @@ Vue.prototype.humanTime = function (timestamp) {
 
 Vue.use((_smartweb_vue_flash_message__WEBPACK_IMPORTED_MODULE_0___default()));
 Vue.use((vue_js_modal__WEBPACK_IMPORTED_MODULE_3___default()));
-/**
+/**;
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
  * components and automatically register them with their "basename".
@@ -93483,8 +93486,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "panel panel-body rounded" }, [
-    _vm.signedIn
-      ? _c("div", { staticClass: "dropdown float-right" }, [
+    _vm.signedIn && _vm.reply.user.id === _vm.user.id
+      ? _c("div", { staticClass: "dropdown float-right d-inline" }, [
           _c("button", {
             staticClass: " btn btn-flat dropdown-toggle",
             attrs: {
@@ -93654,28 +93657,38 @@ var render = function() {
                   attrs: { content: _vm.body }
                 }),
                 _vm._v(" "),
-                _vm.reply.media.length >= 0
+                _vm.reply.media.length > 0
                   ? _c(
                       "div",
-                      _vm._l(_vm.reply.media, function(mdia) {
-                        return _c(
-                          "splide",
-                          {
-                            key: mdia.id,
-                            staticClass: "grid gap-2 p-2 block",
-                            attrs: { options: _vm.options }
-                          },
-                          [
-                            _c("splide-slide", [
-                              _c("img", {
-                                staticClass: "rounded-lg",
-                                attrs: { src: mdia.ImageUrl }
-                              })
-                            ])
-                          ],
-                          1
-                        )
-                      }),
+                      [
+                        _vm.reply.media.length == 1
+                          ? _c(
+                              "span",
+                              { staticClass: "grid gap-2 p-2 block" },
+                              [
+                                _c("img", {
+                                  staticClass: "rounded-lg",
+                                  attrs: { src: _vm.reply.media[0].ImageUrl }
+                                })
+                              ]
+                            )
+                          : _c(
+                              "splide",
+                              {
+                                staticClass: "grid gap-2 p-2 block",
+                                attrs: { options: _vm.options }
+                              },
+                              _vm._l(_vm.reply.media, function(mdia) {
+                                return _c("splide-slide", { key: mdia.id }, [
+                                  _c("img", {
+                                    staticClass: "rounded-lg",
+                                    attrs: { src: mdia.ImageUrl }
+                                  })
+                                ])
+                              }),
+                              1
+                            )
+                      ],
                       1
                     )
                   : _vm._e(),
@@ -94072,7 +94085,7 @@ var render = function() {
         "a",
         {
           staticClass: "link ",
-          attrs: { href: "/report" },
+          attrs: { href: "/report", title: "Report" },
           on: {
             click: function($event) {
               $event.preventDefault()
@@ -94113,7 +94126,7 @@ var render = function() {
               ),
               _c("br"),
               _vm._v(
-                "\n                    please write the reasons why you are flagging this, so that appropriate action can be taken   \n                "
+                "\n                    please write the reasons why you are flagging this, so that appropriate action can be taken\n                "
               )
             ]),
             _vm._v(" "),

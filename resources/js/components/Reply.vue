@@ -1,10 +1,9 @@
 <template>
     <div  class="panel panel-body rounded">
-        <div class="dropdown float-right" v-if="signedIn">
+        <div class="dropdown float-right d-inline" v-if="signedIn && reply.user.id === user.id">
             <button class=" btn btn-flat dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton">
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
                 <a href="#" class="btn btn-danger-xs btn-sm dropdown-item" @click="destroy" style="color:red !important;"  v-if="signedIn && reply.user.id == user.id || signedIn && user.role == 1"><i class="fa fa-trash"></i> Delete</a>
                 <a  class="dropdown-item" :href="'/moderation/'+ reply.user.id + '/ban'" v-if="user.role === 1 || user.role === 2">Ban User</a>
             </div>
@@ -13,7 +12,7 @@
             <div class="thread-user" style="margin-left:-63px; margin-top:-8px">
                 <table>
                     <tr>
-                    <td >
+                    <td>
                     <img :src="'/storage/img/'+ (reply.user.avatar ? reply.user.avatar : 'default.jpg')"
                      alt="See mee"
                      width="36"
@@ -43,13 +42,16 @@
                     </div>
                     <div v-else>
                         <highlight :content="body" class="panel-body"></highlight>
-                            <div v-if="reply.media.length >= 0">
-                                            <splide :options="options" class="grid gap-2 p-2 block" v-for="mdia in reply.media" :key="mdia.id">
-                                                <splide-slide>
-                                                    <img :src="mdia.ImageUrl" class="rounded-lg">
-                                                </splide-slide>
-                                            </splide>
-                                         </div>
+                            <div v-if="reply.media.length > 0">
+                                <span v-if="reply.media.length == 1" class="grid gap-2 p-2 block">
+                                     <img :src="reply.media[0].ImageUrl" class="rounded-lg">
+                                </span>
+                                <splide :options="options" class="grid gap-2 p-2 block" v-else>
+                                    <splide-slide v-for="mdia in reply.media" :key="mdia.id">
+                                        <img :src="mdia.ImageUrl" class="rounded-lg">
+                                    </splide-slide>
+                                </splide>
+                            </div>
                             <div v-if="signedIn" class="text-xs pl-2" style="padding-top:3px">
                                 <div class="d-flex justify-content-center">
                                     <favorite :comment="reply" class="mr-4"></favorite>
@@ -63,7 +65,7 @@
                                         <a  @click="replyShow" class="ml-4 pl-3 bg-color-black" title="Reply" v-show="reply.replyChild_count <= 5">
                                             <i class="fa fa-share-square"></i>
                                         </a>
-                                        <ReportModal :thread="reply.thread.id" :comment="reply.id" class="ml-5 pl-3"/><br><br>
+                                        <ReportModal :thread="reply.thread.id" :comment="reply.id" class="ml-5 pl-3" /><br><br>
                                 </div>
                             </div>
                             <div v-show="reply.reply_children.length > 0" class="mt-2">

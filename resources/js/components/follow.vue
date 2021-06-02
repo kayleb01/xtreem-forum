@@ -19,15 +19,15 @@ export default {
     },
     methods:{
         follow(){
-            let req
-            if (this.isActive) {
+            let req;
+            if (this.isActive == true) {
                  req = {follower_id: this.user.id, followed_id:this.follower, '_method':'delete'}
             } else {
                  req = {follower_id: this.user.id, followed_id:this.follower}
             }
 
-            axios[this.active ? 'get' : 'post']
-            ('/u/' + this.user.username + '/follow/'+this.follower+'', req );
+            axios[this.active == true ? 'delete' : 'post']
+            ('/u/' + this.user.username + '/follow/'+this.follower+'', req )
             this.isActive = !this.isActive;
             if (this.isActive) {
                 this.flashMessage.success({

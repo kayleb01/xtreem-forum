@@ -19,12 +19,12 @@ class FollowersController extends Controller
      */
         public function store($user, $id)
         {
-            if ($user == auth()->user()->username) {
-                return response()->back()->with('error', 'You cannot follow yourself');
+            if ($id == auth()->id()) {
+                return response()->json(['error', 'You cannot follow yourself'], 402);
             }
             $user = User::where('username', $user)->first();
             $user->following()->attach($id);
-            return redirect()->back();
+            return response()->json(['message' => 'You are now following']);
 
             }
 
@@ -44,6 +44,6 @@ class FollowersController extends Controller
         {
             $user = User::where('username', $user)->first();
             $user->following()->detach($id);
-            return redirect()->back();
+            return response()->json(['message' => 'Unfollowed']);
         }
 }

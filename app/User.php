@@ -2,10 +2,7 @@
 
 namespace App;
 
-//use Cog\Contracts\Ban\Bannable as BannableContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
-//use Cog\laravel\Ban\Traits\Bannable;
-//use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -69,7 +66,7 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
 #Relationships
     public function comment()
     {
-        return $this->hasMany(comment::class, 'user_id');
+        return $this->hasMany(Reply::class, 'user_id');
     }
 
      public function attachment()

@@ -37,20 +37,26 @@
                                       <a href="/u/{{$thread->user->username}}">
                                         <img src="/storage/img/{{$thread->user->avatar? $thread->user->avatar : 'default.jpg'}}" class="image-circle responsive">
                                       </a>
-
-                                      <span><a href="/u/{{$thread->user->username}}" class="username">{{$thread->user->username}}</a> </span>
-                                      &nbsp;&sdot;&nbsp; <span>{{$thread->created_at->toFormattedDateString()}}</span>
+                                      <span>
+                                          <a href="/u/{{$thread->user->username}}" class="username">{{$thread->user->username}}</a>
+                                        </span>
+                                      &nbsp;&sdot;&nbsp;
+                                      <span>
+                                          {{$thread->created_at->toFormattedDateString()}}
+                                      </span>
                                       <div class="timestamp" style="width: 400px">
                                         @if(Auth::check())
-                                      @if(Auth::user()->role == 1 )
-                                      &nbsp;
-                                        <span class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                          <span class="caret"></span>
-                                        </span>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                          <li class="p-2"><a href="/moderation/{{$thread->user->id}}/ban">Ban User</a></li>
-                                        </ul>
-                                        @endif
+                                            @if(Auth::user()->role == 1 )
+                                             &nbsp;
+                                                <span class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    <span class="caret"></span>
+                                                </span>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                                                    <li class="p-2">
+                                                        <a href="/moderation/{{$thread->user->id}}/ban">Ban User</a>
+                                                    </li>
+                                                </ul>
+                                            @endif
                                       @endif
                                       </div>
 
@@ -62,14 +68,23 @@
 
                             <div class="thread-body">
                               {!!$thread->body!!}
-                              @if($thread->media)
+                              @if(count($thread->media) > 0)
+                                <div class="row no-gutters">
+                                    @if (count($thread->media) > 1)
                                         @foreach($thread->media as $media)
-                                        <img class="attachment" src="{{url('/storage/media')}}/{{$media->filename}}"/>
+                                            <div class="col-6 p-2"> <img class="attachment rounded-xl" src="{{url('/storage/media')}}/{{$media->filename}}"/></div>
                                         @endforeach
-                                      @endif
+                                    @else
+                                        <div class="col-12">
+                                            @foreach($thread->media as $media)
+                                                <div class="col-12 p-2"> <img class="attachment rounded-xl" src="{{url('/storage/media')}}/{{$media->filename}}"/></div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                              @endif
                               <div class="lks">
                                         <a href="#" onclick="event.preventDefault(); actOnLikes('{{$thread->id}}', '/comment/like/{{$thread->id}}')" data-id="{{$thread->id}}" class="ikes">
-
                                           <i class="fa fa-thumbs-o-up" title="Like" ></i> <span id="ike_text{{$thread->id}}">{{Str::plural($thread->Isliked()?'Unlike':'Like', $thread->likess->count())}}</span>
                                         </a>
                                             <span class="Like-{{$thread->id}}">
