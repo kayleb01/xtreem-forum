@@ -84,7 +84,7 @@
               {!!$getFeatured->links()!!}
             @endif
     </div>
-    <div v-show="selectedTab === 'Trending'">
+    {{-- <div v-show="selectedTab === 'Trending'">
      @if(!empty($trending))
          @foreach($trending as $trend)
         <div class="forum_trend">
@@ -97,7 +97,7 @@
         </div>
        @endforeach
       @endif
-    </div>
+    </div> --}}
    </div>
    </div>
  </div>

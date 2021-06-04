@@ -29,11 +29,7 @@ export default {
             axios[this.active == true ? 'delete' : 'post']
             ('/u/' + this.user.username + '/follow/'+this.follower+'', req )
             this.isActive = !this.isActive;
-            if (this.isActive) {
-                this.flashMessage.success({
-                   message: "You are now following this user!"
-                    });
-            }
+
         }
     },
 }

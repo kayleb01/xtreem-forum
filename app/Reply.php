@@ -36,7 +36,7 @@ class Reply extends Model
      *
      * @var array
      */
-    protected $appends = [ 'replyChild_count', 'isLiked', 'likesCount'];
+    protected $appends = [ 'replyChild_count', 'isLiked', 'likesCount', 'media'];
 
     /**
      * Boot the reply instance.
@@ -71,9 +71,6 @@ class Reply extends Model
         return $this->belongsTo('App\User', 'user_id');
     }
 
-
-
-
     /**
      * A reply belongs to a thread.
      *
@@ -83,10 +80,6 @@ class Reply extends Model
     {
         return $this->belongsTo(thread::class);
     }
-
-
-
-
 
     /**
      *
@@ -179,7 +172,8 @@ class Reply extends Model
             '<a href="/u/$1">$0</a>',
             $body
         );
-           }
+     }
+
  /**
      * Fetch all mentioned users within the reply's body.
      *
@@ -197,9 +191,9 @@ class Reply extends Model
 *
 *
 **/
-// public function setUsernameAtrribute($username){
-//         return ucwords($username);
-//     }
+public function getMediaAttribute(){
+        return $this->media();
+    }
 
 
 }

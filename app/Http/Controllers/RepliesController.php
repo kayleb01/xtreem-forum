@@ -9,13 +9,9 @@ use Auth;
 use Carbon\carbon;
 use Illuminate\Validation\Rule;
 use App\Events\ThreadRecievedNewReply;
-use Linkify;
 use Illuminate\Http\Request;
-use App\attachment;
 use App\Media;
-use Illuminate\Http\File;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManagerStatic as Image;
+
 
 
 class RepliesController extends Controller
@@ -54,7 +50,7 @@ class RepliesController extends Controller
             return response('Thread is locked', 422);
         }
         if (Auth::user()->is_banned) {
-           return response('You are currently serving a ban, you cannot post a Comment', 422);
+           return response('You are currently serving a ban, you cannot post a comment', 422);
         }
          if (config('xf.security.limit_time_between_post')) {
             if ($this->time_btw_threads()) {

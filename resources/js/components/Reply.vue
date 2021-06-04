@@ -1,6 +1,6 @@
 <template>
     <div  class="panel panel-body rounded">
-        <div class="dropdown float-right d-inline" v-if="signedIn && reply.user.id === user.id">
+        <div class="dropdown float-right d-inline" v-if="signedIn && reply.user.id === user.id || signedIn && user.isAdmin">
             <button class=" btn btn-flat dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton">
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -42,7 +42,7 @@
                     </div>
                     <div v-else>
                         <highlight :content="body" class="panel-body"></highlight>
-                            <div v-if="reply.media.length > 0">
+                            <div v-if="reply.media.length != 0">
                                 <span v-if="reply.media.length == 1" class="grid gap-2 p-2 block">
                                      <img :src="reply.media[0].ImageUrl" class="rounded-lg">
                                 </span>

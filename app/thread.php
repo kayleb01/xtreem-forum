@@ -172,23 +172,20 @@ public function getPathAttribute()
    return $this->path();
 }
 
-// public function getBodyAttribute($body)
-// {
-// 	return \Purify::clean(nl2br($body));
-// }
 
-public function setSlugAttribute($value){
 
-	if (static::whereSlug($slug = Str::slug($value))->exists()) {
-            $slug = "{$slug}-{$this->id}";
-        }
+    public function setSlugAttribute($value){
 
-        $this->attributes['slug'] = $slug;
-}
-public function getTitleAttribute($title)
-{
-	return ucwords($title);
-}
+        if (static::whereSlug($slug = Str::slug($value))->exists()) {
+                $slug = "{$slug}-{$this->id}";
+            }
+
+            $this->attributes['slug'] = $slug;
+    }
+    public function getTitleAttribute($title)
+    {
+        return ucwords($title);
+    }
 
 // public function toSearchableArray()
 //     {

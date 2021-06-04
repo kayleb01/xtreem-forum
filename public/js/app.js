@@ -10077,12 +10077,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios[this.active == true ? 'delete' : 'post']('/u/' + this.user.username + '/follow/' + this.follower + '', req);
       this.isActive = !this.isActive;
-
-      if (this.isActive) {
-        this.flashMessage.success({
-          message: "You are now following this user!"
-        });
-      }
     }
   }
 });
@@ -93486,7 +93480,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "panel panel-body rounded" }, [
-    _vm.signedIn && _vm.reply.user.id === _vm.user.id
+    (_vm.signedIn && _vm.reply.user.id === _vm.user.id) ||
+    (_vm.signedIn && _vm.user.isAdmin)
       ? _c("div", { staticClass: "dropdown float-right d-inline" }, [
           _c("button", {
             staticClass: " btn btn-flat dropdown-toggle",
@@ -93657,7 +93652,7 @@ var render = function() {
                   attrs: { content: _vm.body }
                 }),
                 _vm._v(" "),
-                _vm.reply.media.length > 0
+                _vm.reply.media.length != 0
                   ? _c(
                       "div",
                       [

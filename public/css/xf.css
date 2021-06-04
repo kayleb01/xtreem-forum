@@ -4,6 +4,49 @@
  *
  */
 
+/*
+ .img-container{
+     overflow: hidden;
+ }
+ .img-container img{
+     object-fit: cover;
+     transition: all 0,3s ease-out;
+     cursor: pointer;
+ }
+
+ .img-container img:hover{
+    transform: scale(1.1);
+
+ }
+ .medal{
+     background-color: rgba(0, 0, 0, 0.9);
+     top: 0;
+     left: 0;
+     position: fixed;
+     width: 100%;
+     height: 100%;
+     pointer-events: none;
+     opacity: 0;
+    transition: 0.25s ease-out;
+ }
+ .medal.open{
+     opacity: 1;
+     pointer-events: all;
+ }
+.full-img{
+    position:absolute;
+    height: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    transition: all 0.2s ease-out;
+}
+*/
+.lb-loader, .lightbox{
+   position:absolute !important;
+   display: block;
+
+}
  .line-border {
     border-left: 2px solid rgb(146, 146, 146);
     height: 100%;
@@ -169,6 +212,11 @@ background-color: #666;
   background-color: #eee;
 }
 @media(max-width: 640px){
+    .lb-loader, .lightbox{
+        position:absolute !important;
+        top: 1200px !important;
+
+     }
   .dropdawn-menu{
     top: 50px;
     left: -16px;
