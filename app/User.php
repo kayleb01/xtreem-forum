@@ -29,7 +29,7 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
      */
     protected $fillable = ['email', 'password', 'sex', 'location', 'dob', 'role', 'avatar', 'username', 'confirmation_token'];
 
-    protected $appends = [];
+    protected $appends = ['isAdmin'];
     /**
      * The attributes that should be cast to native types.
      *

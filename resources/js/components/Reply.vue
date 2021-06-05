@@ -1,6 +1,6 @@
 <template>
     <div  class="panel panel-body rounded">
-        <div class="dropdown float-right d-inline" v-if="signedIn && reply.user.id === user.id || signedIn && user.isAdmin">
+        <div class="dropdown float-right d-inline" v-if="signedIn && reply.user.id === user.id || signedIn && user.isAdmin == true">
             <button class=" btn btn-flat dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton">
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

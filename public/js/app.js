@@ -96487,7 +96487,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "panel panel-body rounded" }, [
     (_vm.signedIn && _vm.reply.user.id === _vm.user.id) ||
-    (_vm.signedIn && _vm.user.isAdmin)
+    (_vm.signedIn && _vm.user.isAdmin == true)
       ? _c("div", { staticClass: "dropdown float-right d-inline" }, [
           _c("button", {
             staticClass: " btn btn-flat dropdown-toggle",
