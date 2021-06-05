@@ -96824,8 +96824,11 @@ var render = function() {
                       {
                         name: "show",
                         rawName: "v-show",
-                        value: _vm.reply.reply_children.length > 0,
-                        expression: "reply.reply_children.length > 0"
+                        value:
+                          _vm.reply.reply_children.length > 0 ||
+                          _vm.items.length > 0,
+                        expression:
+                          "reply.reply_children.length > 0 ||items.length > 0"
                       }
                     ],
                     staticClass: "mt-2"

@@ -79,7 +79,7 @@
                                         <ReportModal :thread="reply.thread.id" :comment="reply.id" class="ml-5 pl-3" /><br><br>
                                 </div>
                             </div>
-                            <div v-show="reply.reply_children.length > 0" class="mt-2">
+                            <div v-show="reply.reply_children.length > 0 ||items.length > 0" class="mt-2">
                                 <div class="panel-body border-t">
                                     <span>
                                         <button type="button" @mouseover.once="getReply" class="text-sm btn btn-flat btn-block"  @click="childShow" :class="loading ? 'loader' : ''" :disabled="loading">
