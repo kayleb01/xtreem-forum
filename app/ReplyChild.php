@@ -8,7 +8,7 @@ class ReplyChild extends Model
 {
     protected $table = 'comment_child';
 
-    protected $fillable = ['user_id', 'comment_id', 'body'];
+    protected $fillable = ['user_id', 'reply_id', 'body'];
 
 
     public function user()
@@ -18,7 +18,7 @@ class ReplyChild extends Model
 
     public function comment()
     {
-        return $this->belongsTo(comment::class);
+        return $this->belongsTo(Reply::class);
 
     }
 

@@ -42,6 +42,15 @@
     transition: all 0.2s ease-out;
 }
 */
+.splide__track ul li img{
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    max-height:600px;
+    width: 100%;
+    display: block;
+    align-content: center;
+}
 .lb-loader, .lightbox{
    position:absolute !important;
    display: block;
@@ -217,6 +226,13 @@ background-color: #666;
         top: 1200px !important;
 
      }
+     .splide__track ul li img{
+        object-fit: cover;
+        /* height: 200px; */
+        align-self: center !important;
+        top: 0;
+        left: 0;
+    }
   .dropdawn-menu{
     top: 50px;
     left: -16px;

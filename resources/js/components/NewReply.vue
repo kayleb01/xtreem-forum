@@ -1,40 +1,41 @@
 <template>
     <div class="new-reply" >
-        <div v-if="! signedIn">
+        <div v-if="! signedIn" class="mb-4">
             <p class="text-center text-sm text-grey-dark">
-               <login/>
+               <a href="/login">Login</a>  to participate in this thread
             </p>
         </div>
         <div v-else-if="! confirmed">
             To participate in this thread, please check your email and confirm your account.
         </div>
         <div v-else id="reply">
-            <form action="" enctype="multipart/form-data">
-
-            </form>
-            <div class="mb-3 ml-2 mr-2">
-                <at-ta :members="usersat">
-                    <textarea name="body" placeholder="Type a reply..." v-model="form.body"
-                        class="editor w-full text-md rounded mt-3 p-2 resize-none outline"
-                        id="body" required>
-                    </textarea>
-                </at-ta>
-                <div v-if="file.length" class="grid gap-2" :class="{'grid-cols-2':file.length > 1}">
-                    <div v-for="(item , index) in file" :key="index" class="relative">
-                        <button type="button" @click="removeMedia(index, item)" class="m-1 top-0 left-0 absolute text-light bg-black opacity-75 rounded-full cusor-pointer hover:opacity-100 p-2" title="Remove Image">x</button>
-                        <img :src="item.url" alt="" class="rounded-lg object-cover h-48">
-                        <div :class="loading ? 'loader':''" class="absolute bg-black opacity-75 text-white"></div>
+            <form  enctype="multipart/form-data">
+                <div class="mb-3 ml-2 mr-2">
+                    <at-ta :members="usersat">
+                        <textarea name="body" placeholder="Type a reply..." v-model="form.body"
+                            class="editor w-full text-md rounded mt-3 p-2 resize-none outline"
+                            id="body" required>
+                        </textarea>
+                    </at-ta>
+                    <div v-if="file.length" class="grid gap-2" :class="{'grid-cols-2':file.length > 1}">
+                        <div v-for="(item , index) in file" :key="index" class="relative">
+                            <button type="button" @click="removeMedia(index, item)" class="m-1 top-0 left-0 absolute text-light bg-black opacity-75 rounded-full cusor-pointer hover:opacity-100 p-2" title="Remove Image">x</button>
+                            <img :src="item.url" alt="" class="rounded-lg object-cover h-48">
+                            <div :class="loading ? 'loader':''" class="absolute bg-black opacity-75 text-white"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <image-upload class="mt-2 p-1" @loaded="uploadImages"></image-upload>
-            <button type="submit"
+                <image-upload class="mt-2 p-1" @loaded="uploadImages"></image-upload>
+                <button type="submit"
                     class="btn btn-outline-secondary btn-block rounded-pill border border-secondary"
-                    @click="addReply" :class="loading ? 'loader' : ''" :disabled="loading">Post</button>
+                    @click="addReply" :class="loading ? 'loader' : ''" :disabled="loading"
+                    >
+                    Post
+                </button>
+            </form>
         </div>
     </div>
 </template>
-
 <script>
 
 import AtTa from 'vue-at/dist/vue-at-textarea';
@@ -100,7 +101,6 @@ export default {
                     this.$emit("created", data);
                 });
             }
-
         },
 
         getUsers(){
@@ -108,7 +108,7 @@ export default {
             .then( ( {data} ) => {
                 this.usersat = data
             })
-            .catch(err => console.log(errs ))
+            .catch(err => console.log(err))
         },
         uploadImages(files){
             Array.from(files).forEach((media) => {
@@ -125,7 +125,6 @@ export default {
                         url: e.target.result,
                         id: undefined,
                         loading: true
-
                     };
 
                     let formdata = new FormData();

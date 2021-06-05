@@ -7,7 +7,10 @@ require('./bootstrap');
 import FlashMessage from '@smartweb/vue-flash-message';
 import 'animate.css';
 import moment from 'moment';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import VModal from 'vue-js-modal';
+import Vue from 'vue';
 
 
 window.Vue = require('vue').default
@@ -17,6 +20,7 @@ Vue.prototype.humanTime = timestamp => moment(timestamp).fromNow();
 
 Vue.use(FlashMessage);
 Vue.use(VModal);
+Vue.use(VueSweetalert2);
 
 /**;
  * The following block of code may be used to automatically register your
@@ -49,7 +53,7 @@ const app = new Vue({
             tab:[ 'Threads', 'Comments'],
             select: 'Threads',
             selectedTab: 'Featured',
-             searching: false
+            searching: false
     	};
     },
 

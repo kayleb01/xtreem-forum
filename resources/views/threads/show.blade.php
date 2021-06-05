@@ -16,12 +16,9 @@
             </ol>
             <div>
                 @include ('threads.thread')
-                <replies @added="repliesCount++" @removed="repliesCount--"></replies>
+                <replies @removed="repliesCount--"></replies>
             </div>
         </div>
-
-
-
     </div>
 </div>
 

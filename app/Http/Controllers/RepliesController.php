@@ -171,7 +171,7 @@ class RepliesController extends Controller
     public function replies($slug){
         $thread = thread::where('slug', '=', $slug)->first();
         return Reply::where('thread_id', $thread->id)
-                        ->with(['user','thread', 'media'])
+                        ->with(['user','thread', 'media', 'likess'])
                         ->paginate(10);
     }
 }

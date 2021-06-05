@@ -1,25 +1,39 @@
 <template>
     <div>
-        <input id="trix" type="hidden" :name="name" :value="value" required>
+       <form  enctype="multipart/form-data">
+            <div class="mb-3 ml-2 mr-2">
+                <at-ta :members="usersat">
+                    <textarea
+                        :name="name"
+                        :value="value"
+                        class="editor w-full text-md rounded mt-3 p-2 resize-none outline"
+                        id="body"
+                        :placeholder="placeholder"
+                        @change="change"
+                        required
+                    >
+                    </textarea>
+                </at-ta>
+            </div>
+        </form>
 
-        <textarea
-
-                @change="change"
-                :placeholder="placeholder"
-                required v-model="name">
-        </textarea>
     </div>
 </template>
 
-<style lang="scss">
-
-</style>
-
 <script>
+import AtTa from 'vue-at/dist/vue-at-textarea';
 
 
     export default {
+        components: { AtTa },
         props: ['name', 'value', 'placeholder'],
+
+        data(){
+            return{
+            usersat:[],
+
+            }
+        },
 
         methods: {
             change({target}) {
@@ -33,12 +47,20 @@
                     this.$refs.trix.value = '';
                 }
             }
-        }
+        },
+
+        getUsers(){
+            axios.post('api/users')
+            .then( ( {data} ) => {
+                this.usersat = data
+            })
+            .catch(err => console.log(errs ))
+        },
     }
 </script>
 
 <style scoped>
-trix-editor {
+textarea {
     min-height: 100px;
 }
 </style>

@@ -160,7 +160,7 @@ class ThreadsController extends Controller
         $thread->increment('visits');
 
         $trending->push($thread);
-        $reply = Reply::where('thread_id', '=', $thread->id)->with('thread')->paginate(20);
+        $reply = Reply::where('thread_id', $thread->id)->with('thread', 'media', 'likess', 'user')->paginate(20);
         $title = $thread->title;
         $trending = $trending->get();
         return view('threads.show')->with(['thread' => $thread, 'reply' => $reply, 'title' => $title, 'newThread' => $newThread, 'trending' => $trending]);

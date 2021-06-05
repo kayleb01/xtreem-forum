@@ -34,6 +34,14 @@
                             <div class="mb-4">
                                 <wysiwyg v-model="body" name="body"></wysiwyg>
                             </div>
+                            <div class="row no-gutters" v-if="reply.media.length > 0">
+                                <div class="col-3 p-2" v-for="(media, index) in reply.media" :key="index">
+                                    <span class="media" style="overflow:hidden">
+                                        <button type="button" @click="removeImg(index, media)" class="m-1 top-0 left-0 absolute text-light bg-black opacity-50 text-xs rounded-full cusor-pointer hover:opacity-100 p-1" title="Remove Image">x</button>
+                                        <img :src="media.ImageUrl" alt="image">
+                                    </span>
+                                </div>
+                            </div>
                             <div class="flex justify-content-center">
                                     <button class="btn mr-2" @click="cancel" type="button"><i class="fa fa-power-off" style="color: red;"></i> Cancel</button>
                                    <button type="submit" class="btn btn-outline-flat"><i class="fa fa-check"></i>Update</button>
@@ -44,13 +52,16 @@
                         <highlight :content="body" class="panel-body"></highlight>
                             <div v-if="reply.media.length != 0">
                                 <span v-if="reply.media.length == 1" class="grid gap-2 p-2 block">
-                                     <img :src="reply.media[0].ImageUrl" class="rounded-lg">
+                                     <img :src="reply.media[0].ImageUrl" class="rounded-lg" >
                                 </span>
-                                <splide :options="options" class="grid gap-2 p-2 block" v-else>
-                                    <splide-slide v-for="mdia in reply.media" :key="mdia.id">
-                                        <img :src="mdia.ImageUrl" class="rounded-lg">
-                                    </splide-slide>
-                                </splide>
+                                <div class="" v-else>
+                                  <splide :options="options" class="grid gap-2 p-2 block " >
+                                        <splide-slide v-for="mdia in reply.media" :key="mdia.id" >
+                                            <img :src="mdia.ImageUrl" class="rounded-lg" style="object-fit: cover !important;">
+                                        </splide-slide>
+                                    </splide>
+                                </div>
+
                             </div>
                             <div v-if="signedIn" class="text-xs pl-2" style="padding-top:3px">
                                 <div class="d-flex justify-content-center">
@@ -95,12 +106,10 @@
                                                             </span><br/>
                                                         <div class="replyChild-body">
                                                             <small><highlight :content="replyChildren.body"></highlight></small>
-
                                                         </div>
                                                         </td>
                                                     </tr>
                                                 </table>
-
                                         </div>
                                      </div>
                                 </div>
@@ -151,10 +160,6 @@ export default {
         };
     },
 
-    mounted() {
-       //
-    },
-
     computed: {
         ago() {
             return moment(this.reply.created_at).fromNow() ;
@@ -162,11 +167,9 @@ export default {
 
     },
 
-
     methods: {
 
          replyShow(){
-
             this.replyClick = !this.replyClick;
         },
          childShow(){
@@ -192,10 +195,30 @@ export default {
                 });
         },
         childDestroy(id){
-            axios
-                .delete("/replychildren/" + id);
-                this.$emit("destroyed", id);
-                this.getReply();
+              this.$swal.fire({
+                title: 'Are you sure?',
+                text: 'You are about to delete a reply, cannot be undone',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor:'#3085d6',
+                cancelButtonColor:'#d33',
+                confirmButtonText: 'Yes, delete!',
+                cancelButtonText:'No, cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if(result.isConfirmed){
+                axios
+                    .delete("/replychildren/" + id);
+                    this.$emit("destroyed", id);
+                    this.getReply();
+            }else if(
+                    result.dismiss === this.$swal.DismissReason.cancel
+                ){
+                    this.$swal.fire(
+                        'Cancelled'
+                    )
+                }
+            })
         },
         cancel() {
             this.editing = false;
@@ -208,9 +231,31 @@ export default {
         },
 
         destroy() {
+             this.$swal.fire({
+                title: 'Are you sure?',
+                text: 'You are about to delete a reply, cannot be undone',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor:'#3085d6',
+                cancelButtonColor:'#d33',
+                confirmButtonText: 'Yes, delete!',
+                cancelButtonText:'No, cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if(result.isConfirmed){
+
             axios.delete("/xf/destroy/" + this.id + "/comment" );
 
             this.$emit("deleted", this.id);
+
+            }else if(
+                    result.dismiss === this.$swal.DismissReason.cancel
+                ){
+                    this.$swal.fire(
+                        'Cancelled'
+                    )
+                }
+            })
         },
 
          fetch() {
@@ -230,6 +275,40 @@ export default {
             this.items = data.data;
 
             // window.scrollTo(0, 0);
+        },
+
+        removeImg(index, item){
+            this.$swal.fire({
+                title: 'Are you sure?',
+                text: 'You are about to delete an image, cannot be undone',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor:'#3085d6',
+                cancelButtonColor:'#d33',
+                confirmButtonText: 'Yes, delete!',
+                cancelButtonText:'No, cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if(result.isConfirmed){
+                     this.reply.media.splice(index, 1);
+                    if(item.id){
+                        axios.delete(`/media/${item.id}`)
+                        .catch(err => {console.log(err)
+                        this.reply.media.splice(index, 0, item)
+                        })
+                    }
+                    this.$swal.fire(
+                        'Image deleted!',
+                    )
+                }else if(
+                    result.dismiss === this.$swal.DismissReason.cancel
+                ){
+                    this.$swal.fire(
+                        'Cancelled'
+                    )
+                }
+            })
+
         }
     }
 
