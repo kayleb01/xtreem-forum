@@ -69,7 +69,7 @@ Route::get('admin/users/{id}/restore', 'adminController@restore')->name('admin/u
 Route::put('admin/update', ['as'=> 'admin/update', 'uses' => 'adminController@update'])->middleware('auth');
 Route::get('admin/ban_search', 'adminController@search_ban')->name('admin/ban_search')->middleware('auth');
 Route::delete('admin.destroy/{id}', ['as' => 'admin.destroy', 'uses' => 'adminController@destroy'])->middleware('auth');
-Route::get('admin/new', function(){return view('Admin.new_user');});
+Route::get('admin/new', 'adminController@admin_new')->middleware('auth');
 Route::put('admin/store', ['as' => 'admin/store', 'uses' => 'adminController@store'])->middleware('auth');
 //roles
 Route::get('admin/role', ['as' => 'admin/role', 'uses' => 'RolesController@role'])->middleware('auth');

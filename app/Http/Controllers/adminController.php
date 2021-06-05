@@ -195,4 +195,9 @@ public function restore($id){
  }
 }
 
+public function admin_new()
+{
+    return view('Admin.new_user');
+}
+
 }//end of the class

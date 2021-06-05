@@ -187,9 +187,7 @@ class Reply extends Model
     }
 
 /**
-*
-*
-*
+* Get media attribute
 **/
 public function getMediaAttribute(){
         return $this->media()->where('model_id', $this->id)->get();
