@@ -62,7 +62,7 @@
     z-index: -1;
   }
 
-.card .panel-body{ background-color: #f9f9f9 !important;}
+.card .panel-body{ background-color: #f9f9f9; }
 .bg-img
 {
     background-image: url("/storage/img/bg.gif");
@@ -130,6 +130,7 @@ background-color:#edeff1;
 .replyChild-body{
   margin-left: 35px;
   display: block;
+  width: 100%;
 }
 .container{
   padding: 1px !important;

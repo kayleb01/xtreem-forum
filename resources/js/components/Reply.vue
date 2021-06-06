@@ -1,5 +1,5 @@
 <template>
-    <div  class="panel panel-body rounded">
+    <div  class="panel panel-body bg-light rounded">
         <div class="dropdown float-right d-inline" v-if="signedIn && reply.user.id === user.id || signedIn && user.isAdmin == true">
             <button class=" btn btn-flat dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton">
             </button>
@@ -102,7 +102,7 @@
                                                         height="37"
                                                         class="image-child responsive">
                                                             <span class=" text-black">
-                                                                <a class="font-weight-bold text-black"  :href="'/u/' + replyChildren.user.username" v-text="replyChildren.user.username"></a> &sdot;<small class="text-muted">{{humanTime(replyChildren.created_at)}}</small>
+                                                                <a class="font-weight-bold text-black text-xs"  :href="'/u/' + replyChildren.user.username" v-text="replyChildren.user.username"></a> &sdot;<small class="text-muted text-xs">{{humanTime(replyChildren.created_at)}}</small>
                                                             </span><br/>
                                                         <div class="replyChild-body">
                                                             <small><highlight :content="replyChildren.body"></highlight></small>

@@ -30,7 +30,7 @@
                             @endif
 
                             </div>
-                            <div class="thread-use">
+                            <div class="thread-use bg-light">
                              <table  style="margin-bottom: 0;border-radius: 0;">
                                   <tr>
                                     <td style="max-width:350px;">
@@ -66,7 +66,7 @@
                             </div>
                                   <hr style="margin: 0;">
 
-                            <div class="thread-body">
+                            <div class="thread-body bg-light">
                               {!!$thread->body!!}
                               @if(count($thread->media) > 0)
                                 <div class="row no-gutters ">

@@ -96485,7 +96485,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "panel panel-body rounded" }, [
+  return _c("div", { staticClass: "panel panel-body bg-light rounded" }, [
     (_vm.signedIn && _vm.reply.user.id === _vm.user.id) ||
     (_vm.signedIn && _vm.user.isAdmin == true)
       ? _c("div", { staticClass: "dropdown float-right d-inline" }, [
@@ -96933,7 +96933,7 @@ var render = function() {
                                           [
                                             _c("a", {
                                               staticClass:
-                                                "font-weight-bold text-black",
+                                                "font-weight-bold text-black text-xs",
                                               attrs: {
                                                 href:
                                                   "/u/" +
@@ -96948,7 +96948,10 @@ var render = function() {
                                             _vm._v(" ⋅"),
                                             _c(
                                               "small",
-                                              { staticClass: "text-muted" },
+                                              {
+                                                staticClass:
+                                                  "text-muted text-xs"
+                                              },
                                               [
                                                 _vm._v(
                                                   _vm._s(
