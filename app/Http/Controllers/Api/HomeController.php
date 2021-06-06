@@ -7,6 +7,7 @@ use App\comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Reply;
 
 class HomeController extends Controller
 {
@@ -33,21 +34,11 @@ class HomeController extends Controller
                     ->orWhereIn('threads.user_id', auth()->user()->following->pluck('id'));
         })->with([
             'user',
-            'comment' => function($q){
+            'reply' => function($q){
                 $q->where('user_id',  auth()->user()->following->pluck('id'));
             }
-
-        ])->withCount([
-
-            'like',
-            'like as likes' => function($q){
-                $q->where('user_id',  auth()->user()->following->pluck('id'));
-            }
-
         ])->latest()
-          ->paginate(100);
-            $comments = comment::with(['thread', 'user'])->where('user_id', auth()->user()->following->pluck('id'))->latest()->get();
-
+          ->paginate(30);
 
         if ($request->wantsJson($feed)) {
           return response()->json($feed);

@@ -19,7 +19,7 @@
                      height="36"
                      class="image-circle responsive">
                         <span class=" text-black">
-                            <a class="font-weight-bold text-black "  :href="'/u/' + reply.user.username" v-text="reply.user.username"></a> &sdot;<span class="text-muted">{{humanTime(reply.created_at)}}</span>
+                            <a class="font-weight-bold text-black text-md"  :href="'/u/' + reply.user.username" v-text="reply.user.username"></a> &sdot;<span class="text-muted text-md"> {{humanTime(reply.created_at)}}</span>
                         </span><br/>
                         <div class="timestamp small" style="width: 400px">
                         replying to @{{reply.thread.user}}
@@ -52,12 +52,12 @@
                         <highlight :content="body" class="panel-body"></highlight>
                             <div v-if="reply.media.length != 0">
                                 <span v-if="reply.media.length == 1" class="grid gap-2 p-2 block">
-                                     <img :src="reply.media[0].ImageUrl" class="rounded-lg" >
+                                     <img :src="reply.media[0].ImageUrl" class="rounded-lg lazy" >
                                 </span>
                                 <div class="" v-else>
                                   <splide :options="options" class="grid gap-2 p-2 block " >
                                         <splide-slide v-for="mdia in reply.media" :key="mdia.id" >
-                                            <img :src="mdia.ImageUrl" class="rounded-lg" style="object-fit: cover !important;">
+                                            <img :src="mdia.ImageUrl" class="rounded-lg lazy" style="object-fit: cover !important; ">
                                         </splide-slide>
                                     </splide>
                                 </div>

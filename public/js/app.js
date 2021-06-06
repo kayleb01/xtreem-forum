@@ -96565,13 +96565,13 @@ var render = function() {
                 _vm._v(" "),
                 _c("span", { staticClass: " text-black" }, [
                   _c("a", {
-                    staticClass: "font-weight-bold text-black ",
+                    staticClass: "font-weight-bold text-black text-md",
                     attrs: { href: "/u/" + _vm.reply.user.username },
                     domProps: { textContent: _vm._s(_vm.reply.user.username) }
                   }),
                   _vm._v(" ⋅"),
-                  _c("span", { staticClass: "text-muted" }, [
-                    _vm._v(_vm._s(_vm.humanTime(_vm.reply.created_at)))
+                  _c("span", { staticClass: "text-muted text-md" }, [
+                    _vm._v(" " + _vm._s(_vm.humanTime(_vm.reply.created_at)))
                   ])
                 ]),
                 _c("br"),
@@ -96709,7 +96709,7 @@ var render = function() {
                       _vm.reply.media.length == 1
                         ? _c("span", { staticClass: "grid gap-2 p-2 block" }, [
                             _c("img", {
-                              staticClass: "rounded-lg",
+                              staticClass: "rounded-lg lazy",
                               attrs: { src: _vm.reply.media[0].ImageUrl }
                             })
                           ])
@@ -96726,7 +96726,7 @@ var render = function() {
                                 _vm._l(_vm.reply.media, function(mdia) {
                                   return _c("splide-slide", { key: mdia.id }, [
                                     _c("img", {
-                                      staticClass: "rounded-lg",
+                                      staticClass: "rounded-lg lazy",
                                       staticStyle: {
                                         "object-fit": "cover !important"
                                       },

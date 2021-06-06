@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\comment;
+use App\Reply;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DB;
 
 
 class HomeController extends Controller
@@ -33,7 +34,7 @@ class HomeController extends Controller
             $query->where('user_id', auth()->id())
                     ->orWhere('user_id', auth()->user()->following->pluck('id'));
 
-        })->withCount([
+        })->with([
             'likes',
             'likes as like' => function($q){
                 $q->where('user_id', auth()->id())
@@ -41,16 +42,19 @@ class HomeController extends Controller
             }
         ])
         ->withCasts(['likes'=> 'boolean'])
-        ->join('comments', 'threads.id', '=', 'thread_id')
+        ->join('replies', 'threads.id', '=', 'thread_id')
         ->with('user')
         ->get();
 
-        $comments = comment::with(['thread', 'user'])->where('user_id', auth()->user()->following->pluck('id'));
+        $comments = Reply::with(['thread', 'user'])->where('user_id', auth()->user()->following->pluck('id'));
 
         $merger = array_merge($feed, $comments);
 
         if ($request->wantsJson($merger)) {
           return response()->json($merger);
         }
+
+        return response()->json($merger);
+
     }
 }

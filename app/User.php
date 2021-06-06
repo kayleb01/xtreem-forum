@@ -175,7 +175,7 @@ protected $dates = ['created_at', 'banned_at', 'updated_at', 'deleted_at', 'dob'
 
     public function getIsFollowingAttribute()
     {
-        return $this->following()->where('follower_id', '=', auth()->id());
+        return $this->following()->where('follower_id', auth()->id());
     }
 /**
      * Get the cache key for when a user reads a thread.

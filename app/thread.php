@@ -91,7 +91,7 @@ protected $appends = ['path'];
     }
 
  public function like(){
-        return $this->hasMany(like::class, 'likable_id');
+        return $this->morphMany(like::class, 'likable');
     }
 
 public function creator(){
