@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
-Route::get('/feed', 'Api\HomeController@index')->middleware('auth');
+Route::get('/feed', 'HomeController@index')->middleware('auth');
 Route::post('replyChild/{id}', 'ReplyChildController@store');
 Route::get('replychild/{id}', 'ReplyChildController@index');
 Route::delete('replychildren/{id}', 'ReplyChildController@destroy');

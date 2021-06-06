@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\comment;
 use App\Reply;
+use App\thread;
 use Illuminate\Http\Request;
 use DB;
 
@@ -29,32 +29,24 @@ class HomeController extends Controller
     public function index(Request $request)
     {
 
-        $feed = DB::table('threads')->where(function($query) {
+      $thread = thread::where(function($query){
+          $query->where('threads.user_id', auth()->id())
+                ->orWhereIn('threads.user_id', auth()->user()->following->pluck('id'));
 
-            $query->where('user_id', auth()->id())
-                    ->orWhere('user_id', auth()->user()->following->pluck('id'));
+      })->with(['user'])->latest()
+            ->paginate(10);
 
-        })->with([
-            'likes',
-            'likes as like' => function($q){
-                $q->where('user_id', auth()->id())
-                    ->orWhere('user_id',  auth()->user()->following->pluck('id'));
+
+        $reply = Reply::where(function($query){
+            $query->where('replies.user_id', auth()->id())
+                    ->orWhereIn('replies.user_id', auth()->user()->following->pluck('id'));
+        });
+        $feed = $thread;
+            if ($request->wantsJson($feed)) {
+              return response()->json($feed);
             }
-        ])
-        ->withCasts(['likes'=> 'boolean'])
-        ->join('replies', 'threads.id', '=', 'thread_id')
-        ->with('user')
-        ->get();
-
-        $comments = Reply::with(['thread', 'user'])->where('user_id', auth()->user()->following->pluck('id'));
-
-        $merger = array_merge($feed, $comments);
-
-        if ($request->wantsJson($merger)) {
-          return response()->json($merger);
-        }
-
-        return response()->json($merger);
-
+            return $feed;
     }
+
 }
+
