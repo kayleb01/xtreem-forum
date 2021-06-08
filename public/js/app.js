@@ -9261,6 +9261,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -9566,7 +9567,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["thread", "comment"],
+  props: ["thread", "reply"],
   data: function data() {
     return {
       form: {
@@ -9576,7 +9577,7 @@ __webpack_require__.r(__webpack_exports__);
       loading: false,
       report: "",
       isThread: this.thread,
-      isComment: this.comment
+      isReply: this.reply
     };
   },
   methods: {
@@ -9586,7 +9587,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(location.pathname + "/sendReport", {
         report: this.report,
         thread: this.isThread,
-        comment: this.isComment
+        reply_id: this.isReply
       })["catch"](function (error) {
         _this.flashMessage.error({
           message: "An internal error occured, please try again later"
@@ -94702,7 +94703,7 @@ var render = function() {
       _c("div", { staticClass: "flex bg-light p-2 rounded-lg" }, [
         _c("div", { staticClass: "flex-shrink-0 h-12 w-14" }, [
           _c("img", {
-            staticClass: " h-12 rounded-lg sm:mx-0 sm:flex-shrink-0",
+            staticClass: " h-10  w-11 rounded-lg sm:mx-0 sm:flex-shrink-0",
             attrs: {
               loading: "lazy",
               src:
@@ -94725,12 +94726,13 @@ var render = function() {
                   expression: "feed.user.username != user.username"
                 }
               ],
-              staticClass: "text-sm font-semibold text-grey-dark"
+              staticClass: "text-sm text-grey-600"
             },
             [
               _c(
                 "svg",
                 {
+                  staticClass: "d-inline",
                   attrs: {
                     id: "Capa_1",
                     "enable-background": "new 0 0 512 512",
@@ -96538,7 +96540,7 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticStyle: { padding: "5px" } }, [
+    _c("div", { staticClass: "pt-2", staticStyle: { padding: "5px" } }, [
       _c(
         "div",
         {
@@ -96585,7 +96587,7 @@ var render = function() {
                   [
                     _vm._v(
                       "\n                    replying to @" +
-                        _vm._s(_vm.reply.thread.user) +
+                        _vm._s(_vm.reply.thread.user.username) +
                         "\n                    "
                     )
                   ]
@@ -96805,7 +96807,7 @@ var render = function() {
                               staticClass: "ml-5 pl-3",
                               attrs: {
                                 thread: _vm.reply.thread.id,
-                                comment: _vm.reply.id
+                                reply: _vm.reply.id
                               }
                             }),
                             _c("br"),

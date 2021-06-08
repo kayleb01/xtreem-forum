@@ -19,9 +19,6 @@
 <link rel="stylesheet" href="{{url('css/core.css')}}">
 
 <!-- <script src="{{url('js/Popper.js')}}" type="text/javascript"></script> -->
-
-
-
     <!-- Scripts -->
     <script>
         window.App = {!! json_encode([
@@ -40,8 +37,8 @@
   </noscript>
 <div id="app">
     <div class="wrapper">
-         <nav class="navbar navbar-static-top navbar-expand-sm x-c">
-            <a class="navbar-brand" href="/"><img  class="navbar-brand" src="/storage/img/logo.png" width="150" height="40" class="logo"></a>
+         <nav class="navbar navbar-static-top navbar-expand-sm x-c p-1">
+            <a class="navbar-brand" href="/"><img  class="navbar-brand" src="/storage/img/logo.png" width="150" height="35" class="logo"></a>
                 <button class="navbar-toggler" type="button text-light" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon" ><i class="fa fa-bars text-light"></i></span>
                 </button>
@@ -98,57 +95,5 @@
    </div> <!-- end of ID-APP -->
    @yield('scripts')
  <script type="text/javascript" src="{{mix('js/app.js')}}"></script>
- <script>
-     document.addEventListener("DOMContentLoaded", function() {
-  var lazyloadImages;
-
-  if ("IntersectionObserver" in window) {
-    lazyloadImages = document.querySelectorAll(".lazy");
-    var imageObserver = new IntersectionObserver(function(entries, observer) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          var image = entry.target;
-          image.src = image.dataset.src;
-          image.classList.remove("lazy");
-          imageObserver.unobserve(image);
-        }
-      });
-    });
-
-    lazyloadImages.forEach(function(image) {
-      imageObserver.observe(image);
-    });
-  } else {
-    var lazyloadThrottleTimeout;
-    lazyloadImages = document.querySelectorAll(".lazy");
-
-    function lazyload () {
-      if(lazyloadThrottleTimeout) {
-        clearTimeout(lazyloadThrottleTimeout);
-      }
-
-      lazyloadThrottleTimeout = setTimeout(function() {
-        var scrollTop = window.pageYOffset;
-        lazyloadImages.forEach(function(img) {
-            if(img.offsetTop < (window.innerHeight + scrollTop)) {
-              img.src = img.dataset.src;
-              img.classList.remove('lazy');
-            }
-        });
-        if(lazyloadImages.length == 0) {
-          document.removeEventListener("scroll", lazyload);
-          window.removeEventListener("resize", lazyload);
-          window.removeEventListener("orientationChange", lazyload);
-        }
-      }, 20);
-    }
-
-    document.addEventListener("scroll", lazyload);
-    window.addEventListener("resize", lazyload);
-    window.addEventListener("orientationChange", lazyload);
-  }
-})
- </script>
-
 </body>
 </html>

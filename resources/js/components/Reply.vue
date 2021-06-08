@@ -8,7 +8,7 @@
                 <a  class="dropdown-item" :href="'/moderation/'+ reply.user.id + '/ban'" v-if="user.role === 1 || user.role === 2">Ban User</a>
             </div>
         </div>
-        <div class="" style="padding:5px;">
+        <div class="pt-2" style="padding:5px;">
             <div class="thread-user" style="margin-left:-63px; margin-top:-8px">
                 <table>
                     <tr>
@@ -22,7 +22,7 @@
                             <a class="font-weight-bold text-black text-md"  :href="'/u/' + reply.user.username" v-text="reply.user.username"></a> &sdot;<span class="text-muted text-md"> {{humanTime(reply.created_at)}}</span>
                         </span><br/>
                         <div class="timestamp small" style="width: 400px">
-                        replying to @{{reply.thread.user}}
+                        replying to @{{reply.thread.user.username}}
                         </div>
                     </td>
                     </tr>
@@ -76,7 +76,7 @@
                                         <a  @click="replyShow" class="ml-4 pl-3 bg-color-black" title="Reply" v-show="reply.replyChild_count <= 5">
                                             <i class="fa fa-share-square"></i>
                                         </a>
-                                        <ReportModal :thread="reply.thread.id" :comment="reply.id" class="ml-5 pl-3" /><br><br>
+                                        <ReportModal :thread="reply.thread.id" :reply="reply.id" class="ml-5 pl-3" /><br><br>
                                 </div>
                             </div>
                             <div v-show="reply.reply_children.length > 0 ||items.length > 0" class="mt-2">
@@ -96,17 +96,18 @@
                                                 <table>
                                                     <tr>
                                                         <td>
-                                                        <img :src="'/storage/img/' + (replyChildren.user.avatar ? replyChildren.user.avatar  : 'default.jpg')"
-                                                        :alt="replyChildren.user.username"
-                                                        width="36"
-                                                        height="37"
-                                                        class="image-child responsive">
+                                                            <img :src="'/storage/img/' + (replyChildren.user.avatar ? replyChildren.user.avatar  : 'default.jpg')"
+                                                                :alt="replyChildren.user.username"
+                                                                width="36"
+                                                                height="37"
+                                                                class="image-child responsive"
+                                                            >
                                                             <span class=" text-black">
                                                                 <a class="font-weight-bold text-black text-xs"  :href="'/u/' + replyChildren.user.username" v-text="replyChildren.user.username"></a> &sdot;<small class="text-muted text-xs">{{humanTime(replyChildren.created_at)}}</small>
                                                             </span><br/>
-                                                        <div class="replyChild-body">
-                                                            <small><highlight :content="replyChildren.body"></highlight></small>
-                                                        </div>
+                                                            <div class="replyChild-body">
+                                                                <small><highlight :content="replyChildren.body"></highlight></small>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 </table>

@@ -4,7 +4,6 @@ namespace App;
 
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Filters\ThreadFilters;
 use App\Events\ThreadRecievedNewReply;
@@ -20,7 +19,7 @@ class thread extends Model
 
 //**Don't apply mass assignment protection
 protected $guarded = [];
-//protected $with = ['user', 'category', 'creator'];
+protected $with = ['user'];
 protected $appends = ['path'];
 
  /**
@@ -90,87 +89,87 @@ protected $appends = ['path'];
         return $this->morphMany(Media::class, 'model');
     }
 
- public function like(){
+    public function like(){
         return $this->morphMany(like::class, 'likable');
     }
 
-public function creator(){
-	return $this->belongsTo(User::class, 'user_id');
-}
+    public function creator(){
+	    return $this->belongsTo(User::class, 'user_id');
+    }
 
-public function user(){
-	return $this->belongsTo(User::class);
-}
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
-public function forum(){
-	return $this->belongsTo(Forum::class, 'forum_id');
-}
+    public function forum(){
+        return $this->belongsTo(Forum::class, 'forum_id');
+    }
 
-// Belong to categories
-public function category(){
-	return $this->belongsTo(Categories::class, 'category_id');
-}
+    // Belong to categories
+    public function category(){
+        return $this->belongsTo(Categories::class, 'category_id');
+    }
 
-public function reply(){
-	return $this->hasMany(Reply::class, 'thread_id');
-}
+    public function reply(){
+        return $this->hasMany(Reply::class, 'thread_id');
+    }
 
-public function notifyReplies($reply){
-	//Notify that a reply has been added...
-	event(new ThreadRecievedNewReply($reply));
+    public function notifyReplies($reply){
+        //Notify that a reply has been added...
+        event(new ThreadRecievedNewReply($reply));
 
-	return $reply;
-}
+        return $reply;
+    }
 
-public function subscription(){
-	return $this->hasMany(subscription::class);
-}
-
-
-//apply all relevant filters to the thread
-public function addFilters($query, threadFilters $filters){
-	return $filters->apply($query);
-}
+    public function subscription(){
+        return $this->hasMany(subscription::class);
+    }
 
 
-//users subscription to threads
-public function subscribe($userID = NULL){
-	 $this->subscription()->create([
-		'user_id'       => $userID ?: auth()->id()
-	]);
-	 return $this;
-}
+    //apply all relevant filters to the thread
+    public function addFilters($query, threadFilters $filters){
+        return $filters->apply($query);
+    }
 
-public function unsub($userID = NULL){
-	return $this->subscription()
-				->where('user_id', $userID ?:auth()->id())
-				->delete();
-}
-//Check if the user is subscribed
-public function getIsSubscribedToAttribute(){
-	 if (! auth()->id()) {
+
+    //users subscription to threads
+    public function subscribe($userID = NULL){
+        $this->subscription()->create([
+            'user_id'       => $userID ?: auth()->id()
+        ]);
+        return $this;
+    }
+
+    public function unsub($userID = NULL){
+        return $this->subscription()
+                    ->where('user_id', $userID ?:auth()->id())
+                    ->delete();
+    }
+    //Check if the user is subscribed
+    public function getIsSubscribedToAttribute(){
+        if (! auth()->id()) {
             return false;
         }
         return $this->subscription()
-            ->where('user_id', auth()->id())
-            ->exists();
+                ->where('user_id', auth()->id())
+                ->exists();
 
-}
+    }
 
-public function hasBeenUpdatedUser($user){
-	$key = $user->visitedThreadCacheKey($this);
-	return $this->updated_at > cache($key);
-}
+    public function hasBeenUpdatedUser($user){
+        $key = $user->visitedThreadCacheKey($this);
+        return $this->updated_at > cache($key);
+    }
 
-public function getRouteNameKey()
-{
-	return 'slug';
-}
+    public function getRouteNameKey()
+    {
+        return 'slug';
+    }
 
-public function getPathAttribute()
-{
-   return $this->path();
-}
+    public function getPathAttribute()
+    {
+        return $this->path();
+    }
 
 
 
@@ -180,13 +179,17 @@ public function getPathAttribute()
                 $slug = "{$slug}-{$this->id}";
             }
 
-            $this->attributes['slug'] = $slug;
+        $this->attributes['slug'] = $slug;
     }
     public function getTitleAttribute($title)
     {
         return ucwords($title);
     }
 
+    // public function getUserAttribute()
+    // {
+    //     return $this->user();
+    // }
 // public function toSearchableArray()
 //     {
 //         return $this->toArray() + ['path' => $this->path()];

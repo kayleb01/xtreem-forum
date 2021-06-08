@@ -24,6 +24,6 @@
                                 {{ csrf_field() }}
                             </form>
                     </div>
-                            
-            </li>   
+
+            </li>
             <user-notifications></user-notifications>

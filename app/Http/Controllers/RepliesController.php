@@ -47,10 +47,10 @@ class RepliesController extends Controller
         ]);
         $thread = thread::where('slug', '=', $slug)->first();
         if ($thread->locked) {
-            return response('Thread is locked', 422);
+            return response()->json(['error' => 'Thread is locked'], 422);
         }
-        if (Auth::user()->is_banned) {
-           return response('You are currently serving a ban, you cannot post a comment', 422);
+        if (auth()->user()->is_banned) {
+           return response()->json('You are currently serving a ban, you cannot post a comment', 422);
         }
          if (config('xf.security.limit_time_between_post')) {
             if ($this->time_btw_threads()) {
@@ -171,7 +171,7 @@ class RepliesController extends Controller
     public function replies($slug){
         $thread = thread::where('slug', '=', $slug)->first();
         return Reply::where('thread_id', $thread->id)
-                        ->with(['user','thread', 'media', 'likess'])
+                        ->with(['user','thread', 'likess'])
                         ->paginate(10);
     }
 }

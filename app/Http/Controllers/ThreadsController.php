@@ -150,7 +150,7 @@ class ThreadsController extends Controller
     public function show($slug, Trending $trending, NewThread $NewThread)
     {
 
-       $threads  = thread::where('slug', '=', $slug)->with(['user', 'media'])->get();
+       $threads  = thread::where('slug', $slug)->with(['media'])->get();
         // if (auth()->check()) {
         //    auth()->user()->read($threads);
         //      }
@@ -160,7 +160,7 @@ class ThreadsController extends Controller
         $thread->increment('visits');
 
         $trending->push($thread);
-        $reply = Reply::where('thread_id', $thread->id)->with('thread', 'media', 'likess', 'user')->paginate(20);
+        $reply = Reply::where('thread_id', $thread->id)->with('media')->paginate(20);
         $title = $thread->title;
         $trending = $trending->get();
         return view('threads.show')->with(['thread' => $thread, 'reply' => $reply, 'title' => $title, 'newThread' => $newThread, 'trending' => $trending]);
@@ -263,14 +263,15 @@ class ThreadsController extends Controller
      */
     public function destroy(thread $id)
     {
-       if(Auth::user()->role == 1 || Auth::user()->role == 2 )
+       if(auth()->user()->role == 2 || auth()->user()->isAdmin )
         {//$this->authorize('update', $thread);
         $thread = $id;
         $thread->delete();
 
         if (request()->wantsJson()) {
-            return response([], 204);
+            return response(['message' => 'Thread deleted'], 204);
         }
+
         return redirect('/forum/'.$thread->forum->name.'')->with('success', 'Thread deleted');
         }else{
             return redirect()->back()->with('error', 'Unable to delete');

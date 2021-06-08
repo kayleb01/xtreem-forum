@@ -11,14 +11,14 @@ class ReportController extends Controller
    public function create(Request $request)
    {
           $request->validate([
-            'comment'=> 'required',
+            'reply_id'=> 'required',
             'thread' => 'required',
             'report' => 'required'
           ]);
           $report = report::create([
-            'byUser'     => Auth::user()->id,
+            'byUser'     => auth()->id(),
             'report'     => $request->report,
-            'comment_id' => $request->comment,
+            'reply_id'   => $request->reply_id,
             'thread_id'  => $request->thread,
             'status'     => 0
           ]);

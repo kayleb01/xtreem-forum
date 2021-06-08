@@ -29,7 +29,7 @@
 </template>
 <script>
 export default {
-    props: ["thread", "comment"],
+    props: ["thread", "reply"],
      data() {
         return {
             form: { report: ""},
@@ -37,7 +37,7 @@ export default {
             loading: false,
             report:"",
             isThread:this.thread,
-            isComment:this.comment
+            isReply:this.reply
 
         };
     },
@@ -47,7 +47,7 @@ export default {
      sendReport(){
          axios
             .post(location.pathname+"/sendReport",
-                 { report:this.report, thread: this.isThread, comment: this.isComment})
+                 { report:this.report, thread: this.isThread, reply_id: this.isReply})
             .catch(error => {
                     this.flashMessage.error({
                         message:"An internal error occured, please try again later"
