@@ -4,7 +4,7 @@
  *
  */
 
-/*
+
  .img-container{
      overflow: hidden;
  }
@@ -41,7 +41,7 @@
     transform: translate(-50%, -50%) scale(0.5);
     transition: all 0.2s ease-out;
 }
-*/
+
 .splide__track ul li img{
     object-fit: cover;
     top: 0;
