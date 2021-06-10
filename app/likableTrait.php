@@ -19,7 +19,7 @@ trait likableTrait{
     }
 
 
- public function likeIt()	
+ public function likeIt()
  {
  	$like = new like();
  	$like->user_id = auth()->user()->id;
@@ -27,22 +27,22 @@ trait likableTrait{
  	return $like;
  }
 
-public function unlikeIt($commentID)	
+public function unlikeIt($id)
  {
- 	$like = like::where('user_id', auth()->id())->where('likable_id', $commentID)->delete();
+ 	$like = like::where('user_id', auth()->id())->where('likable_id', $id)->delete();
  }
 
 public function likess()
 {
 	return $this->morphMany(like::class, 'likable');
 }
- 
+
 public function Isliked()
 {
 	return (bool)$this->likess()->where('user_id', auth()->id())->count();
 }
 
-public function CommentLiked($id)
+public function ContentLiked($id)
 {
 	return $this->likess()->where('likable_id', $id)->get();
 }

@@ -41,6 +41,7 @@ Route::delete('xf/thread/{id}', 'threadsController@destroy');
 Route::get('xf/{thread}/subscriptions', 'ThreadSubscriptionsController@store');
 Route::delete('xf/{thread}/subscriptions ', 'ThreadSubscriptionsController@destroy');
 Route::delete('/xf/destroy/{id}/comment', 'RepliesController@destroy')->name('/xf/destroy/{id}/comment');
+Route::get('/thread/{id}/like', 'likesController@threadLikes');
 
 //Replies\
 Route::post('{slug}/create', 'RepliesController@store')->name('reply.create');

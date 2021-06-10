@@ -65,9 +65,9 @@
                       <small class="font-weight-bold">Pinned:</small>
                     @endif
 
-                    <div class="d-sm-block">
+                    {{-- <div class="d-sm-block">
                     <button class="btn d-sm-block btn-outline py-1 px-3 btn-sm  float-right rounded-pill mb-2" style="border-color:{{$featured->category->colour}}; color:{{$featured->category->colour}};">{{$featured->forum->name}}</button>
-                    </div>
+                    </div> --}}
                     <a href="/{{$featured->slug}}">{{$featured->title}} </a><br>
                     <span class="c"><i class="fa fa-comment"></i>&nbsp;{{$featured->replies_count}} {{Str::plural('comment', $featured->replies_count)}}</span>&nbsp;<span class=" v mr-2 items-center text-grey-dark mr-2">&nbsp;
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="13" viewBox="0 0 19 13" class="d-inline">

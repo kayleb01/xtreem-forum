@@ -19,7 +19,7 @@
                      height="36"
                      class="image-circle responsive">
                         <span class=" text-black">
-                            <a class="font-weight-bold text-black text-md"  :href="'/u/' + reply.user.username" v-text="reply.user.username"></a> &sdot;<span class="text-muted text-md"> {{humanTime(reply.created_at)}}</span>
+                            <a class="font-weight-bold text-black text-md"  :href="'/u/' + reply.user.username" v-text="reply.user.username"></a> &sdot;<span class="text-muted text-sm"> {{humanTime(reply.created_at)}}</span>
                         </span><br/>
                         <div class="timestamp small" style="width: 400px">
                         replying to @{{reply.thread.user.username}}
@@ -103,7 +103,7 @@
                                                                 class="image-child responsive"
                                                             >
                                                             <span class=" text-black">
-                                                                <a class="font-weight-bold text-black text-xs"  :href="'/u/' + replyChildren.user.username" v-text="replyChildren.user.username"></a> &sdot;<small class="text-muted text-xs">{{humanTime(replyChildren.created_at)}}</small>
+                                                                <a class="font-weight-bold text-black text-xs"  :href="'/u/' + replyChildren.user.username" v-text="replyChildren.user.username"></a> &sdot; <small class="text-muted text-xs"> {{humanTime(replyChildren.created_at)}}</small>
                                                             </span><br/>
                                                             <div class="replyChild-body">
                                                                 <small><highlight :content="replyChildren.body"></highlight></small>

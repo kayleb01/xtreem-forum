@@ -20,7 +20,7 @@ class thread extends Model
 //**Don't apply mass assignment protection
 protected $guarded = [];
 protected $with = ['user'];
-protected $appends = ['path'];
+protected $appends = ['path', 'isLiked', 'likesCount'];
 
  /**
      * The attributes that should be cast to native types.

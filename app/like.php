@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class like extends Model
 {
     use RecordsActivity;
-    
+
 
 /**
      * Don't auto-apply mass assignment protection.
@@ -33,7 +33,7 @@ public function user()
 }
 public function comment(){
 
-	return $this->belongsTo(comment::class);
+	return $this->belongsTo(Reply::class);
 }
 public function thread(){
 

@@ -1,5 +1,9 @@
-
-                            <subscribe-button :threads='@json($thread->id)' :active="{{ json_encode($thread->isSubscribedTo) }}" v-if="signedIn"></subscribe-button>
+                        <subscribe-button
+                            :threads='@json($thread->id)'
+                            :active="{{ json_encode($thread->isSubscribedTo) }}"
+                            v-if="signedIn"
+                        >
+                        </subscribe-button>
 
                             <div class="panel-heading rounded-top p-1">
                             {{($thread->title)}}
@@ -71,7 +75,6 @@
                               @if(count($thread->media) > 0)
                                 <div class="row no-gutters ">
                                     @if (count($thread->media) > 1)
-                                    <?php  $i = 0 ?>
                                         @foreach($thread->media as $media)
                                             <div class="col-6 p-2 img-container" >
                                                 <a href="{{url('/storage/media')}}/{{$media->filename}}"  data-lightbox="image">
@@ -81,7 +84,7 @@
                                                     />
                                                 </a>
                                             </div>
-                                         <?php  $i++ ?>
+
                                         @endforeach
                                     @else
                                         <div class="col-12">
@@ -95,36 +98,11 @@
                                 </div>
                               @endif
 
-                              <div class="lks">
-                                        <a href="#" onclick="event.preventDefault(); actOnLikes('{{$thread->id}}', '/comment/like/{{$thread->id}}')" data-id="{{$thread->id}}" class="ikes">
-                                          <i class="fa fa-thumbs-o-up" title="Like" ></i> <span id="ike_text{{$thread->id}}">{{Str::plural($thread->Isliked()?'Unlike':'Like', $thread->likess->count())}}</span>
-                                        </a>
-                                            <span class="Like-{{$thread->id}}">
-                                              @if($thread->likess->count() > 0)
-                                                  {{$thread->likess()->count()}}
-
-                                                @endif
-                                            </span>
-                                        &nbsp;&nbsp;
-                                        <a href="#" class="quote" data-id="{{$thread->id}}">
-                                            <i class="fa fa-quote-right" title="Qoute"></i> Qoute
-                                        </a>&nbsp;&nbsp;
-                                        <a href="#">
-                                            <i class=" fa fa-share-square" title="reply"></i> Reply</a>&nbsp;&nbsp;@if(!Auth::guest() && Auth::user()->id == $thread->user->id)
-                                        <a href="/thread/{{$thread->id}}/edit" id="{{$thread->id}}">
-                                            <i class=" fa fa-edit" title="Modify"></i> Modify
-                                        </a>
-                                        <a href="#" id="ave{{$thread->id}}" class="ave" style="display:none" data-id="{{$thread->id}}">
-                                           <i class="fa fa-check"></i>Update
-                                        </a>&nbsp;&nbsp;
-                                        <a href="#" id="cancel{{$thread->id}}" class="cancel" style="display:none" data-id="{{$thread->id}}">
-                                            <i class="fa fa-power-off" style="color: red;"></i> Cancel
-                                        </a>
-                                        <span id="cfa{{$thread->id}}"></span>
-                                        @endif
-                                      </div>
+                              <div class="">
+                                <thread-rx :thread='@json($thread)' />
                             </div>
-                         <!-- this is the comment section -->
+
+                            </div>                        <!-- this is the comment section -->
                          @section('scripts')
                          <script type="text/javascript" src="{{asset('js/lightbox-plus-jquery.min.js')}}">
                          </script>

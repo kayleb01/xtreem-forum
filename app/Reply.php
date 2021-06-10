@@ -2,14 +2,10 @@
 
 namespace App;
 
-use DB;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use App\thread;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Reply extends Model
 {

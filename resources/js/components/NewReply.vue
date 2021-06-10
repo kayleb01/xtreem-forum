@@ -1,5 +1,5 @@
 <template>
-    <div class="new-reply" >
+    <div class="new-reply" id="reply">
         <div v-if="! signedIn" class="mb-4">
             <p class="text-center text-sm text-grey-dark">
                <a href="/login">Login</a>  to participate in this thread
