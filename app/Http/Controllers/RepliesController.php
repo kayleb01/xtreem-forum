@@ -8,7 +8,6 @@ use App\thread;
 use Auth;
 use Carbon\carbon;
 use Illuminate\Validation\Rule;
-use App\Events\ThreadRecievedNewReply;
 use Illuminate\Http\Request;
 use App\Media;
 
@@ -135,24 +134,6 @@ class RepliesController extends Controller
         return back();
     }
 
-    //HandLes the Likes and UnLikes
-
-    public function actOnLikes(Request $request, $id)
-    {
-        $action = $request->get('action');
-        switch ($action) {
-            case 'like':
-                Reply::where('id', $id)->increment('likes');
-                break;
-
-            case 'unlike':
-                Reply::where('id', $id)->decrement('likes');
-                break;
-        }
-        return "";
-    }
-
-
     /**
     *Check spam by create a time limit between posts by a user;
     *
@@ -172,6 +153,6 @@ class RepliesController extends Controller
         $thread = thread::where('slug', '=', $slug)->first();
         return Reply::where('thread_id', $thread->id)
                         ->with(['user','thread', 'likess'])
-                        ->paginate(10);
+                        ->paginate(30);
     }
 }
