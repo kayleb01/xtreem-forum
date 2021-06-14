@@ -10,16 +10,17 @@
             <a href="#reply" class="ml-4 pl-3 bg-color-black" title="Reply">
                 <i class="fa fa-share-square"></i>
             </a>
-        <ReportModal :thread="thread.id" :thread_id="thread.id" class="ml-5 pl-3" /><br><br>
+        <report-modal :thread="thread.id" :thread_id="thread.id" class="ml-5 pl-3" /><br><br>
     </div>
 </template>
 <script>
 import ThreadFavorite from "./ThreadFavorite.vue";
+import ReportModal from './ReportModal.vue';
 export default({
     props:{
         thread: Object
     },
-    components:{ ThreadFavorite },
+    components:{ ThreadFavorite, ReportModal },
     data() {
         return {
 

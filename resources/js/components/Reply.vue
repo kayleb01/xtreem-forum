@@ -76,7 +76,7 @@
                                         <a  @click="replyShow" class="ml-4 pl-3 bg-color-black" title="Reply" v-show="reply.replyChild_count <= 5">
                                             <i class="fa fa-share-square"></i>
                                         </a>
-                                        <ReportModal :thread="reply.thread.id" :reply="reply.id" class="ml-5 pl-3" /><br><br>
+                                        <report-modal :thread="reply.thread.id" :reply="reply.id" class="ml-5 pl-3" /><br><br>
                                 </div>
                             </div>
                             <div v-show="reply.reply_children.length > 0 ||items.length > 0" class="mt-2">
@@ -115,7 +115,7 @@
                                      </div>
                                 </div>
                              </div>
-                             <ReplyChild  :reply="reply.id" @created="add" v-show="replyClick"/>
+                             <reply-child  :reply="reply.id" @created="add" v-show="replyClick"/>
                     </div>
                 </div>
             </div>

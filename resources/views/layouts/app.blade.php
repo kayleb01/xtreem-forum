@@ -12,7 +12,7 @@
 <meta name="author" content="Caleb Bala for Xtreem Technologies">
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<link rel="icon" href="{{('flav.png')}}">
+<link rel="icon" href="{{url('flav.png')}}">
 <link href="{{url('css/font-awesome.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{url('css/xf.css')}}">
 <link rel="stylesheet" href="{{url('css/app.css')}}">

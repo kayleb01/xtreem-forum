@@ -2,16 +2,16 @@
 @section('content')
 <div class="container">
     <div class="row">
-    @include('threads._partials.widget')    
+    @include('threads._partials.widget')
         <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
             <div class="">
-                <div class="">                    
+                <div class="">
                     <ol class="breadcrumb shadow-sm" style="margin-bottom:6px !important">
                        <li class="breadcrumb-item"><a href="/">Home</a></li>
                        <li class="breadcrumb-item"><a href="#">{{$thread->category->name}}</a></li>
                        <li class="breadcrumb-item"><a href="#">{{$thread->title}}</a></li>
-                    </ol>  
-                </div>        
+                    </ol>
+                </div>
                         <div class="panel panel-body " style="padding: 5px">
                             <form action="{{url('/thread/'.$thread->id.'/edit')}}" method="POST" class="form-horizontal" enctype="multipart/form-data">
                                <div class="col-sm-10">
@@ -38,10 +38,10 @@
                                                 <span class="help-block">
                                                     <strong>{{ $errors->first('body') }}</strong>
                                                 </span>
-                                             @endif  
+                                             @endif
                                             <label class="col-sm-2 control-label" for="body">Body</label>
                                                 <div class="col-sm-10">
-                                                    <wysiwyg value="{{$thread->body}}" class="body" name="body">{{$thread->body}}
+                                                    <wysiwyg :value="{{$thread->body}}" class="body" :name="body">
                                                     </wysiwyg><br>
 
                                                 @if($thread->attachment)
@@ -53,28 +53,28 @@
                                                  <input type="file" name="file[]" id="file" class="form-control" multiple>
                                                   <br>
                                                 </div>
-                                                
+
                                                 {{csrf_field()}}
                                         </div>
                                         <div class="col-sm-10 col-sm-offset-2">
                                             <button type="submit" class="f btn btn-secondary">
                                             Update
                                             </button><br>
-                                  
 
-                                     </div> 
+
+                                     </div>
                                  </div>
-                                
+
                             </form>
                         </div>
-                        
-                    
+
+
               </div>
-            </div>      
-          
-        </div>   
-        
-    </div>              
-</div>        
+            </div>
+
+        </div>
+
+    </div>
+</div>
 
 @endsection
