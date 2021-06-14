@@ -1,5 +1,5 @@
                         <subscribe-button
-                            :threads='@json($thread->id)'
+                            :threads="@json($thread->id)"
                             :active="{{ json_encode($thread->isSubscribedTo) }}"
                             v-if="signedIn"
                         >
@@ -99,7 +99,7 @@
                               @endif
 
                               <div class="">
-                                <thread-rx :thread='@json($thread)' />
+                                <thread-rx :thread='@json($thread)' ></thread-rx>
                             </div>
 
                             </div>                        <!-- this is the comment section -->

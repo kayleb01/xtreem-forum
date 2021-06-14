@@ -13,7 +13,7 @@
 
             <new-reply  @created="add" v-else></new-reply>
         </div>
-        <FlashMessage ></FlashMessage>
+        <flash-message ></flash-message>
 
     </div>
 </template>
