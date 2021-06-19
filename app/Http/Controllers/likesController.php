@@ -36,12 +36,12 @@ public function index()
  								->where('likable_id','=', $replyId)->first();
  	if (!$Reply->Isliked() ) {
  		$ike = $Reply->likeIt();
- 		$likes = $Reply->ContenLiked($replyId)->count();
+ 		$likes = $Reply->ContentLiked($replyId)->count();
  		// event(new UserLikes($ike));
  		return response()->json(['status' =>'success', 'message' => 'like', 'likes'=> $likes]);
  	} else {
  		$Reply->unlikeIt($replyId);
- 		$likes = $Reply->ContenLiked($replyId)->count();
+ 		$likes = $Reply->ContentLiked($replyId)->count();
  		if($likes == 0){
  			$likes ="";
  		}
