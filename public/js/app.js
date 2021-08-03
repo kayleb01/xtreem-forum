@@ -7993,7 +7993,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['feed'],
-  components: [_Highlight_vue__WEBPACK_IMPORTED_MODULE_1__.default, _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__.default],
+  components: {
+    highlight: _Highlight_vue__WEBPACK_IMPORTED_MODULE_1__.default,
+    favorite: _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__.default
+  },
   data: function data() {
     return {
       replyClick: false
@@ -9244,9 +9247,7 @@ __webpack_require__.r(__webpack_exports__);
           axios["delete"]("/xf/destroy/" + _this3.id + "/comment");
 
           _this3.$emit("deleted", _this3.id);
-        } else if (result.dismiss === _this3.$swal.DismissReason.cancel) {
-          _this3.$swal.fire('Cancelled');
-        }
+        } else if (result.dismiss === _this3.$swal.DismissReason.cancel) {}
       });
     },
     fetch: function fetch() {

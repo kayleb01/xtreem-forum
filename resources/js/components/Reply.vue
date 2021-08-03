@@ -252,9 +252,7 @@ export default {
             }else if(
                     result.dismiss === this.$swal.DismissReason.cancel
                 ){
-                    this.$swal.fire(
-                        'Cancelled'
-                    )
+                    
                 }
             })
         },

@@ -51,11 +51,12 @@
 
                   @if(!Auth::check())
                     @if($key++ % 9 == 1)
-                      <div class='heading pt-0' style='text-align: center;'>
+                    <div class='heading align-center'>
                           <a href="/register" target="_blank">
                             <img src="/storage/img/advert.jpg" alt=""><br>
                           </a>
-                      <a href='/register' class="text-blue">Register</a> and <a href='/login' class="text-blue">Login</a> to join our community</div>
+                      <a href='/register' class="text-blue">Register</a> and <a href='/login' class="text-blue">Login</a> to join our community
+                    </div>
                     @endif
             @endif
             <div class="forum_title rounded">

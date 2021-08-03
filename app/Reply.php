@@ -32,7 +32,7 @@ class Reply extends Model
      *
      * @var array
      */
-    protected $appends = [ 'replyChild_count', 'isLiked', 'likesCount', 'media'];
+    protected $appends = [ 'replyChild_count', 'isLiked', 'likesCount', 'media' ];
 
     /**
      * Boot the reply instance.
@@ -80,7 +80,7 @@ class Reply extends Model
     /**
      *
      * A reply has many attachments i.e pictures of whatever
-     *  @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *  @return \Illuminate\Database\Eloquent\Relations\MorphMany
      * */
     public function media():MorphMany
     {

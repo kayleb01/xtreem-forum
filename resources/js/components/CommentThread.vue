@@ -28,7 +28,7 @@ import highlight from './Highlight.vue';
 
 export default {
     props:['feed'],
-    components:[highlight, favorite],
+    components:{highlight, favorite},
     data(){
         return{
             replyClick:false

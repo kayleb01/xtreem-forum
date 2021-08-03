@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Request\createPostRequest;
+use Auth;
+use App\Media;
 use App\Reply;
 use App\thread;
-use Auth;
 use Carbon\carbon;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
-use App\Media;
-
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Request\createPostRequest;
 
 
 class RepliesController extends Controller
@@ -124,9 +124,15 @@ class RepliesController extends Controller
     public function destroy(Reply $id)
     {   //for readability
         $reply =  $id;
-        //$this->authorize('update', $reply);
+        $media  = $reply->media;
         $reply->delete();
-
+        //delete media attached to the reply
+        for ($i=0; $i < count($media); $i++) {
+            $media[$i]->delete();
+            Storage::disk('public')
+                    ->delete($media[$i]->ImageUrl);
+        }
+       
         if (request()->expectsJson()) {
             return response(['status' => 'Reply deleted']);
         }

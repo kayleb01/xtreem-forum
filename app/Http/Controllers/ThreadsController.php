@@ -37,11 +37,6 @@ class ThreadsController extends Controller
      */
     public function index(Trending $trending, NewThread $NewThread)
     {
-
-
-        // if (request()->wantsJson()) {
-        //     return $threads;
-        // }
         $getFeatured = thread::where('fp', '=', 1)
                         ->orderBy('created_at', 'desc')
                         ->with('forum', 'user', 'category')
@@ -50,7 +45,6 @@ class ThreadsController extends Controller
                     $title          = 'XtreemForum|Home';
                     $newThread      = $NewThread->get();
                     $trending       = $trending->get();
-
                     $Categories     = Categories::with('forums')
                                                 ->get();
                 //load the view
