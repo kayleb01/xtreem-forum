@@ -6,23 +6,24 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Notifications\likeClicked;
 
 
-class likeClicked extends Notification
+class LikeClicked extends Notification implements ShouldQueue
 {
     use Queueable;
 
 
     /**
-    **@var App\comment
+    **@var App\reply
     **/
-    protected $comment;
+
+    protected $reply;
 
     /**
-    **@var App\like
+    **@var App\reply
     **/
-    protected $like;
+
+    protected $user;
 
 
     /**
@@ -30,10 +31,10 @@ class likeClicked extends Notification
      *
      * @return void
      */
-    public function __construct($comment, $like)
+    public function __construct($reply, $user)
     {
-        $this->comment = $comment;
-        $this->like = $like;
+        $this->reply = $reply;
+        $this->user = $user;
     }
 
     /**
@@ -47,7 +48,7 @@ class likeClicked extends Notification
         return ['database'];
     }
 
-    
+
     /**
      * Get the array representation of the notification.
      *
@@ -57,8 +58,8 @@ class likeClicked extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->like->user->username . ' liked ' . $this->comment->thread->title,
-            'link' => $this->comment->path()
+            'message' => $this->user->username . ' liked  your comment on ' . $this->reply->thread->title,
+            'link' => $this->reply->path()
         ];
     }
 }

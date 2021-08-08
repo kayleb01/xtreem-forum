@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\like;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -14,8 +13,10 @@ class UserLikes
     /**
      * A comment that was liked.
      *
-     * @var \App\comment
+     * @var \App\reply
      */
+    public $reply;
+
     public $like;
 
     /**
@@ -24,16 +25,9 @@ class UserLikes
      * @param \App\like $likes
      * @return void
      */
-    public function __construct($like)
+    public function __construct($like, $reply)
     {
         $this->like = $like;
-    }
-
-    /**
-     * Get the subject of the event.
-     */
-    public function subject()
-    {
-        return $this->like;
+        $this->reply = $reply;
     }
 }

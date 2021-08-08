@@ -4,7 +4,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <head>
-
 <title>{{$title ?? ''}}</title>
 <meta name="description" content="">
 <meta property="og:url" content="{{url('/home')}}">
@@ -44,10 +43,6 @@
                 </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link text-light" href="/xf/forums">Forum</a>
-                    </li>
-
                     @if(Auth::check())
                         @include('layouts.nav')
                     @else

@@ -27,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\ThreadWasPublished::class => [
             \App\Listeners\NotifyMensions::class
         ],
+        \App\Events\UserLikes::class => [
+            \App\Listeners\LikesListener::class,
+        ],
     ];
 
     /**

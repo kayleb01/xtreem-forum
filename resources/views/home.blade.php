@@ -9,7 +9,7 @@
   <div class="row">
      <div v-show="active" style="display: none;" class="p-2">
         <table class="table vertical-align mb-1" cellspacing="5" style="color: #ccc;">
-          @foreach($Categories ?? '' as $cater)
+          @foreach($forum_categories ?? '' as $cater)
             <tr>
               <td>
                 <legend style="padding: 5px;" class="text-dark">{{$cater->name}}</legend>
@@ -31,8 +31,7 @@
   @include('threads._partials.widget')
    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
       <div class="tab nav-tabs mb-1 bg-light">
-      <button v-for="(tab, index) in tabs" :key="index" :class="{ active: selectedTab === tab}" id="tablinks"
-    @click="selectedTab = tab"> @{{ tab }}</button>
+      <button v-for="(tab, index) in tabs" :key="index" :class="{ active: selectedTab === tab}" id="tablinks" @click="selectedTab = tab"> @{{ tab }}</button>
       </div>
       <div v-show="selectedTab =='Feed'">
         @if(Auth::check())
@@ -46,9 +45,7 @@
     </div>
      <div v-show="selectedTab == 'Featured'" class="shadow-sm">
           @if(isset($getFeatured))
-
                 @foreach($getFeatured as $key => $featured)
-
                   @if(!Auth::check())
                     @if($key++ % 9 == 1)
                     <div class='heading align-center'>
@@ -65,10 +62,6 @@
                   @if ($featured->pinned)
                       <small class="font-weight-bold">Pinned:</small>
                     @endif
-
-                    {{-- <div class="d-sm-block">
-                    <button class="btn d-sm-block btn-outline py-1 px-3 btn-sm  float-right rounded-pill mb-2" style="border-color:{{$featured->category->colour}}; color:{{$featured->category->colour}};">{{$featured->forum->name}}</button>
-                    </div> --}}
                     <a href="/{{$featured->slug}}">{{$featured->title}} </a><br>
                     <span class="c"><i class="fa fa-comment"></i>&nbsp;{{$featured->replies_count}} {{Str::plural('comment', $featured->replies_count)}}</span>&nbsp;<span class=" v mr-2 items-center text-grey-dark mr-2">&nbsp;
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="13" viewBox="0 0 19 13" class="d-inline">
@@ -85,20 +78,6 @@
               {!!$getFeatured->links()!!}
             @endif
     </div>
-    {{-- <div v-show="selectedTab === 'Trending'">
-     @if(!empty($trending))
-         @foreach($trending as $trend)
-        <div class="forum_trend">
-          <div class="featured">
-           <a href="{{$trend->path}}">
-             {{$trend->title}}
-           </a>
-           <span class="tm">Posted by {{$trend->creator}} In <a href="/forum/{{$trend->forum}}">{{$trend->forum}}</a> </span>
-         </div>
-        </div>
-       @endforeach
-      @endif
-    </div> --}}
    </div>
    </div>
  </div>

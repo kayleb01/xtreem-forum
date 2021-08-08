@@ -34,7 +34,6 @@ class RepliesController extends Controller
     public function store($slug, Request $request)
     {
         $url = $request->body;
-    //    dd($request);
         $request->validate([
             'body' => 'required',
             'imageIds.*' => [

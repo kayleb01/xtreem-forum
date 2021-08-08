@@ -21,7 +21,7 @@ public function __construct()
 public function index()
 {
 
-	return "We live baby!";
+	return "!!!!";
 }
 
 /**
@@ -31,17 +31,17 @@ public function index()
  public function togglelikes($id)
  {
  	$replyId = intval($id);
- 	$Reply = Reply::find($replyId);
- 	$user_id = $Reply->likess()->where('user_id', '=', auth()->id())
- 								->where('likable_id','=', $replyId)->first();
- 	if (!$Reply->Isliked() ) {
- 		$ike = $Reply->likeIt();
- 		$likes = $Reply->ContentLiked($replyId)->count();
- 		// event(new UserLikes($ike));
- 		return response()->json(['status' =>'success', 'message' => 'like', 'likes'=> $likes]);
+ 	$reply = Reply::with('user','thread')->find($replyId);
+ 	$reply->likess()->where('user_id', '=', auth()->id())
+ 					->where('likable_id','=', $replyId)->first();
+ 	if (!$reply->Isliked() ) {
+ 		$ike = $reply->likeIt();
+ 		$likes = $reply->ContentLiked($replyId)->count();
+ 		event(new UserLikes($ike, $reply));
+ 		return response()->json(['status' =>'success', 'message' => 'like', 'likes'=> $likes, 'like' => $ike]);
  	} else {
- 		$Reply->unlikeIt($replyId);
- 		$likes = $Reply->ContentLiked($replyId)->count();
+ 		$reply->unlikeIt($replyId);
+ 		$likes = $reply->ContentLiked($replyId)->count();
  		if($likes == 0){
  			$likes ="";
  		}

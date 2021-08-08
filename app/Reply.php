@@ -25,7 +25,6 @@ class Reply extends Model
      * @var array
      */
     protected $with = [];
-//protected $id;
 
     /**
      * The accessors to append to the model's array form.
