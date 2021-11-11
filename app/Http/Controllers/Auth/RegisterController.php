@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\PleaseConfirmYourEmail;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\NewThread;
-use App\Trending;
-use App\Categories;
-use App\Feed;
 use Image;
+use App\Feed;
+use App\User;
+use App\Trending;
+use App\NewThread;
+use App\Categories;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Mail\PleaseConfirmYourEmail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 
 class RegisterController extends Controller
@@ -64,7 +64,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'sex'      => ['required'],
             'location' => ['required'],
-            'avatar'   => ['image', 'mimes:jpeg,jpg,png,gif,svg'],
+            // 'avatar'   => ['image', 'mimes:jpeg,jpg,png,gif,svg'],
             'birthday' => ['required'],
             'categories'=> ['sometimes'],
         ]);
@@ -81,53 +81,41 @@ class RegisterController extends Controller
         if(!$data){
             return redirect('/');
         }
-
+        $avatar = 'https://ptetutorials.com/images/user-profile.png';
         //upload the avatar using Intervention
-        $originalImage  = $data['avatar'];
-        $avatar         = Image::make($originalImage);
-        $path           = public_path()."/storage/img/";
-        $avatar->resize(200,200, function($constraint){
-            $constraint->aspectratio();
-            $constraint->upsize();
-        });
-        $avatar->save($path.time().$originalImage->getClientOriginalName());
+        if (isset($data['avatar'])) {
+            $originalImage  = $data['avatar'];
+            $avatar         = Image::make($originalImage);
+            $path           = public_path()."/storage/img/";
+            $avatar->resize(200,200, function($constraint){
+                $constraint->aspectratio();
+                $constraint->upsize();
+            });
+            $avatar->save($path.time().$originalImage->getClientOriginalName());
+        }
+
+
         //then save the data
          $userCreate =   User::Create([
             'email'     => $data['email'],
             'location'  => $data['location'],
             'dob'       => $data['birthday'],
             'sex'       => $data['sex'],
-            'avatar'    => time().$originalImage->getClientOriginalName(),
+            'avatar'    => $avatar,
             'role'      => 3,
             'password'  => Hash::make($data['password']),
             'confirmation_token' => Str::limit(Hash::make($data['email'].Str::random()), 25, ''),
             'username'  => $data['username']
         ]);
 
-        if ($userCreate) {
-            // //The forums for the Feed
-            // if ($data['categories']) {
-            //     $feedData =  $data['categories'];
-            //     foreach ($feedData as $key => $value) {
-            //     $feed = Feed::create([
-            //             'user_id' => $userCreate->id,
-            //             'forum_id' => $value,
-            //     ]);
-            //     }
-            //     if ($feed) {
-            //     return $userCreate;
-            //     }
-            // }
-            return $userCreate;
-
-        }
-
+        abort_if (!$userCreate, 500, 'Error creating user account, please try again');
+        return $userCreate;
     }
 
 public function registered(Request $request, $user)
 {
 
-    //Mail::to($user)->send(new PleaseConfirmYourEmail($user));
+// Mail::to($user)->send(new PleaseConfirmYourEmail($user));
 }
 
 public function showRegistrationForm(NewThread $newThread, Trending $trending)

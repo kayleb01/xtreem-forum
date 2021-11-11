@@ -3,6 +3,7 @@
         <div class="top-0" v-for="feed in feeds.data" :key="feed.id">
             <feed-thread :feed="feed"/>
             <comment-thread :feed="feed"/>
+
         </div>
     </div>
 </template>
@@ -24,7 +25,12 @@ export default {
 
         methods:{
             getFeed(){
-               axios.get('/feed')
+               axios.get('/feed', {
+                   Headers:{
+                       "Accept":"application/json",
+                       "Content-Type":"application/json"
+                   }
+               })
                .then(({data}) => this.feeds = data)
                .catch(error => {
                 this.flashMessage.error ({

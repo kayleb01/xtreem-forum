@@ -7,7 +7,7 @@
                   {{notifications.length}}
                 </span>
             </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownNotification" id="notification-box">               
+            <div class="dropdown-menu" aria-labelledby="dropdownNotification" id="notification-box">
                 <div >
                         <small v-for="(notification, index) in notifications"
                             :key="notification.id"

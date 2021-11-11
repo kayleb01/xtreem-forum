@@ -5,12 +5,12 @@
                 <at-ta :members="usersat">
                     <textarea
                         :name="name"
-                        :value="value"
                         class="editor w-full text-md rounded mt-3 p-2 resize-none outline"
                         id="body"
                         :placeholder="placeholder"
                         @change="change"
                         required
+                        v-model="value"
                     >
                     </textarea>
                 </at-ta>
@@ -38,16 +38,7 @@ import AtTa from 'vue-at/dist/vue-at-textarea';
         methods: {
             change({target}) {
                 this.$emit('input', target.value)
-            }
-        },
-
-        watch: {
-            value(val) {
-                if (val === '') {
-                    this.$refs.trix.value = '';
-                }
-            }
-        },
+            },
 
         getUsers(){
             axios.post('api/users')
@@ -55,8 +46,9 @@ import AtTa from 'vue-at/dist/vue-at-textarea';
                 this.usersat = data
             })
             .catch(err => console.log(errs ))
-        },
+        }
     }
+}
 </script>
 
 <style scoped>

@@ -13,13 +13,13 @@
                 <table>
                     <tr>
                     <td>
-                    <img :src="'/storage/img/'+ (reply.user.avatar ? reply.user.avatar : 'default.jpg')"
+                    <img :src="(reply.user.avatar)"
                      alt="See mee"
                      width="36"
                      height="36"
                      class="image-circle responsive">
                         <span class=" text-black">
-                            <a class="font-weight-bold text-black text-md"  :href="'/u/' + reply.user.username" v-text="reply.user.username"></a> &sdot;<span class="text-muted text-sm"> {{humanTime(reply.created_at)}}</span>
+                            <a class="font-weight-bold text-black text-md link"  :href="'/u/' + reply.user.username" v-text="reply.user.username"></a> &sdot;<span class="text-muted text-sm"> {{humanTime(reply.created_at)}}</span>
                         </span><br/>
                         <div class="timestamp small" style="width: 400px">
                         replying to @{{reply.thread.user.username}}
@@ -96,7 +96,7 @@
                                                 <table>
                                                     <tr>
                                                         <td>
-                                                            <img :src="'/storage/img/' + (replyChildren.user.avatar ? replyChildren.user.avatar  : 'default.jpg')"
+                                                            <img :src="(replyChildren.user.avatar)"
                                                                 :alt="replyChildren.user.username"
                                                                 width="36"
                                                                 height="37"
@@ -252,7 +252,7 @@ export default {
             }else if(
                     result.dismiss === this.$swal.DismissReason.cancel
                 ){
-                    
+
                 }
             })
         },

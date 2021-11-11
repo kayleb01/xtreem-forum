@@ -5,7 +5,7 @@
         <div class="col-md-12 col-xs-12 col-lg-12 bg-img">
 
         <div class=" mt-2">
-            <img src="/storage/img/{{$data->avatar ? $data->avatar : 'default.jpg' }}" class="user-image img-fluid" />
+            <img src="{{$data->avatar ? $data->avatar : 'default.jpg' }}" class="user-image img-fluid" />
         </div>
             <div class="user-details">
               <div class="mt-3 text-light">

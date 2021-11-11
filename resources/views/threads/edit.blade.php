@@ -41,9 +41,8 @@
                                              @endif
                                             <label class="col-sm-2 control-label" for="body">Body</label>
                                                 <div class="col-sm-10">
-                                                    <wysiwyg :value="{{$thread->body}}" class="body" :name="body">
-                                                    </wysiwyg><br>
-
+                                                    <textarea name="body" class="mb-4 form-control w-full text-md rounded mt-3 p-2 resize-none outline">{{$thread->body}}
+                                                        </textarea>
                                                 @if($thread->attachment)
                                                   @foreach( $thread->attachment as $attached)
                                                     {{$attached->filename}}<br>
@@ -53,11 +52,10 @@
                                                  <input type="file" name="file[]" id="file" class="form-control" multiple>
                                                   <br>
                                                 </div>
-
                                                 {{csrf_field()}}
                                         </div>
                                         <div class="col-sm-10 col-sm-offset-2">
-                                            <button type="submit" class="f btn btn-secondary">
+                                            <button type="submit" class="f btn btn-secondary btn-block">
                                             Update
                                             </button><br>
 

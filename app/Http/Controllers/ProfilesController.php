@@ -18,9 +18,9 @@ class ProfilesController extends Controller
      * @param User $user
      */
     public function index($user)
-    { 
+    {
         $user = User::where('username', '=', $user)->first();
-    
+
         return [
             'activities' => Activity::feed($user)
         ];
@@ -34,7 +34,7 @@ class ProfilesController extends Controller
      */
     public function show($username)
     {
-     
+
      $user = User::where('username', '=', $username)->first();
         $data = ['profileUser' => $user];
 
@@ -45,23 +45,4 @@ class ProfilesController extends Controller
 
         return view('profiles.show', $data);
     }
-
-    /**
-     * Show the user's profile.
-     *
-     * @param  User $user
-     * @return \Response
-     */
-    // public function show($username, NewThread $newThread, Trending $trending)
-    // {
-    //     $user = User::where('username', '=', $username)->first();
-        
-    //     return view('profiles.show', [
-    //         'title'         => 'Xtreemforum - Personal space',
-    //         'newThread'     => $newThread,
-    //         'trending'      => $trending,
-    //         'profileUser'   => $user,
-    //         'activities'    => Activity::feed($user)
-    //     ]);
-    // }
 }

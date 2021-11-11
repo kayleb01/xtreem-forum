@@ -26,17 +26,13 @@ class FollowersController extends Controller
             $user->following()->attach($id);
             return response()->json(['message' => 'You are now following']);
 
-            }
+        }
 
 
 
 
          /**
-     * r.
-     *
      * @param User $user
-     *
-     *
      * @return mixed
      */
 

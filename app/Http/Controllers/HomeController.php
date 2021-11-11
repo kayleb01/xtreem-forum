@@ -34,18 +34,18 @@ class HomeController extends Controller
                 ->orWhereIn('threads.user_id', auth()->user()->following->pluck('id'));
 
       })->with(['user'])->latest()
-            ->paginate(10);
+            ->paginate(100)->toArray();
 
 
-        $reply = Reply::where(function($query){
+        $reply = Reply::with('thread')->where(function($query){
             $query->where('replies.user_id', auth()->id())
                     ->orWhereIn('replies.user_id', auth()->user()->following->pluck('id'));
-        });
+        })->paginate(100)->toArray();
+        $comment = ["comment" => $reply];
         $feed = $thread;
             if ($request->wantsJson($feed)) {
               return response()->json($feed);
             }
-            return $feed;
     }
 
 }

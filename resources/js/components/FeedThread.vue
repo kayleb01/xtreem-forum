@@ -4,7 +4,7 @@
         <div class="flex bg-light p-2 rounded-lg">
             <div class="flex-shrink-0 h-12 w-14">
 
-                <img class=" h-10  w-11 rounded-lg sm:mx-0 sm:flex-shrink-0" loading="lazy" :src="'/storage/img/'+ (feed.user.avatar ? feed.user.avatar :'default.jpg')" :alt="feed.user.username">
+                <img class=" h-10  w-11 rounded-lg sm:mx-0 sm:flex-shrink-0" loading="lazy" :src="(feed.user.avatar ? feed.user.avatar :'default.jpg')" :alt="feed.user.username">
             </div>
             <div class="ml-1">
                 <div class="text-sm text-grey-600" v-show="feed.user.username != user.username" >

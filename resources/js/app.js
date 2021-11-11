@@ -11,6 +11,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import VModal from 'vue-js-modal';
 import Vue from 'vue';
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
 
 window.Vue = require('vue').default
@@ -21,6 +22,8 @@ Vue.prototype.humanTime = timestamp => moment(timestamp).fromNow();
 Vue.use(FlashMessage);
 Vue.use(VModal);
 Vue.use(VueSweetalert2);
+Vue.use(PulseLoader);
+
 
 /**;
  * The following block of code may be used to automatically register your

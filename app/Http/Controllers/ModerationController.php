@@ -15,13 +15,6 @@ use DB;
 
 class ModerationController extends Controller
 {
-   // protected function validator(array $data){
-   // 	return Validator::make($data, [
-   // 		'user_id'=> 'required',
-   // 		'length' =>' required',
-   // 		'reason' => 'required|string'
-   // 		]);
-   // }
    public function __construct(){
       $this->middleware('auth');
    }
@@ -41,7 +34,7 @@ class ModerationController extends Controller
    public function ban(User $user){
     $carbon = Carbon::now();
    	$banned = User::find($user->id);
-    
+
    	return view('Admin.edit', [
          'user'=> $banned, 'carbon' => $carbon
       ]);
@@ -49,10 +42,10 @@ class ModerationController extends Controller
 
    public function store(Request $request){
    	#_____Take all the requested user data and save in the data base......
-    
+
   $input = $request->all();
 if(!empty($input['id'])){
-   $user = User::find(($input['id'])); 
+   $user = User::find(($input['id']));
    /*.................
   Check to see if the user is an Admin or a Moderator....//
   */
@@ -64,22 +57,22 @@ if(!empty($input['id'])){
   //**************If Ban was successful redirect to list of banned members
   if($bans){return Redirect('moderation/banned')->with('success', 'User Ban was successful!');
 }else{return back()->with('error', 'User is currently Serving a ban');}
-}  
-   
+}
+
 
    }
    #Get all users that have been banned
    #and then pass them to the page to be rendered
    public function banned(){
-   	
+
    	$user = User::onlyBanned()->paginate(15);
-      
+
    	return view('Admin.Banned', ['user' => $user]);
    }
 // Unban the user currently serving a ban
 #***************If The ID is empty return an error
  //if the unban was successful, update the users table...
-  public function revoke($id){   
+  public function revoke($id){
       if(!empty($id)){
          $users = User::withBanned()->find($id);
            $users->unban();
@@ -91,7 +84,7 @@ if(!empty($input['id'])){
       }
 
   }
-   
+
 
 
 public function users(){
@@ -111,13 +104,13 @@ public function report(Request $request)
    $data = $report->all();
    return view('Admin.reports', ['report' => $data]);
 }
- 
+
  public function User_edit(user $user){
 return view('Admin.mod_edit', compact('user'));
  }
 
 public function update(Request $request){
-$this->validate($request, [ 
+$this->validate($request, [
    'username'  => 'required|min:3',
    'email'     => 'required|email',
    'location'  => 'nullable',

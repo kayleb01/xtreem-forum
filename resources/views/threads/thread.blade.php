@@ -39,7 +39,7 @@
                                   <tr>
                                     <td style="max-width:350px;">
                                       <a href="/u/{{$thread->user->username}}">
-                                        <img src="/storage/img/{{$thread->user->avatar? $thread->user->avatar : 'default.jpg'}}" class="image-circle responsive">
+                                        <img src="{{$thread->user->avatar? $thread->user->avatar : 'default.jpg'}}" class="image-circle responsive">
                                       </a>
                                       <span>
                                           <a href="/u/{{$thread->user->username}}" class="username">{{$thread->user->username}}</a>

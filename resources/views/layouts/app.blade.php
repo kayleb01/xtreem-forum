@@ -15,6 +15,7 @@
 <link href="{{url('css/font-awesome.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{url('css/xf.css')}}">
 <link rel="stylesheet" href="{{url('css/app.css')}}">
+<link href="{{asset('css/swiper.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{url('css/core.css')}}">
 
 <!-- <script src="{{url('js/Popper.js')}}" type="text/javascript"></script> -->
@@ -36,13 +37,14 @@
   </noscript>
 <div id="app">
     <div class="wrapper">
-         <nav class="navbar navbar-static-top navbar-expand-sm x-c p-1">
-            <a class="navbar-brand" href="/"><img  class="navbar-brand" src="/storage/img/logo.png" width="150" height="35" class="logo"></a>
+       <header class="header-container">
+          <nav class="navbar navbar-expand-sm x-c p-1">
+            <a href="/"><img  class="navbar-brand" src="/storage/img/logo.png" width="130" height="25" class="logo"></a>
                 <button class="navbar-toggler" type="button text-light" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon" ><i class="fa fa-bars text-light"></i></span>
                 </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav mr-auto p-2">
                     @if(Auth::check())
                         @include('layouts.nav')
                     @else
@@ -54,35 +56,47 @@
                     </li>
                     @endif
                 </ul>
+                @if(Auth::check())
+                <ul class="lg-float-right navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" id="profileDropdown" href="#" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                            <span class="text-white">{{auth()->user()->username}}</span>
+                        </a>
+                        <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+                            <a class="dropdown-item" href="{{url('/user/threads/'.auth()->user()->username.'')}}"></i> Threads</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{url('/user/'.auth()->user()->username.'/edit/')}}">Edit Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/user/{{auth()->user()->username}}">View Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                            oncl    ick="event.preventDefault(); document.getElementById('logout-form').submit();"> Logout
+                            </a>
+                        </div>
+                      </li>
+                    <user-notifications></user-notifications>
+
+                </ul>
+                @endif
                 <form class="form-inline my-2 my-lg-0">
                     <div class="input-group input-group-sm col-md-12">
-                        <input type="text" class="form-control"  name="q" placeholder="Search xtreemforum..."   aria-describedby="button-addon1"/>
+                        <input type="text" class="form-control"  name="q" placeholder="Search xtreemforum..."   aria-describedby="button" style="background-color:inherit;"/>
                             <div class="input-group-append">
-                                <button class="btn btn-secondary" type="submit" id="button-addon1" style="background-color:inherit;">
+                                <button class="btn btn-default" type="submit" id="button" >
                                     <i class="fa fa-search"></i>
                                 </button>
                             </div>
                     </div>
                 </form>
 
-            </div>
-        </nav>
-
-
+                </div>
+            </nav>
+        </header>
         @yield('content')
-
-
-
     <footer class="page-footer p-1 bg-light">
-    <!-- <div class="footnote d-flex justify-center">
-    <ul>
-    <li></li>
-
-    </ul>
-
-    </div> -->
-         <div class="inner" style="text-align: center;"> <!--<a href="/terms" class="link m-3">Terms</a>
-    <a href="/privacy" class="link m-3">Privacy</a><br> -->
+         <div class="inner" style="text-align: center;">
+            <!--<a href="/terms" class="link m-3">Terms</a>
+                 <a href="/privacy" class="link m-3">Privacy</a><br> -->
             &copy; <?php echo date('Y')?> Xtreemforum.com, All rights reserved.
         </div>
     </footer>
@@ -90,5 +104,7 @@
    </div> <!-- end of ID-APP -->
    @yield('scripts')
  <script type="text/javascript" src="{{mix('js/app.js')}}"></script>
+    <!-- swiper js -->
+    <script src="{{asset('js/swiper.min.js')}}"></script>
 </body>
 </html>

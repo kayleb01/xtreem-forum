@@ -57,7 +57,7 @@
                     @endif
             @endif
             <div class="forum_title rounded">
-               <a href="/u/{{$featured->user->username}}"><img class="image-circle" src="/storage/img/{{$featured->user->avatar ? $featured->user->avatar : 'default.jpg'}}"></a>
+               <a href="/u/{{$featured->user->username}}"><img class="image-circle" src="{{$featured->user->avatar ? $featured->user->avatar : $featured->user->avatar}}"></a>
                 <div class="featured">
                   @if ($featured->pinned)
                       <small class="font-weight-bold">Pinned:</small>
